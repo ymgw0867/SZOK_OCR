@@ -1,0 +1,29 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29123.88
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SZOK_OCR", "SZOK_OCR\SZOK_OCR.csproj", "{6664E4CD-DE50-4DF3-B0D8-773FD99C2D96}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "SetupSZOK", "SetupSZOK\SetupSZOK.vdproj", "{E7810D6B-F473-4391-A186-1B7197CB3C96}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6664E4CD-DE50-4DF3-B0D8-773FD99C2D96}.Debug|x86.ActiveCfg = Debug|x86
+		{6664E4CD-DE50-4DF3-B0D8-773FD99C2D96}.Debug|x86.Build.0 = Debug|x86
+		{6664E4CD-DE50-4DF3-B0D8-773FD99C2D96}.Release|x86.ActiveCfg = Release|x86
+		{6664E4CD-DE50-4DF3-B0D8-773FD99C2D96}.Release|x86.Build.0 = Release|x86
+		{E7810D6B-F473-4391-A186-1B7197CB3C96}.Debug|x86.ActiveCfg = Debug
+		{E7810D6B-F473-4391-A186-1B7197CB3C96}.Release|x86.ActiveCfg = Release
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {713E0D44-62F0-4907-AC5A-2A3DDECB55D4}
+	EndGlobalSection
+EndGlobal
