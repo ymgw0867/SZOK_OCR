@@ -79,5 +79,8 @@
     <Setting Name="xlsLabelPath" Type="System.String" Scope="Application">
       <Value Profile="(Default)">C:\SZOK_OCR\XLS\cardlabel.xlsx</Value>
     </Setting>
+    <Setting Name="scanDataPath" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">C:\SZOK_DATA\SCANDATA\</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

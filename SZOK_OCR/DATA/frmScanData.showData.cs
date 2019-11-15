@@ -94,7 +94,7 @@ namespace SZOK_OCR.DATA
             }
 
             // 画像表示
-            ShowImage(Properties.Settings.Default.imgPath + r.画像名.ToString());
+            ShowImage(Properties.Settings.Default.scanDataPath + r.画像名.ToString());
 
             linkLabel1.Focus();
 
@@ -190,7 +190,7 @@ namespace SZOK_OCR.DATA
 
             dispShowMode();
 
-            linkLabel4.Text = DISP_MODE;
+            //linkLabel4.Text = DISP_MODE;
         }
 
         private void dispEditMode()
@@ -253,7 +253,7 @@ namespace SZOK_OCR.DATA
             txtMemo.ReadOnly = true;
 
             button1.Visible = false;
-            linkLabel2.Visible = false;
+            //linkLabel2.Visible = false;
 
         }
     }

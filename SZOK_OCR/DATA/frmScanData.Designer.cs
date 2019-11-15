@@ -133,7 +133,7 @@
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Meiryo UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label8.Location = new System.Drawing.Point(99, 284);
+            this.label8.Location = new System.Drawing.Point(108, 284);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(29, 24);
             this.label8.TabIndex = 8;
@@ -196,7 +196,7 @@
             // 
             this.txtZip2.Font = new System.Drawing.Font("Meiryo UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.txtZip2.ImeMode = System.Windows.Forms.ImeMode.Off;
-            this.txtZip2.Location = new System.Drawing.Point(193, 281);
+            this.txtZip2.Location = new System.Drawing.Point(206, 281);
             this.txtZip2.MaxLength = 4;
             this.txtZip2.Name = "txtZip2";
             this.txtZip2.Size = new System.Drawing.Size(65, 31);
@@ -208,7 +208,7 @@
             // 
             this.txtZip1.Font = new System.Drawing.Font("Meiryo UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.txtZip1.ImeMode = System.Windows.Forms.ImeMode.Off;
-            this.txtZip1.Location = new System.Drawing.Point(126, 281);
+            this.txtZip1.Location = new System.Drawing.Point(140, 281);
             this.txtZip1.MaxLength = 3;
             this.txtZip1.Name = "txtZip1";
             this.txtZip1.Size = new System.Drawing.Size(46, 31);
@@ -231,7 +231,7 @@
             // 
             this.label18.AutoSize = true;
             this.label18.Font = new System.Drawing.Font("Meiryo UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label18.Location = new System.Drawing.Point(283, 153);
+            this.label18.Location = new System.Drawing.Point(285, 153);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(22, 18);
             this.label18.TabIndex = 27;
@@ -241,7 +241,7 @@
             // 
             this.label17.AutoSize = true;
             this.label17.Font = new System.Drawing.Font("Meiryo UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label17.Location = new System.Drawing.Point(226, 153);
+            this.label17.Location = new System.Drawing.Point(228, 153);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(22, 18);
             this.label17.TabIndex = 26;
@@ -263,7 +263,7 @@
             // 
             this.label16.AutoSize = true;
             this.label16.Font = new System.Drawing.Font("Meiryo UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label16.Location = new System.Drawing.Point(170, 153);
+            this.label16.Location = new System.Drawing.Point(172, 153);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(22, 18);
             this.label16.TabIndex = 25;
@@ -285,7 +285,7 @@
             // 
             this.txtDay.Font = new System.Drawing.Font("Meiryo UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.txtDay.ImeMode = System.Windows.Forms.ImeMode.Off;
-            this.txtDay.Location = new System.Drawing.Point(249, 144);
+            this.txtDay.Location = new System.Drawing.Point(251, 144);
             this.txtDay.MaxLength = 2;
             this.txtDay.Name = "txtDay";
             this.txtDay.Size = new System.Drawing.Size(32, 31);
@@ -307,7 +307,7 @@
             // 
             this.txtMonth.Font = new System.Drawing.Font("Meiryo UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.txtMonth.ImeMode = System.Windows.Forms.ImeMode.Off;
-            this.txtMonth.Location = new System.Drawing.Point(193, 144);
+            this.txtMonth.Location = new System.Drawing.Point(195, 144);
             this.txtMonth.MaxLength = 2;
             this.txtMonth.Name = "txtMonth";
             this.txtMonth.Size = new System.Drawing.Size(32, 31);
@@ -340,7 +340,7 @@
             // 
             this.label14.AutoSize = true;
             this.label14.Font = new System.Drawing.Font("Meiryo UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label14.Location = new System.Drawing.Point(174, 286);
+            this.label14.Location = new System.Drawing.Point(187, 286);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(19, 18);
             this.label14.TabIndex = 133;
@@ -543,7 +543,7 @@
             // 
             this.label21.AutoSize = true;
             this.label21.Font = new System.Drawing.Font("Meiryo UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label21.Location = new System.Drawing.Point(111, 153);
+            this.label21.Location = new System.Drawing.Point(114, 153);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(26, 18);
             this.label21.TabIndex = 145;
@@ -562,7 +562,7 @@
             // 
             this.txtYear.Font = new System.Drawing.Font("Meiryo UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.txtYear.ImeMode = System.Windows.Forms.ImeMode.Off;
-            this.txtYear.Location = new System.Drawing.Point(136, 144);
+            this.txtYear.Location = new System.Drawing.Point(140, 144);
             this.txtYear.MaxLength = 4;
             this.txtYear.Name = "txtYear";
             this.txtYear.Size = new System.Drawing.Size(32, 31);

@@ -424,6 +424,12 @@ namespace SZOK_OCR.OCR
             // ＯＣＲ認識結果をSCAN_DATAに書き出す : 2019/11/12
             CsvToScanData();
 
+            // 画像ファイルをSCANDATAフォルダへ移動 : 2019/11/15
+            foreach (string files in System.IO.Directory.GetFiles(Properties.Settings.Default.dataPath, "*.tif"))
+            {                
+                System.IO.File.Move(files, Properties.Settings.Default.scanDataPath + System.IO.Path.GetFileName(files));
+            }
+
             // ラベル発行：2019/11/12
             LabelReport(label3.Text, txtName.Text);
 
@@ -461,7 +467,7 @@ namespace SZOK_OCR.OCR
 
                 try
                 {
-                    oxlsSheet.Cells[13, 2] = sLabel;                 
+                    oxlsSheet.Cells[10, 2] = sLabel;                 
                     oxlsSheet.Cells[18, 5] = DateTime.Today.ToShortDateString();
                     oxlsSheet.Cells[19, 5] = sName;
 

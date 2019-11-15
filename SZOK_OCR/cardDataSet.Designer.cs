@@ -4335,7 +4335,7 @@ namespace SZOK_OCR.cardDataSetTableAdapters {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         private void InitCommandCollection() {
-            this._commandCollection = new global::System.Data.OleDb.OleDbCommand[4];
+            this._commandCollection = new global::System.Data.OleDb.OleDbCommand[5];
             this._commandCollection[0] = new global::System.Data.OleDb.OleDbCommand();
             this._commandCollection[0].Connection = this.Connection;
             this._commandCollection[0].CommandText = "SELECT ID, データ区分, 画像名, 登録年, 登録月, 登録日, 登録番号, 車体番号, メーカー, 塗色, 車種, 郵便番号1, 郵便番号2, 車両番" +
@@ -4362,6 +4362,13 @@ namespace SZOK_OCR.cardDataSetTableAdapters {
                 ", 除外 FROM 防犯登録データ where ((除外 is Null or 除外 = 0) and 登録番号 = ?)";
             this._commandCollection[3].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[3].Parameters.Add(new global::System.Data.OleDb.OleDbParameter("登録番号", global::System.Data.OleDb.OleDbType.WChar, 20, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "登録番号", global::System.Data.DataRowVersion.Current, false, null));
+            this._commandCollection[4] = new global::System.Data.OleDb.OleDbCommand();
+            this._commandCollection[4].Connection = this.Connection;
+            this._commandCollection[4].CommandText = "SELECT ID, データ区分, 画像名, 登録年, 登録月, 登録日, 登録番号, 車体番号, メーカー, 塗色, 車種, 郵便番号1, 郵便番号2, 車両番" +
+                "号1, 車両番号2, 車名, 住所漢字, 住所1, 住所2, 氏名, TEL携帯, TEL携帯2, TEL携帯3, PC名, CSV作成日, 備考, 更新年月日" +
+                ", 除外 FROM 防犯登録データ where 登録年 = ?";
+            this._commandCollection[4].CommandType = global::System.Data.CommandType.Text;
+            this._commandCollection[4].Parameters.Add(new global::System.Data.OleDb.OleDbParameter("登録年", global::System.Data.OleDb.OleDbType.WChar, 2, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "登録年", global::System.Data.DataRowVersion.Current, false, null));
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -4468,6 +4475,42 @@ namespace SZOK_OCR.cardDataSetTableAdapters {
             }
             else {
                 this.Adapter.SelectCommand.Parameters[0].Value = ((string)(登録番号));
+            }
+            cardDataSet.防犯登録データDataTable dataTable = new cardDataSet.防犯登録データDataTable();
+            this.Adapter.Fill(dataTable);
+            return dataTable;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, false)]
+        public virtual int FillByYear(cardDataSet.防犯登録データDataTable dataTable, string 登録年) {
+            this.Adapter.SelectCommand = this.CommandCollection[4];
+            if ((登録年 == null)) {
+                this.Adapter.SelectCommand.Parameters[0].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.SelectCommand.Parameters[0].Value = ((string)(登録年));
+            }
+            if ((this.ClearBeforeFill == true)) {
+                dataTable.Clear();
+            }
+            int returnValue = this.Adapter.Fill(dataTable);
+            return returnValue;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, false)]
+        public virtual cardDataSet.防犯登録データDataTable GetDataByYear(string 登録年) {
+            this.Adapter.SelectCommand = this.CommandCollection[4];
+            if ((登録年 == null)) {
+                this.Adapter.SelectCommand.Parameters[0].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.SelectCommand.Parameters[0].Value = ((string)(登録年));
             }
             cardDataSet.防犯登録データDataTable dataTable = new cardDataSet.防犯登録データDataTable();
             this.Adapter.Fill(dataTable);
@@ -6287,7 +6330,7 @@ namespace SZOK_OCR.cardDataSetTableAdapters {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         private void InitCommandCollection() {
-            this._commandCollection = new global::System.Data.OleDb.OleDbCommand[2];
+            this._commandCollection = new global::System.Data.OleDb.OleDbCommand[3];
             this._commandCollection[0] = new global::System.Data.OleDb.OleDbCommand();
             this._commandCollection[0].Connection = this.Connection;
             this._commandCollection[0].CommandText = "SELECT ID, データ区分, 画像名, 登録年, 登録月, 登録日, 登録番号, 車体番号, メーカー, 塗色, 車種, 郵便番号1, 郵便番号2, 車両番" +
@@ -6301,6 +6344,13 @@ namespace SZOK_OCR.cardDataSetTableAdapters {
                 ", ラベル, 処理担当者 FROM SCAN_DATA where ID = ?";
             this._commandCollection[1].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[1].Parameters.Add(new global::System.Data.OleDb.OleDbParameter("ID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "ID", global::System.Data.DataRowVersion.Current, false, null));
+            this._commandCollection[2] = new global::System.Data.OleDb.OleDbCommand();
+            this._commandCollection[2].Connection = this.Connection;
+            this._commandCollection[2].CommandText = "SELECT ID, データ区分, 画像名, 登録年, 登録月, 登録日, 登録番号, 車体番号, メーカー, 塗色, 車種, 郵便番号1, 郵便番号2, 車両番" +
+                "号1, 車両番号2, 車名, 住所漢字, 住所1, 住所2, 氏名, TEL携帯, TEL携帯2, TEL携帯3, PC名, CSV作成日, 備考, 更新年月日" +
+                ", ラベル, 処理担当者 FROM SCAN_DATA where 登録年 = ?";
+            this._commandCollection[2].CommandType = global::System.Data.CommandType.Text;
+            this._commandCollection[2].Parameters.Add(new global::System.Data.OleDb.OleDbParameter("登録年", global::System.Data.OleDb.OleDbType.WChar, 2, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "登録年", global::System.Data.DataRowVersion.Current, false, null));
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -6348,6 +6398,42 @@ namespace SZOK_OCR.cardDataSetTableAdapters {
         public virtual cardDataSet.SCAN_DATADataTable GetDataByID(int ID) {
             this.Adapter.SelectCommand = this.CommandCollection[1];
             this.Adapter.SelectCommand.Parameters[0].Value = ((int)(ID));
+            cardDataSet.SCAN_DATADataTable dataTable = new cardDataSet.SCAN_DATADataTable();
+            this.Adapter.Fill(dataTable);
+            return dataTable;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, false)]
+        public virtual int FillByYear(cardDataSet.SCAN_DATADataTable dataTable, string 登録年) {
+            this.Adapter.SelectCommand = this.CommandCollection[2];
+            if ((登録年 == null)) {
+                this.Adapter.SelectCommand.Parameters[0].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.SelectCommand.Parameters[0].Value = ((string)(登録年));
+            }
+            if ((this.ClearBeforeFill == true)) {
+                dataTable.Clear();
+            }
+            int returnValue = this.Adapter.Fill(dataTable);
+            return returnValue;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, false)]
+        public virtual cardDataSet.SCAN_DATADataTable GetDataByYear(string 登録年) {
+            this.Adapter.SelectCommand = this.CommandCollection[2];
+            if ((登録年 == null)) {
+                this.Adapter.SelectCommand.Parameters[0].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.SelectCommand.Parameters[0].Value = ((string)(登録年));
+            }
             cardDataSet.SCAN_DATADataTable dataTable = new cardDataSet.SCAN_DATADataTable();
             this.Adapter.Fill(dataTable);
             return dataTable;

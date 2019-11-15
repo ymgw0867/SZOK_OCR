@@ -79,14 +79,14 @@
       <DependentUpon>frmConfig.cs</DependentUpon>
     </Compile>
     <Compile Include="DATA\clsOutput.cs" />
-    <Compile Include="DATA\frmScanData.showData.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="DATA\frmScanData.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="DATA\frmScanData.Designer.cs">
       <DependentUpon>frmScanData.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DATA\frmScanData.showData.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="DATA\frmScanList.cs">
       <SubType>Form</SubType>
@@ -120,9 +120,6 @@
     </Compile>
     <Compile Include="frmMainMenu.Designer.cs">
       <DependentUpon>frmMainMenu.cs</DependentUpon>
-    </Compile>
-    <Compile Include="frmPastData.showData.cs">
-      <SubType>Form</SubType>
     </Compile>
     <Compile Include="OCR\frmZipCode.cs">
       <SubType>Form</SubType>

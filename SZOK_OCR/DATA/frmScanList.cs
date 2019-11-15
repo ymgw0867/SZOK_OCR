@@ -54,9 +54,6 @@ namespace SZOK_OCR.DATA
 
             // 検索欄初期化
             dispInitial();
-
-            // 2019/06/25
-            adp.Fill(dts.SCAN_DATA);
         }
 
         ///-----------------------------------------------------------------
@@ -232,6 +229,13 @@ namespace SZOK_OCR.DATA
 
         private void button1_Click(object sender, EventArgs e)
         {
+            if (Utility.StrtoInt(txtsYY.Text) == global.flgOff)
+            {
+                MessageBox.Show("登録年を必ず指定してください", "検索項目指定", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            // リスト表示
             dataShow();
         }
 
@@ -243,6 +247,8 @@ namespace SZOK_OCR.DATA
         ///-------------------------------------------------------------------------
         private int dataShow()
         {
+            label22.Text = string.Empty;    // 2019/11/15
+
             // 2019/06/25
             dg.Rows.Clear();
 
@@ -253,7 +259,9 @@ namespace SZOK_OCR.DATA
             // 2019/06/25
             this.Cursor = Cursors.WaitCursor;
 
-            //adp.Fill(dts.防犯登録データ);
+            // 2019/11/15
+            adp.FillByYear(dts.SCAN_DATA, txtsYY.Text);
+
 
             var s = dts.SCAN_DATA.OrderBy(q => q.登録番号);
 
@@ -410,12 +418,17 @@ namespace SZOK_OCR.DATA
             // dg.Rows.Clear(); // 2019/06/25 コメント化
 
             // 2019/06/25
-            System.Threading.Thread.Sleep(300);
+            System.Threading.Thread.Sleep(100);
             Application.DoEvents();
+
+            if (s.Count() > 0)
+            {
+                dg.Rows.Add(s.Count());
+            }
 
             foreach (var t in s)
             {
-                dg.Rows.Add();
+                //dg.Rows.Add();
 
                 if (t.データ区分 == global.flgOff)
                 {
@@ -478,6 +491,9 @@ namespace SZOK_OCR.DATA
             {
                 dg.CurrentCell = null;
                 linkLabel2.Enabled = true;
+
+                // 2019/11/15
+                label22.Text = "該当件数：" + s.Count().ToString("#,##0") + "件";
             }
             else
             {
@@ -485,6 +501,9 @@ namespace SZOK_OCR.DATA
                 this.Cursor = Cursors.Default; 
                 MessageBox.Show("条件に該当するデータはありませんでした", "検索結果", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 linkLabel2.Enabled = false;
+
+                // 2019/11/15
+                label22.Text = "該当件数： 0件";
             }
 
             System.Threading.Thread.Sleep(500);
@@ -543,8 +562,8 @@ namespace SZOK_OCR.DATA
                 int iX = Utility.StrtoInt(dg[colID, e.RowIndex].Value.ToString());
                 showScanData(iX);
 
-                // データ再表示
-                dataShow();
+                //// データ再表示
+                //dataShow();
             }
         }
 
@@ -565,5 +584,9 @@ namespace SZOK_OCR.DATA
             }
         }
 
+        private void FrmScanList_Shown(object sender, EventArgs e)
+        {
+            txtsYY.Text = (DateTime.Now.Year - 2000).ToString();
+        }
     }
 }

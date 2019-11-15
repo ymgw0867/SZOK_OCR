@@ -201,5 +201,14 @@ namespace SZOK_OCR.Properties {
                 return ((string)(this["xlsLabelPath"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\SZOK_DATA\\SCANDATA\\")]
+        public string scanDataPath {
+            get {
+                return ((string)(this["scanDataPath"]));
+            }
+        }
     }
 }

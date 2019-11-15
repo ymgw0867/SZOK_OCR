@@ -75,6 +75,7 @@
             this.dg = new System.Windows.Forms.DataGridView();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.linkLabel2 = new System.Windows.Forms.LinkLabel();
+            this.label22 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dg)).BeginInit();
             this.SuspendLayout();
@@ -647,12 +648,20 @@
             this.linkLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.linkLabel2.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel2_LinkClicked);
             // 
+            // label22
+            // 
+            this.label22.Location = new System.Drawing.Point(12, 681);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(149, 25);
+            this.label22.TabIndex = 126;
+            // 
             // frmScanList
             // 
             this.AcceptButton = this.button1;
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1258, 733);
+            this.Controls.Add(this.label22);
             this.Controls.Add(this.linkLabel2);
             this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.dg);
@@ -665,6 +674,7 @@
             this.Text = "スキャンデータ検索";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmCardList_FormClosing);
             this.Load += new System.EventHandler(this.frmCardList_Load);
+            this.Shown += new System.EventHandler(this.FrmScanList_Shown);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dg)).EndInit();
@@ -720,6 +730,7 @@
         private System.Windows.Forms.TextBox txtName;
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.Label label22;
     }
 }
 

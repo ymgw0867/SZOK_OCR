@@ -18,15 +18,6 @@ namespace SZOK_OCR.DATA
         // 検索ＩＤ
         int dID = 0;
 
-        string EDIT_MODE = "閲覧モードにする";
-        string DISP_MODE = "編集モードにする";
-        string DELTAG = "delete";
-
-        /// <summary>
-        ///     カレントデータRowsインデックス</summary>
-        //int[] cID = null;
-        //int cI = 0;
-
         string[] zipArray = null;   // 郵便番号配列
 
         public frmScanData(int sID)
@@ -54,7 +45,7 @@ namespace SZOK_OCR.DATA
             Utility.zipCsvLoad(ref zipArray);
             
             // キャプション
-            this.Text = "ＯＣＲ防犯登録データ";
+            this.Text = "自転車防犯登録カード";
                         
             // 指定レコードを表示
             showOcrData(dID);
