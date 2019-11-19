@@ -181,5 +181,8 @@ namespace SZOK_OCR
         public static string KENGAI_ADD = "ｹﾝｶﾞｲ";  // 静岡県以外の住所
         public static string IKAKEISAI_ADD = "ｲｶﾆｹｲｻｲｶﾞﾅｲﾊﾞｱｲ";          // 以下に掲載がない場合
         public static string IKAKEISAIKN_ADD = "以下に掲載がない場合";    // 以下に掲載がない場合
+
+        //LOCKFILENAMEの前に付加する文字列 : 2019/11/18
+        public static string LOCK_FILEHEAD = "LOCK-";    
     }
 }

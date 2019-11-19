@@ -321,6 +321,7 @@ namespace SZOK_OCR.Common
             r.郵便番号1 = Utility.GetStringSubMax(stCSV[10], 3);
             r.郵便番号2 = Utility.GetStringSubMax(stCSV[11], 4);
             r.住所1 = Utility.GetStringSubMax(stCSV[12] + stCSV[13], 40).Trim();
+            r.住所2 = string.Empty;   // 2019/11/19
             r.氏名 = Utility.GetStringSubMax(stCSV[14], 16);
             r.TEL携帯 = Utility.GetStringSubMax(stCSV[15], 4);
             r.TEL携帯2 = Utility.GetStringSubMax(stCSV[16], 4);

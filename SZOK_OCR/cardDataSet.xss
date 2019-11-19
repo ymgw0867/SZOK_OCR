@@ -8,7 +8,7 @@
   <Shapes>
     <Shape ID="DesignTable:防犯登録データ" ZOrder="2" X="96" Y="153" Height="421" Width="293" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="294" />
     <Shape ID="DesignTable:CSV作成履歴" ZOrder="3" X="421" Y="152" Height="210" Width="212" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="159" />
-    <Shape ID="DesignTable:SCAN_DATA" ZOrder="1" X="660" Y="152" Height="343" Width="224" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="254" />
+    <Shape ID="DesignTable:SCAN_DATA" ZOrder="1" X="660" Y="152" Height="381" Width="226" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="254" />
   </Shapes>
   <Connectors />
 </DiagramLayout>

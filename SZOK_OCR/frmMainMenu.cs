@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using SZOK_OCR.OCR;
+using SZOK_OCR.Common;
 
 namespace SZOK_OCR
 {
@@ -33,10 +34,76 @@ namespace SZOK_OCR
 
         private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
+            cardDataSet dtsC = new cardDataSet();
+            cardDataSetTableAdapters.SCAN_DATATableAdapter sAdp = new cardDataSetTableAdapters.SCAN_DATATableAdapter();
+
+            szokDataSet dts = new szokDataSet();
+            szokDataSetTableAdapters.防犯カードTableAdapter adp = new szokDataSetTableAdapters.防犯カードTableAdapter();
+
+            // 自らのロックファイルを削除する
+            Utility.deleteLockFile(Properties.Settings.Default.dataPath, System.Net.Dns.GetHostName());
+
+            //他のPCで処理中の場合、続行不可
+            if (Utility.existsLockFile(Properties.Settings.Default.dataPath))
+            {
+                MessageBox.Show("他のＰＣで処理中です。しばらくおまちください。", "確認", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
+
+            // ＯＣＲ認識したスキャンデータ件数
+            int s = sAdp.Fill(dtsC.SCAN_DATA);
+
+            // 処理中の防犯登録データ
+            int d = adp.Fill(dts.防犯カード);
+
+            // 処理可能なデータが存在するか？
+            if (s == 0 && d == 0)
+            {
+                MessageBox.Show("現在、処理可能なＯＣＲ認識された防犯登録データはありません", "確認", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
+
+            //LOCKファイル作成
+            Utility.makeLockFile(Properties.Settings.Default.dataPath, System.Net.Dns.GetHostName());
+
             this.Hide();
-            frmCorrect frm = new frmCorrect(string.Empty);
-            frm.ShowDialog();
-            this.Show();
+
+            // 処理するデータを取得
+            frmFaxSelectHaken frmFax = new frmFaxSelectHaken();
+            frmFax.ShowDialog();
+
+            bool _myBool = frmFax.MyBool;
+            frmFax.Dispose();
+
+            // ロックファイルを削除する
+            Utility.deleteLockFile(Properties.Settings.Default.dataPath, System.Net.Dns.GetHostName());
+
+            if (!_myBool)
+            {
+                Show();
+            }
+            else
+            {
+                // データ作成処理へ
+                frmCorrect frm = new frmCorrect(string.Empty);
+                frm.ShowDialog();
+                Show();
+            }
+
+
+
+
+
+
+
+
+
+
+
+            //this.Hide();
+            //frmCorrect frm = new frmCorrect(string.Empty);
+            //frm.ShowDialog();
+            //this.Show();
         }
 
         private void linkLabel5_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

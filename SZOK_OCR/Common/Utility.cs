@@ -822,10 +822,10 @@ namespace SZOK_OCR.Common
         }
 
         //--------------------------------------------------------------------------------
-        //1バイト文字で構成された文字列であるか判定
+        //  1バイト文字で構成された文字列であるか判定
         //
-        //1バイト文字のみで構成された文字列 : True
-        //2バイト文字が含まれている文字列   : False
+        //  1バイト文字のみで構成された文字列 : True
+        //  2バイト文字が含まれている文字列   : False
         //--------------------------------------------------------------------------------
         public static bool isOneByteChar(string str)
         {
@@ -840,6 +840,75 @@ namespace SZOK_OCR.Common
             }
         }
 
+        ///-------------------------------------------------------------------------
+        /// <summary>
+        ///     自らのロックファイルが存在したら削除する </summary>
+        /// <param name="fPath">
+        ///     パス</param>
+        /// <param name="PcK">
+        ///     自分のロックファイル文字列</param>
+        ///-------------------------------------------------------------------------
+        public static void deleteLockFile(string fPath, string PcK)
+        {
+            string FileName = fPath + global.LOCK_FILEHEAD + PcK + ".loc";
 
+            if (System.IO.File.Exists(FileName))
+            {
+                System.IO.File.Delete(FileName);
+            }
+        }
+
+        ///-------------------------------------------------------------------------
+        /// <summary>
+        ///     データフォルダにロックファイルが存在するか調べる </summary>
+        /// <param name="fPath">
+        ///     データフォルダパス</param>
+        /// <returns>
+        ///     true:ロックファイルあり、false:ロックファイルなし</returns>
+        ///-------------------------------------------------------------------------
+        public static Boolean existsLockFile(string fPath)
+        {
+            int s = System.IO.Directory.GetFiles(fPath, global.LOCK_FILEHEAD + "*.*", System.IO.SearchOption.TopDirectoryOnly).Count();
+
+            if (s == 0)
+            {
+                return false; //LOCKファイルが存在しない
+            }
+            else
+            {
+                return true;   //存在する
+            }
+        }
+
+        ///----------------------------------------------------------------
+        /// <summary>
+        ///     ロックファイルを登録する </summary>
+        /// <param name="fPath">
+        ///     書き込み先フォルダパス</param>
+        /// <param name="LocName">
+        ///     ファイル名</param>
+        ///----------------------------------------------------------------
+        public static void makeLockFile(string fPath, string LocName)
+        {
+            string FileName = fPath + global.LOCK_FILEHEAD + LocName + ".loc";
+
+            //存在する場合は、処理なし
+            if (System.IO.File.Exists(FileName))
+            {
+                return;
+            }
+
+            // ロックファイルを登録する
+            try
+            {
+                System.IO.StreamWriter outFile = new System.IO.StreamWriter(FileName, false, System.Text.Encoding.GetEncoding(932));
+                outFile.Close();
+            }
+            catch
+            {
+            }
+
+            return;
+        }
     }
 }
