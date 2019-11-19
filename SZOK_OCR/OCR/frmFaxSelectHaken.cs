@@ -15,6 +15,7 @@ namespace SZOK_OCR.OCR
             InitializeComponent();
 
             adp.Fill(dtsC.SCAN_DATA);
+            dAdp.Fill(dts.防犯カード);
         }
 
         cardDataSet dtsC = new cardDataSet();
@@ -50,6 +51,26 @@ namespace SZOK_OCR.OCR
 
             // ラベル毎のスキャンデータ件数表示
             getScanData(Dgv1);
+
+            // 処理中データ件数表示
+            int val = GetLocalData();
+
+            if (val > 0)
+            {
+                button1.Enabled = true;
+            }
+            else
+            {
+                button1.Enabled = false;
+            }
+        }
+
+        private int GetLocalData()
+        {
+            int val = dts.防犯カード.Count();
+            lblDataCnt.Text = val.ToString("#,##0");
+
+            return val;
         }
 
         ///-----------------------------------------------------------------
@@ -258,7 +279,7 @@ namespace SZOK_OCR.OCR
                 }
             }
 
-            dCnt += dAdp.Fill(dts.防犯カード);
+            dCnt += Utility.StrtoInt(lblDataCnt.Text);
 
             return dCnt;
         }
@@ -293,6 +314,55 @@ namespace SZOK_OCR.OCR
 
                     // 該当スキャンデータ削除
                     adp.DeleteQueryLabel(lbl);
+                }
+            }
+        }
+
+        private void Dgv1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            if (Dgv1.Rows.Count < 1)
+            {
+                return;
+            }
+
+            if (e.ColumnIndex == 0)
+            {
+                bool chk = false;
+
+                for (int i = 0; i < Dgv1.Rows.Count; i++)
+                {
+                    if (Utility.nulltoStr2(Dgv1[colChk, i].Value) == "True")
+                    {
+                        chk = true;
+                        break;
+                    }
+                }
+
+                if (chk)
+                {
+                    button1.Enabled = true;
+                }
+                else
+                {
+                    if (Utility.StrtoInt(lblDataCnt.Text) == global.flgOff)
+                    {
+                        button1.Enabled = false;
+                    }
+                    else
+                    {
+                        button1.Enabled = true;
+                    }
+                }
+            }
+        }
+
+        private void Dgv1_CurrentCellDirtyStateChanged(object sender, EventArgs e)
+        {
+            if (Dgv1.CurrentCellAddress.X == 0)
+            {
+                if (Dgv1.IsCurrentCellDirty)
+                {
+                    Dgv1.CommitEdit(DataGridViewDataErrorContexts.Commit);
                 }
             }
         }
