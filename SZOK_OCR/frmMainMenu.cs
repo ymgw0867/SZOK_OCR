@@ -9,6 +9,7 @@ using System.Text;
 using System.Windows.Forms;
 using SZOK_OCR.OCR;
 using SZOK_OCR.Common;
+using ClosedXML.Excel;
 
 namespace SZOK_OCR
 {
@@ -265,6 +266,83 @@ namespace SZOK_OCR
             SZOK_OCR.DATA.frmScanList frm = new DATA.frmScanList();
             frm.ShowDialog();
             this.Show();
+        }
+
+        private void Button1_Click(object sender, EventArgs e)
+        {
+            shukkoMs(@"C:\Users\kyama\OneDrive - softbit(1)\複合研ディーエル\静岡防犯協会\年別防犯登録票配布シート\31(3603981-.xlsx");
+        }
+
+        private void shukkoMs(string sPath)
+        {
+            cardDataSet dts = new cardDataSet();
+            cardDataSetTableAdapters.出庫データTableAdapter adp = new cardDataSetTableAdapters.出庫データTableAdapter();
+
+            Cursor = Cursors.WaitCursor;
+
+            int rNum = 0;
+
+            try
+            {
+                IXLWorkbook bk;
+
+                int cnt = 0;
+
+                using(bk = new XLWorkbook(sPath, XLEventTracking.Disabled))
+                {
+                    var sheet1 = bk.Worksheet(1);
+                    var tbl = sheet1.RangeUsed().AsTable();
+
+                    //MessageBox.Show(tbl.RowCount().ToString());
+
+                    foreach (var t in tbl.Rows())
+                    {
+                        //if (t.RowNumber() < 5)
+                        //{
+                        //    continue;
+                        //}
+                        
+                        if (Utility.nulltoStr2(t.Cell(1).Value) == string.Empty)
+                        {
+                            continue;
+                        }
+
+                        rNum = t.RowNumber();
+
+                        DateTime dt;
+                        if (!DateTime.TryParse(t.Cell(2).Value.ToString(), out dt))
+                        {
+                            //MessageBox.Show(t.RowNumber().ToString() + " " + t.Cell(2).Value.ToString());
+                            dt = DateTime.FromOADate(Utility.StrtoDouble(t.Cell(2).Value.ToString()));
+                        }
+
+                        // Excelセルデータ取得
+                        string num = Utility.nulltoStr2(t.Cell(1).Value).PadLeft(4, '0');
+                        int Id = Utility.StrtoInt((dt.Year - 2000).ToString() + dt.Month.ToString("D2") + num);
+                        int tNum = Utility.StrtoInt(Utility.nulltoStr2(t.Cell(3).Value));
+                        string tName = Utility.nulltoStr2(t.Cell(4).Value);
+                        int Busu = Utility.StrtoInt(Utility.nulltoStr2(t.Cell(5).Value));
+                        int stNum = Utility.StrtoInt(Utility.nulltoStr2(t.Cell(6).Value));
+                        int edNum = Utility.StrtoInt(Utility.nulltoStr2(t.Cell(8).Value));
+                        int Uriage = Utility.StrtoInt(Utility.nulltoStr2(t.Cell(10).Value));
+
+                        // 出庫データ追加登録
+                        adp.InsertQuery(Id, dt, tNum, tName, Busu, stNum, edNum, Uriage);
+
+                        cnt++;
+                    }
+                }
+
+                MessageBox.Show("終了しました！  出力件数：" + cnt + "件");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(rNum + Environment.NewLine + ex.Message);
+            }
+            finally
+            {
+                Cursor = Cursors.Default;
+            }
         }
     }
 }
