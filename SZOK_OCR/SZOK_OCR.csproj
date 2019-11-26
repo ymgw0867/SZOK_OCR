@@ -181,6 +181,18 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>szokDataSet.xsd</DependentUpon>
     </Compile>
+    <Compile Include="ZAIKO\frmShukkoImport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ZAIKO\frmShukkoImport.Designer.cs">
+      <DependentUpon>frmShukkoImport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ZAIKO\frmZaikoMenu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ZAIKO\frmZaikoMenu.Designer.cs">
+      <DependentUpon>frmZaikoMenu.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Common\frmPrg.resx">
       <DependentUpon>frmPrg.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -238,6 +250,12 @@
     <EmbeddedResource Include="Form4.resx">
       <DependentUpon>Form4.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ZAIKO\frmShukkoImport.resx">
+      <DependentUpon>frmShukkoImport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ZAIKO\frmZaikoMenu.resx">
+      <DependentUpon>frmZaikoMenu.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
     <None Include="cardDataSet.xsc">

@@ -37,6 +37,7 @@
             this.linkLabel6 = new System.Windows.Forms.LinkLabel();
             this.linkLabel7 = new System.Windows.Forms.LinkLabel();
             this.button1 = new System.Windows.Forms.Button();
+            this.linkLabel8 = new System.Windows.Forms.LinkLabel();
             this.SuspendLayout();
             // 
             // linkLabel1
@@ -157,11 +158,28 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.Button1_Click);
             // 
+            // linkLabel8
+            // 
+            this.linkLabel8.Image = ((System.Drawing.Image)(resources.GetObject("linkLabel8.Image")));
+            this.linkLabel8.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.linkLabel8.LinkArea = new System.Windows.Forms.LinkArea(0, 8);
+            this.linkLabel8.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
+            this.linkLabel8.Location = new System.Drawing.Point(270, 281);
+            this.linkLabel8.Name = "linkLabel8";
+            this.linkLabel8.Size = new System.Drawing.Size(166, 59);
+            this.linkLabel8.TabIndex = 8;
+            this.linkLabel8.TabStop = true;
+            this.linkLabel8.Text = "在庫管理処理";
+            this.linkLabel8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.linkLabel8.UseCompatibleTextRendering = true;
+            this.linkLabel8.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel8_LinkClicked);
+            // 
             // frmMainMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 19F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(363, 406);
+            this.ClientSize = new System.Drawing.Size(511, 406);
+            this.Controls.Add(this.linkLabel8);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.linkLabel7);
             this.Controls.Add(this.linkLabel6);
@@ -193,5 +211,6 @@
         private System.Windows.Forms.LinkLabel linkLabel6;
         private System.Windows.Forms.LinkLabel linkLabel7;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.LinkLabel linkLabel8;
     }
 }

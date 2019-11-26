@@ -301,7 +301,7 @@ namespace SZOK_OCR
                         //{
                         //    continue;
                         //}
-                        
+
                         if (Utility.nulltoStr2(t.Cell(1).Value) == string.Empty)
                         {
                             continue;
@@ -343,6 +343,14 @@ namespace SZOK_OCR
             {
                 Cursor = Cursors.Default;
             }
+        }
+
+        private void linkLabel8_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            this.Hide();
+            SZOK_OCR.ZAIKO.frmZaikoMenu frm = new ZAIKO.frmZaikoMenu();
+            frm.ShowDialog();
+            this.Show();
         }
     }
 }
