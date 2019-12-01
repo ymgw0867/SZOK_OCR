@@ -28,5 +28,21 @@ namespace SZOK_OCR.ZAIKO
             frm.ShowDialog();
             this.Show();
         }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            frmKaishuData frm = new frmKaishuData();
+            frm.ShowDialog();
+            this.Show();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            frmZaikoSum frm = new frmZaikoSum();
+            frm.ShowDialog();
+            this.Show();
+        }
     }
 }

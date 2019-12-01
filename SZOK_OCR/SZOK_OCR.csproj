@@ -181,6 +181,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>szokDataSet.xsd</DependentUpon>
     </Compile>
+    <Compile Include="ZAIKO\frmKaishuData.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ZAIKO\frmKaishuData.Designer.cs">
+      <DependentUpon>frmKaishuData.cs</DependentUpon>
+    </Compile>
     <Compile Include="ZAIKO\frmShukkoImport.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -192,6 +198,12 @@
     </Compile>
     <Compile Include="ZAIKO\frmZaikoMenu.Designer.cs">
       <DependentUpon>frmZaikoMenu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ZAIKO\frmZaikoSum.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ZAIKO\frmZaikoSum.Designer.cs">
+      <DependentUpon>frmZaikoSum.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Common\frmPrg.resx">
       <DependentUpon>frmPrg.cs</DependentUpon>
@@ -251,11 +263,17 @@
       <DependentUpon>Form4.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="ZAIKO\frmKaishuData.resx">
+      <DependentUpon>frmKaishuData.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ZAIKO\frmShukkoImport.resx">
       <DependentUpon>frmShukkoImport.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ZAIKO\frmZaikoMenu.resx">
       <DependentUpon>frmZaikoMenu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ZAIKO\frmZaikoSum.resx">
+      <DependentUpon>frmZaikoSum.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
     <None Include="cardDataSet.xsc">
