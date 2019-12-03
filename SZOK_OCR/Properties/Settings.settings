@@ -82,8 +82,8 @@
     <Setting Name="scanDataPath" Type="System.String" Scope="Application">
       <Value Profile="(Default)">C:\SZOK_DATA\SCANDATA\</Value>
     </Setting>
-    <Setting Name="xlsZaiko" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">C:\SZOK_OCR\XLS\zaiko.xlsx</Value>
+    <Setting Name="xlsNouhinRep" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">C:\SZOK_OCR\XLS\納品書請求書.xlsx</Value>
     </Setting>
   </Settings>
 </SettingsFile>

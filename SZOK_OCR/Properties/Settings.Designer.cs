@@ -213,10 +213,10 @@ namespace SZOK_OCR.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("C:\\SZOK_OCR\\XLS\\zaiko.xlsx")]
-        public string xlsZaiko {
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\SZOK_OCR\\XLS\\納品書請求書.xlsx")]
+        public string xlsNouhinRep {
             get {
-                return ((string)(this["xlsZaiko"]));
+                return ((string)(this["xlsNouhinRep"]));
             }
         }
     }

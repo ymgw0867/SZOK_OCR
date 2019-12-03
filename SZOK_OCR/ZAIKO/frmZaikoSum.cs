@@ -438,10 +438,16 @@ namespace SZOK_OCR.ZAIKO
 
         private void button2_Click(object sender, EventArgs e)
         {
-            ExcelOutput(Properties.Settings.Default.xlsZaiko, dataGridView1);
+            ExcelOutput(dataGridView1);
         }
 
-        private void ExcelOutput(string sPath, DataGridView g)
+        ///----------------------------------------------------------------
+        /// <summary>
+        ///     在庫集計表Excel出力 </summary>
+        /// <param name="g">
+        ///     DataGridViewオブジェクト</param>
+        ///----------------------------------------------------------------
+        private void ExcelOutput(DataGridView g)
         {
             Cursor = Cursors.WaitCursor;
 
@@ -498,6 +504,7 @@ namespace SZOK_OCR.ZAIKO
                         }
                     }
 
+                    // 表示位置
                     sheet1.Column("A").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
                     sheet1.Column("B").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
                     sheet1.Column("C").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
@@ -507,11 +514,13 @@ namespace SZOK_OCR.ZAIKO
                     sheet1.Column("G").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Right;
                     sheet1.Column("H").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Right;
 
+                    // 書式設定
                     sheet1.Column("C").Style.NumberFormat.SetFormat("yyyy/mm/dd");
                     sheet1.Column("F").Style.NumberFormat.SetFormat("#,##0");
                     sheet1.Column("G").Style.NumberFormat.SetFormat("#,##0");
                     sheet1.Column("H").Style.NumberFormat.SetFormat("#,##0");
 
+                    // セル表示幅
                     sheet1.Column("A").Width = 10;
                     sheet1.Column("B").Width = 50;
                     sheet1.Column("C").Width = 16;
@@ -521,8 +530,10 @@ namespace SZOK_OCR.ZAIKO
                     sheet1.Column("G").Width = 10;
                     sheet1.Column("H").Width = 10;
 
+                    // 全体を縮小して表示
                     sheet1.Column("B").Style.Alignment.ShrinkToFit = true;
 
+                    // 上下罫線
                     sheet1.Row(1).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
                     sheet1.Row(2).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
                     sheet1.Range("A2:H2").Style.Fill.BackgroundColor = XLColor.LightGray;
@@ -533,7 +544,10 @@ namespace SZOK_OCR.ZAIKO
                     sheet1.Range(sheet1.Cell("A2"), sheet1.LastCellUsed()).Style.Border.SetLeftBorder(XLBorderStyleValues.Thin)
                         .Border.SetRightBorder(XLBorderStyleValues.Thin);
                     sheet1.Range("A" + (sheet1.RowsUsed().Count()) + ":H" + (sheet1.RowsUsed().Count())).Style.Border.SetBottomBorder(XLBorderStyleValues.Thin);
-                    
+
+                    // 行の固定
+                    sheet1.SheetView.FreezeRows(2);
+
                     DialogResult ret;
 
                     string fName = "";
