@@ -41,13 +41,13 @@
             this.label8 = new System.Windows.Forms.Label();
             this.txtDaikin = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.txtDenNum = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.label1 = new System.Windows.Forms.Label();
-            this.txtDenNum = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -66,7 +66,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("ＭＳ ゴシック", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label4.Location = new System.Drawing.Point(51, 52);
+            this.label4.Location = new System.Drawing.Point(51, 55);
             this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(49, 14);
@@ -76,7 +76,7 @@
             // txtTenName
             // 
             this.txtTenName.ImeMode = System.Windows.Forms.ImeMode.Hiragana;
-            this.txtTenName.Location = new System.Drawing.Point(100, 47);
+            this.txtTenName.Location = new System.Drawing.Point(100, 51);
             this.txtTenName.Name = "txtTenName";
             this.txtTenName.Size = new System.Drawing.Size(781, 22);
             this.txtTenName.TabIndex = 7;
@@ -86,7 +86,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("ＭＳ ゴシック", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label5.Location = new System.Drawing.Point(51, 79);
+            this.label5.Location = new System.Drawing.Point(51, 85);
             this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(49, 14);
@@ -96,17 +96,18 @@
             // txtBusu
             // 
             this.txtBusu.ImeMode = System.Windows.Forms.ImeMode.Off;
-            this.txtBusu.Location = new System.Drawing.Point(100, 74);
+            this.txtBusu.Location = new System.Drawing.Point(100, 81);
             this.txtBusu.Name = "txtBusu";
-            this.txtBusu.Size = new System.Drawing.Size(76, 22);
+            this.txtBusu.Size = new System.Drawing.Size(112, 22);
             this.txtBusu.TabIndex = 9;
             this.txtBusu.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtBusu.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtDenNum_KeyPress);
             // 
             // label6
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("ＭＳ ゴシック", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label6.Location = new System.Drawing.Point(9, 113);
+            this.label6.Location = new System.Drawing.Point(9, 115);
             this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(91, 14);
@@ -116,26 +117,28 @@
             // txtSNum
             // 
             this.txtSNum.ImeMode = System.Windows.Forms.ImeMode.Off;
-            this.txtSNum.Location = new System.Drawing.Point(100, 108);
+            this.txtSNum.Location = new System.Drawing.Point(100, 111);
             this.txtSNum.Name = "txtSNum";
             this.txtSNum.Size = new System.Drawing.Size(112, 22);
             this.txtSNum.TabIndex = 11;
             this.txtSNum.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtSNum.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtDenNum_KeyPress);
             // 
             // txtENum
             // 
             this.txtENum.ImeMode = System.Windows.Forms.ImeMode.Off;
-            this.txtENum.Location = new System.Drawing.Point(239, 108);
+            this.txtENum.Location = new System.Drawing.Point(239, 111);
             this.txtENum.Name = "txtENum";
             this.txtENum.Size = new System.Drawing.Size(112, 22);
             this.txtENum.TabIndex = 12;
             this.txtENum.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtENum.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtDenNum_KeyPress);
             // 
             // label7
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("ＭＳ ゴシック", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label7.Location = new System.Drawing.Point(215, 113);
+            this.label7.Location = new System.Drawing.Point(215, 115);
             this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(21, 14);
@@ -146,7 +149,7 @@
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("ＭＳ ゴシック", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label8.Location = new System.Drawing.Point(51, 147);
+            this.label8.Location = new System.Drawing.Point(51, 145);
             this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(49, 14);
@@ -156,11 +159,12 @@
             // txtDaikin
             // 
             this.txtDaikin.ImeMode = System.Windows.Forms.ImeMode.Off;
-            this.txtDaikin.Location = new System.Drawing.Point(100, 142);
+            this.txtDaikin.Location = new System.Drawing.Point(100, 141);
             this.txtDaikin.Name = "txtDaikin";
             this.txtDaikin.Size = new System.Drawing.Size(112, 22);
             this.txtDaikin.TabIndex = 15;
             this.txtDaikin.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtDaikin.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtDenNum_KeyPress);
             // 
             // groupBox1
             // 
@@ -181,6 +185,27 @@
             this.groupBox1.Size = new System.Drawing.Size(887, 177);
             this.groupBox1.TabIndex = 16;
             this.groupBox1.TabStop = false;
+            // 
+            // txtDenNum
+            // 
+            this.txtDenNum.ImeMode = System.Windows.Forms.ImeMode.Off;
+            this.txtDenNum.Location = new System.Drawing.Point(100, 21);
+            this.txtDenNum.Name = "txtDenNum";
+            this.txtDenNum.Size = new System.Drawing.Size(112, 22);
+            this.txtDenNum.TabIndex = 17;
+            this.txtDenNum.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtDenNum.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtDenNum_KeyPress);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("ＭＳ ゴシック", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label2.Location = new System.Drawing.Point(37, 25);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(63, 14);
+            this.label2.TabIndex = 16;
+            this.label2.Text = "伝票№：";
             // 
             // button1
             // 
@@ -227,26 +252,6 @@
             this.label1.TabIndex = 20;
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // txtDenNum
-            // 
-            this.txtDenNum.ImeMode = System.Windows.Forms.ImeMode.Off;
-            this.txtDenNum.Location = new System.Drawing.Point(100, 21);
-            this.txtDenNum.Name = "txtDenNum";
-            this.txtDenNum.Size = new System.Drawing.Size(76, 22);
-            this.txtDenNum.TabIndex = 17;
-            this.txtDenNum.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("ＭＳ ゴシック", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label2.Location = new System.Drawing.Point(37, 26);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(63, 14);
-            this.label2.TabIndex = 16;
-            this.label2.Text = "伝票№：";
-            // 
             // frmNouhinRep
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -261,6 +266,8 @@
             this.Font = new System.Drawing.Font("ＭＳ ゴシック", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "frmNouhinRep";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "納品書・請求書発行";

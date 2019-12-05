@@ -436,18 +436,18 @@ namespace SZOK_OCR.ZAIKO
                 {
                     // 納品書・請求書
                     oxlsSheet.Cells[1, 9] = "伝票№ " + txtDenNum.Text;
-                    oxlsSheet.Cells[2, 5] = DateTime.Today.ToLongDateString();
+                    oxlsSheet.Cells[2, 5] = DateTime.Today;
                     oxlsSheet.Cells[5, 1] = txtTenName.Text;
-                    oxlsSheet.Cells[12, 1] = "　（ＣＰＡ　" + txtSNum.Text + " ～ " + txtENum.Text + "）";
+                    oxlsSheet.Cells[12, 1] = "　（CPA " + txtSNum.Text + " ～ " + txtENum.Text + "）";
                     oxlsSheet.Cells[12, 5] = (Utility.StrtoInt(txtBusu.Text) / 10) + "セット";
                     oxlsSheet.Cells[12, 9] = Utility.StrtoInt(txtDaikin.Text);
                     oxlsSheet.Cells[17, 9] = Utility.StrtoInt(txtDaikin.Text);
 
                     // 控
                     oxlsSheet.Cells[25, 9] = "伝票№ " + txtDenNum.Text;
-                    oxlsSheet.Cells[26, 5] = DateTime.Today.ToLongDateString();
+                    oxlsSheet.Cells[26, 5] = DateTime.Today;
                     oxlsSheet.Cells[29, 1] = txtTenName.Text;
-                    oxlsSheet.Cells[36, 1] = "　（ＣＰＡ　" + txtSNum.Text + " ～ " + txtENum.Text + "）";
+                    oxlsSheet.Cells[36, 1] = "　（CPA " + txtSNum.Text + " ～ " + txtENum.Text + "）";
                     oxlsSheet.Cells[36, 5] = (Utility.StrtoInt(txtBusu.Text) / 10) + "セット";
                     oxlsSheet.Cells[36, 9] = Utility.StrtoInt(txtDaikin.Text);
                     oxlsSheet.Cells[41, 9] = Utility.StrtoInt(txtDaikin.Text);
@@ -503,6 +503,15 @@ namespace SZOK_OCR.ZAIKO
         private void button1_Click(object sender, EventArgs e)
         {
             NouhinReport();
+        }
+
+        private void txtDenNum_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if ((e.KeyChar < '0' || e.KeyChar > '9') && e.KeyChar != '\b')
+            {
+                e.Handled = true;
+                return;
+            }
         }
     }
 }
