@@ -41,6 +41,7 @@
             // 
             // button1
             // 
+            this.button1.Font = new System.Drawing.Font("ＭＳ ゴシック", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.button1.Location = new System.Drawing.Point(303, 331);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(86, 30);
@@ -51,6 +52,7 @@
             // 
             // button2
             // 
+            this.button2.Font = new System.Drawing.Font("ＭＳ ゴシック", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.button2.Location = new System.Drawing.Point(393, 331);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(86, 30);
@@ -98,9 +100,10 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 16);
+            this.label1.Font = new System.Drawing.Font("ＭＳ ゴシック", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label1.Location = new System.Drawing.Point(15, 17);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(200, 16);
+            this.label1.Size = new System.Drawing.Size(197, 12);
             this.label1.TabIndex = 5;
             this.label1.Text = "回収対象データを選択してください";
             // 

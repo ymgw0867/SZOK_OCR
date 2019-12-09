@@ -70,11 +70,11 @@ namespace SZOK_OCR
             this.Hide();
 
             // 処理するデータを取得
-            frmFaxSelectHaken frmFax = new frmFaxSelectHaken();
-            frmFax.ShowDialog();
+            frmSelectLabel frmLabel = new frmSelectLabel();
+            frmLabel.ShowDialog();
 
-            bool _myBool = frmFax.MyBool;
-            frmFax.Dispose();
+            bool _myBool = frmLabel.MyBool;
+            frmLabel.Dispose();
 
             // ロックファイルを削除する
             Utility.deleteLockFile(Properties.Settings.Default.dataPath, System.Net.Dns.GetHostName());
@@ -90,21 +90,6 @@ namespace SZOK_OCR
                 frm.ShowDialog();
                 Show();
             }
-
-
-
-
-
-
-
-
-
-
-
-            //this.Hide();
-            //frmCorrect frm = new frmCorrect(string.Empty);
-            //frm.ShowDialog();
-            //this.Show();
         }
 
         private void linkLabel5_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -267,28 +252,7 @@ namespace SZOK_OCR
             frm.ShowDialog();
             this.Show();
         }
-
-        private void Button1_Click(object sender, EventArgs e)
-        {
-            // 移動先フォルダがあるか？なければ作成する（TIFフォルダ内の年月フォルダ）
-            if (!System.IO.Directory.Exists(@"\\YUDAI-PC\Users\kyama\test"))
-            {
-                System.IO.Directory.CreateDirectory(@"\\YUDAI-PC\Users\kyama\test");
-            }
-
-            string f1 = @"C:\SZOK_OCR\f1\CCF20160106.tif";
-            //string f2 = @"C:\SZOK_OCR\f2\CCF20160106.tif";
-            string f2 = @"\\YUDAI-PC\Users\kyama\test";
-
-            // ファイルを移動する
-            if (System.IO.File.Exists(f1))
-            {
-                System.IO.File.Move(f1, f2);
-            }
-
-            MessageBox.Show("fin!");
-        }
-
+        
         private void linkLabel8_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             this.Hide();

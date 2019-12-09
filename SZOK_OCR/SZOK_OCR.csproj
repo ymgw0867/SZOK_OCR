@@ -134,11 +134,11 @@
     <Compile Include="frmMainMenu.Designer.cs">
       <DependentUpon>frmMainMenu.cs</DependentUpon>
     </Compile>
-    <Compile Include="OCR\frmFaxSelectHaken.cs">
+    <Compile Include="OCR\frmSelectLabel.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="OCR\frmFaxSelectHaken.designer.cs">
-      <DependentUpon>frmFaxSelectHaken.cs</DependentUpon>
+    <Compile Include="OCR\frmSelectLabel.designer.cs">
+      <DependentUpon>frmSelectLabel.cs</DependentUpon>
     </Compile>
     <Compile Include="OCR\frmZipCode.cs">
       <SubType>Form</SubType>
@@ -241,8 +241,8 @@
       <DependentUpon>frmMainMenu.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="OCR\frmFaxSelectHaken.resx">
-      <DependentUpon>frmFaxSelectHaken.cs</DependentUpon>
+    <EmbeddedResource Include="OCR\frmSelectLabel.resx">
+      <DependentUpon>frmSelectLabel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="OCR\frmZipCode.resx">
       <DependentUpon>frmZipCode.cs</DependentUpon>

@@ -100,7 +100,7 @@
             this.txtBusu.Name = "txtBusu";
             this.txtBusu.Size = new System.Drawing.Size(112, 22);
             this.txtBusu.TabIndex = 9;
-            this.txtBusu.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtBusu.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtBusu.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtDenNum_KeyPress);
             // 
             // label6
@@ -163,7 +163,7 @@
             this.txtDaikin.Name = "txtDaikin";
             this.txtDaikin.Size = new System.Drawing.Size(112, 22);
             this.txtDaikin.TabIndex = 15;
-            this.txtDaikin.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtDaikin.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtDaikin.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtDenNum_KeyPress);
             // 
             // groupBox1
@@ -200,12 +200,12 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("ＭＳ ゴシック", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label2.Location = new System.Drawing.Point(37, 25);
+            this.label2.Location = new System.Drawing.Point(23, 26);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(63, 14);
+            this.label2.Size = new System.Drawing.Size(77, 14);
             this.label2.TabIndex = 16;
-            this.label2.Text = "伝票№：";
+            this.label2.Text = "伝票番号：";
             // 
             // button1
             // 

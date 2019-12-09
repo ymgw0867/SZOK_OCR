@@ -1,6 +1,6 @@
 ﻿namespace SZOK_OCR.OCR
 {
-    partial class frmFaxSelectHaken
+    partial class frmSelectLabel
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmFaxSelectHaken));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmSelectLabel));
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.Dgv1 = new System.Windows.Forms.DataGridView();

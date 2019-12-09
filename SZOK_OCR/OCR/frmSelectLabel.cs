@@ -8,9 +8,9 @@ using SZOK_OCR.Common;
 
 namespace SZOK_OCR.OCR
 {
-    public partial class frmFaxSelectHaken : Form
+    public partial class frmSelectLabel : Form
     {
-        public frmFaxSelectHaken()
+        public frmSelectLabel()
         {
             InitializeComponent();
 
