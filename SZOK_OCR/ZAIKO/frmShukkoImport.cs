@@ -42,7 +42,7 @@ namespace SZOK_OCR.ZAIKO
 
         ///----------------------------------------------------------------------------------
         /// <summary>
-        ///     Excel日計表から出庫内容を表示する </summary>
+        ///     Excel日計表の入力管理シートから出庫データを登録する </summary>
         /// <param name="pFile">
         ///     Excel日計表パス</param>
         ///----------------------------------------------------------------------------------
@@ -52,6 +52,10 @@ namespace SZOK_OCR.ZAIKO
             Excel.Workbook oXlsBook = null;
             Excel.Worksheet oxlsSheet = null;
 
+            DateTime dtn = DateTime.Now;
+
+            listBox1.Items.Add("処理を開始しました..... " + dtn.ToShortDateString() + "   " + dtn.ToShortTimeString() + ":" + dtn.Second);
+            
             try
             {
                 // オブジェクト２次元配列（エクセルシートの内容を受け取る）
@@ -156,7 +160,9 @@ namespace SZOK_OCR.ZAIKO
                         Application.DoEvents();
                     }
 
-                    listBox1.Items.Add("終了しました.....  追加登録：" + rCnt.ToString("#,##0") + "件、登録済スキップ：" + sCnt.ToString("#,##0") + "件");
+                    dtn = DateTime.Now;
+                    listBox1.Items.Add("終了しました.....  追加登録：" + rCnt.ToString("#,##0") + "件、登録済スキップ：" + sCnt.ToString("#,##0") + "件  "
+                        + dtn.ToShortDateString() + "   " + dtn.ToShortTimeString() + ":" + dtn.Second);
                     listBox1.TopIndex = listBox1.Items.Count - 1;
 
                     System.Threading.Thread.Sleep(1000);
@@ -193,6 +199,12 @@ namespace SZOK_OCR.ZAIKO
         }
 
 
+        ///----------------------------------------------------------------------------------
+        /// <summary>
+        ///     年度別防犯登録票配布シートから出庫データを登録する </summary>
+        /// <param name="pFile">
+        ///     Excel日計表パス</param>
+        ///----------------------------------------------------------------------------------
         private void shukkoMs(string sPath)
         {
             Cursor = Cursors.WaitCursor;

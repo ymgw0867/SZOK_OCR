@@ -47,7 +47,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("ＭＳ ゴシック", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label1.Location = new System.Drawing.Point(15, 24);
+            this.label1.Location = new System.Drawing.Point(15, 15);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(287, 14);
             this.label1.TabIndex = 0;
@@ -58,7 +58,7 @@
             this.label2.BackColor = System.Drawing.Color.White;
             this.label2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.label2.Font = new System.Drawing.Font("游ゴシック", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label2.Location = new System.Drawing.Point(18, 43);
+            this.label2.Location = new System.Drawing.Point(18, 39);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(724, 25);
             this.label2.TabIndex = 1;
@@ -68,7 +68,7 @@
             // button1
             // 
             this.button1.Font = new System.Drawing.Font("ＭＳ ゴシック", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.button1.Location = new System.Drawing.Point(680, 15);
+            this.button1.Location = new System.Drawing.Point(308, 8);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(62, 25);
             this.button1.TabIndex = 2;
@@ -118,7 +118,7 @@
             this.listBox1.Font = new System.Drawing.Font("游ゴシック", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.listBox1.FormattingEnabled = true;
             this.listBox1.ItemHeight = 16;
-            this.listBox1.Location = new System.Drawing.Point(17, 76);
+            this.listBox1.Location = new System.Drawing.Point(17, 72);
             this.listBox1.Name = "listBox1";
             this.listBox1.Size = new System.Drawing.Size(725, 292);
             this.listBox1.TabIndex = 6;
@@ -163,7 +163,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmShukkoImport";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "防犯登録カード出庫データ読み込み";
+            this.Text = "防犯登録カード出庫データ取り込み";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmShukkoImport_FormClosing);
             this.Load += new System.EventHandler(this.frmShukkoImport_Load);
             this.statusStrip1.ResumeLayout(false);

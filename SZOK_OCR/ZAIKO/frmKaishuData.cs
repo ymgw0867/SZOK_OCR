@@ -28,8 +28,15 @@ namespace SZOK_OCR.ZAIKO
             comboBox1.SelectedIndex = 0;
         }
 
+        ///-----------------------------------------------------------------
+        /// <summary>
+        ///     SCAN_DATA方から回収データを登録する </summary>
+        ///-----------------------------------------------------------------
         private void SDataToKaishu()
         {
+            DateTime dtn = DateTime.Now;
+            listBox1.Items.Add("処理を開始しました..... " + dtn.ToShortDateString() + "   " + dtn.ToShortTimeString() + ":" + dtn.Second);
+
             int cnt = 0;
             int rCnt = 0;
 
@@ -73,7 +80,9 @@ namespace SZOK_OCR.ZAIKO
                     }
                 }
 
-                listBox1.Items.Add("終了しました.....  登録：" + rCnt.ToString("#,##0") + "件");
+                dtn = DateTime.Now;
+                listBox1.Items.Add("終了しました.....  登録：" + rCnt.ToString("#,##0") + "件    " + 
+                    dtn.ToShortDateString() + " " + dtn.ToShortTimeString() + ":" + dtn.Second);
                 listBox1.TopIndex = listBox1.Items.Count - 1;
 
                 System.Threading.Thread.Sleep(1000);
@@ -91,8 +100,15 @@ namespace SZOK_OCR.ZAIKO
             }
         }
 
+        ///-----------------------------------------------------------------
+        /// <summary>
+        ///     SCAN_DATA方から回収データを登録する </summary>
+        ///-----------------------------------------------------------------
         private void BDataToKaishu()
         {
+            DateTime dtn = DateTime.Now;
+            listBox1.Items.Add("処理を開始しました..... " + dtn.ToShortDateString() + "   " + dtn.ToShortTimeString() + ":" + dtn.Second);
+
             int cnt = 0;
             int rCnt = 0;
 
@@ -136,7 +152,9 @@ namespace SZOK_OCR.ZAIKO
                     }
                 }
 
-                listBox1.Items.Add("終了しました.....  登録：" + rCnt.ToString("#,##0") + "件");
+                dtn = DateTime.Now;
+                listBox1.Items.Add("終了しました.....  登録：" + rCnt.ToString("#,##0") + "件    " +
+                    dtn.ToShortDateString() + " " + dtn.ToShortTimeString() + ":" + dtn.Second);
                 listBox1.TopIndex = listBox1.Items.Count - 1;
 
                 System.Threading.Thread.Sleep(1000);

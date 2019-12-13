@@ -34,6 +34,8 @@
             this.Dgv1 = new System.Windows.Forms.DataGridView();
             this.lblDataCnt = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.lblOCRCnt = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.Dgv1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -41,7 +43,7 @@
             // 
             this.button1.BackColor = System.Drawing.SystemColors.Control;
             this.button1.Font = new System.Drawing.Font("ＭＳ ゴシック", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.button1.Location = new System.Drawing.Point(272, 478);
+            this.button1.Location = new System.Drawing.Point(272, 506);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(78, 28);
             this.button1.TabIndex = 4;
@@ -53,7 +55,7 @@
             // 
             this.button2.BackColor = System.Drawing.SystemColors.Control;
             this.button2.Font = new System.Drawing.Font("ＭＳ ゴシック", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.button2.Location = new System.Drawing.Point(355, 478);
+            this.button2.Location = new System.Drawing.Point(355, 506);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(78, 28);
             this.button2.TabIndex = 5;
@@ -76,7 +78,7 @@
             // 
             this.lblDataCnt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblDataCnt.Font = new System.Drawing.Font("ＭＳ ゴシック", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.lblDataCnt.Location = new System.Drawing.Point(376, 427);
+            this.lblDataCnt.Location = new System.Drawing.Point(376, 458);
             this.lblDataCnt.Name = "lblDataCnt";
             this.lblDataCnt.Size = new System.Drawing.Size(57, 26);
             this.lblDataCnt.TabIndex = 8;
@@ -86,18 +88,40 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("ＭＳ ゴシック", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label1.Location = new System.Drawing.Point(139, 432);
+            this.label1.Location = new System.Drawing.Point(139, 463);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(232, 16);
             this.label1.TabIndex = 9;
             this.label1.Text = "現在、処理中の防犯登録データ\r\n";
             // 
-            // frmFaxSelectHaken
+            // lblOCRCnt
+            // 
+            this.lblOCRCnt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblOCRCnt.Font = new System.Drawing.Font("ＭＳ ゴシック", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.lblOCRCnt.Location = new System.Drawing.Point(376, 427);
+            this.lblOCRCnt.Name = "lblOCRCnt";
+            this.lblOCRCnt.Size = new System.Drawing.Size(57, 26);
+            this.lblOCRCnt.TabIndex = 10;
+            this.lblOCRCnt.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("ＭＳ ゴシック", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label3.Location = new System.Drawing.Point(131, 432);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(240, 16);
+            this.label3.TabIndex = 11;
+            this.label3.Text = "前バージョンのOCR認識後データ\r\n";
+            // 
+            // frmSelectLabel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(444, 518);
+            this.ClientSize = new System.Drawing.Size(444, 543);
             this.ControlBox = false;
+            this.Controls.Add(this.lblOCRCnt);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.lblDataCnt);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.Dgv1);
@@ -105,7 +129,7 @@
             this.Controls.Add(this.button1);
             this.Font = new System.Drawing.Font("ＭＳ ゴシック", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "frmFaxSelectHaken";
+            this.Name = "frmSelectLabel";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "処理を行うラベルを選択してください";
             this.Load += new System.EventHandler(this.frmFaxSelect_Load);
@@ -121,5 +145,7 @@
         private System.Windows.Forms.DataGridView Dgv1;
         private System.Windows.Forms.Label lblDataCnt;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblOCRCnt;
+        private System.Windows.Forms.Label label3;
     }
 }

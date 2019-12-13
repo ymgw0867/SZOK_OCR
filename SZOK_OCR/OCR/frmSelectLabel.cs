@@ -70,7 +70,11 @@ namespace SZOK_OCR.OCR
             int val = dts.防犯カード.Count();
             lblDataCnt.Text = val.ToString("#,##0");
 
-            return val;
+            // 前バージョンのＯＣＲ認識後データ
+            int ocrCnt = System.IO.Directory.GetFiles(Properties.Settings.Default.dataPath, "*.csv").Count();
+            lblOCRCnt.Text = ocrCnt.ToString("#,##0");
+
+            return val + ocrCnt;
         }
 
         ///-----------------------------------------------------------------
@@ -279,7 +283,7 @@ namespace SZOK_OCR.OCR
                 }
             }
 
-            dCnt += Utility.StrtoInt(lblDataCnt.Text);
+            dCnt += Utility.StrtoInt(lblOCRCnt.Text) + Utility.StrtoInt(lblDataCnt.Text);
 
             return dCnt;
         }
@@ -302,7 +306,7 @@ namespace SZOK_OCR.OCR
 
                     foreach (var t in dtsC.SCAN_DATA)
                     {
-                        // 防犯登録データに出力
+                        // 共有のSCAN_DATAをローカルの防犯登録データに出力
                         dAdp.Insert(t.データ区分, t.画像名, t.登録年, t.登録月, t.登録日, t.登録番号, t.車体番号,
                             t.メーカー, t.塗色, t.車種, t.郵便番号1, t.郵便番号2, t.車両番号1, t.車両番号2, t.車名,
                             t.住所漢字, t.住所1, string.Empty, t.氏名, t.TEL携帯, t.TEL携帯2, t.TEL携帯3, t.PC名, t.CSV作成日,
@@ -344,13 +348,13 @@ namespace SZOK_OCR.OCR
                 }
                 else
                 {
-                    if (Utility.StrtoInt(lblDataCnt.Text) == global.flgOff)
+                    if ((Utility.StrtoInt(lblDataCnt.Text) + Utility.StrtoInt(lblOCRCnt.Text)) > global.flgOff)
                     {
-                        button1.Enabled = false;
+                        button1.Enabled = true;
                     }
                     else
                     {
-                        button1.Enabled = true;
+                        button1.Enabled = false;
                     }
                 }
             }

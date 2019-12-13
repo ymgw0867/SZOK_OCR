@@ -51,6 +51,9 @@ namespace SZOK_OCR
                 return;
             }
 
+            // 前バージョンのＯＣＲ認識後データ
+            int ocrCnt = System.IO.Directory.GetFiles(Properties.Settings.Default.dataPath, "*.csv").Count();
+            
             // ＯＣＲ認識したスキャンデータ件数
             int s = sAdp.Fill(dtsC.SCAN_DATA);
 
@@ -58,7 +61,7 @@ namespace SZOK_OCR
             int d = adp.Fill(dts.防犯カード);
 
             // 処理可能なデータが存在するか？
-            if (s == 0 && d == 0)
+            if ((ocrCnt + s + d) == 0)
             {
                 MessageBox.Show("現在、処理可能なＯＣＲ認識された防犯登録データはありません", "確認", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;

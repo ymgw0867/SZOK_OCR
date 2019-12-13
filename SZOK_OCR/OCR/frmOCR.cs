@@ -426,7 +426,7 @@ namespace SZOK_OCR.OCR
 
             // 画像ファイルをSCANDATAフォルダへ移動 : 2019/11/15
             foreach (string files in System.IO.Directory.GetFiles(Properties.Settings.Default.dataPath, "*.tif"))
-            {                
+            {
                 System.IO.File.Move(files, Properties.Settings.Default.scanDataPath + System.IO.Path.GetFileName(files));
             }
 
