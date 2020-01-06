@@ -74,8 +74,8 @@ namespace SZOK_OCR.ZAIKO
                             listBox1.Items.Add(ocrdt + " " + t.登録番号 + " " + s.店名 + ".....  " + cnt + "/" + n);
                             listBox1.TopIndex = listBox1.Items.Count - 1;
 
-                            System.Threading.Thread.Sleep(100);
-                            Application.DoEvents();
+                            //System.Threading.Thread.Sleep(80);
+                            //Application.DoEvents();
                         }
                     }
                 }
@@ -146,8 +146,8 @@ namespace SZOK_OCR.ZAIKO
                             listBox1.Items.Add(ocrdt + " " + t.登録番号 + " " + s.店名 + ".....  " + cnt + "/" + n);
                             listBox1.TopIndex = listBox1.Items.Count - 1;
 
-                            System.Threading.Thread.Sleep(100);
-                            Application.DoEvents();
+                            //System.Threading.Thread.Sleep(80);
+                            //Application.DoEvents();
                         }
                     }
                 }

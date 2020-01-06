@@ -7,7 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using SZOK_OCR.Common;
-using MyLibrary;
 
 namespace SZOK_OCR.DATA
 {

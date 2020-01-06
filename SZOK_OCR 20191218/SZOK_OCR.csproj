@@ -56,7 +56,7 @@
     <Reference Include="Leadtools.WinForms.CommonDialogs.File, Version=16.5.0.0, Culture=neutral, PublicKeyToken=9cf889f53ea9b907, processorArchitecture=x86" />
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="MyLibrary">
-      <HintPath>..\MyLibrary.dll</HintPath>
+      <HintPath>..\..\..\Users\nakayoshi\Documents\MyLibrary.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

@@ -304,10 +304,7 @@ namespace SZOK_OCR.OCR
 
                     adp.FillByLabel(dtsC.SCAN_DATA, lbl);
 
-                    //foreach (var t in dtsC.SCAN_DATA) // 2020/01/06 コメント化
-
-                    // 2020/01/06 ID順に読み込み
-                    foreach (var t in dtsC.SCAN_DATA.OrderBy(a => a.ID))
+                    foreach (var t in dtsC.SCAN_DATA)
                     {
                         // 共有のSCAN_DATAをローカルの防犯登録データに出力
                         dAdp.Insert(t.データ区分, t.画像名, t.登録年, t.登録月, t.登録日, t.登録番号, t.車体番号,

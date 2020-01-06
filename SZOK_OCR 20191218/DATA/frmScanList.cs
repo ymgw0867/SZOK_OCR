@@ -7,19 +7,18 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using SZOK_OCR.Common;
-using MyLibrary;
 
 namespace SZOK_OCR.DATA
 {
-    public partial class frmCardList : Form
+    public partial class frmScanList : Form
     {
-        public frmCardList()
+        public frmScanList()
         {
             InitializeComponent();
         }
 
         cardDataSet dts = new cardDataSet();
-        cardDataSetTableAdapters.防犯登録データTableAdapter adp = new cardDataSetTableAdapters.防犯登録データTableAdapter();
+        cardDataSetTableAdapters.SCAN_DATATableAdapter adp = new cardDataSetTableAdapters.SCAN_DATATableAdapter();
 
         global g = new global();
 
@@ -40,6 +39,8 @@ namespace SZOK_OCR.DATA
         string colID = "colID";
         string colCsv = "col14";
         string colJyogai = "col15";
+        string colLabel = "col16";
+        string colName = "col17";
 
         private void frmCardList_Load(object sender, EventArgs e)
         {
@@ -53,9 +54,6 @@ namespace SZOK_OCR.DATA
 
             // 検索欄初期化
             dispInitial();
-
-            //// 2019/06/25
-            //adp.Fill(dts.防犯登録データ);
         }
 
         ///-----------------------------------------------------------------
@@ -97,13 +95,9 @@ namespace SZOK_OCR.DATA
             txtsTel1.Text = string.Empty;
             txtsTel2.Text = string.Empty;
             txtsTel3.Text = string.Empty;
-
-            comboBox1.SelectedIndex = 0;
-            label21.Enabled = false;
-            dateTimePicker1.Enabled = false;
-
             linkLabel2.Enabled = false;
-            chkJyogai.Checked = false;      // 2016/05/30
+            txtLabel.Text = string.Empty;
+            txtName.Text = string.Empty;
         }
 
         ///--------------------------------------------------------------------
@@ -158,8 +152,10 @@ namespace SZOK_OCR.DATA
                 tempDGV.Columns.Add(colAdd, "住所");
                 tempDGV.Columns.Add(colFuri, "氏名");
                 tempDGV.Columns.Add(colTel, "ＴＥＬ／携帯");
-                tempDGV.Columns.Add(colCsv, "静岡県警用CSV作成");
-                tempDGV.Columns.Add(colJyogai, "除外");
+                //tempDGV.Columns.Add(colCsv, "静岡県警用CSV作成");
+                //tempDGV.Columns.Add(colJyogai, "除外");
+                tempDGV.Columns.Add(colLabel, "ラベル名");
+                tempDGV.Columns.Add(colName, "処理担当者");
                 tempDGV.Columns.Add(colID, "");
 
                 tempDGV.Columns[colID].Visible = false;
@@ -177,13 +173,18 @@ namespace SZOK_OCR.DATA
                 tempDGV.Columns[colAdd].Width = 300;
                 tempDGV.Columns[colFuri].Width = 120;
                 tempDGV.Columns[colTel].Width = 120;
-                tempDGV.Columns[colCsv].Width = 170;
-                tempDGV.Columns[colJyogai].Width = 60;
 
-                tempDGV.Columns[colyymmdd].DefaultCellStyle.Alignment = DataGridViewContentAlignment.BottomCenter;
-                tempDGV.Columns[colZip].DefaultCellStyle.Alignment = DataGridViewContentAlignment.BottomCenter;
-                tempDGV.Columns[colCsv].DefaultCellStyle.Alignment = DataGridViewContentAlignment.BottomCenter;
-                tempDGV.Columns[colJyogai].DefaultCellStyle.Alignment = DataGridViewContentAlignment.BottomCenter;
+                //tempDGV.Columns[colCsv].Width = 170;
+                //tempDGV.Columns[colJyogai].Width = 60;
+
+                tempDGV.Columns[colLabel].Width = 140;
+                tempDGV.Columns[colName].Width = 100;
+
+                tempDGV.Columns[colyymmdd].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                tempDGV.Columns[colZip].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                //tempDGV.Columns[colCsv].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                //tempDGV.Columns[colJyogai].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                tempDGV.Columns[colLabel].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
                 // 行ヘッダを表示しない
                 tempDGV.RowHeadersVisible = false;
@@ -234,6 +235,7 @@ namespace SZOK_OCR.DATA
                 return;
             }
 
+            // リスト表示
             dataShow();
         }
 
@@ -251,16 +253,17 @@ namespace SZOK_OCR.DATA
             dg.Rows.Clear();
 
             // 2019/06/25
-            System.Threading.Thread.Sleep(100);
+            System.Threading.Thread.Sleep(1000);
             Application.DoEvents();
 
             // 2019/06/25
             this.Cursor = Cursors.WaitCursor;
 
             // 2019/11/15
-            adp.FillByYear(dts.防犯登録データ, Utility.StrtoInt(txtsYY.Text).ToString());
+            adp.FillByYear(dts.SCAN_DATA, txtsYY.Text);
 
-            var s = dts.防犯登録データ.OrderBy(q => q.登録番号);
+
+            var s = dts.SCAN_DATA.OrderBy(q => q.登録番号);
 
             // データ種別
             if (cmbShubetsu.SelectedIndex > 0)
@@ -369,33 +372,45 @@ namespace SZOK_OCR.DATA
                 s = s.Where(q => q.TEL携帯3.Contains(txtsTel3.Text)).OrderBy(q => q.登録番号);
             }
 
-            // 県警用CSV作成：作成済み
-            if (comboBox1.SelectedIndex == 1 && !dateTimePicker1.Checked)
+            //// 県警用CSV作成：作成済み
+            //if (comboBox1.SelectedIndex == 1 && !dateTimePicker1.Checked)
+            //{
+            //    s = s.Where(q => !q.IsCSV作成日Null() && q.CSV作成日 != string.Empty).OrderBy(q => q.登録番号);
+            //}
+
+            //// 県警用CSV作成：作成日付指定
+            //if (comboBox1.SelectedIndex == 1 && dateTimePicker1.Checked)
+            //{
+            //    string dt = dateTimePicker1.Value.ToShortDateString().Replace("/", "");
+            //    s = s.Where(q => !q.IsCSV作成日Null() && q.CSV作成日.Contains(dt)).OrderBy(q => q.登録番号);
+            //}
+
+            //// 県警用CSV作成：未作成
+            //if (comboBox1.SelectedIndex == 2)
+            //{
+            //    s = s.Where(q => q.IsCSV作成日Null() || q.CSV作成日 == string.Empty).OrderBy(q => q.登録番号);
+            //}
+
+            //// 除外データ
+            //if (chkJyogai.Checked)
+            //{
+            //    s = s.Where(q => !q.Is除外Null() && q.除外 == global.flgOn).OrderBy(q => q.登録番号);
+            //}
+            //else
+            //{
+            //    s = s.Where(q => q.Is除外Null() || q.除外 == global.flgOff).OrderBy(q => q.登録番号);
+            //}
+
+            // ラベル名
+            if (txtLabel.Text != string.Empty)
             {
-                s = s.Where(q => !q.IsCSV作成日Null() && q.CSV作成日 != string.Empty).OrderBy(q => q.登録番号);
+                s = s.Where(q => q.ラベル.Contains(txtLabel.Text)).OrderBy(q => q.登録番号);
             }
 
-            // 県警用CSV作成：作成日付指定
-            if (comboBox1.SelectedIndex == 1 && dateTimePicker1.Checked)
+            // 処理担当者名
+            if (txtName.Text != string.Empty)
             {
-                string dt = dateTimePicker1.Value.ToShortDateString().Replace("/", "");
-                s = s.Where(q => !q.IsCSV作成日Null() && q.CSV作成日.Contains(dt)).OrderBy(q => q.登録番号);
-            }
-
-            // 県警用CSV作成：未作成
-            if (comboBox1.SelectedIndex == 2)
-            {
-                s = s.Where(q => q.IsCSV作成日Null() || q.CSV作成日 == string.Empty).OrderBy(q => q.登録番号);
-            }
-
-            // 除外データ
-            if (chkJyogai.Checked)
-            {
-                s = s.Where(q => !q.Is除外Null() && q.除外 == global.flgOn).OrderBy(q => q.登録番号);
-            }
-            else
-            {
-                s = s.Where(q => q.Is除外Null() || q.除外 == global.flgOff).OrderBy(q => q.登録番号);
+                s = s.Where(q => q.処理担当者.Contains(txtName.Text)).OrderBy(q => q.登録番号);
             }
 
             int iX = 0;
@@ -408,7 +423,7 @@ namespace SZOK_OCR.DATA
 
             if (s.Count() > 0)
             {
-                dg.Rows.Add(s.Count());     // 2019/11/15
+                dg.Rows.Add(s.Count());
             }
 
             foreach (var t in s)
@@ -446,26 +461,28 @@ namespace SZOK_OCR.DATA
                 dg[colFuri, iX].Value = t.氏名;
                 dg[colTel, iX].Value = t.TEL携帯.Trim() + "-" + t.TEL携帯2.Trim() + "-" + t.TEL携帯3.Trim();
 
-                if (t.IsCSV作成日Null())
-                {
-                    dg[colCsv, iX].Value = string.Empty;
-                }
-                else
-                {
-                    dg[colCsv, iX].Value = t.CSV作成日;
-                }
+                //if (t.IsCSV作成日Null())
+                //{
+                //    dg[colCsv, iX].Value = string.Empty;
+                //}
+                //else
+                //{
+                //    dg[colCsv, iX].Value = t.CSV作成日;
+                //}
 
                 dg[colID, iX].Value = t.ID;
 
-                if (!t.Is除外Null() && t.除外 == global.flgOn)
-                {
-                    dg[colJyogai, iX].Value = "◯";
-                }
-                else
-                {
-                    dg[colJyogai, iX].Value = "";
-                }
+                //if (!t.Is除外Null() && t.除外 == global.flgOn)
+                //{
+                //    dg[colJyogai, iX].Value = "◯";
+                //}
+                //else
+                //{
+                //    dg[colJyogai, iX].Value = "";
+                //}
 
+                dg[colLabel, iX].Value = t.ラベル;
+                dg[colName, iX].Value = t.処理担当者;
 
                 iX++;
             }
@@ -534,7 +551,7 @@ namespace SZOK_OCR.DATA
 
         private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            MyLibrary.CsvOut.GridView(dg, "防犯登録カードデータ");
+            MyLibrary.CsvOut.GridView(dg, "スキャンデータ");
         }
 
         private void dg_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -543,17 +560,17 @@ namespace SZOK_OCR.DATA
             {
                 // 指定データとカード画像を表示
                 int iX = Utility.StrtoInt(dg[colID, e.RowIndex].Value.ToString());
-                showPastData(iX);
+                showScanData(iX);
 
-                // データ再表示
-                dataShow();
+                //// データ再表示
+                //dataShow();
             }
         }
 
-        private void showPastData(int iX)
+        private void showScanData(int iX)
         {
             this.Hide();
-            frmPastData frm = new frmPastData(iX);
+            frmScanData frm = new frmScanData(iX);
             frm.ShowDialog();
             this.Show();
         }
@@ -567,22 +584,7 @@ namespace SZOK_OCR.DATA
             }
         }
 
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (comboBox1.SelectedIndex == 1)
-            {
-                label21.Enabled = true;
-                dateTimePicker1.Enabled = true;
-                dateTimePicker1.Checked = false;
-            }
-            else
-            {
-                label21.Enabled = false;
-                dateTimePicker1.Enabled = false;
-            }
-        }
-
-        private void FrmCardList_Shown(object sender, EventArgs e)
+        private void FrmScanList_Shown(object sender, EventArgs e)
         {
             txtsYY.Text = (DateTime.Now.Year - 2000).ToString();
         }

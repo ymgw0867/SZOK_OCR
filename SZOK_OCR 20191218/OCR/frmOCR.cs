@@ -408,20 +408,6 @@ namespace SZOK_OCR.OCR
 
             this.Hide();
 
-
-            // 現在のDATAフォルダの画像を一時的に退避する 2020/01/06
-            string taihiPath = @"c:\SZOK_OCR\DATATAIHI\";
-            if (!System.IO.Directory.Exists(taihiPath))
-            {
-                System.IO.Directory.CreateDirectory(taihiPath);
-            }
-
-            // DATAフォルダ画像を退避先フォルダへ移動 : 2020/01/06
-            foreach (string files in System.IO.Directory.GetFiles(Properties.Settings.Default.dataPath, "*.tif"))
-            {
-                System.IO.File.Move(files, taihiPath + System.IO.Path.GetFileName(files));
-            }
-
             // マルチTiff画像をシングルtifに分解する(SCANフォルダ → TRAYフォルダ)
             if (!MultiTif(Properties.Settings.Default.scanPath, Properties.Settings.Default.trayPath))
             {
@@ -446,12 +432,6 @@ namespace SZOK_OCR.OCR
 
             // ラベル発行：2019/11/12
             LabelReport(label3.Text, txtName.Text);
-
-            // 退避先フォルダから画像ファイルをDATAフォルダへ戻し入れ : 2020/01/06
-            foreach (string files in System.IO.Directory.GetFiles(taihiPath, "*.tif"))
-            {
-                System.IO.File.Move(files, Properties.Settings.Default.dataPath + System.IO.Path.GetFileName(files));
-            }
 
             // フォームを閉じる
             this.Close();
