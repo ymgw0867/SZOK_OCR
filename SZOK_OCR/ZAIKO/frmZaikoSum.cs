@@ -48,6 +48,9 @@ namespace SZOK_OCR.ZAIKO
         string colSNum = "col7";
         string colENum = "col8";
 
+        // 返品番号配列
+        string[] HenpinNum = null;
+
         ///--------------------------------------------------------------------
         /// <summary>
         ///     データグリッドビューの定義を行います </summary>
@@ -81,7 +84,7 @@ namespace SZOK_OCR.ZAIKO
                 tempDGV.RowTemplate.Height = 20;
 
                 // 全体の高さ
-                tempDGV.Height = 502;
+                tempDGV.Height = 482;
 
                 // 奇数行の色
                 tempDGV.AlternatingRowsDefaultCellStyle.BackColor = SystemColors.ControlLight;
@@ -156,6 +159,12 @@ namespace SZOK_OCR.ZAIKO
 
         private void button1_Click(object sender, EventArgs e)
         {
+            if (label3.Text != string.Empty)
+            {
+                // 無効PCA登録番号配列作成 2020/01/08
+                GetExcelData(label3.Text);
+            }
+
             if (comboBox1.SelectedIndex == 0)
             {
                 ZaikoSummary(dataGridView1);
@@ -234,6 +243,13 @@ namespace SZOK_OCR.ZAIKO
                     g[colENum, iX].Value = t.終了登録番号;
                     g[colShukko, iX].Value = t.部数.ToString("#,##0");
                     int kaishu = t.Get回収データRows().Count();
+
+                    if (label3.Text != string.Empty)
+                    {
+                        // 無効PCA登録番号を回収数に加算：2020/01/08
+                        kaishu += GetDisabledCount(t.開始登録番号, t.終了登録番号, HenpinNum);
+                    }
+
                     g[colKaishu, iX].Value = kaishu.ToString("#,##0");
                     g[colZansu, iX].Value = (t.部数 - kaishu).ToString("#,##0");
 
@@ -292,6 +308,35 @@ namespace SZOK_OCR.ZAIKO
             {
                 Cursor = Cursors.Default;
             }
+        }
+
+        ///-----------------------------------------------------------------------
+        /// <summary>
+        ///     出庫データに紐づけされる無効データの件数を取得する </summary>
+        /// <param name="sNum">
+        ///     開始登録番号</param>
+        /// <param name="eNum">
+        ///     終了登録番号</param>
+        /// <param name="disArray">
+        ///     無効データ配列</param>
+        /// <returns>
+        ///     紐づけ件数</returns>
+        ///-----------------------------------------------------------------------
+        private int GetDisabledCount(int sNum, int eNum, string [] disArray)
+        {
+            int rtn = 0;
+
+            for (int i = 0; i < disArray.Length; i++)
+            {
+                int dNum = Utility.StrtoInt(disArray[i]);
+
+                if (sNum <= dNum && dNum <= eNum)
+                {
+                    rtn++;
+                }
+            }
+
+            return rtn;
         }
 
 
@@ -591,6 +636,82 @@ namespace SZOK_OCR.ZAIKO
             finally
             {
                 Cursor = Cursors.Default;
+            }
+        }
+
+
+
+        ///----------------------------------------------------------------------------------
+        /// <summary>
+        ///     Excelシートから返品登録番号を取得し配列に登録する </summary>
+        /// <param name="pFile">
+        ///     Excelパス</param>
+        ///----------------------------------------------------------------------------------
+        private void GetExcelData(string sPath)
+        {
+            Cursor = Cursors.WaitCursor;
+
+            int rNum = 0;
+            int iX = 0;
+
+            try
+            {
+                IXLWorkbook bk;
+
+                using (bk = new XLWorkbook(sPath, XLEventTracking.Disabled))
+                {
+                    var sheet1 = bk.Worksheet(1);
+                    var tbl = sheet1.RangeUsed().AsTable();
+
+                    int n = tbl.Rows().Count();
+
+                    foreach (var t in tbl.Rows())
+                    {
+                        if (t.RowNumber() < 2)
+                        {
+                            continue;
+                        }
+
+                        if (Utility.nulltoStr2(t.Cell(1).Value) == string.Empty)
+                        {
+                            continue;
+                        }
+
+                        Array.Resize(ref HenpinNum, iX + 1);
+                        HenpinNum[iX] = Utility.nulltoStr2(t.Cell(1).Value);
+
+                        iX++;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(rNum + Environment.NewLine + ex.Message);
+            }
+            finally
+            {
+                Cursor = Cursors.Default;
+            }
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            openFileDialog1.Title = "無効PCA登録番号エクセルシート選択";
+            openFileDialog1.FileName = string.Empty;
+            openFileDialog1.Filter = "エクセルファイル(*.xlsx,*.xls)|*.xlsx;*.xls|全てのファイル(*.*)|*.*";
+
+            //ダイアログボックスを表示し「保存」ボタンが選択されたらファイル名を表示
+            string fileName;
+            DialogResult ret = openFileDialog1.ShowDialog();
+
+            if (ret == System.Windows.Forms.DialogResult.OK)
+            {
+                fileName = openFileDialog1.FileName;
+                label3.Text = openFileDialog1.FileName;
+            }
+            else
+            {
+                fileName = string.Empty;
             }
         }
     }
