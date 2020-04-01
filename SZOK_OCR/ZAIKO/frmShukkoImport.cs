@@ -151,7 +151,7 @@ namespace SZOK_OCR.ZAIKO
 
                         cnt++;
 
-                        toolStripProgressBar1.Value = cnt;
+                        //toolStripProgressBar1.Value = cnt;
 
                         listBox1.Items.Add(dt.ToShortDateString() + "  " + Utility.nulltoStr2(objArray[i, 4]) + msg + cnt + "/" + toRow);
                         listBox1.TopIndex = listBox1.Items.Count - 1;
