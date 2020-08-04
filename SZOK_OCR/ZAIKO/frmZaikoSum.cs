@@ -26,6 +26,9 @@ namespace SZOK_OCR.ZAIKO
         cardDataSetTableAdapters.出庫データTableAdapter sAdp = new cardDataSetTableAdapters.出庫データTableAdapter();
         cardDataSetTableAdapters.回収データTableAdapter kAdp = new cardDataSetTableAdapters.回収データTableAdapter();
 
+        // 2020/07/20
+        cardDataSetTableAdapters.回収データTableAdapter k2Adp = new cardDataSetTableAdapters.回収データTableAdapter();
+
         private void frmZaikoSum_Load(object sender, EventArgs e)
         {
             dateTimePicker1.Checked = false;
@@ -242,7 +245,9 @@ namespace SZOK_OCR.ZAIKO
                     g[colSNum, iX].Value = t.開始登録番号;
                     g[colENum, iX].Value = t.終了登録番号;
                     g[colShukko, iX].Value = t.部数.ToString("#,##0");
-                    int kaishu = t.Get回収データRows().Count();
+                    //int kaishu = t.Get回収データRows().Count();
+
+                    int kaishu = (int)k2Adp.IDCount(t.ID);  // 重複を除いた件数を取得 2020/07/20                    
 
                     if (label3.Text != string.Empty)
                     {
@@ -414,7 +419,12 @@ namespace SZOK_OCR.ZAIKO
                     for (int i = 0; i < 2; i++)
                     {
                         ShukkoTl[i] += t.部数;
-                        KaishuTl[i] += t.Get回収データRows().Count();
+
+                        // 2020/08/04 コメント化
+                        //KaishuTl[i] += t.Get回収データRows().Count();
+
+                        int kaishu = (int)k2Adp.IDCount(t.ID);  // 重複を除いた件数を取得 2020/07/20 
+                        KaishuTl[i] += kaishu;  // 2020/08/04
                     }
 
                     Tenban = t.店番;

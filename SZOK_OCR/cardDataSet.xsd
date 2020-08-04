@@ -272,6 +272,16 @@ where 回収データ.防犯登録ID is null</CommandText>
                   </DbCommand>
                 </SelectCommand>
               </DbSource>
+              <DbSource ConnectionRef="SZOK_CARDConnectionString (Settings)" DbObjectName="防犯登録データ" DbObjectType="Table" FillMethodModifier="Public" FillMethodName="FillByNonkaishu202007" GenerateMethods="Both" GenerateShortCommands="true" GeneratorGetMethodName="GetDataByNonkaishu202007" GeneratorSourceName="FillByNonkaishu202007" GetMethodModifier="Public" GetMethodName="GetDataByNonkaishu202007" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataByNonkaishu202007" UserSourceName="FillByNonkaishu202007">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT  防犯登録データ.* 
+FROM 防犯登録データ left JOIN 回収データ ON 防犯登録データ.登録番号  = "CPA" &amp; 回収データ.登録番号  
+where 回収データ.登録番号 is null</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
               <DbSource ConnectionRef="SZOK_CARDConnectionString (Settings)" DbObjectName="防犯登録データ" DbObjectType="Table" FillMethodModifier="Public" FillMethodName="FillByYear" GenerateMethods="Both" GenerateShortCommands="true" GeneratorGetMethodName="GetDataByYear" GeneratorSourceName="FillByYear" GetMethodModifier="Public" GetMethodName="GetDataByYear" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataByYear" UserSourceName="FillByYear">
                 <SelectCommand>
                   <DbCommand CommandType="Text" ModifiedByUser="true">
@@ -639,6 +649,16 @@ where 回収データ.SCANID is null</CommandText>
                   </DbCommand>
                 </SelectCommand>
               </DbSource>
+              <DbSource ConnectionRef="SZOK_CARDConnectionString (Settings)" DbObjectName="SCAN_DATA" DbObjectType="Table" FillMethodModifier="Public" FillMethodName="FillByNonKaishu202007" GenerateMethods="Both" GenerateShortCommands="true" GeneratorGetMethodName="GetDataByNonKaishu202007" GeneratorSourceName="FillByNonKaishu202007" GetMethodModifier="Public" GetMethodName="GetDataByNonKaishu202007" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataByNonKaishu202007" UserSourceName="FillByNonKaishu202007">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT SCAN_DATA.* 
+FROM SCAN_DATA left JOIN 回収データ ON SCAN_DATA.登録番号  = "CPA" &amp; 回収データ.登録番号 
+where 回収データ.登録番号 is null</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
               <DbSource ConnectionRef="SZOK_CARDConnectionString (Settings)" DbObjectName="SCAN_DATA" DbObjectType="Table" FillMethodModifier="Public" FillMethodName="FillByYear" GenerateMethods="Both" GenerateShortCommands="true" GeneratorGetMethodName="GetDataByYear" GeneratorSourceName="FillByYear" GetMethodModifier="Public" GetMethodName="GetDataByYear" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataByYear" UserSourceName="FillByYear">
                 <SelectCommand>
                   <DbCommand CommandType="Text" ModifiedByUser="true">
@@ -864,7 +884,17 @@ where 開始登録番号 &lt;= ? and  終了登録番号 &gt;= ?</CommandText>
               <Mapping SourceColumn="更新年月日" DataSetColumn="更新年月日" />
             </Mappings>
             <Sources>
-              <DbSource ConnectionRef="SZOK_CARDConnectionString (Settings)" DbObjectName="" DbObjectType="Unknown" GenerateShortCommands="true" GeneratorSourceName="InsertQuery" Modifier="Public" Name="InsertQuery" QueryType="NoData" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy" UserSourceName="InsertQuery">
+              <DbSource ConnectionRef="SZOK_CARDConnectionString (Settings)" DbObjectType="Unknown" GenerateShortCommands="true" GeneratorSourceName="IDCount" Modifier="Public" Name="IDCount" QueryType="Scalar" ScalarCallRetval="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy" UserSourceName="IDCount">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>select count(*) from (select DISTINCT 登録番号 from 回収データ where 出庫ID = ?)</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="true" AutogeneratedName="Param1" ColumnName="" DataSourceName="" DataTypeServer="DbType.Int32" DbType="Int32" Direction="Input" ParameterName="Param1" Precision="0" Scale="0" Size="0" SourceColumn="" SourceColumnNullMapping="false" SourceVersion="Current" />
+                    </Parameters>
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+              <DbSource ConnectionRef="SZOK_CARDConnectionString (Settings)" DbObjectName="" DbObjectType="Unknown" GenerateShortCommands="true" GeneratorSourceName="InsertQuery" Modifier="Public" Name="InsertQuery" QueryType="NoData" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy1" UserSourceName="InsertQuery">
                 <InsertCommand>
                   <DbCommand CommandType="Text" ModifiedByUser="true">
                     <CommandText>INSERT INTO `回収データ` (`出庫ID`, `回収年月日`,  `登録番号`, `防犯登録ID`, `SCANID`, `更新年月日`) VALUES (?, ?, ?, ?, ?, ?)</CommandText>

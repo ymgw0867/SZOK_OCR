@@ -40,7 +40,8 @@ namespace SZOK_OCR.ZAIKO
             int cnt = 0;
             int rCnt = 0;
 
-            int n = sAdp.FillByNonKaishu(dts.SCAN_DATA);
+            //int n = sAdp.FillByNonKaishu(dts.SCAN_DATA);      // 20200720 コメント化
+            int n = sAdp.FillByNonKaishu202007(dts.SCAN_DATA);  // 20200720 登録番号重複を防ぐため登録番号で照合
 
             shuAdp.Fill(dts.出庫データ);
 
@@ -112,7 +113,8 @@ namespace SZOK_OCR.ZAIKO
             int cnt = 0;
             int rCnt = 0;
 
-            int n = dAdp.FillByNonKaishu(dts.防犯登録データ);
+            //int n = dAdp.FillByNonKaishu(dts.防犯登録データ);        // 2020/07/20 コメント化
+            int n = dAdp.FillByNonkaishu202007(dts.防犯登録データ);    // 登録番号重複を防ぐために登録番号で照合 2020/07/20
 
             shuAdp.Fill(dts.出庫データ);
 
