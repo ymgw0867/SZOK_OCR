@@ -31,7 +31,13 @@ namespace SZOK_OCR.ZAIKO
 
         private void frmZaikoSum_Load(object sender, EventArgs e)
         {
-            dateTimePicker1.Checked = false;
+            //dateTimePicker1.Checked = false;  // 2010/09/10 コメント化
+            //dateTimePicker2.Checked = false;  // 2020/09/10 コメント化
+
+            // 2020/09/10
+            dateTimePicker1.Value = DateTime.Today;
+            dateTimePicker2.Value = DateTime.Today;
+
             txtUser.Text = string.Empty;
 
             // データグリッドビュー定義
@@ -178,6 +184,12 @@ namespace SZOK_OCR.ZAIKO
             }
         }
 
+        ///------------------------------------------------------------
+        /// <summary>
+        ///     在庫集計表作成：得意先出庫別 </summary>
+        /// <param name="g">
+        ///     DataGridViewオブジェクト</param>
+        ///------------------------------------------------------------
         private void ZaikoSummary(DataGridView g)
         {
             Cursor = Cursors.WaitCursor;
@@ -193,18 +205,34 @@ namespace SZOK_OCR.ZAIKO
                 KaishuTl[i] = 0;
             }
 
+            // 2020/09/10
+            DateTime dt2 = new DateTime( 2999, 12, 31, 23, 59, 59 );
+            
             try
             {
                 int iX = 0;
 
                 var s = dts.出庫データ.OrderBy(a => a.店番).ThenBy(a => a.出庫日);
 
-                // 出庫基準年月日
-                if (dateTimePicker1.Checked)
-                {
-                    DateTime dt = DateTime.Parse(dateTimePicker1.Value.ToShortDateString());
-                    s = s.Where(a => a.出庫日 >= dt).OrderBy(a => a.店番).ThenBy(a => a.出庫日);
-                }
+                // 出庫基準年月日：2020/09/10
+                DateTime dt = DateTime.Parse(dateTimePicker1.Value.ToShortDateString());
+                s = s.Where(a => a.出庫日 >= dt).OrderBy(a => a.店番).ThenBy(a => a.出庫日);
+
+                //if (dateTimePicker1.Checked)
+                //{
+                //    DateTime dt = DateTime.Parse(dateTimePicker1.Value.ToShortDateString());
+                //    s = s.Where(a => a.出庫日 >= dt).OrderBy(a => a.店番).ThenBy(a => a.出庫日);
+                //}
+
+                // 回収日期限：2020/09/10
+                dt2 = DateTime.Parse(dateTimePicker2.Value.ToShortDateString());
+                s = s.Where(a => a.出庫日 <= dt2).OrderBy(a => a.店番).ThenBy(a => a.出庫日);
+
+                //if (dateTimePicker2.Checked)
+                //{
+                //    dt2 = DateTime.Parse(dateTimePicker2.Value.ToShortDateString());
+                //    s = s.Where(a => a.出庫日 <= dt2).OrderBy(a => a.店番).ThenBy(a => a.出庫日);
+                //}
 
                 // 指定得意先名
                 if (txtUser.Text.Trim() != string.Empty)
@@ -247,7 +275,7 @@ namespace SZOK_OCR.ZAIKO
                     g[colShukko, iX].Value = t.部数.ToString("#,##0");
                     //int kaishu = t.Get回収データRows().Count();
 
-                    int kaishu = (int)k2Adp.IDCount(t.ID);  // 重複を除いた件数を取得 2020/07/20                    
+                    int kaishu = (int)k2Adp.IDCount(t.ID, dt2);  // 重複を除いた件数を取得 2020/07/20, 回収日期限を設定                   
 
                     if (label3.Text != string.Empty)
                     {
@@ -345,6 +373,12 @@ namespace SZOK_OCR.ZAIKO
         }
 
 
+        ///------------------------------------------------------------
+        /// <summary>
+        ///     在庫集計表作成：得意先合計 </summary>
+        /// <param name="g">
+        ///     DataGridViewオブジェクト</param>
+        ///------------------------------------------------------------
         private void ZaikoSummaryTotal(DataGridView g)
         {
             Cursor = Cursors.WaitCursor;
@@ -360,18 +394,34 @@ namespace SZOK_OCR.ZAIKO
                 KaishuTl[i] = 0;
             }
 
+            // 2020/09/10
+            DateTime dt2 = new DateTime(2999, 12, 31, 23, 59, 59);
+
             try
             {
                 int iX = 0;
 
                 var s = dts.出庫データ.OrderBy(a => a.店番).ThenBy(a => a.出庫日);
 
-                // 出庫基準年月日
-                if (dateTimePicker1.Checked)
-                {
-                    DateTime dt = DateTime.Parse(dateTimePicker1.Value.ToShortDateString());
-                    s = s.Where(a => a.出庫日 >= dt).OrderBy(a => a.店番).ThenBy(a => a.出庫日);
-                }
+                // 出庫基準年月日：2020/09/10
+                DateTime dt = DateTime.Parse(dateTimePicker1.Value.ToShortDateString());
+                s = s.Where(a => a.出庫日 >= dt).OrderBy(a => a.店番).ThenBy(a => a.出庫日);
+
+                //if (dateTimePicker1.Checked)
+                //{
+                //    DateTime dt = DateTime.Parse(dateTimePicker1.Value.ToShortDateString());
+                //    s = s.Where(a => a.出庫日 >= dt).OrderBy(a => a.店番).ThenBy(a => a.出庫日);
+                //}
+
+                // 回収日期限：2020/09/10
+                dt2 = DateTime.Parse(dateTimePicker2.Value.ToShortDateString());
+                s = s.Where(a => a.出庫日 <= dt2).OrderBy(a => a.店番).ThenBy(a => a.出庫日);
+
+                //if (dateTimePicker2.Checked)
+                //{
+                //    dt2 = DateTime.Parse(dateTimePicker2.Value.ToShortDateString());
+                //    s = s.Where(a => a.出庫日 <= dt2).OrderBy(a => a.店番).ThenBy(a => a.出庫日);
+                //}
 
                 // 指定得意先名
                 if (txtUser.Text.Trim() != string.Empty)
@@ -423,7 +473,7 @@ namespace SZOK_OCR.ZAIKO
                         // 2020/08/04 コメント化
                         //KaishuTl[i] += t.Get回収データRows().Count();
 
-                        int kaishu = (int)k2Adp.IDCount(t.ID);  // 重複を除いた件数を取得 2020/07/20 
+                        int kaishu = (int)k2Adp.IDCount(t.ID, dt2);  // 重複を除いた件数を取得 2020/07/20 
                         KaishuTl[i] += kaishu;  // 2020/08/04
                     }
 
@@ -518,16 +568,26 @@ namespace SZOK_OCR.ZAIKO
 
                     sheet1.Range("A1:C1").Merge();
 
-                    string kijun = "出庫基準日：";
+                    // 2020/09/10
+                    string kijun = "集計期間：";
+                    kijun += dateTimePicker1.Value.ToShortDateString() + "～" + dateTimePicker2.Value.ToShortDateString();
 
-                    if (dateTimePicker1.Checked)
-                    {
-                        kijun += dateTimePicker1.Value.ToShortDateString() + "～";
-                    }
-                    else
-                    {
-                        kijun += "全期間";
-                    }
+                    // 2020/09/10 コメント化
+                    //if (dateTimePicker1.Checked)
+                    //{
+                    //    kijun += dateTimePicker1.Value.ToShortDateString() + "～";
+                    //}
+                    //else
+                    //{
+                    //    kijun += "全期間";
+                    //}
+
+                    // 2020/09/10 コメント化
+                    //// 回収日期限表示：2020/09/10
+                    //if (dateTimePicker2.Checked)
+                    //{
+                    //    kijun += dateTimePicker2.Value.ToShortDateString() + "　　回収日期限：～" + dateTimePicker2.Value.ToShortDateString();
+                    //}
 
                     sheet1.Cell("A1").SetValue(kijun);
 
