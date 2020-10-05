@@ -275,7 +275,10 @@ namespace SZOK_OCR.ZAIKO
                     g[colShukko, iX].Value = t.部数.ToString("#,##0");
                     //int kaishu = t.Get回収データRows().Count();
 
-                    int kaishu = (int)k2Adp.IDCount(t.ID, dt2);  // 重複を除いた件数を取得 2020/07/20, 回収日期限を設定                   
+                    //int kaishu = (int)k2Adp.IDCount(t.ID, dt2);  // 重複を除いた件数を取得 2020/07/20, 回収日期限を設定  
+
+                    DateTime dt3 = new DateTime(dt2.Year, dt2.Month, dt2.Day, 23, 59, 59); // 2020/10/05
+                    int kaishu = (int)k2Adp.IDCount(t.ID, dt3);  // 重複を除いた件数を取得：回収期限日を更新年月日で判断 2020/09/05                   
 
                     if (label3.Text != string.Empty)
                     {
@@ -474,6 +477,13 @@ namespace SZOK_OCR.ZAIKO
                         //KaishuTl[i] += t.Get回収データRows().Count();
 
                         int kaishu = (int)k2Adp.IDCount(t.ID, dt2);  // 重複を除いた件数を取得 2020/07/20 
+
+                        if (label3.Text != string.Empty)
+                        {
+                            // 無効PCA登録番号を回収数に加算：2020/01/08
+                            kaishu += GetDisabledCount(t.開始登録番号, t.終了登録番号, HenpinNum);
+                        }
+
                         KaishuTl[i] += kaishu;  // 2020/08/04
                     }
 

@@ -9806,7 +9806,7 @@ namespace SZOK_OCR.cardDataSetTableAdapters {
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[1] = new global::System.Data.OleDb.OleDbCommand();
             this._commandCollection[1].Connection = this.Connection;
-            this._commandCollection[1].CommandText = "select count(*) from (select DISTINCT 登録番号 from 回収データ where 出庫ID = ? and 回収年月日 <=" +
+            this._commandCollection[1].CommandText = "select count(*) from (select DISTINCT 登録番号 from 回収データ where 出庫ID = ? and 更新年月日 <=" +
                 " ?)";
             this._commandCollection[1].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[1].Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Param1", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "", global::System.Data.DataRowVersion.Current, false, null));
