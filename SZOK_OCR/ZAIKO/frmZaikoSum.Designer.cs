@@ -211,11 +211,12 @@
             // label7
             // 
             this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("ＭＳ ゴシック", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.label7.Location = new System.Drawing.Point(406, 17);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(287, 14);
+            this.label7.Size = new System.Drawing.Size(315, 13);
             this.label7.TabIndex = 14;
-            this.label7.Text = "※集計期間中の出庫数、回収数を集計します";
+            this.label7.Text = "※集計期間中の出庫処理、回収処理を集計します";
             // 
             // frmZaikoSum
             // 

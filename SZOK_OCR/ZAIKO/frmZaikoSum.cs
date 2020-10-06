@@ -275,10 +275,11 @@ namespace SZOK_OCR.ZAIKO
                     g[colShukko, iX].Value = t.部数.ToString("#,##0");
                     //int kaishu = t.Get回収データRows().Count();
 
+                    // 2020/10/06 コメント化
                     //int kaishu = (int)k2Adp.IDCount(t.ID, dt2);  // 重複を除いた件数を取得 2020/07/20, 回収日期限を設定  
 
                     DateTime dt3 = new DateTime(dt2.Year, dt2.Month, dt2.Day, 23, 59, 59); // 2020/10/05
-                    int kaishu = (int)k2Adp.IDCount(t.ID, dt3);  // 重複を除いた件数を取得：回収期限日を更新年月日で判断 2020/09/05                   
+                    int kaishu = (int)k2Adp.IDCount(t.ID, dt3);  // 重複を除いた件数を取得：回収期限日を更新年月日で判断 2020/10/05                   
 
                     if (label3.Text != string.Empty)
                     {
@@ -457,18 +458,6 @@ namespace SZOK_OCR.ZAIKO
                         }
                     }
 
-                    //dataGridView1.Rows.Add();
-
-                    //g[colUCode, iX].Value = t.店番;
-                    //g[colUName, iX].Value = t.店名;
-                    //g[colDate, iX].Value = t.出庫日.ToShortDateString();
-                    //g[colSNum, iX].Value = t.開始登録番号;
-                    //g[colENum, iX].Value = t.終了登録番号;
-                    //g[colShukko, iX].Value = t.部数.ToString("#,##0");
-                    //int kaishu = t.Get回収データRows().Count();
-                    //g[colKaishu, iX].Value = kaishu.ToString("#,##0");
-                    //g[colZansu, iX].Value = (t.部数 - kaishu).ToString("#,##0");
-
                     for (int i = 0; i < 2; i++)
                     {
                         ShukkoTl[i] += t.部数;
@@ -476,11 +465,17 @@ namespace SZOK_OCR.ZAIKO
                         // 2020/08/04 コメント化
                         //KaishuTl[i] += t.Get回収データRows().Count();
 
-                        int kaishu = (int)k2Adp.IDCount(t.ID, dt2);  // 重複を除いた件数を取得 2020/07/20 
+                        // 2020/10/06
+                        DateTime dt3 = new DateTime(dt2.Year, dt2.Month, dt2.Day, 23, 59, 59); 
+
+                        // 2020/10/06 コメント化
+                        //int kaishu = (int)k2Adp.IDCount(t.ID, dt2);  // 重複を除いた件数を取得 2020/07/20
+
+                        int kaishu = (int)k2Adp.IDCount(t.ID, dt3);  // 重複を除いた件数を取得：回収期限日を更新年月日で判断 2020/10/06
 
                         if (label3.Text != string.Empty)
                         {
-                            // 無効PCA登録番号を回収数に加算：2020/01/08
+                            // 無効PCA登録番号を回収数に加算：2020/10/06
                             kaishu += GetDisabledCount(t.開始登録番号, t.終了登録番号, HenpinNum);
                         }
 
@@ -489,8 +484,6 @@ namespace SZOK_OCR.ZAIKO
 
                     Tenban = t.店番;
                     tenName = t.店名;
-
-                    //iX++;
                 }
 
                 for (int i = 0; i < 2; i++)
