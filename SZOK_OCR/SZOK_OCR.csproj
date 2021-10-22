@@ -71,11 +71,15 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="cardDataSet.cs">
+      <DependentUpon>cardDataSet.xsd</DependentUpon>
+    </Compile>
     <Compile Include="cardDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>cardDataSet.xsd</DependentUpon>
     </Compile>
+    <Compile Include="Common\ClsShukko.cs" />
     <Compile Include="Common\frmPrg.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -187,6 +191,12 @@
     <Compile Include="ZAIKO\frmKaishuData.Designer.cs">
       <DependentUpon>frmKaishuData.cs</DependentUpon>
     </Compile>
+    <Compile Include="ZAIKO\frmKaishuItems.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ZAIKO\frmKaishuItems.Designer.cs">
+      <DependentUpon>frmKaishuItems.cs</DependentUpon>
+    </Compile>
     <Compile Include="ZAIKO\frmNouhinRep.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -271,6 +281,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ZAIKO\frmKaishuData.resx">
       <DependentUpon>frmKaishuData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ZAIKO\frmKaishuItems.resx">
+      <DependentUpon>frmKaishuItems.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ZAIKO\frmNouhinRep.resx">
       <DependentUpon>frmNouhinRep.cs</DependentUpon>

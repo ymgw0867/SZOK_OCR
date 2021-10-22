@@ -2538,6 +2538,8 @@ namespace SZOK_OCR {
             
             private global::System.Data.DataColumn column更新年月日;
             
+            private global::System.Data.DataColumn column登録番号;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public 回収データDataTable() {
@@ -2621,6 +2623,14 @@ namespace SZOK_OCR {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn 登録番号Column {
+                get {
+                    return this.column登録番号;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -2656,7 +2666,7 @@ namespace SZOK_OCR {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public 回収データRow Add回収データRow(出庫データRow parent出庫データRowBy出庫データ_回収データ, System.DateTime 回収年月日, int 防犯登録ID, int SCANID, System.DateTime 更新年月日) {
+            public 回収データRow Add回収データRow(出庫データRow parent出庫データRowBy出庫データ_回収データ, System.DateTime 回収年月日, int 防犯登録ID, int SCANID, System.DateTime 更新年月日, int 登録番号) {
                 回収データRow row回収データRow = ((回収データRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         null,
@@ -2664,7 +2674,8 @@ namespace SZOK_OCR {
                         回収年月日,
                         防犯登録ID,
                         SCANID,
-                        更新年月日};
+                        更新年月日,
+                        登録番号};
                 if ((parent出庫データRowBy出庫データ_回収データ != null)) {
                     columnValuesArray[1] = parent出庫データRowBy出庫データ_回収データ[0];
                 }
@@ -2703,6 +2714,7 @@ namespace SZOK_OCR {
                 this.column防犯登録ID = base.Columns["防犯登録ID"];
                 this.columnSCANID = base.Columns["SCANID"];
                 this.column更新年月日 = base.Columns["更新年月日"];
+                this.column登録番号 = base.Columns["登録番号"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -2720,6 +2732,8 @@ namespace SZOK_OCR {
                 base.Columns.Add(this.columnSCANID);
                 this.column更新年月日 = new global::System.Data.DataColumn("更新年月日", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.column更新年月日);
+                this.column登録番号 = new global::System.Data.DataColumn("登録番号", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.column登録番号);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnID}, true));
                 this.columnID.AutoIncrement = true;
@@ -4979,6 +4993,22 @@ namespace SZOK_OCR {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public int 登録番号 {
+                get {
+                    try {
+                        return ((int)(this[this.table回収データ.登録番号Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("テーブル \'回収データ\' にある列 \'登録番号\' の値は DBNull です。", e);
+                    }
+                }
+                set {
+                    this[this.table回収データ.登録番号Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public 出庫データRow 出庫データRow {
                 get {
                     return ((出庫データRow)(this.GetParentRow(this.Table.ParentRelations["出庫データ_回収データ"])));
@@ -5046,6 +5076,18 @@ namespace SZOK_OCR {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void Set更新年月日Null() {
                 this[this.table回収データ.更新年月日Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool Is登録番号Null() {
+                return this.IsNull(this.table回収データ.登録番号Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void Set登録番号Null() {
+                this[this.table回収データ.登録番号Column] = global::System.Convert.DBNull;
             }
         }
         
@@ -5610,13 +5652,13 @@ namespace SZOK_OCR.cardDataSetTableAdapters {
             this._commandCollection[3].Parameters.Add(new global::System.Data.OleDb.OleDbParameter("登録番号", global::System.Data.OleDb.OleDbType.WChar, 20, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "登録番号", global::System.Data.DataRowVersion.Current, false, null));
             this._commandCollection[4] = new global::System.Data.OleDb.OleDbCommand();
             this._commandCollection[4].Connection = this.Connection;
-            this._commandCollection[4].CommandText = "SELECT  防犯登録データ.* \r\nFROM 防犯登録データ left JOIN 回収データ ON 防犯登録データ.ID  = 回収データ.防犯登録ID  \r" +
-                "\nwhere 回収データ.防犯登録ID is null";
+            this._commandCollection[4].CommandText = "SELECT  防犯登録データ.* \nFROM 防犯登録データ left JOIN 回収データ ON 防犯登録データ.ID  = 回収データ.防犯登録ID  \nw" +
+                "here 回収データ.防犯登録ID is null";
             this._commandCollection[4].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[5] = new global::System.Data.OleDb.OleDbCommand();
             this._commandCollection[5].Connection = this.Connection;
-            this._commandCollection[5].CommandText = "SELECT  防犯登録データ.* \r\nFROM 防犯登録データ left JOIN 回収データ ON 防犯登録データ.登録番号  = \"CPA\" & 回収データ" +
-                ".登録番号  \r\nwhere 回収データ.登録番号 is null";
+            this._commandCollection[5].CommandText = "SELECT  防犯登録データ.* \nFROM 防犯登録データ left JOIN 回収データ ON 防犯登録データ.登録番号  = \"CPA\" & 回収データ." +
+                "登録番号  \nwhere 回収データ.登録番号 is null";
             this._commandCollection[5].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[6] = new global::System.Data.OleDb.OleDbCommand();
             this._commandCollection[6].Connection = this.Connection;
@@ -7662,13 +7704,13 @@ namespace SZOK_OCR.cardDataSetTableAdapters {
             this._commandCollection[3].Parameters.Add(new global::System.Data.OleDb.OleDbParameter("ラベル", global::System.Data.OleDb.OleDbType.WChar, 255, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "ラベル", global::System.Data.DataRowVersion.Current, false, null));
             this._commandCollection[4] = new global::System.Data.OleDb.OleDbCommand();
             this._commandCollection[4].Connection = this.Connection;
-            this._commandCollection[4].CommandText = "SELECT  SCAN_DATA.* \r\nFROM SCAN_DATA left JOIN 回収データ ON SCAN_DATA.ID  = 回収データ.SCA" +
-                "NID  \r\nwhere 回収データ.SCANID is null";
+            this._commandCollection[4].CommandText = "SELECT  SCAN_DATA.* \nFROM SCAN_DATA left JOIN 回収データ ON SCAN_DATA.ID  = 回収データ.SCAN" +
+                "ID  \nwhere 回収データ.SCANID is null";
             this._commandCollection[4].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[5] = new global::System.Data.OleDb.OleDbCommand();
             this._commandCollection[5].Connection = this.Connection;
-            this._commandCollection[5].CommandText = "SELECT SCAN_DATA.* \r\nFROM SCAN_DATA left JOIN 回収データ ON SCAN_DATA.登録番号  = \"CPA\" & " +
-                "回収データ.登録番号 \r\nwhere 回収データ.登録番号 is null";
+            this._commandCollection[5].CommandText = "SELECT SCAN_DATA.* \nFROM SCAN_DATA left JOIN 回収データ ON SCAN_DATA.登録番号  = \"CPA\" & 回" +
+                "収データ.登録番号 \nwhere 回収データ.登録番号 is null";
             this._commandCollection[5].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[6] = new global::System.Data.OleDb.OleDbCommand();
             this._commandCollection[6].Connection = this.Connection;
@@ -9079,20 +9121,20 @@ namespace SZOK_OCR.cardDataSetTableAdapters {
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[1] = new global::System.Data.OleDb.OleDbCommand();
             this._commandCollection[1].Connection = this.Connection;
-            this._commandCollection[1].CommandText = "SELECT ID, 出庫日, 店番, 店名, 部数, 開始登録番号, 終了登録番号, 売上金額 FROM 出庫データ \r\nwhere ID = ?";
+            this._commandCollection[1].CommandText = "SELECT ID, 出庫日, 店番, 店名, 部数, 開始登録番号, 終了登録番号, 売上金額 FROM 出庫データ \nwhere ID = ?";
             this._commandCollection[1].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[1].Parameters.Add(new global::System.Data.OleDb.OleDbParameter("ID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "ID", global::System.Data.DataRowVersion.Current, false, null));
             this._commandCollection[2] = new global::System.Data.OleDb.OleDbCommand();
             this._commandCollection[2].Connection = this.Connection;
-            this._commandCollection[2].CommandText = "SELECT ID, 出庫日, 店番, 店名, 部数, 開始登録番号, 終了登録番号, 売上金額 FROM 出庫データ \r\nwhere 開始登録番号 <= ? a" +
-                "nd  終了登録番号 >= ?";
+            this._commandCollection[2].CommandText = "SELECT ID, 出庫日, 店番, 店名, 部数, 開始登録番号, 終了登録番号, 売上金額 FROM 出庫データ \nwhere 開始登録番号 <= ? an" +
+                "d  終了登録番号 >= ?";
             this._commandCollection[2].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[2].Parameters.Add(new global::System.Data.OleDb.OleDbParameter("開始登録番号", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "開始登録番号", global::System.Data.DataRowVersion.Current, false, null));
             this._commandCollection[2].Parameters.Add(new global::System.Data.OleDb.OleDbParameter("終了登録番号", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "終了登録番号", global::System.Data.DataRowVersion.Current, false, null));
             this._commandCollection[3] = new global::System.Data.OleDb.OleDbCommand();
             this._commandCollection[3].Connection = this.Connection;
-            this._commandCollection[3].CommandText = "SELECT ID, 出庫日, 店番, 店名 FROM 出庫データ where 出庫データ.id = \r\n(select max(出庫データ.id) as id " +
-                "from 出庫データ) ";
+            this._commandCollection[3].CommandText = "SELECT ID, 出庫日, 店番, 店名 FROM 出庫データ where 出庫データ.id = \n(select max(出庫データ.id) as id f" +
+                "rom 出庫データ) ";
             this._commandCollection[3].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[4] = new global::System.Data.OleDb.OleDbCommand();
             this._commandCollection[4].Connection = this.Connection;
@@ -9741,16 +9783,19 @@ namespace SZOK_OCR.cardDataSetTableAdapters {
             tableMapping.ColumnMappings.Add("防犯登録ID", "防犯登録ID");
             tableMapping.ColumnMappings.Add("SCANID", "SCANID");
             tableMapping.ColumnMappings.Add("更新年月日", "更新年月日");
+            tableMapping.ColumnMappings.Add("登録番号", "登録番号");
             this._adapter.TableMappings.Add(tableMapping);
             this._adapter.DeleteCommand = new global::System.Data.OleDb.OleDbCommand();
             this._adapter.DeleteCommand.Connection = this.Connection;
-            this._adapter.DeleteCommand.CommandText = @"DELETE FROM `回収データ` WHERE ((`ID` = ?) AND ((? = 1 AND `出庫ID` IS NULL) OR (`出庫ID` = ?)) AND ((? = 1 AND `回収年月日` IS NULL) OR (`回収年月日` = ?)) AND ((? = 1 AND `防犯登録ID` IS NULL) OR (`防犯登録ID` = ?)) AND ((? = 1 AND `SCANID` IS NULL) OR (`SCANID` = ?)) AND ((? = 1 AND `更新年月日` IS NULL) OR (`更新年月日` = ?)))";
+            this._adapter.DeleteCommand.CommandText = @"DELETE FROM `回収データ` WHERE ((`ID` = ?) AND ((? = 1 AND `出庫ID` IS NULL) OR (`出庫ID` = ?)) AND ((? = 1 AND `回収年月日` IS NULL) OR (`回収年月日` = ?)) AND ((? = 1 AND `登録番号` IS NULL) OR (`登録番号` = ?)) AND ((? = 1 AND `防犯登録ID` IS NULL) OR (`防犯登録ID` = ?)) AND ((? = 1 AND `SCANID` IS NULL) OR (`SCANID` = ?)) AND ((? = 1 AND `更新年月日` IS NULL) OR (`更新年月日` = ?)))";
             this._adapter.DeleteCommand.CommandType = global::System.Data.CommandType.Text;
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_ID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "ID", global::System.Data.DataRowVersion.Original, false, null));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_出庫ID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "出庫ID", global::System.Data.DataRowVersion.Original, true, null));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_出庫ID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "出庫ID", global::System.Data.DataRowVersion.Original, false, null));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_回収年月日", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "回収年月日", global::System.Data.DataRowVersion.Original, true, null));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_回収年月日", global::System.Data.OleDb.OleDbType.Date, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "回収年月日", global::System.Data.DataRowVersion.Original, false, null));
+            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_登録番号", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "登録番号", global::System.Data.DataRowVersion.Original, true, null));
+            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_登録番号", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "登録番号", global::System.Data.DataRowVersion.Original, false, null));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_防犯登録ID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "防犯登録ID", global::System.Data.DataRowVersion.Original, true, null));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_防犯登録ID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "防犯登録ID", global::System.Data.DataRowVersion.Original, false, null));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_SCANID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "SCANID", global::System.Data.DataRowVersion.Original, true, null));
@@ -9759,20 +9804,22 @@ namespace SZOK_OCR.cardDataSetTableAdapters {
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_更新年月日", global::System.Data.OleDb.OleDbType.Date, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "更新年月日", global::System.Data.DataRowVersion.Original, false, null));
             this._adapter.InsertCommand = new global::System.Data.OleDb.OleDbCommand();
             this._adapter.InsertCommand.Connection = this.Connection;
-            this._adapter.InsertCommand.CommandText = "INSERT INTO `回収データ` (`出庫ID`, `回収年月日`, `防犯登録ID`, `SCANID`, `更新年月日`) VALUES (?, ?, " +
-                "?, ?, ?)";
+            this._adapter.InsertCommand.CommandText = "INSERT INTO `回収データ` (`出庫ID`, `回収年月日`, `登録番号`, `防犯登録ID`, `SCANID`, `更新年月日`) VALUES" +
+                " (?, ?, ?, ?, ?, ?)";
             this._adapter.InsertCommand.CommandType = global::System.Data.CommandType.Text;
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("出庫ID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "出庫ID", global::System.Data.DataRowVersion.Current, false, null));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("回収年月日", global::System.Data.OleDb.OleDbType.Date, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "回収年月日", global::System.Data.DataRowVersion.Current, false, null));
+            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("登録番号", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "登録番号", global::System.Data.DataRowVersion.Current, false, null));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("防犯登録ID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "防犯登録ID", global::System.Data.DataRowVersion.Current, false, null));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("SCANID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "SCANID", global::System.Data.DataRowVersion.Current, false, null));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("更新年月日", global::System.Data.OleDb.OleDbType.Date, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "更新年月日", global::System.Data.DataRowVersion.Current, false, null));
             this._adapter.UpdateCommand = new global::System.Data.OleDb.OleDbCommand();
             this._adapter.UpdateCommand.Connection = this.Connection;
-            this._adapter.UpdateCommand.CommandText = @"UPDATE `回収データ` SET `出庫ID` = ?, `回収年月日` = ?, `防犯登録ID` = ?, `SCANID` = ?, `更新年月日` = ? WHERE ((`ID` = ?) AND ((? = 1 AND `出庫ID` IS NULL) OR (`出庫ID` = ?)) AND ((? = 1 AND `回収年月日` IS NULL) OR (`回収年月日` = ?)) AND ((? = 1 AND `防犯登録ID` IS NULL) OR (`防犯登録ID` = ?)) AND ((? = 1 AND `SCANID` IS NULL) OR (`SCANID` = ?)) AND ((? = 1 AND `更新年月日` IS NULL) OR (`更新年月日` = ?)))";
+            this._adapter.UpdateCommand.CommandText = @"UPDATE `回収データ` SET `出庫ID` = ?, `回収年月日` = ?, `登録番号` = ?, `防犯登録ID` = ?, `SCANID` = ?, `更新年月日` = ? WHERE ((`ID` = ?) AND ((? = 1 AND `出庫ID` IS NULL) OR (`出庫ID` = ?)) AND ((? = 1 AND `回収年月日` IS NULL) OR (`回収年月日` = ?)) AND ((? = 1 AND `登録番号` IS NULL) OR (`登録番号` = ?)) AND ((? = 1 AND `防犯登録ID` IS NULL) OR (`防犯登録ID` = ?)) AND ((? = 1 AND `SCANID` IS NULL) OR (`SCANID` = ?)) AND ((? = 1 AND `更新年月日` IS NULL) OR (`更新年月日` = ?)))";
             this._adapter.UpdateCommand.CommandType = global::System.Data.CommandType.Text;
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("出庫ID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "出庫ID", global::System.Data.DataRowVersion.Current, false, null));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("回収年月日", global::System.Data.OleDb.OleDbType.Date, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "回収年月日", global::System.Data.DataRowVersion.Current, false, null));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("登録番号", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "登録番号", global::System.Data.DataRowVersion.Current, false, null));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("防犯登録ID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "防犯登録ID", global::System.Data.DataRowVersion.Current, false, null));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("SCANID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "SCANID", global::System.Data.DataRowVersion.Current, false, null));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("更新年月日", global::System.Data.OleDb.OleDbType.Date, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "更新年月日", global::System.Data.DataRowVersion.Current, false, null));
@@ -9781,6 +9828,8 @@ namespace SZOK_OCR.cardDataSetTableAdapters {
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_出庫ID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "出庫ID", global::System.Data.DataRowVersion.Original, false, null));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_回収年月日", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "回収年月日", global::System.Data.DataRowVersion.Original, true, null));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_回収年月日", global::System.Data.OleDb.OleDbType.Date, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "回収年月日", global::System.Data.DataRowVersion.Original, false, null));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_登録番号", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "登録番号", global::System.Data.DataRowVersion.Original, true, null));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_登録番号", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "登録番号", global::System.Data.DataRowVersion.Original, false, null));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_防犯登録ID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "防犯登録ID", global::System.Data.DataRowVersion.Original, true, null));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_防犯登録ID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "防犯登録ID", global::System.Data.DataRowVersion.Original, false, null));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_SCANID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "SCANID", global::System.Data.DataRowVersion.Original, true, null));
@@ -9799,29 +9848,36 @@ namespace SZOK_OCR.cardDataSetTableAdapters {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         private void InitCommandCollection() {
-            this._commandCollection = new global::System.Data.OleDb.OleDbCommand[3];
+            this._commandCollection = new global::System.Data.OleDb.OleDbCommand[4];
             this._commandCollection[0] = new global::System.Data.OleDb.OleDbCommand();
             this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = "SELECT ID, 出庫ID, 回収年月日, 防犯登録ID, SCANID, 更新年月日 FROM 回収データ";
+            this._commandCollection[0].CommandText = "SELECT ID, 出庫ID, 回収年月日, 登録番号,防犯登録ID, SCANID, 更新年月日 FROM 回収データ";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[1] = new global::System.Data.OleDb.OleDbCommand();
             this._commandCollection[1].Connection = this.Connection;
-            this._commandCollection[1].CommandText = "select count(*) from (select DISTINCT 登録番号 from 回収データ where 出庫ID = ? and 更新年月日 <=" +
-                " ?)";
+            this._commandCollection[1].CommandText = "SELECT ID, SCANID, 出庫ID, 回収年月日, 更新年月日, 登録番号, 防犯登録ID FROM 回収データ WHERE (出庫ID = ?  a" +
+                "nd 更新年月日 <= ?)";
             this._commandCollection[1].CommandType = global::System.Data.CommandType.Text;
-            this._commandCollection[1].Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Param1", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "", global::System.Data.DataRowVersion.Current, false, null));
-            this._commandCollection[1].Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Param2", global::System.Data.OleDb.OleDbType.DBDate, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "", global::System.Data.DataRowVersion.Current, false, null));
+            this._commandCollection[1].Parameters.Add(new global::System.Data.OleDb.OleDbParameter("出庫ID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "出庫ID", global::System.Data.DataRowVersion.Current, false, null));
+            this._commandCollection[1].Parameters.Add(new global::System.Data.OleDb.OleDbParameter("更新年月日", global::System.Data.OleDb.OleDbType.Date, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "更新年月日", global::System.Data.DataRowVersion.Current, false, null));
             this._commandCollection[2] = new global::System.Data.OleDb.OleDbCommand();
             this._commandCollection[2].Connection = this.Connection;
-            this._commandCollection[2].CommandText = "INSERT INTO `回収データ` (`出庫ID`, `回収年月日`,  `登録番号`, `防犯登録ID`, `SCANID`, `更新年月日`) VALUE" +
-                "S (?, ?, ?, ?, ?, ?)";
+            this._commandCollection[2].CommandText = "select count(*) from (select DISTINCT 登録番号 from 回収データ where 出庫ID = ? and 更新年月日 <=" +
+                " ?)";
             this._commandCollection[2].CommandType = global::System.Data.CommandType.Text;
-            this._commandCollection[2].Parameters.Add(new global::System.Data.OleDb.OleDbParameter("出庫ID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "出庫ID", global::System.Data.DataRowVersion.Current, false, null));
-            this._commandCollection[2].Parameters.Add(new global::System.Data.OleDb.OleDbParameter("回収年月日", global::System.Data.OleDb.OleDbType.Date, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "回収年月日", global::System.Data.DataRowVersion.Current, false, null));
-            this._commandCollection[2].Parameters.Add(new global::System.Data.OleDb.OleDbParameter("登録番号", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "登録番号", global::System.Data.DataRowVersion.Current, false, null));
-            this._commandCollection[2].Parameters.Add(new global::System.Data.OleDb.OleDbParameter("防犯登録ID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "防犯登録ID", global::System.Data.DataRowVersion.Current, false, null));
-            this._commandCollection[2].Parameters.Add(new global::System.Data.OleDb.OleDbParameter("SCANID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "SCANID", global::System.Data.DataRowVersion.Current, false, null));
-            this._commandCollection[2].Parameters.Add(new global::System.Data.OleDb.OleDbParameter("更新年月日", global::System.Data.OleDb.OleDbType.Date, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "更新年月日", global::System.Data.DataRowVersion.Current, false, null));
+            this._commandCollection[2].Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Param1", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "", global::System.Data.DataRowVersion.Current, false, null));
+            this._commandCollection[2].Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Param2", global::System.Data.OleDb.OleDbType.DBDate, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "", global::System.Data.DataRowVersion.Current, false, null));
+            this._commandCollection[3] = new global::System.Data.OleDb.OleDbCommand();
+            this._commandCollection[3].Connection = this.Connection;
+            this._commandCollection[3].CommandText = "INSERT INTO `回収データ` (`出庫ID`, `回収年月日`,  `登録番号`, `防犯登録ID`, `SCANID`, `更新年月日`) VALUE" +
+                "S (?, ?, ?, ?, ?, ?)";
+            this._commandCollection[3].CommandType = global::System.Data.CommandType.Text;
+            this._commandCollection[3].Parameters.Add(new global::System.Data.OleDb.OleDbParameter("出庫ID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "出庫ID", global::System.Data.DataRowVersion.Current, false, null));
+            this._commandCollection[3].Parameters.Add(new global::System.Data.OleDb.OleDbParameter("回収年月日", global::System.Data.OleDb.OleDbType.Date, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "回収年月日", global::System.Data.DataRowVersion.Current, false, null));
+            this._commandCollection[3].Parameters.Add(new global::System.Data.OleDb.OleDbParameter("登録番号", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "登録番号", global::System.Data.DataRowVersion.Current, false, null));
+            this._commandCollection[3].Parameters.Add(new global::System.Data.OleDb.OleDbParameter("防犯登録ID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "防犯登録ID", global::System.Data.DataRowVersion.Current, false, null));
+            this._commandCollection[3].Parameters.Add(new global::System.Data.OleDb.OleDbParameter("SCANID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "SCANID", global::System.Data.DataRowVersion.Current, false, null));
+            this._commandCollection[3].Parameters.Add(new global::System.Data.OleDb.OleDbParameter("更新年月日", global::System.Data.OleDb.OleDbType.Date, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "更新年月日", global::System.Data.DataRowVersion.Current, false, null));
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -9843,6 +9899,54 @@ namespace SZOK_OCR.cardDataSetTableAdapters {
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, true)]
         public virtual cardDataSet.回収データDataTable GetData() {
             this.Adapter.SelectCommand = this.CommandCollection[0];
+            cardDataSet.回収データDataTable dataTable = new cardDataSet.回収データDataTable();
+            this.Adapter.Fill(dataTable);
+            return dataTable;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, false)]
+        public virtual int FillByKaishu(cardDataSet.回収データDataTable dataTable, global::System.Nullable<int> 出庫ID, global::System.Nullable<global::System.DateTime> 更新年月日) {
+            this.Adapter.SelectCommand = this.CommandCollection[1];
+            if ((出庫ID.HasValue == true)) {
+                this.Adapter.SelectCommand.Parameters[0].Value = ((int)(出庫ID.Value));
+            }
+            else {
+                this.Adapter.SelectCommand.Parameters[0].Value = global::System.DBNull.Value;
+            }
+            if ((更新年月日.HasValue == true)) {
+                this.Adapter.SelectCommand.Parameters[1].Value = ((System.DateTime)(更新年月日.Value));
+            }
+            else {
+                this.Adapter.SelectCommand.Parameters[1].Value = global::System.DBNull.Value;
+            }
+            if ((this.ClearBeforeFill == true)) {
+                dataTable.Clear();
+            }
+            int returnValue = this.Adapter.Fill(dataTable);
+            return returnValue;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, false)]
+        public virtual cardDataSet.回収データDataTable GetDataBy2(global::System.Nullable<int> 出庫ID, global::System.Nullable<global::System.DateTime> 更新年月日) {
+            this.Adapter.SelectCommand = this.CommandCollection[1];
+            if ((出庫ID.HasValue == true)) {
+                this.Adapter.SelectCommand.Parameters[0].Value = ((int)(出庫ID.Value));
+            }
+            else {
+                this.Adapter.SelectCommand.Parameters[0].Value = global::System.DBNull.Value;
+            }
+            if ((更新年月日.HasValue == true)) {
+                this.Adapter.SelectCommand.Parameters[1].Value = ((System.DateTime)(更新年月日.Value));
+            }
+            else {
+                this.Adapter.SelectCommand.Parameters[1].Value = global::System.DBNull.Value;
+            }
             cardDataSet.回収データDataTable dataTable = new cardDataSet.回収データDataTable();
             this.Adapter.Fill(dataTable);
             return dataTable;
@@ -9881,7 +9985,7 @@ namespace SZOK_OCR.cardDataSetTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Delete, true)]
-        public virtual int Delete(int Original_ID, global::System.Nullable<int> Original_出庫ID, global::System.Nullable<global::System.DateTime> Original_回収年月日, global::System.Nullable<int> Original_防犯登録ID, global::System.Nullable<int> Original_SCANID, global::System.Nullable<global::System.DateTime> Original_更新年月日) {
+        public virtual int Delete(int Original_ID, global::System.Nullable<int> Original_出庫ID, global::System.Nullable<global::System.DateTime> Original_回収年月日, global::System.Nullable<int> Original_登録番号, global::System.Nullable<int> Original_防犯登録ID, global::System.Nullable<int> Original_SCANID, global::System.Nullable<global::System.DateTime> Original_更新年月日) {
             this.Adapter.DeleteCommand.Parameters[0].Value = ((int)(Original_ID));
             if ((Original_出庫ID.HasValue == true)) {
                 this.Adapter.DeleteCommand.Parameters[1].Value = ((object)(0));
@@ -9899,29 +10003,37 @@ namespace SZOK_OCR.cardDataSetTableAdapters {
                 this.Adapter.DeleteCommand.Parameters[3].Value = ((object)(1));
                 this.Adapter.DeleteCommand.Parameters[4].Value = global::System.DBNull.Value;
             }
-            if ((Original_防犯登録ID.HasValue == true)) {
+            if ((Original_登録番号.HasValue == true)) {
                 this.Adapter.DeleteCommand.Parameters[5].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[6].Value = ((int)(Original_防犯登録ID.Value));
+                this.Adapter.DeleteCommand.Parameters[6].Value = ((int)(Original_登録番号.Value));
             }
             else {
                 this.Adapter.DeleteCommand.Parameters[5].Value = ((object)(1));
                 this.Adapter.DeleteCommand.Parameters[6].Value = global::System.DBNull.Value;
             }
-            if ((Original_SCANID.HasValue == true)) {
+            if ((Original_防犯登録ID.HasValue == true)) {
                 this.Adapter.DeleteCommand.Parameters[7].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[8].Value = ((int)(Original_SCANID.Value));
+                this.Adapter.DeleteCommand.Parameters[8].Value = ((int)(Original_防犯登録ID.Value));
             }
             else {
                 this.Adapter.DeleteCommand.Parameters[7].Value = ((object)(1));
                 this.Adapter.DeleteCommand.Parameters[8].Value = global::System.DBNull.Value;
             }
-            if ((Original_更新年月日.HasValue == true)) {
+            if ((Original_SCANID.HasValue == true)) {
                 this.Adapter.DeleteCommand.Parameters[9].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[10].Value = ((System.DateTime)(Original_更新年月日.Value));
+                this.Adapter.DeleteCommand.Parameters[10].Value = ((int)(Original_SCANID.Value));
             }
             else {
                 this.Adapter.DeleteCommand.Parameters[9].Value = ((object)(1));
                 this.Adapter.DeleteCommand.Parameters[10].Value = global::System.DBNull.Value;
+            }
+            if ((Original_更新年月日.HasValue == true)) {
+                this.Adapter.DeleteCommand.Parameters[11].Value = ((object)(0));
+                this.Adapter.DeleteCommand.Parameters[12].Value = ((System.DateTime)(Original_更新年月日.Value));
+            }
+            else {
+                this.Adapter.DeleteCommand.Parameters[11].Value = ((object)(1));
+                this.Adapter.DeleteCommand.Parameters[12].Value = global::System.DBNull.Value;
             }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.DeleteCommand.Connection.State;
             if (((this.Adapter.DeleteCommand.Connection.State & global::System.Data.ConnectionState.Open) 
@@ -9943,7 +10055,7 @@ namespace SZOK_OCR.cardDataSetTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, true)]
-        public virtual int Insert(global::System.Nullable<int> 出庫ID, global::System.Nullable<global::System.DateTime> 回収年月日, global::System.Nullable<int> 防犯登録ID, global::System.Nullable<int> SCANID, global::System.Nullable<global::System.DateTime> 更新年月日) {
+        public virtual int Insert(global::System.Nullable<int> 出庫ID, global::System.Nullable<global::System.DateTime> 回収年月日, global::System.Nullable<int> 登録番号, global::System.Nullable<int> 防犯登録ID, global::System.Nullable<int> SCANID, global::System.Nullable<global::System.DateTime> 更新年月日) {
             if ((出庫ID.HasValue == true)) {
                 this.Adapter.InsertCommand.Parameters[0].Value = ((int)(出庫ID.Value));
             }
@@ -9956,23 +10068,29 @@ namespace SZOK_OCR.cardDataSetTableAdapters {
             else {
                 this.Adapter.InsertCommand.Parameters[1].Value = global::System.DBNull.Value;
             }
-            if ((防犯登録ID.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[2].Value = ((int)(防犯登録ID.Value));
+            if ((登録番号.HasValue == true)) {
+                this.Adapter.InsertCommand.Parameters[2].Value = ((int)(登録番号.Value));
             }
             else {
                 this.Adapter.InsertCommand.Parameters[2].Value = global::System.DBNull.Value;
             }
-            if ((SCANID.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[3].Value = ((int)(SCANID.Value));
+            if ((防犯登録ID.HasValue == true)) {
+                this.Adapter.InsertCommand.Parameters[3].Value = ((int)(防犯登録ID.Value));
             }
             else {
                 this.Adapter.InsertCommand.Parameters[3].Value = global::System.DBNull.Value;
             }
-            if ((更新年月日.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[4].Value = ((System.DateTime)(更新年月日.Value));
+            if ((SCANID.HasValue == true)) {
+                this.Adapter.InsertCommand.Parameters[4].Value = ((int)(SCANID.Value));
             }
             else {
                 this.Adapter.InsertCommand.Parameters[4].Value = global::System.DBNull.Value;
+            }
+            if ((更新年月日.HasValue == true)) {
+                this.Adapter.InsertCommand.Parameters[5].Value = ((System.DateTime)(更新年月日.Value));
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[5].Value = global::System.DBNull.Value;
             }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.InsertCommand.Connection.State;
             if (((this.Adapter.InsertCommand.Connection.State & global::System.Data.ConnectionState.Open) 
@@ -9994,7 +10112,7 @@ namespace SZOK_OCR.cardDataSetTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(global::System.Nullable<int> 出庫ID, global::System.Nullable<global::System.DateTime> 回収年月日, global::System.Nullable<int> 防犯登録ID, global::System.Nullable<int> SCANID, global::System.Nullable<global::System.DateTime> 更新年月日, int Original_ID, global::System.Nullable<int> Original_出庫ID, global::System.Nullable<global::System.DateTime> Original_回収年月日, global::System.Nullable<int> Original_防犯登録ID, global::System.Nullable<int> Original_SCANID, global::System.Nullable<global::System.DateTime> Original_更新年月日) {
+        public virtual int Update(global::System.Nullable<int> 出庫ID, global::System.Nullable<global::System.DateTime> 回収年月日, global::System.Nullable<int> 登録番号, global::System.Nullable<int> 防犯登録ID, global::System.Nullable<int> SCANID, global::System.Nullable<global::System.DateTime> 更新年月日, int Original_ID, global::System.Nullable<int> Original_出庫ID, global::System.Nullable<global::System.DateTime> Original_回収年月日, global::System.Nullable<int> Original_登録番号, global::System.Nullable<int> Original_防犯登録ID, global::System.Nullable<int> Original_SCANID, global::System.Nullable<global::System.DateTime> Original_更新年月日) {
             if ((出庫ID.HasValue == true)) {
                 this.Adapter.UpdateCommand.Parameters[0].Value = ((int)(出庫ID.Value));
             }
@@ -10007,64 +10125,78 @@ namespace SZOK_OCR.cardDataSetTableAdapters {
             else {
                 this.Adapter.UpdateCommand.Parameters[1].Value = global::System.DBNull.Value;
             }
-            if ((防犯登録ID.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[2].Value = ((int)(防犯登録ID.Value));
+            if ((登録番号.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[2].Value = ((int)(登録番号.Value));
             }
             else {
                 this.Adapter.UpdateCommand.Parameters[2].Value = global::System.DBNull.Value;
             }
-            if ((SCANID.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[3].Value = ((int)(SCANID.Value));
+            if ((防犯登録ID.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[3].Value = ((int)(防犯登録ID.Value));
             }
             else {
                 this.Adapter.UpdateCommand.Parameters[3].Value = global::System.DBNull.Value;
             }
-            if ((更新年月日.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[4].Value = ((System.DateTime)(更新年月日.Value));
+            if ((SCANID.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[4].Value = ((int)(SCANID.Value));
             }
             else {
                 this.Adapter.UpdateCommand.Parameters[4].Value = global::System.DBNull.Value;
             }
-            this.Adapter.UpdateCommand.Parameters[5].Value = ((int)(Original_ID));
-            if ((Original_出庫ID.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[6].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[7].Value = ((int)(Original_出庫ID.Value));
+            if ((更新年月日.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[5].Value = ((System.DateTime)(更新年月日.Value));
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[6].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[7].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[5].Value = global::System.DBNull.Value;
+            }
+            this.Adapter.UpdateCommand.Parameters[6].Value = ((int)(Original_ID));
+            if ((Original_出庫ID.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[7].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[8].Value = ((int)(Original_出庫ID.Value));
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[7].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[8].Value = global::System.DBNull.Value;
             }
             if ((Original_回収年月日.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[8].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[9].Value = ((System.DateTime)(Original_回収年月日.Value));
+                this.Adapter.UpdateCommand.Parameters[9].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[10].Value = ((System.DateTime)(Original_回収年月日.Value));
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[8].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[9].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[9].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[10].Value = global::System.DBNull.Value;
+            }
+            if ((Original_登録番号.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[11].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[12].Value = ((int)(Original_登録番号.Value));
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[11].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[12].Value = global::System.DBNull.Value;
             }
             if ((Original_防犯登録ID.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[10].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[11].Value = ((int)(Original_防犯登録ID.Value));
+                this.Adapter.UpdateCommand.Parameters[13].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[14].Value = ((int)(Original_防犯登録ID.Value));
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[10].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[11].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[13].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[14].Value = global::System.DBNull.Value;
             }
             if ((Original_SCANID.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[12].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[13].Value = ((int)(Original_SCANID.Value));
+                this.Adapter.UpdateCommand.Parameters[15].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[16].Value = ((int)(Original_SCANID.Value));
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[12].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[13].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[15].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[16].Value = global::System.DBNull.Value;
             }
             if ((Original_更新年月日.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[14].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[15].Value = ((System.DateTime)(Original_更新年月日.Value));
+                this.Adapter.UpdateCommand.Parameters[17].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[18].Value = ((System.DateTime)(Original_更新年月日.Value));
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[14].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[15].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[17].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[18].Value = global::System.DBNull.Value;
             }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.UpdateCommand.Connection.State;
             if (((this.Adapter.UpdateCommand.Connection.State & global::System.Data.ConnectionState.Open) 
@@ -10086,7 +10218,7 @@ namespace SZOK_OCR.cardDataSetTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         public virtual object IDCount(global::System.Nullable<int> Param1, global::System.Nullable<global::System.DateTime> Param2) {
-            global::System.Data.OleDb.OleDbCommand command = this.CommandCollection[1];
+            global::System.Data.OleDb.OleDbCommand command = this.CommandCollection[2];
             if ((Param1.HasValue == true)) {
                 command.Parameters[0].Value = ((int)(Param1.Value));
             }
@@ -10127,7 +10259,7 @@ namespace SZOK_OCR.cardDataSetTableAdapters {
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, false)]
         public virtual int InsertQuery(global::System.Nullable<int> 出庫ID, global::System.Nullable<global::System.DateTime> 回収年月日, global::System.Nullable<int> 登録番号, global::System.Nullable<int> 防犯登録ID, global::System.Nullable<int> SCANID, global::System.Nullable<global::System.DateTime> 更新年月日) {
-            global::System.Data.OleDb.OleDbCommand command = this.CommandCollection[2];
+            global::System.Data.OleDb.OleDbCommand command = this.CommandCollection[3];
             if ((出庫ID.HasValue == true)) {
                 command.Parameters[0].Value = ((int)(出庫ID.Value));
             }

@@ -48,14 +48,15 @@ namespace SZOK_OCR.ZAIKO
         }
 
         // データグリッドビューカラム定義
-        string colUCode = "col1";
-        string colUName = "col2";
-        string colDate = "col3";
+        string colUCode  = "col1";
+        string colUName  = "col2";
+        string colDate   = "col3";
         string colShukko = "col4";
         string colKaishu = "col5";
-        string colZansu = "col6";
-        string colSNum = "col7";
-        string colENum = "col8";
+        string colZansu  = "col6";
+        string colSNum   = "col7";
+        string colENum   = "col8";
+        string colID     = "col9";  // 2021/10/22
 
         // 返品番号配列
         string[] HenpinNum = null;
@@ -99,17 +100,20 @@ namespace SZOK_OCR.ZAIKO
                 tempDGV.AlternatingRowsDefaultCellStyle.BackColor = SystemColors.ControlLight;
 
                 //各列幅指定
-                tempDGV.Columns.Add(colUCode, "コード");
-                tempDGV.Columns.Add(colUName, "得意先名");
-                tempDGV.Columns.Add(colDate, "出庫日");
-                tempDGV.Columns.Add(colSNum, "開始番号");
-                tempDGV.Columns.Add(colENum, "終了番号");
+                tempDGV.Columns.Add(colUCode,  "コード");
+                tempDGV.Columns.Add(colUName,  "得意先名");
+                tempDGV.Columns.Add(colDate,   "出庫日");
+                tempDGV.Columns.Add(colSNum,   "開始番号");
+                tempDGV.Columns.Add(colENum,   "終了番号");
                 tempDGV.Columns.Add(colShukko, "出庫部数");
                 tempDGV.Columns.Add(colKaishu, "回収");
-                tempDGV.Columns.Add(colZansu, "残数");
+                tempDGV.Columns.Add(colZansu,  "残数");
+                tempDGV.Columns.Add(colID,     ""); // 2021/10/22
 
-                tempDGV.Columns[colUCode].Width = 90;
+                tempDGV.Columns[colID].Visible = false; // 2021/10/22
+
                 tempDGV.Columns[colUName].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                tempDGV.Columns[colUCode].Width  = 90;
                 tempDGV.Columns[colDate].Width   = 110;
                 tempDGV.Columns[colSNum].Width   = 110;
                 tempDGV.Columns[colENum].Width   = 110;
@@ -250,14 +254,15 @@ namespace SZOK_OCR.ZAIKO
                         {
                             dataGridView1.Rows.Add();
 
-                            g[colUCode, iX].Value = "";
-                            g[colUName, iX].Value = tenName + "　合計";
-                            g[colDate, iX].Value = "";
-                            g[colSNum, iX].Value = "";
-                            g[colENum, iX].Value = "";
+                            g[colUCode,  iX].Value = "";
+                            g[colUName,  iX].Value = tenName + "　合計";
+                            g[colDate,   iX].Value = "";
+                            g[colSNum,   iX].Value = "";
+                            g[colENum,   iX].Value = "";
                             g[colShukko, iX].Value = ShukkoTl[0].ToString("#,##0");
                             g[colKaishu, iX].Value = KaishuTl[0].ToString("#,##0");
-                            g[colZansu, iX].Value = (ShukkoTl[0] - KaishuTl[0]).ToString("#,##0");
+                            g[colZansu,  iX].Value = (ShukkoTl[0] - KaishuTl[0]).ToString("#,##0");
+                            g[colID,     iX].Value = "";  // 2021/10/22
 
                             ShukkoTl[0] = 0;
                             KaishuTl[0] = 0;
@@ -267,12 +272,14 @@ namespace SZOK_OCR.ZAIKO
 
                     dataGridView1.Rows.Add();
 
-                    g[colUCode, iX].Value = t.店番;
-                    g[colUName, iX].Value = t.店名;
-                    g[colDate, iX].Value = t.出庫日.ToShortDateString();
-                    g[colSNum, iX].Value = t.開始登録番号;
-                    g[colENum, iX].Value = t.終了登録番号;
+                    g[colUCode,  iX].Value = t.店番;
+                    g[colUName,  iX].Value = t.店名;
+                    g[colDate,   iX].Value = t.出庫日.ToShortDateString();
+                    g[colSNum,   iX].Value = t.開始登録番号;
+                    g[colENum,   iX].Value = t.終了登録番号;
                     g[colShukko, iX].Value = t.部数.ToString("#,##0");
+                    g[colID,     iX].Value = t.ID;  // 2021/10/22
+
                     //int kaishu = t.Get回収データRows().Count();
 
                     // 2020/10/06 コメント化
@@ -786,6 +793,39 @@ namespace SZOK_OCR.ZAIKO
             {
                 fileName = string.Empty;
             }
+        }
+
+        private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (comboBox1.SelectedIndex != 0)
+            {
+                return;
+            }
+            
+            var sid = Utility.StrtoInt(Utility.NulltoStr(dataGridView1[colID, e.RowIndex].Value));
+            if (sid == global.flgOff)
+            {
+                return;
+            }
+
+            ClsShukko clsShukko = new ClsShukko
+            {
+                ID              = sid,
+                UCode           = Utility.StrtoInt(Utility.nulltoStr2(dataGridView1[colUCode, e.RowIndex].Value)),
+                User            = Utility.NulltoStr(dataGridView1[colUName, e.RowIndex].Value),
+                ShukkoDate      = Utility.NulltoStr(dataGridView1[colDate,  e.RowIndex].Value),
+                StartNumber     = Utility.StrtoInt(Utility.nulltoStr2(dataGridView1[colSNum,   e.RowIndex].Value)),
+                EndNumber       = Utility.StrtoInt(Utility.nulltoStr2(dataGridView1[colENum,   e.RowIndex].Value)),
+                Suu             = Utility.StrtoInt(Utility.nulltoStr2(dataGridView1[colShukko, e.RowIndex].Value)),
+                Kaishu          = Utility.StrtoInt(Utility.nulltoStr2(dataGridView1[colKaishu, e.RowIndex].Value)),
+                Zan             = Utility.StrtoInt(Utility.nulltoStr2(dataGridView1[colZansu,  e.RowIndex].Value)),
+                kaishuLimitDate = dateTimePicker2.Value
+            };
+
+            Hide();
+            frmKaishuItems frmKaishuItems = new frmKaishuItems(clsShukko);
+            frmKaishuItems.ShowDialog();
+            Show();
         }
     }
 }
