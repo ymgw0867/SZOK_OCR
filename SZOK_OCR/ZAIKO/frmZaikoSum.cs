@@ -90,7 +90,7 @@ namespace SZOK_OCR.ZAIKO
                 // 行の高さ
                 tempDGV.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
                 tempDGV.ColumnHeadersHeight = 20;
-                tempDGV.RowTemplate.Height = 20;
+                tempDGV.RowTemplate.Height  = 20;
 
                 // 全体の高さ
                 tempDGV.Height = 482;
@@ -110,20 +110,20 @@ namespace SZOK_OCR.ZAIKO
 
                 tempDGV.Columns[colUCode].Width = 90;
                 tempDGV.Columns[colUName].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                tempDGV.Columns[colDate].Width = 110;
-                tempDGV.Columns[colSNum].Width = 110;
-                tempDGV.Columns[colENum].Width = 110;
+                tempDGV.Columns[colDate].Width   = 110;
+                tempDGV.Columns[colSNum].Width   = 110;
+                tempDGV.Columns[colENum].Width   = 110;
                 tempDGV.Columns[colShukko].Width = 80;
                 tempDGV.Columns[colKaishu].Width = 80;
-                tempDGV.Columns[colZansu].Width = 80;
+                tempDGV.Columns[colZansu].Width  = 80;
 
-                tempDGV.Columns[colUCode].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                tempDGV.Columns[colDate].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                tempDGV.Columns[colUCode].DefaultCellStyle.Alignment  = DataGridViewContentAlignment.MiddleCenter;
+                tempDGV.Columns[colDate].DefaultCellStyle.Alignment   = DataGridViewContentAlignment.MiddleCenter;
                 tempDGV.Columns[colShukko].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-                tempDGV.Columns[colSNum].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                tempDGV.Columns[colENum].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                tempDGV.Columns[colSNum].DefaultCellStyle.Alignment   = DataGridViewContentAlignment.MiddleCenter;
+                tempDGV.Columns[colENum].DefaultCellStyle.Alignment   = DataGridViewContentAlignment.MiddleCenter;
                 tempDGV.Columns[colKaishu].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-                tempDGV.Columns[colZansu].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                tempDGV.Columns[colZansu].DefaultCellStyle.Alignment  = DataGridViewContentAlignment.MiddleRight;
 
                 // 行ヘッダを表示しない
                 tempDGV.RowHeadersVisible = false;
