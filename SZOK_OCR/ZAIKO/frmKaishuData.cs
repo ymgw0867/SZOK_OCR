@@ -93,7 +93,7 @@ namespace SZOK_OCR.ZAIKO
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(cnt + " " + ex.Message);
             }
             finally
             {
