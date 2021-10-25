@@ -910,5 +910,27 @@ namespace SZOK_OCR.Common
 
             return;
         }
+
+        ///-------------------------------------------------------------------------------
+        /// <summary>
+        ///     指定したファイルをロックせずに、System.Drawing.Imageを作成する。</summary>
+        /// <param name="filename">
+        ///     作成元のファイルのパス</param>
+        /// <returns>
+        ///     作成したSystem.Drawing.Image。</returns>
+        ///-------------------------------------------------------------------------------
+        public static System.Drawing.Image CreateImage(string filename)
+        {
+            System.IO.FileStream fs = new System.IO.FileStream(
+                filename,
+                System.IO.FileMode.Open,
+                System.IO.FileAccess.Read);
+
+            System.Drawing.Image img = System.Drawing.Image.FromStream(fs);
+
+            fs.Close();
+            return img;
+        }
+
     }
 }

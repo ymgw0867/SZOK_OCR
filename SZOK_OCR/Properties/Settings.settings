@@ -85,5 +85,8 @@
     <Setting Name="xlsNouhinRep" Type="System.String" Scope="Application">
       <Value Profile="(Default)">C:\SZOK_OCR\XLS\納品書請求書.xlsx</Value>
     </Setting>
+    <Setting Name="xlsKaishuTemp" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">C:\SZOK_OCR\XLS\回収防犯登録カード明細.xlsx</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -29,6 +29,7 @@ namespace SZOK_OCR.ZAIKO
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmKaishuItems));
             this.panel1 = new System.Windows.Forms.Panel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.dg1 = new System.Windows.Forms.DataGridView();
@@ -56,6 +57,8 @@ namespace SZOK_OCR.ZAIKO
             // 
             // panel1
             // 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Controls.Add(this.pictureBox1);
             this.panel1.Location = new System.Drawing.Point(12, 12);
@@ -65,7 +68,7 @@ namespace SZOK_OCR.ZAIKO
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(3, 3);
+            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(182, 134);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -76,6 +79,8 @@ namespace SZOK_OCR.ZAIKO
             // 
             this.dg1.AllowUserToAddRows = false;
             this.dg1.AllowUserToDeleteRows = false;
+            this.dg1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.dg1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dg1.Location = new System.Drawing.Point(531, 42);
             this.dg1.Name = "dg1";
@@ -83,6 +88,7 @@ namespace SZOK_OCR.ZAIKO
             this.dg1.RowTemplate.Height = 21;
             this.dg1.Size = new System.Drawing.Size(425, 680);
             this.dg1.TabIndex = 1;
+            this.dg1.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dg1_CellEnter);
             // 
             // label1
             // 
@@ -235,12 +241,15 @@ namespace SZOK_OCR.ZAIKO
             // 
             // btnExcel
             // 
+            this.btnExcel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnExcel.Font = new System.Drawing.Font("ＭＳ ゴシック", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.btnExcel.Location = new System.Drawing.Point(983, 646);
             this.btnExcel.Name = "btnExcel";
             this.btnExcel.Size = new System.Drawing.Size(177, 35);
             this.btnExcel.TabIndex = 15;
             this.btnExcel.Text = "Excel出力(&X)";
             this.btnExcel.UseVisualStyleBackColor = true;
+            this.btnExcel.Click += new System.EventHandler(this.btnExcel_Click);
             // 
             // lblKaishu
             // 
@@ -267,6 +276,8 @@ namespace SZOK_OCR.ZAIKO
             // 
             // button1
             // 
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.button1.Font = new System.Drawing.Font("ＭＳ ゴシック", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.button1.Location = new System.Drawing.Point(983, 687);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(177, 35);
@@ -301,9 +312,10 @@ namespace SZOK_OCR.ZAIKO
             this.Controls.Add(this.dg1);
             this.Controls.Add(this.panel1);
             this.Font = new System.Drawing.Font("ＭＳ ゴシック", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmKaishuItems";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "frmKaishuItems";
+            this.Text = "回収登録カード明細";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmKaishuItems_FormClosing);
             this.Load += new System.EventHandler(this.frmKaishuItems_Load);
             this.Shown += new System.EventHandler(this.frmKaishuItems_Shown);

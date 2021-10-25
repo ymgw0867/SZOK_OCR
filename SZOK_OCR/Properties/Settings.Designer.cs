@@ -97,6 +97,17 @@ namespace SZOK_OCR.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\\SZOK_OCR\\MDB\\SZOK.mdb;Persist Sec" +
+            "urity Info=True;Jet OLEDB:Database Password=SZOK123")]
+        public string SZOKConnectionString {
+            get {
+                return ((string)(this["SZOKConnectionString"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("c:\\SZOK_OCR\\SCAN\\")]
         public string scanPath {
             get {
@@ -142,10 +153,32 @@ namespace SZOK_OCR.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\\SZOK_DATA\\MDB\\SZOK_CARD.mdb;Persi" +
+            "st Security Info=True;Jet OLEDB:Database Password=SZOK123")]
+        public string SZOK_CARDConnectionString {
+            get {
+                return ((string)(this["SZOK_CARDConnectionString"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("c:\\SZOK_DATA\\IMAGE\\")]
         public string imgPath {
             get {
                 return ((string)(this["imgPath"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\\SZOK_OCR\\MDB\\SZOK.mdb;Persist Sec" +
+            "urity Info=True;Password=SZOK123")]
+        public string mdbOlePath {
+            get {
+                return ((string)(this["mdbOlePath"]));
             }
         }
         
@@ -189,34 +222,10 @@ namespace SZOK_OCR.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\\SZOK_OCR\\MDB\\SZOK.mdb;Persist Sec" +
-            "urity Info=True;Jet OLEDB:Database Password=SZOK123")]
-        public string SZOKConnectionString {
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\SZOK_OCR\\XLS\\回収防犯登録カード明細.xlsx")]
+        public string xlsKaishuTemp {
             get {
-                return ((string)(this["SZOKConnectionString"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\\SZOK_DATA\\MDB\\SZOK_CARD.mdb;Persi" +
-            "st Security Info=True;Jet OLEDB:Database Password=SZOK123")]
-        public string SZOK_CARDConnectionString {
-            get {
-                return ((string)(this["SZOK_CARDConnectionString"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\\SZOK_OCR\\MDB\\SZOK.mdb;Persist Sec" +
-            "urity Info=True;Password=SZOK123")]
-        public string mdbOlePath {
-            get {
-                return ((string)(this["mdbOlePath"]));
+                return ((string)(this["xlsKaishuTemp"]));
             }
         }
     }
