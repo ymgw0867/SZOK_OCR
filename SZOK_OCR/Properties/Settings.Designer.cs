@@ -228,5 +228,14 @@ namespace SZOK_OCR.Properties {
                 return ((string)(this["xlsKaishuTemp"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\SZOK_OCR\\XLS\\未回収カードリスト.xlsx")]
+        public string xlsMikaishuList {
+            get {
+                return ((string)(this["xlsMikaishuList"]));
+            }
+        }
     }
 }

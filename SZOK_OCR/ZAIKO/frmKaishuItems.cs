@@ -69,6 +69,10 @@ namespace SZOK_OCR.ZAIKO
             KaishuDataShow();
         }
 
+        ///---------------------------------------------------------------
+        /// <summary>
+        ///     防犯登録カード回収状況表示 </summary>
+        ///---------------------------------------------------------------
         private void KaishuDataShow()
         {
             // 行数を設定して表示色を初期化
@@ -439,7 +443,7 @@ namespace SZOK_OCR.ZAIKO
                 IXLWorkbook wb;
                 //const string ExcelFilePath = ".\\sample.xlsx";
 
-                // Excelファイルを作る
+                // Excelファイルを読み込む
                 using (wb = new XLWorkbook(sPath, XLEventTracking.Disabled))
                 {
                     // ワークシートを追加する

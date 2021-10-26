@@ -17,14 +17,17 @@ namespace SZOK_OCR.ZAIKO
         {
             InitializeComponent();
 
+            // コメント化：2021/10/26
             // データ読み込み
-            sAdp.Fill(dts.出庫データ);
-            kAdp.Fill(dts.回収データ);
+            //sAdp.Fill(dts.出庫データ);
+            //kAdp.Fill(dts.回収データ);
         }
 
         cardDataSet dts = new cardDataSet();
         cardDataSetTableAdapters.出庫データTableAdapter sAdp = new cardDataSetTableAdapters.出庫データTableAdapter();
-        cardDataSetTableAdapters.回収データTableAdapter kAdp = new cardDataSetTableAdapters.回収データTableAdapter();
+
+        // コメント化：2021/10/26
+        //cardDataSetTableAdapters.回収データTableAdapter kAdp = new cardDataSetTableAdapters.回収データTableAdapter();
 
         // 2020/07/20
         cardDataSetTableAdapters.回収データTableAdapter k2Adp = new cardDataSetTableAdapters.回収データTableAdapter();
@@ -172,6 +175,14 @@ namespace SZOK_OCR.ZAIKO
 
         private void button1_Click(object sender, EventArgs e)
         {
+            // 出庫基準年月日：2021/10/26
+            DateTime dt_s = new DateTime(dateTimePicker1.Value.Year, dateTimePicker1.Value.Month, dateTimePicker1.Value.Day, 0, 0, 0);
+
+            // 回収日期限：2021/10/26
+            DateTime dt_e = new DateTime(dateTimePicker2.Value.Year, dateTimePicker2.Value.Month, dateTimePicker2.Value.Day, 23, 59, 59);
+
+            sAdp.FillByShukkoDayRange(dts.出庫データ, dt_s, dt_e);
+
             if (label3.Text != string.Empty)
             {
                 // 無効PCA登録番号配列作成 2020/01/08
@@ -203,14 +214,16 @@ namespace SZOK_OCR.ZAIKO
 
             int[] ShukkoTl = new int[2];
             int[] KaishuTl = new int[2];
+
             for (int i = 0; i < 2; i++)
             {
                 ShukkoTl[i] = 0;
                 KaishuTl[i] = 0;
             }
 
-            // 2020/09/10
-            DateTime dt2 = new DateTime( 2999, 12, 31, 23, 59, 59 );
+            // コメント化 2021/10/26
+            //// 2020/09/10
+            //DateTime dt2 = new DateTime( 2999, 12, 31, 23, 59, 59 );
             
             try
             {
@@ -218,9 +231,10 @@ namespace SZOK_OCR.ZAIKO
 
                 var s = dts.出庫データ.OrderBy(a => a.店番).ThenBy(a => a.出庫日);
 
-                // 出庫基準年月日：2020/09/10
-                DateTime dt = DateTime.Parse(dateTimePicker1.Value.ToShortDateString());
-                s = s.Where(a => a.出庫日 >= dt).OrderBy(a => a.店番).ThenBy(a => a.出庫日);
+                // コメント化：2021/10/26
+                //// 出庫基準年月日：2020/09/10
+                //DateTime dt = DateTime.Parse(dateTimePicker1.Value.ToShortDateString());
+                //s = s.Where(a => a.出庫日 >= dt).OrderBy(a => a.店番).ThenBy(a => a.出庫日);
 
                 //if (dateTimePicker1.Checked)
                 //{
@@ -228,9 +242,10 @@ namespace SZOK_OCR.ZAIKO
                 //    s = s.Where(a => a.出庫日 >= dt).OrderBy(a => a.店番).ThenBy(a => a.出庫日);
                 //}
 
-                // 回収日期限：2020/09/10
-                dt2 = DateTime.Parse(dateTimePicker2.Value.ToShortDateString());
-                s = s.Where(a => a.出庫日 <= dt2).OrderBy(a => a.店番).ThenBy(a => a.出庫日);
+                // コメント化：2021/10/26
+                //// 回収日期限：2020/09/10
+                //dt2 = DateTime.Parse(dateTimePicker2.Value.ToShortDateString());
+                //s = s.Where(a => a.出庫日 <= dt2).OrderBy(a => a.店番).ThenBy(a => a.出庫日);
 
                 //if (dateTimePicker2.Checked)
                 //{
@@ -285,7 +300,10 @@ namespace SZOK_OCR.ZAIKO
                     // 2020/10/06 コメント化
                     //int kaishu = (int)k2Adp.IDCount(t.ID, dt2);  // 重複を除いた件数を取得 2020/07/20, 回収日期限を設定  
 
-                    DateTime dt3 = new DateTime(dt2.Year, dt2.Month, dt2.Day, 23, 59, 59); // 2020/10/05
+                    // 2020/10/06 コメント化
+                    //DateTime dt3 = new DateTime(dt2.Year, dt2.Month, dt2.Day, 23, 59, 59); // 2020/10/05
+
+                    DateTime dt3 = new DateTime(dateTimePicker2.Value.Year, dateTimePicker2.Value.Month, dateTimePicker2.Value.Day, 23, 59, 59); // 2021/10/26
                     int kaishu = (int)k2Adp.IDCount(t.ID, dt3);  // 重複を除いた件数を取得：回収期限日を更新年月日で判断 2020/10/05                   
 
                     if (label3.Text != string.Empty)
@@ -399,14 +417,16 @@ namespace SZOK_OCR.ZAIKO
 
             int[] ShukkoTl = new int[2];
             int[] KaishuTl = new int[2];
+
             for (int i = 0; i < 2; i++)
             {
                 ShukkoTl[i] = 0;
                 KaishuTl[i] = 0;
             }
 
-            // 2020/09/10
-            DateTime dt2 = new DateTime(2999, 12, 31, 23, 59, 59);
+            // コメント化 2021/10/26
+            //// 2020/09/10
+            //DateTime dt2 = new DateTime(2999, 12, 31, 23, 59, 59);
 
             try
             {
@@ -414,9 +434,10 @@ namespace SZOK_OCR.ZAIKO
 
                 var s = dts.出庫データ.OrderBy(a => a.店番).ThenBy(a => a.出庫日);
 
-                // 出庫基準年月日：2020/09/10
-                DateTime dt = DateTime.Parse(dateTimePicker1.Value.ToShortDateString());
-                s = s.Where(a => a.出庫日 >= dt).OrderBy(a => a.店番).ThenBy(a => a.出庫日);
+                // コメント化 2021/10/26
+                //// 出庫基準年月日：2020/09/10
+                //DateTime dt = DateTime.Parse(dateTimePicker1.Value.ToShortDateString());
+                //s = s.Where(a => a.出庫日 >= dt).OrderBy(a => a.店番).ThenBy(a => a.出庫日);
 
                 //if (dateTimePicker1.Checked)
                 //{
@@ -424,9 +445,11 @@ namespace SZOK_OCR.ZAIKO
                 //    s = s.Where(a => a.出庫日 >= dt).OrderBy(a => a.店番).ThenBy(a => a.出庫日);
                 //}
 
-                // 回収日期限：2020/09/10
-                dt2 = DateTime.Parse(dateTimePicker2.Value.ToShortDateString());
-                s = s.Where(a => a.出庫日 <= dt2).OrderBy(a => a.店番).ThenBy(a => a.出庫日);
+
+                // コメント化 2021/10/26
+                //// 回収日期限：2020/09/10
+                //dt2 = DateTime.Parse(dateTimePicker2.Value.ToShortDateString());
+                //s = s.Where(a => a.出庫日 <= dt2).OrderBy(a => a.店番).ThenBy(a => a.出庫日);
 
                 //if (dateTimePicker2.Checked)
                 //{
@@ -473,7 +496,10 @@ namespace SZOK_OCR.ZAIKO
                         //KaishuTl[i] += t.Get回収データRows().Count();
 
                         // 2020/10/06
-                        DateTime dt3 = new DateTime(dt2.Year, dt2.Month, dt2.Day, 23, 59, 59); 
+                        //DateTime dt3 = new DateTime(dt2.Year, dt2.Month, dt2.Day, 23, 59, 59); 
+
+                        // 2021/10/26
+                        DateTime dt3 = new DateTime(dateTimePicker2.Value.Year, dateTimePicker2.Value.Month, dateTimePicker2.Value.Day, 23, 59, 59);
 
                         // 2020/10/06 コメント化
                         //int kaishu = (int)k2Adp.IDCount(t.ID, dt2);  // 重複を除いた件数を取得 2020/07/20
@@ -489,7 +515,7 @@ namespace SZOK_OCR.ZAIKO
                         KaishuTl[i] += kaishu;  // 2020/08/04
                     }
 
-                    Tenban = t.店番;
+                    Tenban  = t.店番;
                     tenName = t.店名;
                 }
 

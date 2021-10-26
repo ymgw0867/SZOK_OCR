@@ -52,5 +52,13 @@ namespace SZOK_OCR.ZAIKO
             frm.ShowDialog();
             this.Show();
         }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            frmKaishuList frm = new frmKaishuList();
+            frm.ShowDialog();
+            this.Show();
+        }
     }
 }

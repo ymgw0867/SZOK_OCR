@@ -197,6 +197,12 @@
     <Compile Include="ZAIKO\frmKaishuItems.Designer.cs">
       <DependentUpon>frmKaishuItems.cs</DependentUpon>
     </Compile>
+    <Compile Include="ZAIKO\frmKaishuList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ZAIKO\frmKaishuList.Designer.cs">
+      <DependentUpon>frmKaishuList.cs</DependentUpon>
+    </Compile>
     <Compile Include="ZAIKO\frmNouhinRep.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -284,6 +290,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ZAIKO\frmKaishuItems.resx">
       <DependentUpon>frmKaishuItems.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ZAIKO\frmKaishuList.resx">
+      <DependentUpon>frmKaishuList.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ZAIKO\frmNouhinRep.resx">
       <DependentUpon>frmNouhinRep.cs</DependentUpon>
