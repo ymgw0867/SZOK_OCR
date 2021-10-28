@@ -63,7 +63,7 @@ namespace SZOK_OCR.ZAIKO
             this.panel1.Controls.Add(this.pictureBox1);
             this.panel1.Location = new System.Drawing.Point(12, 12);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(513, 710);
+            this.panel1.Size = new System.Drawing.Size(513, 714);
             this.panel1.TabIndex = 0;
             // 
             // pictureBox1
@@ -86,7 +86,7 @@ namespace SZOK_OCR.ZAIKO
             this.dg1.Name = "dg1";
             this.dg1.ReadOnly = true;
             this.dg1.RowTemplate.Height = 21;
-            this.dg1.Size = new System.Drawing.Size(425, 680);
+            this.dg1.Size = new System.Drawing.Size(425, 684);
             this.dg1.TabIndex = 1;
             this.dg1.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dg1_CellEnter);
             // 

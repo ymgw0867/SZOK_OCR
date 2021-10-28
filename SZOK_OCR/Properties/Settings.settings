@@ -26,14 +26,6 @@
     <Setting Name="tifPath" Type="System.String" Scope="Application">
       <Value Profile="(Default)">c:\SZOK_OCR\TIF\</Value>
     </Setting>
-    <Setting Name="SZOKConnectionString" Type="(Connection string)" Scope="Application">
-      <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
-&lt;SerializableConnectionString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
-  &lt;ConnectionString&gt;Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\SZOK_OCR\MDB\SZOK.mdb;Persist Security Info=True;Jet OLEDB:Database Password=SZOK123&lt;/ConnectionString&gt;
-  &lt;ProviderName&gt;System.Data.OleDb&lt;/ProviderName&gt;
-&lt;/SerializableConnectionString&gt;</DesignTimeValue>
-      <Value Profile="(Default)">Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\SZOK_OCR\MDB\SZOK.mdb;Persist Security Info=True;Jet OLEDB:Database Password=SZOK123</Value>
-    </Setting>
     <Setting Name="scanPath" Type="System.String" Scope="Application">
       <Value Profile="(Default)">c:\SZOK_OCR\SCAN\</Value>
     </Setting>
@@ -49,6 +41,32 @@
     <Setting Name="wrReaderOutFile" Type="System.String" Scope="Application">
       <Value Profile="(Default)">txtout.csv</Value>
     </Setting>
+    <Setting Name="imgPath" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">c:\SZOK_DATA\IMAGE\</Value>
+    </Setting>
+    <Setting Name="xlsLabelPath" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">C:\SZOK_OCR\XLS\cardlabel.xlsx</Value>
+    </Setting>
+    <Setting Name="scanDataPath" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">C:\SZOK_DATA\SCANDATA\</Value>
+    </Setting>
+    <Setting Name="xlsNouhinRep" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">C:\SZOK_OCR\XLS\納品書請求書.xlsx</Value>
+    </Setting>
+    <Setting Name="xlsKaishuTemp" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">C:\SZOK_OCR\XLS\回収防犯登録カード明細.xlsx</Value>
+    </Setting>
+    <Setting Name="xlsMikaishuList" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">C:\SZOK_OCR\XLS\未回収カードリスト.xlsx</Value>
+    </Setting>
+    <Setting Name="SZOKConnectionString" Type="(Connection string)" Scope="Application">
+      <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;SerializableConnectionString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;ConnectionString&gt;Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\SZOK_OCR\MDB\SZOK.mdb;Persist Security Info=True;Jet OLEDB:Database Password=SZOK123&lt;/ConnectionString&gt;
+  &lt;ProviderName&gt;System.Data.OleDb&lt;/ProviderName&gt;
+&lt;/SerializableConnectionString&gt;</DesignTimeValue>
+      <Value Profile="(Default)">Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\SZOK_OCR\MDB\SZOK.mdb;Persist Security Info=True;Jet OLEDB:Database Password=SZOK123</Value>
+    </Setting>
     <Setting Name="SZOK_CARDConnectionString" Type="(Connection string)" Scope="Application">
       <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
 &lt;SerializableConnectionString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
@@ -56,9 +74,6 @@
   &lt;ProviderName&gt;System.Data.OleDb&lt;/ProviderName&gt;
 &lt;/SerializableConnectionString&gt;</DesignTimeValue>
       <Value Profile="(Default)">Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\SZOK_DATA\MDB\SZOK_CARD.mdb;Persist Security Info=True;Jet OLEDB:Database Password=SZOK123</Value>
-    </Setting>
-    <Setting Name="imgPath" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">c:\SZOK_DATA\IMAGE\</Value>
     </Setting>
     <Setting Name="mdbOlePath" Type="(Connection string)" Scope="Application">
       <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
@@ -75,21 +90,6 @@
   &lt;ProviderName&gt;System.Data.OleDb&lt;/ProviderName&gt;
 &lt;/SerializableConnectionString&gt;</DesignTimeValue>
       <Value Profile="(Default)">Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\SZOK_OCR\MDB\SZOK_Temp.mdb;Persist Security Info=True;Password=SZOK123</Value>
-    </Setting>
-    <Setting Name="xlsLabelPath" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">C:\SZOK_OCR\XLS\cardlabel.xlsx</Value>
-    </Setting>
-    <Setting Name="scanDataPath" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">C:\SZOK_DATA\SCANDATA\</Value>
-    </Setting>
-    <Setting Name="xlsNouhinRep" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">C:\SZOK_OCR\XLS\納品書請求書.xlsx</Value>
-    </Setting>
-    <Setting Name="xlsKaishuTemp" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">C:\SZOK_OCR\XLS\回収防犯登録カード明細.xlsx</Value>
-    </Setting>
-    <Setting Name="xlsMikaishuList" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">C:\SZOK_OCR\XLS\未回収カードリスト.xlsx</Value>
     </Setting>
   </Settings>
 </SettingsFile>

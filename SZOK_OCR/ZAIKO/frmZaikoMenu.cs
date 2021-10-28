@@ -60,5 +60,12 @@ namespace SZOK_OCR.ZAIKO
             frm.ShowDialog();
             this.Show();
         }
+
+        private void frmZaikoMenu_Load(object sender, EventArgs e)
+        {
+            // キャプションにバージョンを追加
+            this.Text += "   ver " + Application.ProductVersion;
+
+        }
     }
 }

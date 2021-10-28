@@ -43,23 +43,23 @@ namespace SZOK_OCR.ZAIKO
 
             txtUser.Text = string.Empty;
 
-            // データグリッドビュー定義
-            gridViewSetting(dataGridView1);
+            // データグリッドビュー定義:コメント化：2021/10/28
+            //gridViewSetting(dataGridView1);
 
             comboBox1.SelectedIndex = 0;
             button2.Enabled = false;
         }
 
         // データグリッドビューカラム定義
-        string colUCode  = "col1";
-        string colUName  = "col2";
-        string colDate   = "col3";
+        string colUCode = "col1";
+        string colUName = "col2";
+        string colDate = "col3";
         string colShukko = "col4";
         string colKaishu = "col5";
-        string colZansu  = "col6";
-        string colSNum   = "col7";
-        string colENum   = "col8";
-        string colID     = "col9";  // 2021/10/22
+        string colZansu = "col6";
+        string colSNum = "col7";
+        string colENum = "col8";
+        string colID = "col9";  // 2021/10/22
 
         // 返品番号配列
         string[] HenpinNum = null;
@@ -94,7 +94,7 @@ namespace SZOK_OCR.ZAIKO
                 // 行の高さ
                 tempDGV.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
                 tempDGV.ColumnHeadersHeight = 20;
-                tempDGV.RowTemplate.Height  = 20;
+                tempDGV.RowTemplate.Height = 20;
 
                 // 全体の高さ
                 tempDGV.Height = 482;
@@ -103,34 +103,162 @@ namespace SZOK_OCR.ZAIKO
                 tempDGV.AlternatingRowsDefaultCellStyle.BackColor = SystemColors.ControlLight;
 
                 //各列幅指定
-                tempDGV.Columns.Add(colUCode,  "コード");
-                tempDGV.Columns.Add(colUName,  "得意先名");
-                tempDGV.Columns.Add(colDate,   "出庫日");
-                tempDGV.Columns.Add(colSNum,   "開始番号");
-                tempDGV.Columns.Add(colENum,   "終了番号");
+                tempDGV.Columns.Add(colUCode, "コード");
+                tempDGV.Columns.Add(colUName, "得意先名");
+                tempDGV.Columns.Add(colDate, "出庫日");
+                tempDGV.Columns.Add(colSNum, "開始番号");
+                tempDGV.Columns.Add(colENum, "終了番号");
                 tempDGV.Columns.Add(colShukko, "出庫部数");
                 tempDGV.Columns.Add(colKaishu, "回収");
-                tempDGV.Columns.Add(colZansu,  "残数");
-                tempDGV.Columns.Add(colID,     ""); // 2021/10/22
+                tempDGV.Columns.Add(colZansu, "残数");
+                tempDGV.Columns.Add(colID, ""); // 2021/10/22
 
                 tempDGV.Columns[colID].Visible = false; // 2021/10/22
 
                 tempDGV.Columns[colUName].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                tempDGV.Columns[colUCode].Width  = 90;
-                tempDGV.Columns[colDate].Width   = 110;
-                tempDGV.Columns[colSNum].Width   = 110;
-                tempDGV.Columns[colENum].Width   = 110;
+                tempDGV.Columns[colUCode].Width = 90;
+                tempDGV.Columns[colDate].Width = 110;
+                tempDGV.Columns[colSNum].Width = 110;
+                tempDGV.Columns[colENum].Width = 110;
                 tempDGV.Columns[colShukko].Width = 80;
                 tempDGV.Columns[colKaishu].Width = 80;
-                tempDGV.Columns[colZansu].Width  = 80;
+                tempDGV.Columns[colZansu].Width = 80;
 
-                tempDGV.Columns[colUCode].DefaultCellStyle.Alignment  = DataGridViewContentAlignment.MiddleCenter;
-                tempDGV.Columns[colDate].DefaultCellStyle.Alignment   = DataGridViewContentAlignment.MiddleCenter;
+                tempDGV.Columns[colUCode].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                tempDGV.Columns[colDate].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
                 tempDGV.Columns[colShukko].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-                tempDGV.Columns[colSNum].DefaultCellStyle.Alignment   = DataGridViewContentAlignment.MiddleCenter;
-                tempDGV.Columns[colENum].DefaultCellStyle.Alignment   = DataGridViewContentAlignment.MiddleCenter;
+                tempDGV.Columns[colSNum].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                tempDGV.Columns[colENum].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
                 tempDGV.Columns[colKaishu].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-                tempDGV.Columns[colZansu].DefaultCellStyle.Alignment  = DataGridViewContentAlignment.MiddleRight;
+                tempDGV.Columns[colZansu].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+
+                // 行ヘッダを表示しない
+                tempDGV.RowHeadersVisible = false;
+
+                // 選択モード
+                tempDGV.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+                tempDGV.MultiSelect = false;
+
+                // 編集不可とする
+                tempDGV.ReadOnly = true;
+
+                // 追加行表示しない
+                tempDGV.AllowUserToAddRows = false;
+
+                // データグリッドビューから行削除を禁止する
+                tempDGV.AllowUserToDeleteRows = false;
+
+                // 手動による列移動の禁止
+                tempDGV.AllowUserToOrderColumns = false;
+
+                // 列サイズ変更可
+                tempDGV.AllowUserToResizeColumns = true;
+
+                // 行サイズ変更禁止
+                tempDGV.AllowUserToResizeRows = false;
+
+                // 行ヘッダーの自動調節
+                //tempDGV.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
+
+                //TAB動作
+                tempDGV.StandardTab = true;
+
+                // 罫線
+                tempDGV.AdvancedColumnHeadersBorderStyle.All = DataGridViewAdvancedCellBorderStyle.None;
+                tempDGV.CellBorderStyle = DataGridViewCellBorderStyle.None;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, "エラーメッセージ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        ///--------------------------------------------------------------------
+        /// <summary>
+        ///     データグリッドビューの定義を行います </summary>
+        /// <param name="tempDGV">
+        ///     データグリッドビューオブジェクト</param>
+        ///--------------------------------------------------------------------
+        private void gridViewSetting_Bind(DataGridView tempDGV)
+        {
+            try
+            {
+                //フォームサイズ定義
+
+                // 列スタイルを変更する
+
+                tempDGV.EnableHeadersVisualStyles = false;
+                tempDGV.ColumnHeadersDefaultCellStyle.BackColor = Color.SteelBlue;
+                tempDGV.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+
+                // 列ヘッダー表示位置指定
+                tempDGV.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+                // 列ヘッダーフォント指定
+                tempDGV.ColumnHeadersDefaultCellStyle.Font = new Font("ＭＳ ゴシック", 10, FontStyle.Regular);
+
+                // データフォント指定
+                tempDGV.DefaultCellStyle.Font = new Font("ＭＳ ゴシック", 10, FontStyle.Regular);
+
+                // 行の高さ
+                tempDGV.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+                tempDGV.ColumnHeadersHeight = 20;
+                tempDGV.RowTemplate.Height = 20;
+
+                // 全体の高さ
+                tempDGV.Height = 482;
+
+                // 奇数行の色
+                tempDGV.AlternatingRowsDefaultCellStyle.BackColor = SystemColors.ControlLight;
+
+                //各列幅指定
+                //tempDGV.Columns.Add(colUCode, "コード");
+                //tempDGV.Columns.Add(colUName, "得意先名");
+                //tempDGV.Columns.Add(colDate, "出庫日");
+                //tempDGV.Columns.Add(colSNum, "開始番号");
+                //tempDGV.Columns.Add(colENum, "終了番号");
+                //tempDGV.Columns.Add(colShukko, "出庫部数");
+                //tempDGV.Columns.Add(colKaishu, "回収");
+                //tempDGV.Columns.Add(colZansu, "残数");
+                //tempDGV.Columns.Add(colID, ""); // 2021/10/22
+
+                tempDGV.Columns[0].HeaderText = "コード";
+                tempDGV.Columns[1].HeaderText = "得意先名";
+                tempDGV.Columns[2].HeaderText = "出庫日";
+                tempDGV.Columns[3].HeaderText = "開始番号";
+                tempDGV.Columns[4].HeaderText = "終了番号";
+                tempDGV.Columns[5].HeaderText = "出庫部数";
+                tempDGV.Columns[6].HeaderText = "回収";
+                tempDGV.Columns[7].HeaderText = "残数";
+
+                tempDGV.Columns[0].Name = colUCode;
+                tempDGV.Columns[1].Name = colUName;
+                tempDGV.Columns[2].Name = colDate;
+                tempDGV.Columns[3].Name = colSNum;
+                tempDGV.Columns[4].Name = colENum;
+                tempDGV.Columns[5].Name = colShukko;
+                tempDGV.Columns[6].Name = colKaishu;
+                tempDGV.Columns[7].Name = colZansu;
+                tempDGV.Columns[8].Name = colID;
+
+                tempDGV.Columns[colID].Visible = false; // 2021/10/22
+
+                tempDGV.Columns[colUName].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                tempDGV.Columns[colUCode].Width = 90;
+                tempDGV.Columns[colDate].Width = 110;
+                tempDGV.Columns[colSNum].Width = 110;
+                tempDGV.Columns[colENum].Width = 110;
+                tempDGV.Columns[colShukko].Width = 80;
+                tempDGV.Columns[colKaishu].Width = 80;
+                tempDGV.Columns[colZansu].Width = 80;
+
+                tempDGV.Columns[colUCode].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                tempDGV.Columns[colDate].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                tempDGV.Columns[colShukko].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                tempDGV.Columns[colSNum].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                tempDGV.Columns[colENum].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                tempDGV.Columns[colKaishu].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                tempDGV.Columns[colZansu].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
 
                 // 行ヘッダを表示しない
                 tempDGV.RowHeadersVisible = false;
@@ -224,7 +352,7 @@ namespace SZOK_OCR.ZAIKO
             // コメント化 2021/10/26
             //// 2020/09/10
             //DateTime dt2 = new DateTime( 2999, 12, 31, 23, 59, 59 );
-            
+
             try
             {
                 int iX = 0;
@@ -261,23 +389,42 @@ namespace SZOK_OCR.ZAIKO
 
                 dataGridView1.Rows.Clear();
 
+                // 2021/10/28
+                BindingList<ClsShukkoList> shukkoBind = new BindingList<ClsShukkoList>();
+
                 foreach (var t in s)
                 {
                     if (Tenban != 0)
                     {
                         if (Tenban != t.店番)
                         {
-                            dataGridView1.Rows.Add();
+                            // コメント化：2021/10/28
+                            //dataGridView1.Rows.Add();
+                            //g[colUCode, iX].Value = "";
+                            //g[colUName, iX].Value = tenName + "　合計";
+                            //g[colDate, iX].Value = "";
+                            //g[colSNum, iX].Value = "";
+                            //g[colENum, iX].Value = "";
+                            //g[colShukko, iX].Value = ShukkoTl[0].ToString("#,##0");
+                            //g[colKaishu, iX].Value = KaishuTl[0].ToString("#,##0");
+                            //g[colZansu, iX].Value = (ShukkoTl[0] - KaishuTl[0]).ToString("#,##0");
+                            //g[colID, iX].Value = "";  // 2021/10/22
 
-                            g[colUCode,  iX].Value = "";
-                            g[colUName,  iX].Value = tenName + "　合計";
-                            g[colDate,   iX].Value = "";
-                            g[colSNum,   iX].Value = "";
-                            g[colENum,   iX].Value = "";
-                            g[colShukko, iX].Value = ShukkoTl[0].ToString("#,##0");
-                            g[colKaishu, iX].Value = KaishuTl[0].ToString("#,##0");
-                            g[colZansu,  iX].Value = (ShukkoTl[0] - KaishuTl[0]).ToString("#,##0");
-                            g[colID,     iX].Value = "";  // 2021/10/22
+                            // 2021/10/28
+                            ClsShukkoList shukkoTotal = new ClsShukkoList
+                            {
+                                UCode = "",
+                                UName = tenName + "　合計",
+                                ShDate = "",
+                                SNumber = "",
+                                ENumber = "",
+                                Busu = ShukkoTl[0].ToString("#,##0"),
+                                Kaishu = KaishuTl[0].ToString("#,##0"),
+                                Zansu  = (ShukkoTl[0] - KaishuTl[0]).ToString("#,##0"),
+                                Id = t.ID
+                            };
+
+                            shukkoBind.Add(shukkoTotal);
 
                             ShukkoTl[0] = 0;
                             KaishuTl[0] = 0;
@@ -285,15 +432,28 @@ namespace SZOK_OCR.ZAIKO
                         }
                     }
 
-                    dataGridView1.Rows.Add();
+                    // コメント化：2021/10/28
+                    //dataGridView1.Rows.Add();
+                    //g[colUCode, iX].Value = t.店番;
+                    //g[colUName, iX].Value = t.店名;
+                    //g[colDate, iX].Value = t.出庫日.ToShortDateString();
+                    //g[colSNum, iX].Value = t.開始登録番号;
+                    //g[colENum, iX].Value = t.終了登録番号;
+                    //g[colShukko, iX].Value = t.部数.ToString("#,##0");
+                    //g[colID, iX].Value = t.ID;  // 2021/10/22
 
-                    g[colUCode,  iX].Value = t.店番;
-                    g[colUName,  iX].Value = t.店名;
-                    g[colDate,   iX].Value = t.出庫日.ToShortDateString();
-                    g[colSNum,   iX].Value = t.開始登録番号;
-                    g[colENum,   iX].Value = t.終了登録番号;
-                    g[colShukko, iX].Value = t.部数.ToString("#,##0");
-                    g[colID,     iX].Value = t.ID;  // 2021/10/22
+                    // 2021/10/28
+                    ClsShukkoList shukkoList = new ClsShukkoList
+                    {
+                        UCode = t.店番.ToString(),
+                        UName = t.店名,
+                        ShDate = t.出庫日.ToShortDateString(),
+                        SNumber = t.開始登録番号.ToString(),
+                        ENumber = t.終了登録番号.ToString(),
+                        Busu = t.部数.ToString("#,##0"),
+                        Id = t.ID
+                    };
+
 
                     //int kaishu = t.Get回収データRows().Count();
 
@@ -312,8 +472,15 @@ namespace SZOK_OCR.ZAIKO
                         kaishu += GetDisabledCount(t.開始登録番号, t.終了登録番号, HenpinNum);
                     }
 
-                    g[colKaishu, iX].Value = kaishu.ToString("#,##0");
-                    g[colZansu, iX].Value = (t.部数 - kaishu).ToString("#,##0");
+                    // コメント化：2021/10/28
+                    //g[colKaishu, iX].Value = kaishu.ToString("#,##0");
+                    //g[colZansu, iX].Value = (t.部数 - kaishu).ToString("#,##0");
+
+                    // 2021/10/28
+                    shukkoList.Kaishu = kaishu.ToString("#,##0");
+                    shukkoList.Zansu = (t.部数 - kaishu).ToString("#,##0");
+                    shukkoBind.Add(shukkoList);
+
 
                     for (int i = 0; i < 2; i++)
                     {
@@ -329,28 +496,61 @@ namespace SZOK_OCR.ZAIKO
 
                 for (int i = 0; i < 2; i++)
                 {
-                    dataGridView1.Rows.Add();
+                    // コメント化：2021/10/28
+                    //dataGridView1.Rows.Add();
 
-                    g[colUCode, iX].Value = "";
+                    //g[colUCode, iX].Value = "";
 
+                    //if (i == 0)
+                    //{
+                    //    g[colUName, iX].Value = tenName + "　合計";
+                    //}
+                    //else
+                    //{
+                    //    g[colUName, iX].Value = "総計";
+                    //}
+
+                    //g[colDate, iX].Value = "";
+                    //g[colSNum, iX].Value = "";
+                    //g[colENum, iX].Value = "";
+                    //g[colShukko, iX].Value = ShukkoTl[i].ToString("#,##0");
+                    //g[colKaishu, iX].Value = KaishuTl[i].ToString("#,##0");
+                    //g[colZansu, iX].Value = (ShukkoTl[i] - KaishuTl[i]).ToString("#,##0");
+
+
+                    // 2021/10/28
+                    ClsShukkoList shukkoList = new ClsShukkoList
+                    {
+                        UCode = "",
+                        ShDate = "",
+                        SNumber = "",
+                        ENumber = "",
+                        Busu = ShukkoTl[i].ToString("#,##0"),
+                        Kaishu = KaishuTl[0].ToString("#,##0"),
+                        Zansu = (ShukkoTl[0] - KaishuTl[0]).ToString("#,##0")
+                    };
+
+                    // 2021/10/28
                     if (i == 0)
                     {
-                        g[colUName, iX].Value = tenName + "　合計";
+                        shukkoList.UName = tenName + "　合計";
                     }
                     else
                     {
-                        g[colUName, iX].Value = "総計";
+                        shukkoList.UName = "総計";
                     }
 
-                    g[colDate, iX].Value = "";
-                    g[colSNum, iX].Value = "";
-                    g[colENum, iX].Value = "";
-                    g[colShukko, iX].Value = ShukkoTl[i].ToString("#,##0");
-                    g[colKaishu, iX].Value = KaishuTl[i].ToString("#,##0");
-                    g[colZansu, iX].Value = (ShukkoTl[i] - KaishuTl[i]).ToString("#,##0");
+                    // 2021/10/28
+                    shukkoBind.Add(shukkoList);
 
                     iX++;
                 }
+
+                // DataGridViewバインド：2021/10/28
+                dataGridView1.DataSource = shukkoBind;
+
+                // DataGridView書式設定：2021/10/28
+                gridViewSetting_Bind(dataGridView1);
 
                 if (g.Rows.Count > 0)
                 {
@@ -384,7 +584,7 @@ namespace SZOK_OCR.ZAIKO
         /// <returns>
         ///     紐づけ件数</returns>
         ///-----------------------------------------------------------------------
-        private int GetDisabledCount(int sNum, int eNum, string [] disArray)
+        private int GetDisabledCount(int sNum, int eNum, string[] disArray)
         {
             int rtn = 0;
 
@@ -465,22 +665,40 @@ namespace SZOK_OCR.ZAIKO
 
                 dataGridView1.Rows.Clear();
 
+                // 2021/10/28
+                BindingList<ClsShukkoList> shukkoBind = new BindingList<ClsShukkoList>();
+
                 foreach (var t in s)
                 {
                     if (Tenban != 0)
                     {
                         if (Tenban != t.店番)
                         {
-                            dataGridView1.Rows.Add();
+                            // コメント化：2021/10/28
+                            //dataGridView1.Rows.Add();
+                            //g[colUCode, iX].Value = Tenban;
+                            //g[colUName, iX].Value = tenName;
+                            //g[colDate, iX].Value = "";
+                            //g[colSNum, iX].Value = "";
+                            //g[colENum, iX].Value = "";
+                            //g[colShukko, iX].Value = ShukkoTl[0].ToString("#,##0");
+                            //g[colKaishu, iX].Value = KaishuTl[0].ToString("#,##0");
+                            //g[colZansu, iX].Value = (ShukkoTl[0] - KaishuTl[0]).ToString("#,##0");
 
-                            g[colUCode, iX].Value = Tenban;
-                            g[colUName, iX].Value = tenName;
-                            g[colDate, iX].Value = "";
-                            g[colSNum, iX].Value = "";
-                            g[colENum, iX].Value = "";
-                            g[colShukko, iX].Value = ShukkoTl[0].ToString("#,##0");
-                            g[colKaishu, iX].Value = KaishuTl[0].ToString("#,##0");
-                            g[colZansu, iX].Value = (ShukkoTl[0] - KaishuTl[0]).ToString("#,##0");
+                            // 2021/10/28
+                            ClsShukkoList shukkoTotal = new ClsShukkoList
+                            {
+                                UCode = Tenban.ToString(),
+                                UName = tenName,
+                                ShDate = "",
+                                SNumber = "",
+                                ENumber = "",
+                                Busu = ShukkoTl[0].ToString("#,##0"),
+                                Kaishu = KaishuTl[0].ToString("#,##0"),
+                                Zansu = (ShukkoTl[0] - KaishuTl[0]).ToString("#,##0"),
+                            };
+
+                            shukkoBind.Add(shukkoTotal);
 
                             ShukkoTl[0] = 0;
                             KaishuTl[0] = 0;
@@ -515,35 +733,67 @@ namespace SZOK_OCR.ZAIKO
                         KaishuTl[i] += kaishu;  // 2020/08/04
                     }
 
-                    Tenban  = t.店番;
+                    Tenban = t.店番;
                     tenName = t.店名;
                 }
 
                 for (int i = 0; i < 2; i++)
                 {
-                    dataGridView1.Rows.Add();
+                    // 2021/10/28
+                    //dataGridView1.Rows.Add();
 
+                    //if (i == 0)
+                    //{
+                    //    g[colUCode, iX].Value = Tenban;
+                    //    g[colUName, iX].Value = tenName;
+                    //}
+                    //else
+                    //{
+                    //    g[colUCode, iX].Value = "";
+                    //    g[colUName, iX].Value = "総計";
+                    //}
+
+                    //g[colDate, iX].Value = "";
+                    //g[colSNum, iX].Value = "";
+                    //g[colENum, iX].Value = "";
+                    //g[colShukko, iX].Value = ShukkoTl[i].ToString("#,##0");
+                    //g[colKaishu, iX].Value = KaishuTl[i].ToString("#,##0");
+                    //g[colZansu, iX].Value = (ShukkoTl[i] - KaishuTl[i]).ToString("#,##0");
+
+
+                    // 2021/10/28 : クラスにセット
+                    ClsShukkoList shukkoTotal = new ClsShukkoList
+                    {
+                        ShDate = "",
+                        SNumber = "",
+                        ENumber = "",
+                        Busu = ShukkoTl[i].ToString("#,##0"),
+                        Kaishu = KaishuTl[i].ToString("#,##0"),
+                        Zansu = (ShukkoTl[i] - KaishuTl[i]).ToString("#,##0"),
+                    };
 
                     if (i == 0)
                     {
-                        g[colUCode, iX].Value = Tenban;
-                        g[colUName, iX].Value = tenName;
+                        shukkoTotal.UCode = Tenban.ToString();
+                        shukkoTotal.UName = tenName;
                     }
                     else
                     {
-                        g[colUCode, iX].Value = "";
-                        g[colUName, iX].Value = "総計";
+                        shukkoTotal.UCode = "";
+                        shukkoTotal.UName = "総計";
                     }
 
-                    g[colDate, iX].Value = "";
-                    g[colSNum, iX].Value = "";
-                    g[colENum, iX].Value = "";
-                    g[colShukko, iX].Value = ShukkoTl[i].ToString("#,##0");
-                    g[colKaishu, iX].Value = KaishuTl[i].ToString("#,##0");
-                    g[colZansu, iX].Value = (ShukkoTl[i] - KaishuTl[i]).ToString("#,##0");
+                    // 2021/10/28 : バインディングクラスにセット
+                    shukkoBind.Add(shukkoTotal);
 
                     iX++;
                 }
+
+                // DataGridViewバインド：2021/10/28
+                dataGridView1.DataSource = shukkoBind;
+
+                // DataGridView書式設定：2021/10/28
+                gridViewSetting_Bind(dataGridView1);
 
                 if (g.Rows.Count > 0)
                 {
@@ -827,7 +1077,7 @@ namespace SZOK_OCR.ZAIKO
             {
                 return;
             }
-            
+
             var sid = Utility.StrtoInt(Utility.NulltoStr(dataGridView1[colID, e.RowIndex].Value));
             if (sid == global.flgOff)
             {
@@ -836,15 +1086,15 @@ namespace SZOK_OCR.ZAIKO
 
             ClsShukko clsShukko = new ClsShukko
             {
-                ID              = sid,
-                UCode           = Utility.StrtoInt(Utility.nulltoStr2(dataGridView1[colUCode, e.RowIndex].Value)),
-                User            = Utility.NulltoStr(dataGridView1[colUName, e.RowIndex].Value),
-                ShukkoDate      = Utility.NulltoStr(dataGridView1[colDate,  e.RowIndex].Value),
-                StartNumber     = Utility.StrtoInt(Utility.nulltoStr2(dataGridView1[colSNum,   e.RowIndex].Value)),
-                EndNumber       = Utility.StrtoInt(Utility.nulltoStr2(dataGridView1[colENum,   e.RowIndex].Value)),
-                Suu             = Utility.StrtoInt(Utility.nulltoStr2(dataGridView1[colShukko, e.RowIndex].Value)),
-                Kaishu          = Utility.StrtoInt(Utility.nulltoStr2(dataGridView1[colKaishu, e.RowIndex].Value)),
-                Zan             = Utility.StrtoInt(Utility.nulltoStr2(dataGridView1[colZansu,  e.RowIndex].Value)),
+                ID = sid,
+                UCode = Utility.StrtoInt(Utility.nulltoStr2(dataGridView1[colUCode, e.RowIndex].Value)),
+                User = Utility.NulltoStr(dataGridView1[colUName, e.RowIndex].Value),
+                ShukkoDate = Utility.NulltoStr(dataGridView1[colDate, e.RowIndex].Value),
+                StartNumber = Utility.StrtoInt(Utility.nulltoStr2(dataGridView1[colSNum, e.RowIndex].Value)),
+                EndNumber = Utility.StrtoInt(Utility.nulltoStr2(dataGridView1[colENum, e.RowIndex].Value)),
+                Suu = Utility.StrtoInt(Utility.nulltoStr2(dataGridView1[colShukko, e.RowIndex].Value)),
+                Kaishu = Utility.StrtoInt(Utility.nulltoStr2(dataGridView1[colKaishu, e.RowIndex].Value)),
+                Zan = Utility.StrtoInt(Utility.nulltoStr2(dataGridView1[colZansu, e.RowIndex].Value)),
                 kaishuLimitDate = dateTimePicker2.Value
             };
 
@@ -852,6 +1102,19 @@ namespace SZOK_OCR.ZAIKO
             frmKaishuItems frmKaishuItems = new frmKaishuItems(clsShukko);
             frmKaishuItems.ShowDialog();
             Show();
+        }
+
+        public class ClsShukkoList
+        {
+            public string UCode { get; set; }
+            public string UName { get; set; }
+            public string ShDate { get; set; }
+            public string SNumber { get; set; }
+            public string ENumber { get; set; }
+            public string Busu { get; set; }
+            public string Kaishu { get; set; }
+            public string Zansu { get; set; }
+            public int Id { get; set; }
         }
     }
 }

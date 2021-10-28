@@ -446,8 +446,9 @@ namespace SZOK_OCR.ZAIKO
                 // Excelファイルを読み込む
                 using (wb = new XLWorkbook(sPath, XLEventTracking.Disabled))
                 {
-                    // ワークシートを追加する
+                    // ワークシートを指定する
                     var ws = wb.Worksheet(1);
+                    ws.Style.Font.SetFontName("ＭＳ ゴシック");
 
                     // 得意先情報をセット
                     ws.Cell(2, 1).SetValue("得意先");

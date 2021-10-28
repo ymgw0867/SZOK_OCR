@@ -24,7 +24,7 @@ namespace SZOK_OCR.ZAIKO
 
         private void frmKaishuList_Load(object sender, EventArgs e)
         {
-            GridViewSetting(dg1);
+            //GridViewSetting(dg1);
 
             btnExcel.Enabled = false;
         }
@@ -36,8 +36,6 @@ namespace SZOK_OCR.ZAIKO
         string colMikaishu = "col4";
         string colSNum     = "col5";
         string colENum     = "col6";
-        string colID       = "col7";  // 2021/10/22
-
 
         ///----------------------------------------------------------
         /// <summary>
@@ -66,11 +64,11 @@ namespace SZOK_OCR.ZAIKO
                     shukko = dts.出庫データ.OrderBy(a => a.出庫日).ThenBy(a => a.店番);
                 }
 
-                // グリッドビュー初期化
-                dg1.Rows.Clear();
+                BindingList<ClsGridSource> gridSources = new BindingList<ClsGridSource>();
 
                 foreach (var t in shukko)
                 {
+                    // 出庫に対応する回収データを抽出
                     kAdp.FillByKaishu(dts.回収データ, t.ID, dt_e);
 
                     for (int i = t.開始登録番号; i <= t.終了登録番号; i++)
@@ -81,15 +79,66 @@ namespace SZOK_OCR.ZAIKO
                             continue;
                         }
 
-                        dg1.Rows.Add();
-                        dg1[colDate, dg1.RowCount - 1].Value     = t.出庫日.ToShortDateString();
-                        dg1[colUCode, dg1.RowCount - 1].Value    = t.店番;
-                        dg1[colUName, dg1.RowCount - 1].Value    = t.店名;
-                        dg1[colSNum, dg1.RowCount - 1].Value     = t.開始登録番号;
-                        dg1[colENum, dg1.RowCount - 1].Value     = t.終了登録番号;
-                        dg1[colMikaishu, dg1.RowCount - 1].Value = i;
+                        // DataGridViewバインド用のクラスを作成
+                        ClsGridSource sources = new ClsGridSource
+                        {
+                            ShDate = t.出庫日.ToShortDateString(),
+                            UCode = t.店番,
+                            UName = t.店名,
+                            SNumber = t.開始登録番号,
+                            ENumber = t.終了登録番号,
+                            Mikaishu = i
+                        };
+
+                        // クラスをバインディングリストに追加
+                        gridSources.Add(sources);
                     }
+
+                    //// グリッドビュー初期化
+                    //dg1.Rows.Clear();
+
+                    //foreach (var t in shukko)
+                    //{
+                    //    kAdp.FillByKaishu(dts.回収データ, t.ID, dt_e);
+
+                    //    for (int i = t.開始登録番号; i <= t.終了登録番号; i++)
+                    //    {
+                    //        if (dts.回収データ.Any(a => a.登録番号 == i))
+                    //        {
+                    //            // 回収済みはネグる
+                    //            continue;
+                    //        }
+
+                    //        dg1.Rows.Add();
+                    //        dg1[colDate, dg1.RowCount - 1].Value = t.出庫日.ToShortDateString();
+                    //        dg1[colUCode, dg1.RowCount - 1].Value = t.店番;
+                    //        dg1[colUName, dg1.RowCount - 1].Value = t.店名;
+                    //        dg1[colSNum, dg1.RowCount - 1].Value = t.開始登録番号;
+                    //        dg1[colENum, dg1.RowCount - 1].Value = t.終了登録番号;
+                    //        dg1[colMikaishu, dg1.RowCount - 1].Value = i;
+                    //    }
+                    //}
                 }
+
+                //MessageBox.Show("!!!");
+
+                // グリッドビュー初期化
+                dg1.Rows.Clear();
+
+                // データグリッドビューソースバインド
+                dg1.DataSource = gridSources;
+
+                // データグリッドビュー書式設定
+                GridViewSetting2(dg1);
+
+                //// 以下、表示高速化のため表示後に設定：2021/10/28
+                //// 行の高さ
+                //dg1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+                //dg1.ColumnHeadersHeight = 20;
+                //dg1.RowTemplate.Height = 20;
+
+                //// 得意先名列幅
+                //dg1.Columns[colUName].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             }
             catch (Exception e)
             {
@@ -108,6 +157,124 @@ namespace SZOK_OCR.ZAIKO
                 {
                     btnExcel.Enabled = false;
                 }
+            }
+        }
+
+        ///--------------------------------------------------------------------
+        /// <summary>
+        ///     データグリッドビューの定義を行います </summary>
+        /// <param name="tempDGV">
+        ///     データグリッドビューオブジェクト</param>
+        ///--------------------------------------------------------------------
+        private void GridViewSetting2(DataGridView tempDGV)
+        {
+            try
+            {
+                //フォームサイズ定義
+
+                // 列スタイルを変更する
+
+                tempDGV.EnableHeadersVisualStyles = false;
+                tempDGV.ColumnHeadersDefaultCellStyle.BackColor = Color.SteelBlue;
+                tempDGV.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+
+                // 列ヘッダー表示位置指定
+                tempDGV.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+                // 列ヘッダーフォント指定
+                tempDGV.ColumnHeadersDefaultCellStyle.Font = new Font("ＭＳ ゴシック", 10, FontStyle.Regular);
+
+                // データフォント指定
+                tempDGV.DefaultCellStyle.Font = new Font("ＭＳ ゴシック", 10, FontStyle.Regular);
+
+                // 表示高速化のためコメント化：2021/10/28
+                // 行の高さ
+                tempDGV.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+                tempDGV.ColumnHeadersHeight = 20;
+                tempDGV.RowTemplate.Height = 20;
+
+                // 全体の高さ
+                tempDGV.Height = 482;
+
+                // 奇数行の色
+                tempDGV.AlternatingRowsDefaultCellStyle.BackColor = SystemColors.ControlLight;
+
+                //各列幅指定
+                //tempDGV.Columns.Add(colDate, "出庫日");
+                //tempDGV.Columns.Add(colUCode, "コード");
+                //tempDGV.Columns.Add(colUName, "得意先名");
+                //tempDGV.Columns.Add(colSNum, "開始番号");
+                //tempDGV.Columns.Add(colENum, "終了番号");
+                //tempDGV.Columns.Add(colMikaishu, "未回収番号");
+
+                tempDGV.Columns[0].HeaderText = "出庫日";
+                tempDGV.Columns[1].HeaderText = "コード";
+                tempDGV.Columns[2].HeaderText = "得意先名";
+                tempDGV.Columns[3].HeaderText = "開始番号";
+                tempDGV.Columns[4].HeaderText = "終了番号";
+                tempDGV.Columns[5].HeaderText = "未回収番号";
+
+                tempDGV.Columns[0].Name = colDate;
+                tempDGV.Columns[1].Name = colUCode;
+                tempDGV.Columns[2].Name = colUName;
+                tempDGV.Columns[3].Name = colSNum;
+                tempDGV.Columns[4].Name = colENum;
+                tempDGV.Columns[5].Name = colMikaishu;
+
+                tempDGV.Columns[colDate].Width = 110;
+                tempDGV.Columns[colUCode].Width = 90;
+                tempDGV.Columns[colSNum].Width = 110;
+                tempDGV.Columns[colENum].Width = 110;
+                tempDGV.Columns[colMikaishu].Width = 110;
+
+                // 表示高速化のためコメント化：2021/10/28
+                tempDGV.Columns[colUName].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+
+                tempDGV.Columns[colDate].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                tempDGV.Columns[colUCode].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                tempDGV.Columns[colMikaishu].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                tempDGV.Columns[colSNum].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                tempDGV.Columns[colENum].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                tempDGV.Columns[colMikaishu].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+                // 行ヘッダを表示しない
+                tempDGV.RowHeadersVisible = false;
+
+                // 選択モード
+                tempDGV.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+                tempDGV.MultiSelect = true;
+
+                // 編集不可とする
+                tempDGV.ReadOnly = true;
+
+                // 追加行表示しない
+                tempDGV.AllowUserToAddRows = false;
+
+                // データグリッドビューから行削除を禁止する
+                tempDGV.AllowUserToDeleteRows = false;
+
+                // 手動による列移動の禁止
+                tempDGV.AllowUserToOrderColumns = false;
+
+                // 列サイズ変更可
+                tempDGV.AllowUserToResizeColumns = true;
+
+                // 行サイズ変更禁止
+                tempDGV.AllowUserToResizeRows = false;
+
+                // 行ヘッダーの自動調節
+                tempDGV.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
+
+                //TAB動作
+                tempDGV.StandardTab = true;
+
+                // 罫線
+                tempDGV.AdvancedColumnHeadersBorderStyle.All = DataGridViewAdvancedCellBorderStyle.None;
+                tempDGV.CellBorderStyle = DataGridViewCellBorderStyle.None;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, "エラーメッセージ", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -138,10 +305,11 @@ namespace SZOK_OCR.ZAIKO
                 // データフォント指定
                 tempDGV.DefaultCellStyle.Font = new Font("ＭＳ ゴシック", 10, FontStyle.Regular);
 
+                // 表示高速化のためコメント化：2021/10/28
                 // 行の高さ
-                tempDGV.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-                tempDGV.ColumnHeadersHeight = 20;
-                tempDGV.RowTemplate.Height  = 20;
+                //tempDGV.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+                //tempDGV.ColumnHeadersHeight = 20;
+                //tempDGV.RowTemplate.Height = 20;
 
                 // 全体の高さ
                 tempDGV.Height = 482;
@@ -163,7 +331,8 @@ namespace SZOK_OCR.ZAIKO
                 tempDGV.Columns[colENum].Width     = 110;
                 tempDGV.Columns[colMikaishu].Width = 110;
 
-                tempDGV.Columns[colUName].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                // 表示高速化のためコメント化：2021/10/28
+                //tempDGV.Columns[colUName].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
 
                 tempDGV.Columns[colDate].DefaultCellStyle.Alignment     = DataGridViewContentAlignment.MiddleCenter;
                 tempDGV.Columns[colUCode].DefaultCellStyle.Alignment    = DataGridViewContentAlignment.MiddleCenter;
@@ -198,7 +367,7 @@ namespace SZOK_OCR.ZAIKO
                 tempDGV.AllowUserToResizeRows = false;
 
                 // 行ヘッダーの自動調節
-                //tempDGV.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
+                tempDGV.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
 
                 //TAB動作
                 tempDGV.StandardTab = true;
@@ -250,8 +419,9 @@ namespace SZOK_OCR.ZAIKO
                 // Excelファイルを読み込む
                 using (wb = new XLWorkbook(sPath, XLEventTracking.Disabled))
                 {
-                    // ワークシートを追加する
+                    // ワークシートを指定する
                     var ws = wb.Worksheet(1);
+                    ws.Style.Font.SetFontName("ＭＳ ゴシック");
 
                     // 指定得意先・集計期間をセット
                     ws.Cell(2, 2).SetValue(txtUser.Text.Trim());
@@ -328,6 +498,16 @@ namespace SZOK_OCR.ZAIKO
             {
                 Cursor = Cursors.Default;
             }
+        }
+
+        public class ClsGridSource
+        {
+            public string ShDate   { get; set; }
+            public int    UCode    { get; set; }
+            public string UName    { get; set; }
+            public int    SNumber  { get; set; }
+            public int    ENumber  { get; set; }
+            public int    Mikaishu { get; set; }
         }
     }
 }

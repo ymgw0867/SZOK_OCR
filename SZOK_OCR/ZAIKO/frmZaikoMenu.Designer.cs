@@ -105,7 +105,7 @@
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(240, 42);
             this.button6.TabIndex = 5;
-            this.button6.Text = "未回収リスト(&L)";
+            this.button6.Text = "防犯登録カード未回収リスト(&L)";
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
@@ -123,9 +123,11 @@
             this.Font = new System.Drawing.Font("MS UI Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4);
+            this.MaximizeBox = false;
             this.Name = "frmZaikoMenu";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "在庫管理メニュー";
+            this.Load += new System.EventHandler(this.frmZaikoMenu_Load);
             this.ResumeLayout(false);
 
         }

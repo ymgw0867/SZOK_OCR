@@ -140,6 +140,9 @@ namespace SZOK_OCR
         }
         private void frmMainMenu_Load(object sender, EventArgs e)
         {
+            // キャプションにバージョンを追加
+            this.Text += "   ver " + Application.ProductVersion;
+
             // 環境設定ファイル読み込み
             cnfDataLoad();
 
