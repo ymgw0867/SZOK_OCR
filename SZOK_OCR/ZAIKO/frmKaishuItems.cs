@@ -23,8 +23,8 @@ namespace SZOK_OCR.ZAIKO
         Image OcrImg = null;
 
         // 画像サイズ
-        float B_WIDTH  = 0.433f;
-        float B_HEIGHT = 0.433f;
+        float B_WIDTH  = 0.391f;
+        float B_HEIGHT = 0.391f;
         //float B_WIDTH = 0.345f;
         //float B_HEIGHT = 0.345f;
         float n_width = 0f;
@@ -146,7 +146,7 @@ namespace SZOK_OCR.ZAIKO
                 tempDGV.RowTemplate.Height  = 22;
 
                 // 全体の高さ
-                tempDGV.Height = 684;
+                tempDGV.Height = 598;
 
                 // 奇数行の色
                 tempDGV.AlternatingRowsDefaultCellStyle.BackColor = SystemColors.ControlLight;
@@ -364,6 +364,7 @@ namespace SZOK_OCR.ZAIKO
             if (Utility.nulltoStr2(dg1[colTourokuID, e.RowIndex].Value) == global.FLGOFF &&
                 Utility.nulltoStr2(dg1[colScanID, e.RowIndex].Value) == global.FLGOFF)
             {
+                pictureBox1.Image = null;
                 return;
             }
 

@@ -206,7 +206,7 @@ namespace SZOK_OCR.ZAIKO
                 tempDGV.RowTemplate.Height = 20;
 
                 // 全体の高さ
-                tempDGV.Height = 482;
+                tempDGV.Height = 484;
 
                 // 奇数行の色
                 tempDGV.AlternatingRowsDefaultCellStyle.BackColor = SystemColors.ControlLight;
@@ -421,7 +421,7 @@ namespace SZOK_OCR.ZAIKO
                                 Busu = ShukkoTl[0].ToString("#,##0"),
                                 Kaishu = KaishuTl[0].ToString("#,##0"),
                                 Zansu  = (ShukkoTl[0] - KaishuTl[0]).ToString("#,##0"),
-                                Id = t.ID
+                                Id = global.flgOff
                             };
 
                             shukkoBind.Add(shukkoTotal);
@@ -527,7 +527,8 @@ namespace SZOK_OCR.ZAIKO
                         ENumber = "",
                         Busu = ShukkoTl[i].ToString("#,##0"),
                         Kaishu = KaishuTl[0].ToString("#,##0"),
-                        Zansu = (ShukkoTl[0] - KaishuTl[0]).ToString("#,##0")
+                        Zansu = (ShukkoTl[0] - KaishuTl[0]).ToString("#,##0"),
+                        Id = global.flgOff
                     };
 
                     // 2021/10/28

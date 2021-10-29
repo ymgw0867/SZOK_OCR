@@ -63,7 +63,7 @@ namespace SZOK_OCR.ZAIKO
             this.panel1.Controls.Add(this.pictureBox1);
             this.panel1.Location = new System.Drawing.Point(12, 12);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(513, 714);
+            this.panel1.Size = new System.Drawing.Size(463, 635);
             this.panel1.TabIndex = 0;
             // 
             // pictureBox1
@@ -82,11 +82,11 @@ namespace SZOK_OCR.ZAIKO
             this.dg1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.dg1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dg1.Location = new System.Drawing.Point(531, 42);
+            this.dg1.Location = new System.Drawing.Point(487, 49);
             this.dg1.Name = "dg1";
             this.dg1.ReadOnly = true;
             this.dg1.RowTemplate.Height = 21;
-            this.dg1.Size = new System.Drawing.Size(425, 684);
+            this.dg1.Size = new System.Drawing.Size(425, 598);
             this.dg1.TabIndex = 1;
             this.dg1.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dg1_CellEnter);
             // 
@@ -95,9 +95,9 @@ namespace SZOK_OCR.ZAIKO
             this.label1.BackColor = System.Drawing.SystemColors.ControlLight;
             this.label1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label1.Font = new System.Drawing.Font("ＭＳ ゴシック", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label1.Location = new System.Drawing.Point(531, 12);
+            this.label1.Location = new System.Drawing.Point(487, 12);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(63, 25);
+            this.label1.Size = new System.Drawing.Size(63, 32);
             this.label1.TabIndex = 2;
             this.label1.Text = "得意先";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -106,22 +106,24 @@ namespace SZOK_OCR.ZAIKO
             // 
             this.lblUCode.BackColor = System.Drawing.Color.White;
             this.lblUCode.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblUCode.Font = new System.Drawing.Font("ＭＳ ゴシック", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.lblUCode.Location = new System.Drawing.Point(593, 12);
+            this.lblUCode.Font = new System.Drawing.Font("ＭＳ ゴシック", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.lblUCode.Location = new System.Drawing.Point(549, 12);
             this.lblUCode.Name = "lblUCode";
-            this.lblUCode.Size = new System.Drawing.Size(63, 25);
+            this.lblUCode.Size = new System.Drawing.Size(63, 32);
             this.lblUCode.TabIndex = 3;
+            this.lblUCode.Text = "123";
             this.lblUCode.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lblUName
             // 
             this.lblUName.BackColor = System.Drawing.Color.White;
             this.lblUName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblUName.Font = new System.Drawing.Font("ＭＳ ゴシック", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.lblUName.Location = new System.Drawing.Point(655, 12);
+            this.lblUName.Font = new System.Drawing.Font("ＭＳ ゴシック", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.lblUName.Location = new System.Drawing.Point(611, 12);
             this.lblUName.Name = "lblUName";
-            this.lblUName.Size = new System.Drawing.Size(505, 25);
+            this.lblUName.Size = new System.Drawing.Size(505, 32);
             this.lblUName.TabIndex = 4;
+            this.lblUName.Text = "サイクルベースあさひ";
             this.lblUName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label2
@@ -129,7 +131,7 @@ namespace SZOK_OCR.ZAIKO
             this.label2.BackColor = System.Drawing.SystemColors.ControlLight;
             this.label2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label2.Font = new System.Drawing.Font("ＭＳ ゴシック", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label2.Location = new System.Drawing.Point(962, 42);
+            this.label2.Location = new System.Drawing.Point(918, 49);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(96, 25);
             this.label2.TabIndex = 5;
@@ -141,7 +143,7 @@ namespace SZOK_OCR.ZAIKO
             this.label3.BackColor = System.Drawing.SystemColors.ControlLight;
             this.label3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label3.Font = new System.Drawing.Font("ＭＳ ゴシック", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label3.Location = new System.Drawing.Point(962, 66);
+            this.label3.Location = new System.Drawing.Point(918, 73);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(96, 25);
             this.label3.TabIndex = 6;
@@ -153,7 +155,7 @@ namespace SZOK_OCR.ZAIKO
             this.label4.BackColor = System.Drawing.SystemColors.ControlLight;
             this.label4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label4.Font = new System.Drawing.Font("ＭＳ ゴシック", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label4.Location = new System.Drawing.Point(962, 90);
+            this.label4.Location = new System.Drawing.Point(918, 97);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(96, 25);
             this.label4.TabIndex = 7;
@@ -165,7 +167,7 @@ namespace SZOK_OCR.ZAIKO
             this.label5.BackColor = System.Drawing.SystemColors.ControlLight;
             this.label5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label5.Font = new System.Drawing.Font("ＭＳ ゴシック", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label5.Location = new System.Drawing.Point(962, 114);
+            this.label5.Location = new System.Drawing.Point(918, 121);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(96, 25);
             this.label5.TabIndex = 8;
@@ -177,7 +179,7 @@ namespace SZOK_OCR.ZAIKO
             this.label6.BackColor = System.Drawing.SystemColors.ControlLight;
             this.label6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label6.Font = new System.Drawing.Font("ＭＳ ゴシック", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label6.Location = new System.Drawing.Point(962, 162);
+            this.label6.Location = new System.Drawing.Point(918, 169);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(96, 25);
             this.label6.TabIndex = 9;
@@ -189,7 +191,7 @@ namespace SZOK_OCR.ZAIKO
             this.lblShukkoDate.BackColor = System.Drawing.Color.White;
             this.lblShukkoDate.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblShukkoDate.Font = new System.Drawing.Font("ＭＳ ゴシック", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.lblShukkoDate.Location = new System.Drawing.Point(1057, 42);
+            this.lblShukkoDate.Location = new System.Drawing.Point(1013, 49);
             this.lblShukkoDate.Name = "lblShukkoDate";
             this.lblShukkoDate.Size = new System.Drawing.Size(103, 25);
             this.lblShukkoDate.TabIndex = 10;
@@ -200,7 +202,7 @@ namespace SZOK_OCR.ZAIKO
             this.lblStartNum.BackColor = System.Drawing.Color.White;
             this.lblStartNum.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblStartNum.Font = new System.Drawing.Font("ＭＳ ゴシック", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.lblStartNum.Location = new System.Drawing.Point(1057, 66);
+            this.lblStartNum.Location = new System.Drawing.Point(1013, 73);
             this.lblStartNum.Name = "lblStartNum";
             this.lblStartNum.Size = new System.Drawing.Size(103, 25);
             this.lblStartNum.TabIndex = 11;
@@ -211,7 +213,7 @@ namespace SZOK_OCR.ZAIKO
             this.lblEndNum.BackColor = System.Drawing.Color.White;
             this.lblEndNum.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblEndNum.Font = new System.Drawing.Font("ＭＳ ゴシック", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.lblEndNum.Location = new System.Drawing.Point(1057, 90);
+            this.lblEndNum.Location = new System.Drawing.Point(1013, 97);
             this.lblEndNum.Name = "lblEndNum";
             this.lblEndNum.Size = new System.Drawing.Size(103, 25);
             this.lblEndNum.TabIndex = 12;
@@ -222,7 +224,7 @@ namespace SZOK_OCR.ZAIKO
             this.lblSuu.BackColor = System.Drawing.Color.White;
             this.lblSuu.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblSuu.Font = new System.Drawing.Font("ＭＳ ゴシック", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.lblSuu.Location = new System.Drawing.Point(1057, 114);
+            this.lblSuu.Location = new System.Drawing.Point(1013, 121);
             this.lblSuu.Name = "lblSuu";
             this.lblSuu.Size = new System.Drawing.Size(103, 25);
             this.lblSuu.TabIndex = 13;
@@ -233,7 +235,7 @@ namespace SZOK_OCR.ZAIKO
             this.lblZan.BackColor = System.Drawing.Color.White;
             this.lblZan.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblZan.Font = new System.Drawing.Font("ＭＳ ゴシック", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.lblZan.Location = new System.Drawing.Point(1057, 162);
+            this.lblZan.Location = new System.Drawing.Point(1013, 169);
             this.lblZan.Name = "lblZan";
             this.lblZan.Size = new System.Drawing.Size(103, 25);
             this.lblZan.TabIndex = 14;
@@ -243,7 +245,7 @@ namespace SZOK_OCR.ZAIKO
             // 
             this.btnExcel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnExcel.Font = new System.Drawing.Font("ＭＳ ゴシック", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.btnExcel.Location = new System.Drawing.Point(983, 652);
+            this.btnExcel.Location = new System.Drawing.Point(939, 573);
             this.btnExcel.Name = "btnExcel";
             this.btnExcel.Size = new System.Drawing.Size(177, 35);
             this.btnExcel.TabIndex = 15;
@@ -256,7 +258,7 @@ namespace SZOK_OCR.ZAIKO
             this.lblKaishu.BackColor = System.Drawing.Color.White;
             this.lblKaishu.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblKaishu.Font = new System.Drawing.Font("ＭＳ ゴシック", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.lblKaishu.Location = new System.Drawing.Point(1057, 138);
+            this.lblKaishu.Location = new System.Drawing.Point(1013, 145);
             this.lblKaishu.Name = "lblKaishu";
             this.lblKaishu.Size = new System.Drawing.Size(103, 25);
             this.lblKaishu.TabIndex = 17;
@@ -267,7 +269,7 @@ namespace SZOK_OCR.ZAIKO
             this.label8.BackColor = System.Drawing.SystemColors.ControlLight;
             this.label8.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label8.Font = new System.Drawing.Font("ＭＳ ゴシック", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label8.Location = new System.Drawing.Point(962, 138);
+            this.label8.Location = new System.Drawing.Point(918, 145);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(96, 25);
             this.label8.TabIndex = 16;
@@ -278,7 +280,7 @@ namespace SZOK_OCR.ZAIKO
             // 
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.button1.Font = new System.Drawing.Font("ＭＳ ゴシック", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.button1.Location = new System.Drawing.Point(983, 691);
+            this.button1.Location = new System.Drawing.Point(939, 612);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(177, 35);
             this.button1.TabIndex = 18;
@@ -291,7 +293,7 @@ namespace SZOK_OCR.ZAIKO
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(1174, 740);
+            this.ClientSize = new System.Drawing.Size(1132, 659);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.lblKaishu);
             this.Controls.Add(this.label8);
