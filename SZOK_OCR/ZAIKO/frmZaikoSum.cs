@@ -445,13 +445,13 @@ namespace SZOK_OCR.ZAIKO
                     // 2021/10/28
                     ClsShukkoList shukkoList = new ClsShukkoList
                     {
-                        UCode = t.店番.ToString(),
-                        UName = t.店名,
-                        ShDate = t.出庫日.ToShortDateString(),
+                        UCode   = t.店番.ToString(),
+                        UName   = t.店名,
+                        ShDate  = t.出庫日.ToShortDateString(),
                         SNumber = t.開始登録番号.ToString(),
                         ENumber = t.終了登録番号.ToString(),
-                        Busu = t.部数.ToString("#,##0"),
-                        Id = t.ID
+                        Busu    = t.部数.ToString("#,##0"),
+                        Id      = t.ID
                     };
 
 
@@ -482,13 +482,13 @@ namespace SZOK_OCR.ZAIKO
                     shukkoBind.Add(shukkoList);
 
 
-                    for (int i = 0; i < 2; i++)
+                    for (int i = 0; i < ShukkoTl.Length; i++)
                     {
                         ShukkoTl[i] += t.部数;
                         KaishuTl[i] += kaishu;
                     }
 
-                    Tenban = t.店番;
+                    Tenban  = t.店番;
                     tenName = t.店名;
 
                     iX++;
