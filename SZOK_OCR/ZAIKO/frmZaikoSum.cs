@@ -494,7 +494,7 @@ namespace SZOK_OCR.ZAIKO
                     iX++;
                 }
 
-                for (int i = 0; i < 2; i++)
+                for (int i = 0; i < ShukkoTl.Length; i++)
                 {
                     // コメント化：2021/10/28
                     //dataGridView1.Rows.Add();
@@ -526,8 +526,8 @@ namespace SZOK_OCR.ZAIKO
                         SNumber = "",
                         ENumber = "",
                         Busu = ShukkoTl[i].ToString("#,##0"),
-                        Kaishu = KaishuTl[0].ToString("#,##0"),
-                        Zansu = (ShukkoTl[0] - KaishuTl[0]).ToString("#,##0"),
+                        Kaishu = KaishuTl[i].ToString("#,##0"),
+                        Zansu = (ShukkoTl[i] - KaishuTl[i]).ToString("#,##0"),
                         Id = global.flgOff
                     };
 
