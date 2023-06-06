@@ -1093,9 +1093,9 @@ namespace SZOK_OCR.ZAIKO
                 ShukkoDate = Utility.NulltoStr(dataGridView1[colDate, e.RowIndex].Value),
                 StartNumber = Utility.StrtoInt(Utility.nulltoStr2(dataGridView1[colSNum, e.RowIndex].Value)),
                 EndNumber = Utility.StrtoInt(Utility.nulltoStr2(dataGridView1[colENum, e.RowIndex].Value)),
-                Suu = Utility.StrtoInt(Utility.nulltoStr2(dataGridView1[colShukko, e.RowIndex].Value)),
-                Kaishu = Utility.StrtoInt(Utility.nulltoStr2(dataGridView1[colKaishu, e.RowIndex].Value)),
-                Zan = Utility.StrtoInt(Utility.nulltoStr2(dataGridView1[colZansu, e.RowIndex].Value)),
+                Suu = Utility.StrtoInt(Utility.nulltoStr2(dataGridView1[colShukko, e.RowIndex].Value).Replace(",","")),
+                Kaishu = Utility.StrtoInt(Utility.nulltoStr2(dataGridView1[colKaishu, e.RowIndex].Value).Replace(",", "")),
+                Zan = Utility.StrtoInt(Utility.nulltoStr2(dataGridView1[colZansu, e.RowIndex].Value).Replace(",", "")),
                 kaishuLimitDate = dateTimePicker2.Value
             };
 
