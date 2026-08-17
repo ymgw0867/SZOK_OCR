@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using System.Data;
 using System.Data.SqlClient;
 using System.IO;
+using SZOK_OCR.Common;
 
 namespace SZOK_OCR.Common
 {
@@ -225,6 +226,7 @@ namespace SZOK_OCR.Common
                         // カンマ区切りで分割して配列に格納する
                         string[] stCSV = stBuffer.Split(',');
 
+                        // コメント化：2026/08/17
                         // 追加用SZOKDataSet.OCR防犯Rowオブジェクトを作成する
                         dts.SCAN_DATA.AddSCAN_DATARow(setOCRRecRow(dts, stCSV, sLabel, sName));
                     }
@@ -245,6 +247,68 @@ namespace SZOK_OCR.Common
             }
             finally
             {
+            }
+        }
+
+        /// <summary>
+        ///    CSVデータをSQLServerに登録する
+        /// </summary>
+        /// <param name="_InPath"></param>
+        /// <param name="frmP"></param>
+        /// <param name="sLabel"></param>
+        /// <param name="sName"></param>
+        public void CsvToSQLServer(string _InPath, frmPrg frmP, string sLabel, string sName)
+        {
+            // SQL Server接続
+            var master = new ClsMaster(Properties.Settings.Default.sServerName, Properties.Settings.Default.sLogin,
+                                   Properties.Settings.Default.sPass, Properties.Settings.Default.sDatabase);
+            var conn = master.OpenConnection();
+
+            try
+            {
+                // 対象CSVファイル数を取得
+                int cLen = System.IO.Directory.GetFiles(_InPath, "*.csv").Count();
+
+                // CSVファイルを１件づつ取得します
+                int cCnt = 0;
+                foreach (string files in System.IO.Directory.GetFiles(_InPath, "*.csv"))
+                {
+                    //件数カウント
+                    cCnt++;
+
+                    //プログレスバー表示
+                    frmP.Text = "OCR変換CSVデータロード中　" + cCnt.ToString() + "/" + cLen.ToString();
+                    frmP.progressValue = cCnt * 100 / cLen;
+                    frmP.ProgressStep();
+
+                    // CSVファイルインポート
+                    var s = System.IO.File.ReadAllLines(files, Encoding.Default);
+                    foreach (var stBuffer in s)
+                    {
+                        // カンマ区切りで分割して配列に格納する
+                        string[] stCSV = stBuffer.Split(',');
+
+                        // SCANDATAテーブルクラス
+                        var tblScandata = SetTblScandata(stCSV, sLabel, sName);
+
+                        // SCANDATAテーブルに登録する
+                        master.Insert(tblScandata, conn);
+                    }
+                }
+
+                //CSVファイルを削除する
+                foreach (string files in System.IO.Directory.GetFiles(_InPath, "*.csv"))
+                {
+                    System.IO.File.Delete(files);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "防犯登録カードCSVインポート処理", MessageBoxButtons.OK);
+            }
+            finally
+            {
+                master.CloseConnection(conn);
             }
         }
 
@@ -342,6 +406,48 @@ namespace SZOK_OCR.Common
 
             return r;
         }
+
+
+        private TblScandata SetTblScandata(string[] stCSV, string sLabel, string sName)
+        {
+            var r = new TblScandata();
+            r.ImageFileName = Utility.GetStringSubMax(stCSV[1], 21);    // 画像名
+            r.Number = Utility.GetStringSubMax(stCSV[2], 11);       // 登録番号
+            r.VehicleIdentificationNumber = Utility.GetStringSubMax(stCSV[3], 20);  // 車体番号
+
+            r.AddYear = Utility.GetStringSubMax(stCSV[4], 2);   // 登録年
+            r.AddMonth = Utility.GetStringSubMax(stCSV[5], 2);  // 登録月
+            r.AddDay = Utility.GetStringSubMax(stCSV[6], 2);    // 登録日
+
+            r.Maker = Utility.GetStringSubMax(stCSV[7], 10);
+            r.Color = Utility.GetStringSubMax(stCSV[8], 6);
+            r.CarModel = Utility.StrtoInt(carStyleZeroEdit(Utility.GetStringSubMax(stCSV[9], 2)));
+            r.ZipCode1 = Utility.GetStringSubMax(stCSV[10], 3);
+            r.ZipCode2 = Utility.GetStringSubMax(stCSV[11], 4);
+            r.Address1 = Utility.GetStringSubMax(stCSV[12] + stCSV[13], 40).Trim();
+            r.Address2 = string.Empty;   // 2019/11/19
+            r.Name= Utility.GetStringSubMax(stCSV[14], 16);
+            r.Mobile1 = Utility.GetStringSubMax(stCSV[15], 4);
+            r.Mobile2 = Utility.GetStringSubMax(stCSV[16], 4);
+            r.Mobile3 = Utility.GetStringSubMax(stCSV[17], 4);
+            r.UpDate = DateTime.Now;
+
+            r.DataCategory = getDataKbn(stCSV[18]);
+            r.VehicleNumber1 = string.Empty;
+            r.VehicleNumber2 = string.Empty;
+            r.CarName = string.Empty;
+            r.AddressKanji = string.Empty;
+            r.PC = string.Empty;
+            r.CsvCreationDate = string.Empty;
+            r.Memo = string.Empty;
+            r.UpDate = DateTime.Now;
+            r.Label = sLabel;
+            r.Person = sName;
+
+            return r;
+        }
+
+
 
         ///-------------------------------------------------------------
         /// <summary>

@@ -147,34 +147,39 @@ namespace SZOK_OCR
             cnfDataLoad();
 
             // 防犯カードテーブルに確認フィールドを追加 2016/01/25
-            alterSzok();
+            // コメント化：2026/08/17
+            //alterSzok();
         }
 
         private void cnfDataLoad()
         {
-            szokDataSet rDts = new szokDataSet();
-            szokDataSetTableAdapters.環境設定TableAdapter cAdp = new szokDataSetTableAdapters.環境設定TableAdapter();
+            // コメント化：2026/08/17
+            //szokDataSet rDts = new szokDataSet();
+            //szokDataSetTableAdapters.環境設定TableAdapter cAdp = new szokDataSetTableAdapters.環境設定TableAdapter();
 
-            cAdp.Fill(rDts.環境設定);
+            //cAdp.Fill(rDts.環境設定);
 
-            // 環境設定ファイル読み込み
-            if (rDts.環境設定.Any(a => a.ID == global.configKEY))
-            {
-                var s = rDts.環境設定.Single(a => a.ID == global.configKEY);
-                if (!s.Is受け渡しデータ作成パスNull())
-                {
-                    global.cnfPath = s.受け渡しデータ作成パス;
-                }
-                else
-                {
-                    global.cnfPath = string.Empty;
-                }
-            }
-            else
-            {
-                MessageBox.Show("環境設定ファイルを登録してください", "システム設定", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                global.cnfPath = string.Empty;
-            }
+            //// 環境設定ファイル読み込み
+            //if (rDts.環境設定.Any(a => a.ID == global.configKEY))
+            //{
+            //    var s = rDts.環境設定.Single(a => a.ID == global.configKEY);
+            //    if (!s.Is受け渡しデータ作成パスNull())
+            //    {
+            //        global.cnfPath = s.受け渡しデータ作成パス;
+            //    }
+            //    else
+            //    {
+            //        global.cnfPath = string.Empty;
+            //    }
+            //}
+            //else
+            //{
+            //    MessageBox.Show("環境設定ファイルを登録してください", "システム設定", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            //    global.cnfPath = string.Empty;
+            //}
+
+            // 環境設定ファイルのCSV出力パスをアプリケーション設定に保存：2026/08/17
+            global.cnfPath = Properties.Settings.Default.csvOutputPath;
         }
 
         private void linkLabel4_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

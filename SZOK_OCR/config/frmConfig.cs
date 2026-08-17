@@ -1,13 +1,15 @@
-﻿using System;
+﻿using Microsoft.Office.Interop.Excel;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.OleDb;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using SZOK_OCR.Common;
-using System.Data.OleDb;
 
 namespace SZOK_OCR.Config
 {
@@ -17,33 +19,68 @@ namespace SZOK_OCR.Config
         {
             InitializeComponent();
 
-            adp.Fill(dts.環境設定);
+            // コメント化：2026/08/17
+            //adp.Fill(dts.環境設定);
 
-            var s = dts.環境設定.Single(a => a.ID == global.configKEY);
+            //var s = dts.環境設定.Single(a => a.ID == global.configKEY);
 
-            if (s.Is受け渡しデータ作成パスNull())
+            //if (s.Is受け渡しデータ作成パスNull())
+            //{
+            //    txtPath2.Text = string.Empty;
+            //}
+            //else
+            //{
+            //    txtPath2.Text = s.受け渡しデータ作成パス;
+            //}
+
+            //if (s.Is郵便番号データパスNull())
+            //{
+            //    txtPath1.Text = string.Empty;
+            //}
+            //else
+            //{
+            //    txtPath1.Text = s.郵便番号データパス;
+            //}
+
+            //txtDataSpan.Text = s.データ保存月数.ToString();
+            //
+
+            txtPath2.Text = string.Empty;
+
+            // 環境設定データを取得
+            master = new ClsMaster(Properties.Settings.Default.sServerName, Properties.Settings.Default.sLogin,
+                                   Properties.Settings.Default.sPass, Properties.Settings.Default.sDatabase);
+            conn = master.OpenConnection();
+            configData = master.GetData<TblConfig>(global.configKEY.ToString(), conn);
+
+            if (configData != null)
             {
-                txtPath2.Text = string.Empty;
+                txtPath1.Text = configData.ZipCodePath ?? string.Empty;
+                txtDataSpan.Text = configData.DataSaveMonth.ToString();
             }
             else
             {
-                txtPath2.Text = s.受け渡しデータ作成パス;
-            }
-
-            if (s.Is郵便番号データパスNull())
-            {
+                // データが存在しない場合は、テキストボックスを空にする
                 txtPath1.Text = string.Empty;
-            }
-            else
-            {
-                txtPath1.Text = s.郵便番号データパス;
-            }
+                txtDataSpan.Text = string.Empty;
 
-            txtDataSpan.Text = s.データ保存月数.ToString();            
+                // メッセージ表示
+                MessageBox.Show("環境設定データが存在しません。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
-        szokDataSetTableAdapters.環境設定TableAdapter adp = new szokDataSetTableAdapters.環境設定TableAdapter();
-        szokDataSet dts = new szokDataSet();
+        // コメント化：2026/08/17
+        //szokDataSetTableAdapters.環境設定TableAdapter adp = new szokDataSetTableAdapters.環境設定TableAdapter();
+        //szokDataSet dts = new szokDataSet();
+
+        // SQL接続
+        SqlConnection conn;
+
+        // マスタークラス
+        ClsMaster master;
+
+        // 環境設定データ
+        TblConfig configData;
 
         private void frmConfig_Load(object sender, EventArgs e)
         {
@@ -148,21 +185,25 @@ namespace SZOK_OCR.Config
             }
 
             if (MessageBox.Show("データを更新してよろしいですか","確認",MessageBoxButtons.YesNo,MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.No) return;
-            
-            szokDataSet.環境設定Row r = dts.環境設定.Single(a => a.ID == global.configKEY);
-            
-            r.受け渡しデータ作成パス = txtPath2.Text;
-            r.郵便番号データパス = txtPath1.Text;
-            //r.データ保存月数 = Utility.StrtoInt(txtDataSpan.Text);   
-            r.データ保存月数 = global.flgOff;
-            r.更新年月日 = DateTime.Now;
 
-            // データ更新
-            adp.Update(r);
+            // コメント化：2026/08/17
+            //szokDataSet.環境設定Row r = dts.環境設定.Single(a => a.ID == global.configKEY);
 
-            //
-            global.cnfPath = r.受け渡しデータ作成パス;
- 
+            //r.受け渡しデータ作成パス = txtPath2.Text;
+            //r.郵便番号データパス = txtPath1.Text;
+            //r.データ保存月数 = global.flgOff;
+            //r.更新年月日 = DateTime.Now;
+
+            //// データ更新
+            //adp.Update(r);
+
+            // 環境設定データを更新
+            configData.ZipCodePath = txtPath1.Text;
+            configData.DataSaveMonth = Utility.StrtoInt(txtDataSpan.Text);
+            configData.UpDate = DateTime.Now;
+
+            master.UpDate(configData, conn);
+
             // 終了
             this.Close();
         }
@@ -183,13 +224,14 @@ namespace SZOK_OCR.Config
                 return false;
             }
 
-            // 静岡県警察本部用CSV出力先パス
-            if (txtPath2.Text.Trim() == string.Empty)
-            {
-                MessageBox.Show("静岡県警察本部用CSV出力先フォルダパスを入力してください", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                txtPath2.Focus();
-                return false;
-            }
+            // コメント化：2026/08/17
+            //// 静岡県警察本部用CSV出力先パス
+            //if (txtPath2.Text.Trim() == string.Empty)
+            //{
+            //    MessageBox.Show("静岡県警察本部用CSV出力先フォルダパスを入力してください", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            //    txtPath2.Focus();
+            //    return false;
+            //}
 
             // データ保存月数パス
             if (txtDataSpan.Text.Trim() == string.Empty)
@@ -209,6 +251,9 @@ namespace SZOK_OCR.Config
 
         private void frmConfig_FormClosing(object sender, FormClosingEventArgs e)
         {
+            // SQL接続を閉じる
+            master.CloseConnection(conn);
+
             // 後片付け
             this.Dispose();
         }

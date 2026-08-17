@@ -46,6 +46,7 @@
             // 
             // button2
             // 
+            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button2.Font = new System.Drawing.Font("Meiryo UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.button2.Location = new System.Drawing.Point(484, 251);
             this.button2.Name = "button2";
@@ -57,6 +58,7 @@
             // 
             // button3
             // 
+            this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button3.Font = new System.Drawing.Font("Meiryo UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.button3.Location = new System.Drawing.Point(584, 251);
             this.button3.Name = "button3";
@@ -70,6 +72,7 @@
             // 
             this.groupBox2.Controls.Add(this.txtPath2);
             this.groupBox2.Controls.Add(this.button4);
+            this.groupBox2.Enabled = false;
             this.groupBox2.Font = new System.Drawing.Font("Meiryo UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.groupBox2.Location = new System.Drawing.Point(12, 89);
             this.groupBox2.Name = "groupBox2";
@@ -80,6 +83,8 @@
             // 
             // txtPath2
             // 
+            this.txtPath2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtPath2.Enabled = false;
             this.txtPath2.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.txtPath2.Location = new System.Drawing.Point(24, 29);
             this.txtPath2.Name = "txtPath2";
@@ -88,6 +93,8 @@
             // 
             // button4
             // 
+            this.button4.Enabled = false;
+            this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button4.Location = new System.Drawing.Point(581, 26);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(69, 28);
@@ -98,6 +105,7 @@
             // 
             // button1
             // 
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button1.Location = new System.Drawing.Point(581, 23);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(69, 28);
@@ -120,6 +128,7 @@
             // 
             // txtPath1
             // 
+            this.txtPath1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtPath1.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.txtPath1.Location = new System.Drawing.Point(24, 26);
             this.txtPath1.Name = "txtPath1";
@@ -140,6 +149,7 @@
             // 
             // txtDataSpan
             // 
+            this.txtDataSpan.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtDataSpan.Enabled = false;
             this.txtDataSpan.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.txtDataSpan.Location = new System.Drawing.Point(24, 29);

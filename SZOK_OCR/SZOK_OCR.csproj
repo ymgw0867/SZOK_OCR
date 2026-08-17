@@ -82,7 +82,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>cardDataSet.xsd</DependentUpon>
     </Compile>
+    <Compile Include="Common\ClsMaster.cs" />
     <Compile Include="Common\ClsShukko.cs" />
+    <Compile Include="Common\ClsSqlServerConnect.cs" />
     <Compile Include="Common\frmPrg.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -90,7 +92,10 @@
       <DependentUpon>frmPrg.cs</DependentUpon>
     </Compile>
     <Compile Include="Common\global.cs" />
+    <Compile Include="Common\Interface1.cs" />
     <Compile Include="Common\OCRData.cs" />
+    <Compile Include="Common\TblConfig.cs" />
+    <Compile Include="Common\TblScandata.cs" />
     <Compile Include="Common\Utility.cs" />
     <Compile Include="config\frmConfig.cs">
       <SubType>Form</SubType>

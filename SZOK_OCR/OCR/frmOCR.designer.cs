@@ -97,6 +97,7 @@
             // 
             // txtName
             // 
+            this.txtName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtName.ImeMode = System.Windows.Forms.ImeMode.Hiragana;
             this.txtName.Location = new System.Drawing.Point(155, 56);
             this.txtName.Name = "txtName";

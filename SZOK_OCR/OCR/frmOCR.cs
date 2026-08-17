@@ -562,7 +562,8 @@ namespace SZOK_OCR.OCR
 
             // OCRのCSVデータをMDBへ取り込む
             OCRData ocr = new OCRData();
-            ocr.CsvToMdb(Properties.Settings.Default.dataPath, frmP, label3.Text, txtName.Text);
+            //ocr.CsvToMdb(Properties.Settings.Default.dataPath, frmP, label3.Text, txtName.Text);
+            ocr.CsvToSQLServer(Properties.Settings.Default.dataPath, frmP, label3.Text, txtName.Text);
 
             // いったんオーナーをアクティブにする
             this.Activate();
