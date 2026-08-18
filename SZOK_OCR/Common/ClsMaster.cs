@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Rebar;
 
 namespace SZOK_OCR.Common
 {
@@ -14,6 +15,10 @@ namespace SZOK_OCR.Common
         {
         }
 
+        /// <summary>
+        /// SQL接続を開く
+        /// </summary>
+        /// <returns>SqlConnectionオブジェクト</returns>
         public SqlConnection OpenConnection()
         {
             SqlConnection conn = new SqlConnection(sqlBuilder.ConnectionString);
@@ -32,7 +37,10 @@ namespace SZOK_OCR.Common
             return conn;
         }
 
-        // SQL接続を閉じる
+        /// <summary>
+        /// SQL接続を閉じる
+        /// </summary>
+        /// <param name="conn">SqlConnectionオブジェクト</param>
         public void CloseConnection(SqlConnection conn)
         {
             try
@@ -48,6 +56,13 @@ namespace SZOK_OCR.Common
             }
         }
 
+        /// <summary>
+        /// 指定されたコードに基づいてデータを取得する
+        /// </summary>
+        /// <typeparam name="T">データの型</typeparam>
+        /// <param name="sCode">コード</param>
+        /// <param name="conn">SQL接続オブジェクト</param>
+        /// <returns>指定された型のデータ</returns>
         public T GetData<T>(string sCode, SqlConnection conn)
         {
             // 環境設定のとき
@@ -84,6 +99,12 @@ namespace SZOK_OCR.Common
             return default(T);
         }
 
+        /// <summary>
+        /// 指定されたデータを挿入する
+        /// </summary>
+        /// <typeparam name="T">データの型</typeparam>
+        /// <param name="cls">挿入するデータ</param>
+        /// <param name="conn">SQL接続オブジェクト</param>
         public void Insert<T>(T cls, SqlConnection conn)
         {
             // SCANDATAのとき
@@ -93,6 +114,12 @@ namespace SZOK_OCR.Common
             }
         }
 
+        /// <summary>
+        /// 指定されたデータを更新する
+        /// </summary>
+        /// <typeparam name="T">データの型</typeparam>
+        /// <param name="cls">更新するデータ</param>
+        /// <param name="conn">SQL接続オブジェクト</param>
         public void UpDate<T>(T cls, SqlConnection conn)
         {
             // 環境設定のとき
@@ -221,6 +248,145 @@ namespace SZOK_OCR.Common
                 com.Parameters.AddWithValue("@Label", scandata.Label);
                 com.Parameters.AddWithValue("@Person", scandata.Person);
                 com.ExecuteNonQuery();
+            }
+        }
+
+        public List<T> Read<T>(ScandataParameter param, SqlConnection conn)
+        {
+            // SCANDATAのとき
+            if (typeof(T) == typeof(TblScandata))
+            {
+                return Read(param, conn) as List<T>;
+            }
+
+            //List<T> resultList = new List<T>();
+            //using (SqlCommand cmd = new SqlCommand(sql, conn))
+            //{
+            //    using (SqlDataReader reader = cmd.ExecuteReader())
+            //    {
+            //        while (reader.Read())
+            //        {
+            //            T obj = Activator.CreateInstance<T>();
+            //            for (int i = 0; i < reader.FieldCount; i++)
+            //            {
+            //                var property = typeof(T).GetProperty(reader.GetName(i));
+            //                if (property != null && !reader.IsDBNull(i))
+            //                {
+            //                    property.SetValue(obj, reader.GetValue(i));
+            //                }
+            //            }
+            //            resultList.Add(obj);
+            //        }
+            //    }
+            //}
+            //return resultList;
+
+            MessageBox.Show("Invalid Data Class");
+            return null;
+        }
+
+
+        public List<TblScandata> Read(ScandataParameter param, SqlConnection conn)
+        {
+            var lines = new List<TblScandata>();
+
+            try
+            {
+                string sql = "SELECT * FROM SCAN_DATA " +
+                    "WHERE (" +
+                    "(@DataCategory IS NULL OR データ区分 = @DataCategory) AND " +
+                    "(NULLIF(@AddYear, '') IS NULL OR 登録年 = @AddYear) AND " +
+                    "(NULLIF(@AddMonth, '') IS NULL OR 登録月 = @AddMonth) AND " +
+                    "(NULLIF(@AddDay, '') IS NULL OR 登録日 = @AddDay) AND " +
+                    "(NULLIF(@Number, '') IS NULL OR 登録番号 LIKE '%' + @Number + '%') AND " +
+                    "(NULLIF(@VehicleIdentificationNumber, '') IS NULL OR 車体番号 LIKE '%' + @VehicleIdentificationNumber + '%') AND " +
+                    "(NULLIF(@Maker, '') IS NULL OR メーカー LIKE '%' + @Maker + '%') AND " +
+                    "(NULLIF(@Color, '') IS NULL OR 塗色 LIKE '%' + @Color + '%') AND " +
+                    "(@CarModel IS NULL OR 車種 = @CarModel) AND " +
+                    "(NULLIF(@ZipCode1, '') IS NULL OR 郵便番号1 LIKE '%' + @ZipCode1 + '%') AND " +
+                    "(NULLIF(@ZipCode2, '') IS NULL OR 郵便番号2 LIKE '%' + @ZipCode2 + '%') AND " +
+                    "(NULLIF(@Address1, '') IS NULL OR 住所1 LIKE '%' + @Address1 + '%') AND " +
+                    "(NULLIF(@Name, '') IS NULL OR 氏名 LIKE '%' + @Name + '%') AND " +
+                    "(NULLIF(@Mobile1, '') IS NULL OR TEL携帯 LIKE '%' + @Mobile1 + '%') AND " +
+                    "(NULLIF(@Mobile2, '') IS NULL OR TEL携帯2 LIKE '%' + @Mobile2 + '%') AND " +
+                    "(NULLIF(@Mobile3, '') IS NULL OR TEL携帯3 LIKE '%' + @Mobile3 + '%') AND " +
+                    "(NULLIF(@Label, '') IS NULL OR ラベル LIKE '%' + @Label + '%') AND " +
+                    "(NULLIF(@Person, '') IS NULL OR 処理担当者 LIKE '%' + @Person + '%')) " +
+                    "ORDER BY 登録番号";
+
+                using (SqlCommand cmd = new SqlCommand(sql, conn))
+                {
+                    var dataCategoryParameter = cmd.Parameters.Add("@DataCategory", System.Data.SqlDbType.Int);
+                    dataCategoryParameter.Value = param.DataCategory.HasValue ? (object)param.DataCategory.Value : DBNull.Value;
+                    //cmd.Parameters.AddWithValue("@DataCategory", param.DataCategory);
+                    cmd.Parameters.AddWithValue("@AddYear", param.AddYear);
+                    cmd.Parameters.AddWithValue("@AddMonth", param.AddMonth);
+                    cmd.Parameters.AddWithValue("@AddDay", param.AddDay);
+                    cmd.Parameters.AddWithValue("@Number", param.Number);
+                    cmd.Parameters.AddWithValue("@VehicleIdentificationNumber", param.VehicleIdentificationNumber);
+                    cmd.Parameters.AddWithValue("@Maker", param.Maker);
+                    cmd.Parameters.AddWithValue("@Color", param.Color);
+
+
+                    var CarModelParameter = cmd.Parameters.Add("@CarModel", System.Data.SqlDbType.Int);
+                    CarModelParameter.Value = param.CarModel.HasValue ? (object)param.CarModel.Value : DBNull.Value;
+                    //cmd.Parameters.AddWithValue("@CarModel", Utility.StrtoInt(param.CarModel));
+                    cmd.Parameters.AddWithValue("@ZipCode1", param.ZipCode1);
+                    cmd.Parameters.AddWithValue("@ZipCode2", param.ZipCode2);
+                    cmd.Parameters.AddWithValue("@Address1", param.Address1);
+                    cmd.Parameters.AddWithValue("@Name", param.Name);
+                    cmd.Parameters.AddWithValue("@Mobile1", param.Mobile1);
+                    cmd.Parameters.AddWithValue("@Mobile2", param.Mobile2);
+                    cmd.Parameters.AddWithValue("@Mobile3", param.Mobile3);
+                    cmd.Parameters.AddWithValue("@Label", param.Label);
+                    cmd.Parameters.AddWithValue("@Person", param.Person);
+
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            TblScandata scandata = new TblScandata
+                            {
+                                ID = Utility.StrtoInt(dr["ID"].ToString()),
+                                DataCategory = Utility.StrtoInt(Utility.NulltoStr(dr["データ区分"])),
+                                ImageFileName = Utility.NulltoStr(dr["画像名"]),
+                                AddYear = Utility.NulltoStr(dr["登録年"]),
+                                AddMonth = Utility.NulltoStr(dr["登録月"]),
+                                AddDay = Utility.NulltoStr(dr["登録日"]),
+                                Number = Utility.NulltoStr(dr["登録番号"]),
+                                VehicleIdentificationNumber = Utility.NulltoStr(dr["車体番号"]),
+                                Maker = Utility.NulltoStr(dr["メーカー"]),
+                                Color = Utility.NulltoStr(dr["塗色"]),
+                                CarModel = Utility.StrtoInt(Utility.NulltoStr(dr["車種"])),
+                                ZipCode1 = Utility.NulltoStr(dr["郵便番号1"]),
+                                ZipCode2 = Utility.NulltoStr(dr["郵便番号2"]),
+                                VehicleNumber1 = Utility.NulltoStr(dr["車両番号1"]),
+                                VehicleNumber2 = Utility.NulltoStr(dr["車両番号2"]),
+                                CarName = Utility.NulltoStr(dr["車名"]),
+                                Address1 = Utility.NulltoStr(dr["住所1"]),
+                                Address2 = Utility.NulltoStr(dr["住所2"]),
+                                Name = Utility.NulltoStr(dr["氏名"]),
+                                Mobile1 = Utility.NulltoStr(dr["TEL携帯"]),
+                                Mobile2 = Utility.NulltoStr(dr["TEL携帯2"]),
+                                Mobile3 = Utility.NulltoStr(dr["TEL携帯3"]),
+                                PC = Utility.NulltoStr(dr["PC名"]),
+                                CsvCreationDate = Utility.NulltoStr(dr["CSV作成日"]),
+                                Memo = Utility.NulltoStr(dr["備考"]),
+                                UpDate = DateTime.Parse(Utility.NulltoStr(dr["更新年月日"])),
+                                Label = Utility.NulltoStr(dr["ラベル"]),
+                                Person = Utility.NulltoStr(dr["処理担当者"])
+                            };
+
+                            lines.Add(scandata);
+                        }
+                    }
+                }
+                return lines;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return lines;
             }
         }
     }

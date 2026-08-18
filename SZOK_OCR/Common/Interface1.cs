@@ -13,6 +13,8 @@ namespace SZOK_OCR.Common
 
         //List<T> Read<T>(string s);
 
+        List<T> Read<T>(ScandataParameter param, SqlConnection conn);
+
         //List<T> Read<T>();
 
         void UpDate<T>(T Object, SqlConnection conn);
