@@ -195,6 +195,7 @@ namespace SZOK_OCR.Common
         /// <param name="dts">
         ///     データセット</param>
         ///-----------------------------------------------------------------------
+        [Obsolete("Use CsvToSQLServer instead.", true)]
         public void CsvToMdb(string _InPath, frmPrg frmP, string sLabel, string sName)
         {
             // テーブルアダプタ
@@ -251,7 +252,7 @@ namespace SZOK_OCR.Common
         }
 
         /// <summary>
-        ///    CSVデータをSQLServerに登録する
+        ///    CSVデータをSQLServerに登録する：2026/08/18
         /// </summary>
         /// <param name="_InPath"></param>
         /// <param name="frmP"></param>

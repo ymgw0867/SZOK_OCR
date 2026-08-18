@@ -102,6 +102,12 @@ namespace SZOK_OCR.Common
             }
         }
 
+        /// <summary>
+        /// 環境設定テーブルのデータを取得する：2026/08/18
+        /// </summary>
+        /// <param name="id">ID</param>
+        /// <param name="conn">SQL接続オブジェクト</param>
+        /// <returns>TblConfigクラス</returns>
         private TblConfig GetClsConfigData(int id, SqlConnection conn)
         {
             TblConfig configData = null;
@@ -139,6 +145,11 @@ namespace SZOK_OCR.Common
             }
         }
 
+        /// <summary>
+        /// 環境設定テーブルのデータを更新する：2026/08/18
+        /// </summary>
+        /// <param name="configData">TblConfigクラス</param>
+        /// <param name="conn">SQL接続オブジェクト</param>
         private void UpDate(TblConfig configData, SqlConnection conn)
         {
             try
@@ -146,7 +157,7 @@ namespace SZOK_OCR.Common
                 string sql = "UPDATE 環境設定 SET " +
                              "年 = @year, 月 = @month, データ保存月数 = @dataSave, 郵便番号データパス = @zipPath, " +
                              "更新年月日 = @upDate " +
-                                 "WHERE ID = @ID";
+                             "WHERE ID = @ID";
 
                 using (SqlCommand com = new SqlCommand(sql, conn))
                 {
@@ -165,14 +176,19 @@ namespace SZOK_OCR.Common
             }
         }
 
+        /// <summary>
+        /// SCANDATAテーブルにデータを挿入する：2026/08/18
+        /// </summary>
+        /// <param name="scandata">SCAN_DATAクラス</param>
+        /// <param name="conn">SQL接続オブジェクト</param>
         public void Insert(TblScandata scandata, SqlConnection conn)
         {
             string sql = "INSERT INTO SCAN_DATA (データ区分, 画像名, 登録年, 登録月, 登録日, 登録番号," +
-                "車体番号, メーカー, 塗色, 車種, 郵便番号1, 郵便番号2, 車体番号1, 車体番号2, 車名, 住所漢字," +
+                "車体番号, メーカー, 塗色, 車種, 郵便番号1, 郵便番号2, 車両番号1, 車両番号2, 車名, 住所漢字," +
                 "住所1, 住所2, 氏名, TEL携帯, TEL携帯2, TEL携帯3, PC名, CSV作成日, 備考, 更新年月日, ラベル, 処理担当者) " +
-                         "values (@datakbn, @imageName, @Year, @Month, @Day, @number, @VehicleIdentificationNumber," +
-                         "@Maker, @Color, @CarModel, @ZipCode1, @ZipCode2, @VehicleNumber1, @VehicleNumber2, @CarName, @AddressKanji," +
-                         "@Address1, @Address2, @Name, @Mobile1, @Mobile2, @Mobile3, @PC, @CsvCreationDate, @Memo, @UpDate, @Label, @Person)";
+                "values (@datakbn, @imageName, @Year, @Month, @Day, @number, @VehicleIdentificationNumber," +
+                "@Maker, @Color, @CarModel, @ZipCode1, @ZipCode2, @VehicleNumber1, @VehicleNumber2, @CarName, @AddressKanji," +
+                "@Address1, @Address2, @Name, @Mobile1, @Mobile2, @Mobile3, @PC, @CsvCreationDate, @Memo, @UpDate, @Label, @Person)";
 
             using (SqlCommand com = new SqlCommand(sql, conn))
             {
