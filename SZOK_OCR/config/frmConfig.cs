@@ -50,8 +50,8 @@ namespace SZOK_OCR.Config
             // 環境設定データを取得
             master = new ClsMaster(Properties.Settings.Default.sServerName, Properties.Settings.Default.sLogin,
                                    Properties.Settings.Default.sPass, Properties.Settings.Default.sDatabase);
-            conn = master.OpenConnection();
-            configData = master.GetData<TblConfig>(global.configKEY.ToString(), conn);
+            //conn = master.OpenConnection();
+            configData = master.GetData<TblConfig>(global.configKEY.ToString());
 
             if (configData != null)
             {
@@ -202,7 +202,7 @@ namespace SZOK_OCR.Config
             configData.DataSaveMonth = Utility.StrtoInt(txtDataSpan.Text);
             configData.UpDate = DateTime.Now;
 
-            master.UpDate(configData, conn);
+            master.UpDate(configData);
 
             // 終了
             this.Close();
@@ -251,8 +251,8 @@ namespace SZOK_OCR.Config
 
         private void frmConfig_FormClosing(object sender, FormClosingEventArgs e)
         {
-            // SQL接続を閉じる
-            master.CloseConnection(conn);
+            //// SQL接続を閉じる
+            //master.CloseConnection(conn);
 
             // 後片付け
             this.Dispose();

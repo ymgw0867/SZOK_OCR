@@ -287,9 +287,9 @@ namespace SZOK_OCR.DATA
             var master = new ClsMaster(Properties.Settings.Default.sServerName, Properties.Settings.Default.sLogin,
                                    Properties.Settings.Default.sPass, Properties.Settings.Default.sDatabase);
             // connection open
-            var conn = master.OpenConnection();
+            //var conn = master.OpenConnection();
 
-            var result = master.Read<TblScandata>(param, conn);
+            var result = master.Read<TblScandata>(param);
 
             // 2019/11/15
             //adp.FillByYear(dts.SCAN_DATA, txtsYY.Text);
@@ -536,9 +536,6 @@ namespace SZOK_OCR.DATA
                 // 2019/11/15
                 label22.Text = "該当件数： 0件";
             }
-
-            // connection close：2026/08/19
-            master.CloseConnection(conn);
 
             System.Threading.Thread.Sleep(500);
             Application.DoEvents();

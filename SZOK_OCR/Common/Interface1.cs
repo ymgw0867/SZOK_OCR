@@ -9,15 +9,15 @@ namespace SZOK_OCR.Common
 {
     public interface IMaster
     {
-        T GetData<T>(string id, SqlConnection conn);
+        T GetData<T>(string id);
 
         //List<T> Read<T>(string s);
 
-        List<T> Read<T>(ScandataParameter param, SqlConnection conn);
+        List<T> Read<T>(ScandataParameter param);
 
         //List<T> Read<T>();
 
-        void UpDate<T>(T Object, SqlConnection conn);
+        void UpDate<T>(T Object);
 
         //int Count<T>();
 
