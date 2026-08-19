@@ -1,10 +1,13 @@
-﻿using System;
+﻿using DocumentFormat.OpenXml.Office.Word;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static ClosedXML.Excel.XLPredefinedFormat;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Rebar;
 
 namespace SZOK_OCR.Common
@@ -192,7 +195,7 @@ namespace SZOK_OCR.Common
                     com.Parameters.AddWithValue("@month", configData.Month);
                     com.Parameters.AddWithValue("@dataSave", configData.DataSaveMonth);
                     com.Parameters.AddWithValue("@zipPath", configData.ZipCodePath);
-                    com.Parameters.AddWithValue("@upDate", DateTime.Now.ToString());
+                    com.Parameters.AddWithValue("@upDate", System.DateTime.Now.ToString());
                     com.Parameters.AddWithValue("@ID", configData.ID);
                     com.ExecuteNonQuery();
                 }
@@ -244,7 +247,7 @@ namespace SZOK_OCR.Common
                 com.Parameters.AddWithValue("@PC", scandata.PC);
                 com.Parameters.AddWithValue("@CsvCreationDate", scandata.CsvCreationDate);
                 com.Parameters.AddWithValue("@Memo", scandata.Memo);
-                com.Parameters.AddWithValue("@UpDate", DateTime.Now.ToString());
+                com.Parameters.AddWithValue("@UpDate", System.DateTime.Now.ToString());
                 com.Parameters.AddWithValue("@Label", scandata.Label);
                 com.Parameters.AddWithValue("@Person", scandata.Person);
                 com.ExecuteNonQuery();
@@ -292,54 +295,94 @@ namespace SZOK_OCR.Common
 
             try
             {
-                string sql = "SELECT * FROM SCAN_DATA " +
+                string sql = "SELECT ID,データ区分,画像名,登録年,登録月,登録日,登録番号,車体番号,メーカー,塗色,車種,郵便番号1,郵便番号2," +
+                    "住所1,氏名,TEL携帯,TEL携帯2,TEL携帯3,ラベル,処理担当者,PC名,CSV作成日,備考,更新年月日 FROM SCAN_DATA " +
                     "WHERE (" +
                     "(@DataCategory IS NULL OR データ区分 = @DataCategory) AND " +
-                    "(NULLIF(@AddYear, '') IS NULL OR 登録年 = @AddYear) AND " +
-                    "(NULLIF(@AddMonth, '') IS NULL OR 登録月 = @AddMonth) AND " +
-                    "(NULLIF(@AddDay, '') IS NULL OR 登録日 = @AddDay) AND " +
-                    "(NULLIF(@Number, '') IS NULL OR 登録番号 LIKE '%' + @Number + '%') AND " +
-                    "(NULLIF(@VehicleIdentificationNumber, '') IS NULL OR 車体番号 LIKE '%' + @VehicleIdentificationNumber + '%') AND " +
-                    "(NULLIF(@Maker, '') IS NULL OR メーカー LIKE '%' + @Maker + '%') AND " +
-                    "(NULLIF(@Color, '') IS NULL OR 塗色 LIKE '%' + @Color + '%') AND " +
+                    "(@AddYear IS NULL OR 登録年 = @AddYear) AND " +
+                    "(@AddMonth IS NULL OR 登録月 = @AddMonth OR 登録月 = @AddMonth2) AND " +
+                    "(@AddDay IS NULL OR 登録日 = @AddDay OR 登録日 = @AddDay2) AND " +
+                    "(@Number IS NULL OR 登録番号 LIKE '%' + @Number + '%') AND " +
+                    "(@VehicleIdentificationNumber IS NULL OR 車体番号 LIKE '%' + @VehicleIdentificationNumber + '%') AND " +
+                    "(@Maker IS NULL OR メーカー LIKE '%' + @Maker + '%') AND " +
+                    "(@Color IS NULL OR 塗色 LIKE '%' + @Color + '%') AND " +
                     "(@CarModel IS NULL OR 車種 = @CarModel) AND " +
-                    "(NULLIF(@ZipCode1, '') IS NULL OR 郵便番号1 LIKE '%' + @ZipCode1 + '%') AND " +
-                    "(NULLIF(@ZipCode2, '') IS NULL OR 郵便番号2 LIKE '%' + @ZipCode2 + '%') AND " +
-                    "(NULLIF(@Address1, '') IS NULL OR 住所1 LIKE '%' + @Address1 + '%') AND " +
-                    "(NULLIF(@Name, '') IS NULL OR 氏名 LIKE '%' + @Name + '%') AND " +
-                    "(NULLIF(@Mobile1, '') IS NULL OR TEL携帯 LIKE '%' + @Mobile1 + '%') AND " +
-                    "(NULLIF(@Mobile2, '') IS NULL OR TEL携帯2 LIKE '%' + @Mobile2 + '%') AND " +
-                    "(NULLIF(@Mobile3, '') IS NULL OR TEL携帯3 LIKE '%' + @Mobile3 + '%') AND " +
-                    "(NULLIF(@Label, '') IS NULL OR ラベル LIKE '%' + @Label + '%') AND " +
-                    "(NULLIF(@Person, '') IS NULL OR 処理担当者 LIKE '%' + @Person + '%')) " +
-                    "ORDER BY 登録番号";
+                    "(@ZipCode1 IS NULL OR 郵便番号1 LIKE '%' + @ZipCode1 + '%') AND " +
+                    "(@ZipCode2 IS NULL OR 郵便番号2 LIKE '%' + @ZipCode2 + '%') AND " +
+                    "(@Address1 IS NULL OR 住所1 LIKE '%' + @Address1 + '%') AND " +
+                    "(@Name IS NULL OR 氏名 LIKE '%' + @Name + '%') AND " +
+                    "(@Mobile1 IS NULL OR TEL携帯 LIKE '%' + @Mobile1 + '%') AND " +
+                    "(@Mobile2 IS NULL OR TEL携帯2 LIKE '%' + @Mobile2 + '%') AND " +
+                    "(@Mobile3 IS NULL OR TEL携帯3 LIKE '%' + @Mobile3 + '%') AND " +
+                    "(@Label IS NULL OR ラベル LIKE '%' + @Label + '%') AND " +
+                    "(@Person IS NULL OR 処理担当者 LIKE '%' + @Person + '%')) " +
+                    "ORDER BY 登録番号 OPTION (RECOMPILE)";
 
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
                 {
+                    cmd.CommandTimeout = 120; // 秒。デフォルト30から一時的に伸ばして様子を見る
                     var dataCategoryParameter = cmd.Parameters.Add("@DataCategory", System.Data.SqlDbType.Int);
                     dataCategoryParameter.Value = param.DataCategory.HasValue ? (object)param.DataCategory.Value : DBNull.Value;
-                    //cmd.Parameters.AddWithValue("@DataCategory", param.DataCategory);
-                    cmd.Parameters.AddWithValue("@AddYear", param.AddYear);
-                    cmd.Parameters.AddWithValue("@AddMonth", param.AddMonth);
-                    cmd.Parameters.AddWithValue("@AddDay", param.AddDay);
-                    cmd.Parameters.AddWithValue("@Number", param.Number);
-                    cmd.Parameters.AddWithValue("@VehicleIdentificationNumber", param.VehicleIdentificationNumber);
-                    cmd.Parameters.AddWithValue("@Maker", param.Maker);
-                    cmd.Parameters.AddWithValue("@Color", param.Color);
 
+                    cmd.Parameters.Add("@AddYear", SqlDbType.NVarChar, 2).Value = ToParam(param.AddYear);
+
+                    cmd.Parameters.Add("@AddMonth", SqlDbType.NVarChar, 2).Value = ToParam(param.AddMonth);
+                    if (!string.IsNullOrEmpty(param.AddMonth))
+                    {
+                        cmd.Parameters.Add("@AddMonth2", SqlDbType.NVarChar, 2).Value = param.AddMonth.PadLeft(2, '0');
+                    }
+                    else
+                    {
+                        cmd.Parameters.Add("@AddMonth2", SqlDbType.NVarChar, 2).Value = DBNull.Value;
+                    }
+
+                    cmd.Parameters.Add("@AddDay", SqlDbType.NVarChar, 2).Value = ToParam(param.AddDay);
+                    if (!string.IsNullOrEmpty(param.AddDay))
+                    {
+                        cmd.Parameters.Add("@AddDay2", SqlDbType.NVarChar, 2).Value = param.AddDay.PadLeft(2, '0');
+                    }
+                    else
+                    {
+                        cmd.Parameters.Add("@AddDay2", SqlDbType.NVarChar, 2).Value = DBNull.Value;
+                    }
+
+                    cmd.Parameters.Add("@Number", SqlDbType.NVarChar, 20).Value = ToParam(param.Number);
+                    cmd.Parameters.Add("@VehicleIdentificationNumber", SqlDbType.NVarChar, 20).Value = ToParam(param.VehicleIdentificationNumber);
+                    cmd.Parameters.Add("@Maker", SqlDbType.NVarChar, 10).Value = ToParam(param.Maker);
+                    cmd.Parameters.Add("@Color", SqlDbType.NVarChar, 6).Value = ToParam(param.Color);
+
+                    //cmd.Parameters.AddWithValue("@AddYear", param.AddYear);
+                    //cmd.Parameters.AddWithValue("@AddMonth", Utility.StrtoInt(param.AddMonth));
+                    //cmd.Parameters.AddWithValue("@AddMonth2", param.AddMonth.PadLeft(2, '0'));
+                    //cmd.Parameters.AddWithValue("@AddDay", Utility.StrtoInt(param.AddDay));
+                    //cmd.Parameters.AddWithValue("@AddDay2", param.AddDay.PadLeft(2, '0'));
+                    //cmd.Parameters.AddWithValue("@Number", param.Number);
+                    //cmd.Parameters.AddWithValue("@VehicleIdentificationNumber", param.VehicleIdentificationNumber);
+                    //cmd.Parameters.AddWithValue("@Maker", param.Maker);
+                    //cmd.Parameters.AddWithValue("@Color", param.Color);
 
                     var CarModelParameter = cmd.Parameters.Add("@CarModel", System.Data.SqlDbType.Int);
                     CarModelParameter.Value = param.CarModel.HasValue ? (object)param.CarModel.Value : DBNull.Value;
-                    //cmd.Parameters.AddWithValue("@CarModel", Utility.StrtoInt(param.CarModel));
-                    cmd.Parameters.AddWithValue("@ZipCode1", param.ZipCode1);
-                    cmd.Parameters.AddWithValue("@ZipCode2", param.ZipCode2);
-                    cmd.Parameters.AddWithValue("@Address1", param.Address1);
-                    cmd.Parameters.AddWithValue("@Name", param.Name);
-                    cmd.Parameters.AddWithValue("@Mobile1", param.Mobile1);
-                    cmd.Parameters.AddWithValue("@Mobile2", param.Mobile2);
-                    cmd.Parameters.AddWithValue("@Mobile3", param.Mobile3);
-                    cmd.Parameters.AddWithValue("@Label", param.Label);
-                    cmd.Parameters.AddWithValue("@Person", param.Person);
+
+                    cmd.Parameters.Add("@ZipCode1", SqlDbType.NVarChar, 3).Value   = ToParam(param.ZipCode1);
+                    cmd.Parameters.Add("@ZipCode2", SqlDbType.NVarChar, 4).Value   = ToParam(param.ZipCode2);
+                    cmd.Parameters.Add("@Address1", SqlDbType.NVarChar, 40).Value  = ToParam(param.Address1);
+                    cmd.Parameters.Add("@Name",     SqlDbType.NVarChar, 16).Value  = ToParam(param.Name);
+                    cmd.Parameters.Add("@Mobile1",  SqlDbType.NVarChar, 4).Value   = ToParam(param.Mobile1);
+                    cmd.Parameters.Add("@Mobile2",  SqlDbType.NVarChar, 4).Value   = ToParam(param.Mobile2);
+                    cmd.Parameters.Add("@Mobile3",  SqlDbType.NVarChar, 4).Value   = ToParam(param.Mobile3);
+                    cmd.Parameters.Add("@Label",    SqlDbType.NVarChar, 255).Value = ToParam(param.Label);
+                    cmd.Parameters.Add("@Person",   SqlDbType.NVarChar, 255).Value = ToParam(param.Person);
+
+                    //cmd.Parameters.AddWithValue("@ZipCode1", param.ZipCode1);
+                    //cmd.Parameters.AddWithValue("@ZipCode2", param.ZipCode2);
+                    //cmd.Parameters.AddWithValue("@Address1", param.Address1);
+                    //cmd.Parameters.AddWithValue("@Name", param.Name);
+                    //cmd.Parameters.AddWithValue("@Mobile1", param.Mobile1);
+                    //cmd.Parameters.AddWithValue("@Mobile2", param.Mobile2);
+                    //cmd.Parameters.AddWithValue("@Mobile3", param.Mobile3);
+                    //cmd.Parameters.AddWithValue("@Label", param.Label);
+                    //cmd.Parameters.AddWithValue("@Person", param.Person);
 
                     using (SqlDataReader dr = cmd.ExecuteReader())
                     {
@@ -360,11 +403,11 @@ namespace SZOK_OCR.Common
                                 CarModel = Utility.StrtoInt(Utility.NulltoStr(dr["車種"])),
                                 ZipCode1 = Utility.NulltoStr(dr["郵便番号1"]),
                                 ZipCode2 = Utility.NulltoStr(dr["郵便番号2"]),
-                                VehicleNumber1 = Utility.NulltoStr(dr["車両番号1"]),
-                                VehicleNumber2 = Utility.NulltoStr(dr["車両番号2"]),
-                                CarName = Utility.NulltoStr(dr["車名"]),
+                                VehicleNumber1 = string.Empty,
+                                VehicleNumber2 = string.Empty,
+                                CarName = string.Empty,
                                 Address1 = Utility.NulltoStr(dr["住所1"]),
-                                Address2 = Utility.NulltoStr(dr["住所2"]),
+                                Address2 = string.Empty,
                                 Name = Utility.NulltoStr(dr["氏名"]),
                                 Mobile1 = Utility.NulltoStr(dr["TEL携帯"]),
                                 Mobile2 = Utility.NulltoStr(dr["TEL携帯2"]),
@@ -372,7 +415,7 @@ namespace SZOK_OCR.Common
                                 PC = Utility.NulltoStr(dr["PC名"]),
                                 CsvCreationDate = Utility.NulltoStr(dr["CSV作成日"]),
                                 Memo = Utility.NulltoStr(dr["備考"]),
-                                UpDate = DateTime.Parse(Utility.NulltoStr(dr["更新年月日"])),
+                                UpDate = System.DateTime.Parse(Utility.NulltoStr(dr["更新年月日"])),
                                 Label = Utility.NulltoStr(dr["ラベル"]),
                                 Person = Utility.NulltoStr(dr["処理担当者"])
                             };
@@ -388,6 +431,16 @@ namespace SZOK_OCR.Common
                 MessageBox.Show(ex.Message);
                 return lines;
             }
+        }
+
+        /// <summary>
+        /// 指定された文字列をSQLパラメータに変換する。空文字列の場合はDBNull.Valueを返す。
+        /// </summary>
+        /// <param name="value">変換する文字列</param>
+        /// <returns>SQLパラメータとして使用できるオブジェクト</returns>
+        static object ToParam(string value)
+        {
+            return string.IsNullOrEmpty(value) ? (object)DBNull.Value : value;
         }
     }
 }

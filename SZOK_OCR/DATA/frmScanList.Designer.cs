@@ -58,10 +58,6 @@
             this.label12 = new System.Windows.Forms.Label();
             this.txtsZip2 = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
-            this.txtsCarName = new System.Windows.Forms.TextBox();
-            this.label18 = new System.Windows.Forms.Label();
-            this.txtsSharyoNum = new System.Windows.Forms.TextBox();
-            this.label17 = new System.Windows.Forms.Label();
             this.cmbCarStyle = new System.Windows.Forms.ComboBox();
             this.label16 = new System.Windows.Forms.Label();
             this.txtsMM = new System.Windows.Forms.TextBox();
@@ -104,7 +100,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Meiryo UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label3.Location = new System.Drawing.Point(802, 18);
+            this.label3.Location = new System.Drawing.Point(766, 18);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(68, 18);
             this.label3.TabIndex = 3;
@@ -114,7 +110,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Meiryo UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label5.Location = new System.Drawing.Point(1035, 18);
+            this.label5.Location = new System.Drawing.Point(1011, 18);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(64, 18);
             this.label5.TabIndex = 5;
@@ -124,7 +120,7 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Meiryo UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label6.Location = new System.Drawing.Point(1274, 18);
+            this.label6.Location = new System.Drawing.Point(1261, 18);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(53, 18);
             this.label6.TabIndex = 6;
@@ -144,7 +140,7 @@
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Meiryo UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label8.Location = new System.Drawing.Point(651, 51);
+            this.label8.Location = new System.Drawing.Point(491, 51);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(36, 18);
             this.label8.TabIndex = 8;
@@ -154,7 +150,7 @@
             // 
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Meiryo UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label9.Location = new System.Drawing.Point(802, 51);
+            this.label9.Location = new System.Drawing.Point(766, 51);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(50, 18);
             this.label9.TabIndex = 9;
@@ -212,10 +208,10 @@
             this.txtsZip1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtsZip1.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.txtsZip1.ImeMode = System.Windows.Forms.ImeMode.Off;
-            this.txtsZip1.Location = new System.Drawing.Point(682, 47);
+            this.txtsZip1.Location = new System.Drawing.Point(522, 47);
             this.txtsZip1.MaxLength = 3;
             this.txtsZip1.Name = "txtsZip1";
-            this.txtsZip1.Size = new System.Drawing.Size(41, 27);
+            this.txtsZip1.Size = new System.Drawing.Size(49, 27);
             this.txtsZip1.TabIndex = 11;
             this.txtsZip1.Text = "123";
             this.txtsZip1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -255,10 +251,10 @@
             this.txtsAdd.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtsAdd.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.txtsAdd.ImeMode = System.Windows.Forms.ImeMode.KatakanaHalf;
-            this.txtsAdd.Location = new System.Drawing.Point(848, 47);
+            this.txtsAdd.Location = new System.Drawing.Point(812, 47);
             this.txtsAdd.MaxLength = 40;
             this.txtsAdd.Name = "txtsAdd";
-            this.txtsAdd.Size = new System.Drawing.Size(573, 27);
+            this.txtsAdd.Size = new System.Drawing.Size(596, 27);
             this.txtsAdd.TabIndex = 13;
             this.txtsAdd.Text = "ｱｲｳｴｵｶｷｸｹｺｱｲｳｴｵｶｷｸｹｺｱｲｳｴｵｶｷｸｹｺｱｲｳｴｵｶｷｸｹｺ";
             this.txtsAdd.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -295,10 +291,6 @@
             this.panel1.Controls.Add(this.txtsZip1);
             this.panel1.Controls.Add(this.label10);
             this.panel1.Controls.Add(this.txtsCarbodyNum);
-            this.panel1.Controls.Add(this.txtsCarName);
-            this.panel1.Controls.Add(this.label18);
-            this.panel1.Controls.Add(this.txtsSharyoNum);
-            this.panel1.Controls.Add(this.label17);
             this.panel1.Controls.Add(this.cmbCarStyle);
             this.panel1.Controls.Add(this.label16);
             this.panel1.Controls.Add(this.txtsMM);
@@ -332,10 +324,10 @@
             this.txtLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtLabel.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.txtLabel.ImeMode = System.Windows.Forms.ImeMode.Off;
-            this.txtLabel.Location = new System.Drawing.Point(848, 79);
+            this.txtLabel.Location = new System.Drawing.Point(812, 79);
             this.txtLabel.MaxLength = 40;
             this.txtLabel.Name = "txtLabel";
-            this.txtLabel.Size = new System.Drawing.Size(177, 27);
+            this.txtLabel.Size = new System.Drawing.Size(154, 27);
             this.txtLabel.TabIndex = 18;
             this.txtLabel.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -346,7 +338,7 @@
             this.txtName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtName.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.txtName.ImeMode = System.Windows.Forms.ImeMode.Hiragana;
-            this.txtName.Location = new System.Drawing.Point(1119, 79);
+            this.txtName.Location = new System.Drawing.Point(1071, 79);
             this.txtName.MaxLength = 40;
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(168, 27);
@@ -357,7 +349,7 @@
             // 
             this.label21.AutoSize = true;
             this.label21.Font = new System.Drawing.Font("Meiryo UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label21.Location = new System.Drawing.Point(1031, 83);
+            this.label21.Location = new System.Drawing.Point(983, 83);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(92, 18);
             this.label21.TabIndex = 148;
@@ -367,7 +359,7 @@
             // 
             this.label20.AutoSize = true;
             this.label20.Font = new System.Drawing.Font("Meiryo UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label20.Location = new System.Drawing.Point(799, 83);
+            this.label20.Location = new System.Drawing.Point(763, 83);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(54, 18);
             this.label20.TabIndex = 146;
@@ -380,7 +372,7 @@
             this.txtsColor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtsColor.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.txtsColor.ImeMode = System.Windows.Forms.ImeMode.KatakanaHalf;
-            this.txtsColor.Location = new System.Drawing.Point(1324, 13);
+            this.txtsColor.Location = new System.Drawing.Point(1311, 13);
             this.txtsColor.MaxLength = 6;
             this.txtsColor.Name = "txtsColor";
             this.txtsColor.Size = new System.Drawing.Size(97, 27);
@@ -441,7 +433,7 @@
             this.txtsZip2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtsZip2.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.txtsZip2.ImeMode = System.Windows.Forms.ImeMode.Off;
-            this.txtsZip2.Location = new System.Drawing.Point(740, 47);
+            this.txtsZip2.Location = new System.Drawing.Point(586, 47);
             this.txtsZip2.MaxLength = 4;
             this.txtsZip2.Name = "txtsZip2";
             this.txtsZip2.Size = new System.Drawing.Size(49, 27);
@@ -454,59 +446,11 @@
             // 
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Meiryo UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label10.Location = new System.Drawing.Point(722, 51);
+            this.label10.Location = new System.Drawing.Point(570, 51);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(19, 18);
             this.label10.TabIndex = 141;
             this.label10.Text = "ー";
-            // 
-            // txtsCarName
-            // 
-            this.txtsCarName.BackColor = System.Drawing.Color.White;
-            this.txtsCarName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtsCarName.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.txtsCarName.ImeMode = System.Windows.Forms.ImeMode.KatakanaHalf;
-            this.txtsCarName.Location = new System.Drawing.Point(522, 47);
-            this.txtsCarName.MaxLength = 10;
-            this.txtsCarName.Name = "txtsCarName";
-            this.txtsCarName.Size = new System.Drawing.Size(113, 27);
-            this.txtsCarName.TabIndex = 10;
-            this.txtsCarName.Text = "ｱｲｳｴｵｶｷｸｹｺ";
-            this.txtsCarName.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // label18
-            // 
-            this.label18.AutoSize = true;
-            this.label18.Font = new System.Drawing.Font("Meiryo UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label18.Location = new System.Drawing.Point(475, 51);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(50, 18);
-            this.label18.TabIndex = 138;
-            this.label18.Text = "車名：";
-            // 
-            // txtsSharyoNum
-            // 
-            this.txtsSharyoNum.BackColor = System.Drawing.Color.White;
-            this.txtsSharyoNum.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtsSharyoNum.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.txtsSharyoNum.ImeMode = System.Windows.Forms.ImeMode.Off;
-            this.txtsSharyoNum.Location = new System.Drawing.Point(307, 47);
-            this.txtsSharyoNum.MaxLength = 7;
-            this.txtsSharyoNum.Name = "txtsSharyoNum";
-            this.txtsSharyoNum.Size = new System.Drawing.Size(119, 27);
-            this.txtsSharyoNum.TabIndex = 9;
-            this.txtsSharyoNum.Text = "1234567";
-            this.txtsSharyoNum.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // label17
-            // 
-            this.label17.AutoSize = true;
-            this.label17.Font = new System.Drawing.Font("Meiryo UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label17.Location = new System.Drawing.Point(234, 51);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(78, 18);
-            this.label17.TabIndex = 136;
-            this.label17.Text = "車両番号：";
             // 
             // cmbCarStyle
             // 
@@ -522,7 +466,7 @@
             // 
             this.label16.AutoSize = true;
             this.label16.Font = new System.Drawing.Font("Meiryo UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label16.Location = new System.Drawing.Point(896, 20);
+            this.label16.Location = new System.Drawing.Point(860, 20);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(22, 18);
             this.label16.TabIndex = 134;
@@ -533,7 +477,7 @@
             this.txtsMM.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtsMM.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.txtsMM.ImeMode = System.Windows.Forms.ImeMode.Off;
-            this.txtsMM.Location = new System.Drawing.Point(919, 13);
+            this.txtsMM.Location = new System.Drawing.Point(883, 13);
             this.txtsMM.MaxLength = 2;
             this.txtsMM.Name = "txtsMM";
             this.txtsMM.Size = new System.Drawing.Size(29, 27);
@@ -545,7 +489,7 @@
             // 
             this.label15.AutoSize = true;
             this.label15.Font = new System.Drawing.Font("Meiryo UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label15.Location = new System.Drawing.Point(950, 20);
+            this.label15.Location = new System.Drawing.Point(914, 20);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(22, 18);
             this.label15.TabIndex = 132;
@@ -556,7 +500,7 @@
             this.txtsDD.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtsDD.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.txtsDD.ImeMode = System.Windows.Forms.ImeMode.Off;
-            this.txtsDD.Location = new System.Drawing.Point(973, 13);
+            this.txtsDD.Location = new System.Drawing.Point(937, 13);
             this.txtsDD.MaxLength = 2;
             this.txtsDD.Name = "txtsDD";
             this.txtsDD.Size = new System.Drawing.Size(29, 27);
@@ -568,7 +512,7 @@
             // 
             this.label14.AutoSize = true;
             this.label14.Font = new System.Drawing.Font("Meiryo UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label14.Location = new System.Drawing.Point(1001, 20);
+            this.label14.Location = new System.Drawing.Point(965, 20);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(22, 18);
             this.label14.TabIndex = 130;
@@ -579,7 +523,7 @@
             this.txtsYY.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtsYY.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.txtsYY.ImeMode = System.Windows.Forms.ImeMode.Off;
-            this.txtsYY.Location = new System.Drawing.Point(866, 13);
+            this.txtsYY.Location = new System.Drawing.Point(830, 13);
             this.txtsYY.MaxLength = 2;
             this.txtsYY.Name = "txtsYY";
             this.txtsYY.Size = new System.Drawing.Size(29, 27);
@@ -592,7 +536,7 @@
             this.txtsMaker.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtsMaker.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.txtsMaker.ImeMode = System.Windows.Forms.ImeMode.KatakanaHalf;
-            this.txtsMaker.Location = new System.Drawing.Point(1096, 13);
+            this.txtsMaker.Location = new System.Drawing.Point(1071, 13);
             this.txtsMaker.MaxLength = 10;
             this.txtsMaker.Name = "txtsMaker";
             this.txtsMaker.Size = new System.Drawing.Size(172, 27);
@@ -727,10 +671,6 @@
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.TextBox txtsZip2;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.TextBox txtsCarName;
-        private System.Windows.Forms.Label label18;
-        private System.Windows.Forms.TextBox txtsSharyoNum;
-        private System.Windows.Forms.Label label17;
         private System.Windows.Forms.ComboBox cmbCarStyle;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.TextBox txtsMM;

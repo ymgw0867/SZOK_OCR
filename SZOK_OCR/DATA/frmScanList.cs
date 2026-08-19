@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DocumentFormat.OpenXml.Office.Word;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using SZOK_OCR.Common;
+using static ClosedXML.Excel.XLPredefinedFormat;
 
 namespace SZOK_OCR.DATA
 {
@@ -86,8 +88,8 @@ namespace SZOK_OCR.DATA
             txtsMaker.Text = string.Empty;
             txtsColor.Text = string.Empty;
             cmbCarStyle.SelectedIndex = 0;
-            txtsSharyoNum.Text = string.Empty;
-            txtsCarName.Text = string.Empty;
+            //txtsSharyoNum.Text = string.Empty;
+            //txtsCarName.Text = string.Empty;
             txtsZip1.Text = string.Empty;
             txtsZip2.Text = string.Empty;
             txtsAdd.Text = string.Empty;
@@ -146,8 +148,8 @@ namespace SZOK_OCR.DATA
                 tempDGV.Columns.Add(colMaker, "メーカー");
                 tempDGV.Columns.Add(colColor, "カラー");
                 tempDGV.Columns.Add(colCarStyle, "車種");
-                tempDGV.Columns.Add(colSharyoNum, "車両番号");
-                tempDGV.Columns.Add(colCarName, "車名");
+                //tempDGV.Columns.Add(colSharyoNum, "車両番号");
+                //tempDGV.Columns.Add(colCarName, "車名");
                 tempDGV.Columns.Add(colZip, "〒");
                 tempDGV.Columns.Add(colAdd, "住所");
                 tempDGV.Columns.Add(colFuri, "氏名");
@@ -162,17 +164,17 @@ namespace SZOK_OCR.DATA
 
                 tempDGV.Columns[coldKbn].Width = 90;
                 tempDGV.Columns[colCPA].Width = 140;
-                tempDGV.Columns[colCarbodyNum].Width = 260;
+                tempDGV.Columns[colCarbodyNum].Width = 200;
                 tempDGV.Columns[colyymmdd].Width = 110;
                 tempDGV.Columns[colMaker].Width = 100;
                 tempDGV.Columns[colColor].Width = 100;
                 tempDGV.Columns[colCarStyle].Width = 100;
-                tempDGV.Columns[colSharyoNum].Width = 100;
-                tempDGV.Columns[colCarName].Width = 100;
+                //tempDGV.Columns[colSharyoNum].Width = 100;
+                //tempDGV.Columns[colCarName].Width = 100;
                 tempDGV.Columns[colZip].Width = 100;
-                tempDGV.Columns[colAdd].Width = 300;
-                tempDGV.Columns[colFuri].Width = 120;
-                tempDGV.Columns[colTel].Width = 120;
+                tempDGV.Columns[colAdd].Width = 330;
+                tempDGV.Columns[colFuri].Width = 150;
+                tempDGV.Columns[colTel].Width = 140;
 
                 //tempDGV.Columns[colCsv].Width = 170;
                 //tempDGV.Columns[colJyogai].Width = 60;
@@ -266,7 +268,7 @@ namespace SZOK_OCR.DATA
             param.Label = txtLabel.Text;
             param.Person = txtName.Text;
             return param;
-        }   
+        }
 
         private int DataFind()
         {
@@ -288,7 +290,6 @@ namespace SZOK_OCR.DATA
             var conn = master.OpenConnection();
 
             var result = master.Read<TblScandata>(param, conn);
-
 
             // 2019/11/15
             //adp.FillByYear(dts.SCAN_DATA, txtsYY.Text);
@@ -536,6 +537,9 @@ namespace SZOK_OCR.DATA
                 label22.Text = "該当件数： 0件";
             }
 
+            // connection close：2026/08/19
+            master.CloseConnection(conn);
+
             System.Threading.Thread.Sleep(500);
             Application.DoEvents();
 
@@ -628,17 +632,18 @@ namespace SZOK_OCR.DATA
                 s = s.Where(q => q.車種.ToString().PadLeft(2, '0') == cs).OrderBy(q => q.登録番号);
             }
 
-            // 車両番号
-            if (txtsSharyoNum.Text != string.Empty)
-            {
-                s = s.Where(q => !q.Is車両番号1Null() && (q.車両番号1 + q.車両番号2).Contains(txtsSharyoNum.Text)).OrderBy(q => q.登録番号);
-            }
+            // コメント化：2026/08/19
+            //// 車両番号
+            //if (txtsSharyoNum.Text != string.Empty)
+            //{
+            //    s = s.Where(q => !q.Is車両番号1Null() && (q.車両番号1 + q.車両番号2).Contains(txtsSharyoNum.Text)).OrderBy(q => q.登録番号);
+            //}
 
-            // 車名
-            if (txtsCarName.Text != string.Empty)
-            {
-                s = s.Where(q => q.車名.Contains(Utility.getStrConv(txtsCarName.Text))).OrderBy(q => q.登録番号);
-            }
+            //// 車名
+            //if (txtsCarName.Text != string.Empty)
+            //{
+            //    s = s.Where(q => q.車名.Contains(Utility.getStrConv(txtsCarName.Text))).OrderBy(q => q.登録番号);
+            //}
 
             // 郵便番号
             if (txtsZip1.Text != string.Empty)
@@ -893,7 +898,7 @@ namespace SZOK_OCR.DATA
 
         private void FrmScanList_Shown(object sender, EventArgs e)
         {
-            txtsYY.Text = (DateTime.Now.Year - 2000).ToString();
+            txtsYY.Text = (System.DateTime.Now.Year - 2000).ToString();
         }
     }
 }
