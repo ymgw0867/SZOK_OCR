@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -74,11 +75,11 @@ namespace SZOK_OCR.Common
                 return (T)(Object)GetClsConfigData(Utility.StrtoInt(sCode));
             }
 
-            //// 商品マスターのとき
-            //if (typeof(T) == typeof(ClsShohinData))
-            //{
-            //    return (T)(Object)GetClsShohinData(sCode);
-            //}
+            // SCAN_DATAのとき
+            if (typeof(T) == typeof(TblScandata))
+            {
+                return (T)(Object)GetClsScandata(Utility.StrtoInt(sCode));
+            }
 
             //// 得意先マスターのとき
             //if (typeof(T) == typeof(ClsTokuisakiData))
@@ -170,6 +171,71 @@ namespace SZOK_OCR.Common
             {
                 MessageBox.Show(ex.Message);
                 return configData;
+            }
+        }
+
+        private TblScandata GetClsScandata(int id)
+        {
+            TblScandata scandata = null;
+
+            try
+            {
+                using (var conn = new SqlConnection(sqlBuilder.ConnectionString))
+                {
+                    conn.Open();
+
+                    string sql = "SELECT * FROM SCAN_DATA WHERE ID = @ID";
+
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@ID", id);
+
+                        using (var dr = cmd.ExecuteReader())
+                        {
+                            while (dr.Read())
+                            {
+                                scandata = new TblScandata
+                                {
+                                    ID = Utility.StrtoInt(dr["ID"].ToString()),
+                                    DataCategory = Utility.StrtoInt(Utility.NulltoStr(dr["データ区分"])),
+                                    ImageFileName = Utility.NulltoStr(dr["画像名"]),
+                                    AddYear = Utility.NulltoStr(dr["登録年"]),
+                                    AddMonth = Utility.NulltoStr(dr["登録月"]),
+                                    AddDay = Utility.NulltoStr(dr["登録日"]),
+                                    Number = Utility.NulltoStr(dr["登録番号"]),
+                                    VehicleIdentificationNumber = Utility.NulltoStr(dr["車体番号"]),
+                                    Maker = Utility.NulltoStr(dr["メーカー"]),
+                                    Color = Utility.NulltoStr(dr["塗色"]),
+                                    CarModel = Utility.StrtoInt(Utility.NulltoStr(dr["車種"])),
+                                    ZipCode1 = Utility.NulltoStr(dr["郵便番号1"]),
+                                    ZipCode2 = Utility.NulltoStr(dr["郵便番号2"]),
+                                    VehicleNumber1 = string.Empty,
+                                    VehicleNumber2 = string.Empty,
+                                    CarName = string.Empty,
+                                    Address1 = Utility.NulltoStr(dr["住所1"]),
+                                    Address2 = string.Empty,
+                                    Name = Utility.NulltoStr(dr["氏名"]),
+                                    Mobile1 = Utility.NulltoStr(dr["TEL携帯"]),
+                                    Mobile2 = Utility.NulltoStr(dr["TEL携帯2"]),
+                                    Mobile3 = Utility.NulltoStr(dr["TEL携帯3"]),
+                                    PC = Utility.NulltoStr(dr["PC名"]),
+                                    CsvCreationDate = Utility.NulltoStr(dr["CSV作成日"]),
+                                    Memo = Utility.NulltoStr(dr["備考"]),
+                                    UpDate = System.DateTime.Parse(Utility.NulltoStr(dr["更新年月日"])),
+                                    Label = Utility.NulltoStr(dr["ラベル"]),
+                                    Person = Utility.NulltoStr(dr["処理担当者"])
+                                };
+                            }
+                        }
+                    }
+                }
+
+                return scandata;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return scandata;
             }
         }
 

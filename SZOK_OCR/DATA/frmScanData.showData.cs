@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Drawing;
 using System.Windows.Forms;
+using SZOK_OCR.Common;
 
 
 namespace SZOK_OCR.DATA
@@ -18,83 +19,161 @@ namespace SZOK_OCR.DATA
         ///------------------------------------------------------------------------------------
         private void showOcrData(int iX)
         {
-            //スキャンデータ行を取得
-            var r = dts.SCAN_DATA.Single(a => a.ID == iX);
+            ////スキャンデータ行を取得
+            //var r = dts.SCAN_DATA.Single(a => a.ID == iX);
+
+            // SQL Server接続
+            var master = new ClsMaster(Properties.Settings.Default.sServerName, Properties.Settings.Default.sLogin,
+                                   Properties.Settings.Default.sPass, Properties.Settings.Default.sDatabase);
+            
+            var r = master.GetData<TblScandata>(iX.ToString());
 
             // フォーム初期化
             formInitialize();
 
+            //// 情報表示
+            //if (r.データ区分 == global.flgOff)
+            //{
+            //    radioButton1.Checked = true;
+            //}
+            //else if (r.データ区分 == global.flgOn)
+            //{
+            //    radioButton2.Checked = true;
+            //}
+
+            //txtTourokuNum.Text = r.登録番号;
+            //txtShataiNum.Text = r.車体番号;
+            //txtYear.Text = r.登録年;
+            //txtMonth.Text = r.登録月;
+            //txtDay.Text = r.登録日;
+            //txtMaker.Text = r.メーカー;
+            //txtColor.Text = r.塗色;
+
+            //global g = new global();
+            //for (int i = 0; i < g.arrStyle.GetLength(0); i++)
+            //{
+            //    if (g.arrStyle[i, 0] == r.車種.ToString().PadLeft(2, '0'))
+            //    {
+            //        txtStyle.Text = r.車種.ToString().PadLeft(2, '0');
+            //        txtStyleName.Text = g.arrStyle[i, 1];
+            //        break;
+            //    }
+            //}
+
+            //if (r.Is車両番号1Null())
+            //{
+            //    txtSharyoNum.Text = "";
+            //}
+            //else
+            //{
+            //    txtSharyoNum.Text = r.車両番号1;
+            //}
+
+            //txtSharyoNum2.Text = r.車両番号2;
+            //txtCarName.Text = r.車名;
+
+            //txtZip1.Text = r.郵便番号1;
+            //txtZip2.Text = r.郵便番号2;
+
+            //txtAddFuri.Text = r.住所1;
+
+            //if (r.Is住所漢字Null())
+            //{
+            //    txtAdd.Text = string.Empty;
+            //}
+            //else
+            //{
+            //    txtAdd.Text = r.住所漢字;
+            //}
+
+            //txtFuri.Text = r.氏名;
+            //txtTel.Text = r.TEL携帯;
+            //txtTel2.Text = r.TEL携帯2;
+            //txtTel3.Text = r.TEL携帯3;
+
+            //if (r.Is備考Null())
+            //{
+            //    txtMemo.Text = string.Empty;
+            //}
+            //else
+            //{
+            //    txtMemo.Text = r.備考;
+            //}
+
+            //// 画像表示
+            //ShowImage(Properties.Settings.Default.scanDataPath + r.画像名.ToString());
+
             // 情報表示
-            if (r.データ区分 == global.flgOff)
+            if (r.DataCategory == global.flgOff)
             {
                 radioButton1.Checked = true;
             }
-            else if (r.データ区分 == global.flgOn)
+            else if (r.DataCategory == global.flgOn)
             {
                 radioButton2.Checked = true;
             }
 
-            txtTourokuNum.Text = r.登録番号;
-            txtShataiNum.Text = r.車体番号;
-            txtYear.Text = r.登録年;
-            txtMonth.Text = r.登録月;
-            txtDay.Text = r.登録日;
-            txtMaker.Text = r.メーカー;
-            txtColor.Text = r.塗色;
+            txtTourokuNum.Text = r.Number;
+            txtShataiNum.Text = r.VehicleIdentificationNumber;
+            txtYear.Text = r.AddYear;
+            txtMonth.Text = r.AddMonth;
+            txtDay.Text = r.AddDay;
+            txtMaker.Text = r.Maker;
+            txtColor.Text = r.Color;
 
             global g = new global();
             for (int i = 0; i < g.arrStyle.GetLength(0); i++)
             {
-                if (g.arrStyle[i, 0] == r.車種.ToString().PadLeft(2, '0'))
+                if (g.arrStyle[i, 0] == r.CarModel.ToString().PadLeft(2, '0'))
                 {
-                    txtStyle.Text = r.車種.ToString().PadLeft(2, '0');
+                    txtStyle.Text = r.CarModel.ToString().PadLeft(2, '0');
                     txtStyleName.Text = g.arrStyle[i, 1];
                     break;
                 }
             }
 
-            if (r.Is車両番号1Null())
+            if (r.VehicleNumber1 == null)
             {
                 txtSharyoNum.Text = "";
             }
             else
             {
-                txtSharyoNum.Text = r.車両番号1;
+                txtSharyoNum.Text = r.VehicleNumber1;
             }
 
-            txtSharyoNum2.Text = r.車両番号2;
-            txtCarName.Text = r.車名;
+            txtSharyoNum2.Text = r.VehicleNumber2;
+            txtCarName.Text = r.CarName;
 
-            txtZip1.Text = r.郵便番号1;
-            txtZip2.Text = r.郵便番号2;
+            txtZip1.Text = r.ZipCode1;
+            txtZip2.Text = r.ZipCode2;
 
-            txtAddFuri.Text = r.住所1;
+            txtAddFuri.Text = r.Address1;
 
-            if (r.Is住所漢字Null())
+            if (r.AddressKanji == null)
             {
                 txtAdd.Text = string.Empty;
             }
             else
             {
-                txtAdd.Text = r.住所漢字;
+                txtAdd.Text = r.AddressKanji;
             }
 
-            txtFuri.Text = r.氏名;
-            txtTel.Text = r.TEL携帯;
-            txtTel2.Text = r.TEL携帯2;
-            txtTel3.Text = r.TEL携帯3;
+            txtFuri.Text = r.Name;
+            txtTel.Text = r.Mobile1;
+            txtTel2.Text = r.Mobile2;
+            txtTel3.Text = r.Mobile3;
 
-            if (r.Is備考Null())
+            if (r.Memo == null)
             {
                 txtMemo.Text = string.Empty;
             }
             else
             {
-                txtMemo.Text = r.備考;
+                txtMemo.Text = r.Memo;
             }
 
             // 画像表示
-            ShowImage(Properties.Settings.Default.scanDataPath + r.画像名.ToString());
+            ShowImage(Properties.Settings.Default.scanDataPath + r.ImageFileName.ToString());
 
             linkLabel1.Focus();
 

@@ -286,8 +286,6 @@ namespace SZOK_OCR.DATA
             // SQL Server接続
             var master = new ClsMaster(Properties.Settings.Default.sServerName, Properties.Settings.Default.sLogin,
                                    Properties.Settings.Default.sPass, Properties.Settings.Default.sDatabase);
-            // connection open
-            //var conn = master.OpenConnection();
 
             var result = master.Read<TblScandata>(param);
 
@@ -869,14 +867,11 @@ namespace SZOK_OCR.DATA
             {
                 // 指定データとカード画像を表示
                 int iX = Utility.StrtoInt(dg[colID, e.RowIndex].Value.ToString());
-                showScanData(iX);
-
-                //// データ再表示
-                //dataShow();
+                ShowScanData(iX);
             }
         }
 
-        private void showScanData(int iX)
+        private void ShowScanData(int iX)
         {
             this.Hide();
             frmScanData frm = new frmScanData(iX);
