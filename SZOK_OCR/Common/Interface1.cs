@@ -23,7 +23,7 @@ namespace SZOK_OCR.Common
 
         //int Count<T>(string id);
 
-        void Insert<T>(T Object, SqlConnection conn);
+        void Insert<T>(List<T> Object);
 
         //bool Delete<T>(string sql);
         //bool Delete<T>();

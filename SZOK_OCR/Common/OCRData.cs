@@ -254,16 +254,13 @@ namespace SZOK_OCR.Common
         /// <summary>
         ///    CSVデータをSQLServerに登録する：2026/08/18
         /// </summary>
-        /// <param name="_InPath"></param>
-        /// <param name="frmP"></param>
-        /// <param name="sLabel"></param>
-        /// <param name="sName"></param>
+        /// <param name="_InPath">CSVデータパス</param>
+        /// <param name="frmP">プログレスバーフォームオブジェクト</param>
+        /// <param name="sLabel">ラベル</param>
+        /// <param name="sName">名前</param>
         public void CsvToSQLServer(string _InPath, frmPrg frmP, string sLabel, string sName)
         {
-            // SQL Server接続
-            var master = new ClsMaster(Properties.Settings.Default.sServerName, Properties.Settings.Default.sLogin,
-                                   Properties.Settings.Default.sPass, Properties.Settings.Default.sDatabase);
-            var conn = master.OpenConnection();
+            List<TblScandata> scandataList = new List<TblScandata>();
 
             try
             {
@@ -289,12 +286,19 @@ namespace SZOK_OCR.Common
                         // カンマ区切りで分割して配列に格納する
                         string[] stCSV = stBuffer.Split(',');
 
-                        // SCANDATAテーブルクラス
+                        // SCANDATAテーブルクラスを作成する：2026/08/20
                         var tblScandata = SetTblScandata(stCSV, sLabel, sName);
-
-                        // SCANDATAテーブルに登録する
-                        master.Insert(tblScandata, conn);
+                        scandataList.Add(tblScandata);
                     }
+                }
+
+                // SCANDATAテーブルに登録する：2026/08/20
+                if (scandataList.Count > 0)
+                {
+                    // SQL Server接続
+                    var master = new ClsMaster(Properties.Settings.Default.sServerName, Properties.Settings.Default.sLogin,
+                                           Properties.Settings.Default.sPass, Properties.Settings.Default.sDatabase);
+                    master.Insert(scandataList);
                 }
 
                 //CSVファイルを削除する
@@ -309,7 +313,7 @@ namespace SZOK_OCR.Common
             }
             finally
             {
-                master.CloseConnection(conn);
+                //master.CloseConnection(conn);
             }
         }
 
@@ -408,42 +412,49 @@ namespace SZOK_OCR.Common
             return r;
         }
 
-
+        /// <summary>
+        ///    SCANDATAテーブルクラスを作成する
+        /// </summary>
+        /// <param name="stCSV">CSV配列</param>
+        /// <param name="sLabel">ラベル</param>
+        /// <param name="sName">処理担当者</param>
+        /// <returns>作成したTblScandataオブジェクト</returns>
         private TblScandata SetTblScandata(string[] stCSV, string sLabel, string sName)
         {
-            var r = new TblScandata();
-            r.ImageFileName = Utility.GetStringSubMax(stCSV[1], 21);    // 画像名
-            r.Number = Utility.GetStringSubMax(stCSV[2], 11);       // 登録番号
-            r.VehicleIdentificationNumber = Utility.GetStringSubMax(stCSV[3], 20);  // 車体番号
+            TblScandata r = new TblScandata()
+            {
+                ImageFileName = Utility.GetStringSubMax(stCSV[1], 21),   // 画像名
+                Number = Utility.GetStringSubMax(stCSV[2], 11),       // 登録番号
+                VehicleIdentificationNumber = Utility.GetStringSubMax(stCSV[3], 20),  // 車体番号
 
-            r.AddYear = Utility.GetStringSubMax(stCSV[4], 2);   // 登録年
-            r.AddMonth = Utility.GetStringSubMax(stCSV[5], 2);  // 登録月
-            r.AddDay = Utility.GetStringSubMax(stCSV[6], 2);    // 登録日
+                AddYear = Utility.GetStringSubMax(stCSV[4], 2),   // 登録年
+                AddMonth = Utility.GetStringSubMax(stCSV[5], 2),  // 登録月
+                AddDay = Utility.GetStringSubMax(stCSV[6], 2),    // 登録日
 
-            r.Maker = Utility.GetStringSubMax(stCSV[7], 10);
-            r.Color = Utility.GetStringSubMax(stCSV[8], 6);
-            r.CarModel = Utility.StrtoInt(carStyleZeroEdit(Utility.GetStringSubMax(stCSV[9], 2)));
-            r.ZipCode1 = Utility.GetStringSubMax(stCSV[10], 3);
-            r.ZipCode2 = Utility.GetStringSubMax(stCSV[11], 4);
-            r.Address1 = Utility.GetStringSubMax(stCSV[12] + stCSV[13], 40).Trim();
-            r.Address2 = string.Empty;   // 2019/11/19
-            r.Name= Utility.GetStringSubMax(stCSV[14], 16);
-            r.Mobile1 = Utility.GetStringSubMax(stCSV[15], 4);
-            r.Mobile2 = Utility.GetStringSubMax(stCSV[16], 4);
-            r.Mobile3 = Utility.GetStringSubMax(stCSV[17], 4);
-            r.UpDate = DateTime.Now;
+                Maker = Utility.GetStringSubMax(stCSV[7], 10),
+                Color = Utility.GetStringSubMax(stCSV[8], 6),
+                CarModel = Utility.StrtoInt(carStyleZeroEdit(Utility.GetStringSubMax(stCSV[9], 2))),
+                ZipCode1 = Utility.GetStringSubMax(stCSV[10], 3),
+                ZipCode2 = Utility.GetStringSubMax(stCSV[11], 4),
+                Address1 = Utility.GetStringSubMax(stCSV[12] + stCSV[13], 40).Trim(),
+                Address2 = string.Empty,   // 2019/11/19
+                Name = Utility.GetStringSubMax(stCSV[14], 16),      
+                Mobile1 = Utility.GetStringSubMax(stCSV[15], 4),
+                Mobile2 = Utility.GetStringSubMax(stCSV[16], 4),
+                Mobile3 = Utility.GetStringSubMax(stCSV[17], 4),
+                UpDate = DateTime.Now,
 
-            r.DataCategory = getDataKbn(stCSV[18]);
-            r.VehicleNumber1 = string.Empty;
-            r.VehicleNumber2 = string.Empty;
-            r.CarName = string.Empty;
-            r.AddressKanji = string.Empty;
-            r.PC = string.Empty;
-            r.CsvCreationDate = string.Empty;
-            r.Memo = string.Empty;
-            r.UpDate = DateTime.Now;
-            r.Label = sLabel;
-            r.Person = sName;
+                DataCategory = getDataKbn(stCSV[18]),
+                VehicleNumber1 = string.Empty,
+                VehicleNumber2 = string.Empty,
+                CarName = string.Empty,
+                AddressKanji = string.Empty,
+                PC = string.Empty,
+                CsvCreationDate = string.Empty,
+                Memo = string.Empty,
+                Label = sLabel,
+                Person = sName
+            };
 
             return r;
         }
