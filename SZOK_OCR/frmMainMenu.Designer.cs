@@ -41,14 +41,14 @@
             // 
             // linkLabel1
             // 
-            this.linkLabel1.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.linkLabel1.Font = new System.Drawing.Font("Yu Gothic UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.linkLabel1.Image = ((System.Drawing.Image)(resources.GetObject("linkLabel1.Image")));
             this.linkLabel1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.linkLabel1.LinkArea = new System.Windows.Forms.LinkArea(0, 15);
             this.linkLabel1.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-            this.linkLabel1.Location = new System.Drawing.Point(31, 18);
+            this.linkLabel1.Location = new System.Drawing.Point(29, 19);
             this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(292, 59);
+            this.linkLabel1.Size = new System.Drawing.Size(338, 62);
             this.linkLabel1.TabIndex = 1;
             this.linkLabel1.TabStop = true;
             this.linkLabel1.Text = "防犯登録カード画像のＯＣＲ認識";
@@ -57,14 +57,14 @@
             // 
             // linkLabel2
             // 
-            this.linkLabel2.Font = new System.Drawing.Font("Meiryo UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.linkLabel2.Font = new System.Drawing.Font("Yu Gothic UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.linkLabel2.Image = ((System.Drawing.Image)(resources.GetObject("linkLabel2.Image")));
             this.linkLabel2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.linkLabel2.LinkArea = new System.Windows.Forms.LinkArea(0, 12);
             this.linkLabel2.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-            this.linkLabel2.Location = new System.Drawing.Point(31, 162);
+            this.linkLabel2.Location = new System.Drawing.Point(29, 171);
             this.linkLabel2.Name = "linkLabel2";
-            this.linkLabel2.Size = new System.Drawing.Size(224, 47);
+            this.linkLabel2.Size = new System.Drawing.Size(226, 49);
             this.linkLabel2.TabIndex = 2;
             this.linkLabel2.TabStop = true;
             this.linkLabel2.Text = "防犯登録データ作成";
@@ -74,14 +74,14 @@
             // 
             // linkLabel3
             // 
-            this.linkLabel3.Font = new System.Drawing.Font("Meiryo UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.linkLabel3.Font = new System.Drawing.Font("Yu Gothic UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.linkLabel3.Image = ((System.Drawing.Image)(resources.GetObject("linkLabel3.Image")));
             this.linkLabel3.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.linkLabel3.LinkArea = new System.Windows.Forms.LinkArea(0, 16);
             this.linkLabel3.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-            this.linkLabel3.Location = new System.Drawing.Point(31, 224);
+            this.linkLabel3.Location = new System.Drawing.Point(29, 236);
             this.linkLabel3.Name = "linkLabel3";
-            this.linkLabel3.Size = new System.Drawing.Size(263, 55);
+            this.linkLabel3.Size = new System.Drawing.Size(266, 58);
             this.linkLabel3.TabIndex = 3;
             this.linkLabel3.TabStop = true;
             this.linkLabel3.Text = "防犯登録データ情報検索";
@@ -91,14 +91,14 @@
             // 
             // linkLabel4
             // 
-            this.linkLabel4.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.linkLabel4.Font = new System.Drawing.Font("Yu Gothic UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.linkLabel4.Image = ((System.Drawing.Image)(resources.GetObject("linkLabel4.Image")));
             this.linkLabel4.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.linkLabel4.LinkArea = new System.Windows.Forms.LinkArea(0, 16);
             this.linkLabel4.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-            this.linkLabel4.Location = new System.Drawing.Point(356, 18);
+            this.linkLabel4.Location = new System.Drawing.Point(383, 19);
             this.linkLabel4.Name = "linkLabel4";
-            this.linkLabel4.Size = new System.Drawing.Size(293, 59);
+            this.linkLabel4.Size = new System.Drawing.Size(336, 62);
             this.linkLabel4.TabIndex = 4;
             this.linkLabel4.TabStop = true;
             this.linkLabel4.Text = "静岡県警察本部用CSVデータ作成";
@@ -107,14 +107,14 @@
             // 
             // linkLabel5
             // 
-            this.linkLabel5.Font = new System.Drawing.Font("Meiryo UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.linkLabel5.Font = new System.Drawing.Font("Yu Gothic UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.linkLabel5.Image = ((System.Drawing.Image)(resources.GetObject("linkLabel5.Image")));
             this.linkLabel5.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.linkLabel5.LinkArea = new System.Windows.Forms.LinkArea(0, 8);
             this.linkLabel5.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-            this.linkLabel5.Location = new System.Drawing.Point(356, 90);
+            this.linkLabel5.Location = new System.Drawing.Point(383, 88);
             this.linkLabel5.Name = "linkLabel5";
-            this.linkLabel5.Size = new System.Drawing.Size(205, 59);
+            this.linkLabel5.Size = new System.Drawing.Size(203, 62);
             this.linkLabel5.TabIndex = 5;
             this.linkLabel5.TabStop = true;
             this.linkLabel5.Text = "システム環境設定";
@@ -123,14 +123,14 @@
             // 
             // linkLabel6
             // 
-            this.linkLabel6.Font = new System.Drawing.Font("Meiryo UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.linkLabel6.Font = new System.Drawing.Font("Yu Gothic UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.linkLabel6.Image = ((System.Drawing.Image)(resources.GetObject("linkLabel6.Image")));
             this.linkLabel6.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.linkLabel6.LinkArea = new System.Windows.Forms.LinkArea(0, 7);
             this.linkLabel6.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-            this.linkLabel6.Location = new System.Drawing.Point(356, 222);
+            this.linkLabel6.Location = new System.Drawing.Point(383, 234);
             this.linkLabel6.Name = "linkLabel6";
-            this.linkLabel6.Size = new System.Drawing.Size(184, 59);
+            this.linkLabel6.Size = new System.Drawing.Size(182, 62);
             this.linkLabel6.TabIndex = 0;
             this.linkLabel6.TabStop = true;
             this.linkLabel6.Text = "システムの終了";
@@ -139,14 +139,14 @@
             // 
             // linkLabel7
             // 
-            this.linkLabel7.Font = new System.Drawing.Font("Meiryo UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.linkLabel7.Font = new System.Drawing.Font("Yu Gothic UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.linkLabel7.Image = ((System.Drawing.Image)(resources.GetObject("linkLabel7.Image")));
             this.linkLabel7.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.linkLabel7.LinkArea = new System.Windows.Forms.LinkArea(0, 16);
             this.linkLabel7.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-            this.linkLabel7.Location = new System.Drawing.Point(31, 92);
+            this.linkLabel7.Location = new System.Drawing.Point(29, 94);
             this.linkLabel7.Name = "linkLabel7";
-            this.linkLabel7.Size = new System.Drawing.Size(253, 55);
+            this.linkLabel7.Size = new System.Drawing.Size(249, 58);
             this.linkLabel7.TabIndex = 6;
             this.linkLabel7.TabStop = true;
             this.linkLabel7.Text = "スキャンデータ 情報検索";
@@ -156,14 +156,14 @@
             // 
             // linkLabel8
             // 
-            this.linkLabel8.Font = new System.Drawing.Font("Meiryo UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.linkLabel8.Font = new System.Drawing.Font("Yu Gothic UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.linkLabel8.Image = ((System.Drawing.Image)(resources.GetObject("linkLabel8.Image")));
             this.linkLabel8.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.linkLabel8.LinkArea = new System.Windows.Forms.LinkArea(0, 8);
             this.linkLabel8.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-            this.linkLabel8.Location = new System.Drawing.Point(356, 156);
+            this.linkLabel8.Location = new System.Drawing.Point(383, 164);
             this.linkLabel8.Name = "linkLabel8";
-            this.linkLabel8.Size = new System.Drawing.Size(178, 59);
+            this.linkLabel8.Size = new System.Drawing.Size(179, 62);
             this.linkLabel8.TabIndex = 8;
             this.linkLabel8.TabStop = true;
             this.linkLabel8.Text = "在庫管理処理";
@@ -173,9 +173,9 @@
             // 
             // frmMainMenu
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 19F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(675, 297);
+            this.ClientSize = new System.Drawing.Size(747, 313);
             this.Controls.Add(this.linkLabel8);
             this.Controls.Add(this.linkLabel7);
             this.Controls.Add(this.linkLabel6);
@@ -184,7 +184,7 @@
             this.Controls.Add(this.linkLabel3);
             this.Controls.Add(this.linkLabel2);
             this.Controls.Add(this.linkLabel1);
-            this.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.Font = new System.Drawing.Font("Yu Gothic UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MaximizeBox = false;

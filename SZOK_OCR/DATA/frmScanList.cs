@@ -17,6 +17,21 @@ namespace SZOK_OCR.DATA
         public frmScanList()
         {
             InitializeComponent();
+
+            txtsCarbodyNum.Leave += new EventHandler(txtsCpa_Leave);
+            txtsMM.Leave += new EventHandler(txtsCpa_Leave);
+            txtsDD.Leave += new EventHandler(txtsCpa_Leave);
+            txtsMaker.Leave += new EventHandler(txtsCpa_Leave);
+            txtsColor.Leave += new EventHandler(txtsCpa_Leave);
+            txtsZip1.Leave += new EventHandler(txtsCpa_Leave);
+            txtsZip2.Leave += new EventHandler(txtsCpa_Leave);
+            txtsAdd.Leave += new EventHandler(txtsCpa_Leave);
+            txtsFuri.Leave += new EventHandler(txtsCpa_Leave);
+            txtsTel1.Leave += new EventHandler(txtsCpa_Leave);
+            txtsTel2.Leave += new EventHandler(txtsCpa_Leave);
+            txtsTel3.Leave += new EventHandler(txtsCpa_Leave);
+            txtLabel.Leave += new EventHandler(txtsCpa_Leave);
+            txtName.Leave += new EventHandler(txtsCpa_Leave);
         }
 
         cardDataSet dts = new cardDataSet();
@@ -124,10 +139,10 @@ namespace SZOK_OCR.DATA
                 tempDGV.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.BottomCenter;
 
                 // 列ヘッダーフォント指定
-                tempDGV.ColumnHeadersDefaultCellStyle.Font = new Font("Meiryo UI", 10, FontStyle.Regular);
+                tempDGV.ColumnHeadersDefaultCellStyle.Font = new Font("Yu Gothic UI", 10, FontStyle.Regular);
 
                 // データフォント指定
-                tempDGV.DefaultCellStyle.Font = new Font("Meiryo UI", 10, FontStyle.Regular);
+                tempDGV.DefaultCellStyle.Font = new Font("Yu Gothic UI", 10, FontStyle.Regular);
 
                 // 行の高さ
                 tempDGV.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
@@ -891,6 +906,19 @@ namespace SZOK_OCR.DATA
         private void FrmScanList_Shown(object sender, EventArgs e)
         {
             txtsYY.Text = (System.DateTime.Now.Year - 2000).ToString();
+        }
+
+        private void txtsCpa_Leave(object sender, EventArgs e)
+        {
+            TextBox txt = sender as TextBox;
+            if (txt != null && txt.Text != string.Empty)
+            {
+                txt.BackColor = Color.LightPink;
+            }
+            else
+            {
+                txt.BackColor = Color.White;
+            }
         }
     }
 }

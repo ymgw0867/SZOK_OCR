@@ -115,9 +115,9 @@ namespace SZOK_OCR.DATA
 
             txtTourokuNum.Text = r.Number;
             txtShataiNum.Text = r.VehicleIdentificationNumber;
-            txtYear.Text = r.AddYear;
-            txtMonth.Text = r.AddMonth;
-            txtDay.Text = r.AddDay;
+            txtYYMMDD.Text = $"20{r.AddYear}年{r.AddMonth}月{r.AddDay}日";
+            //txtMonth.Text = r.AddMonth;
+            //txtDay.Text = r.AddDay;
             txtMaker.Text = r.Maker;
             txtColor.Text = r.Color;
 
@@ -132,31 +132,31 @@ namespace SZOK_OCR.DATA
                 }
             }
 
-            if (r.VehicleNumber1 == null)
-            {
-                txtSharyoNum.Text = "";
-            }
-            else
-            {
-                txtSharyoNum.Text = r.VehicleNumber1;
-            }
+            //if (r.VehicleNumber1 == null)
+            //{
+            //    txtSharyoNum.Text = "";
+            //}
+            //else
+            //{
+            //    txtSharyoNum.Text = r.VehicleNumber1;
+            //}
 
-            txtSharyoNum2.Text = r.VehicleNumber2;
-            txtCarName.Text = r.CarName;
+            //txtSharyoNum2.Text = r.VehicleNumber2;
+            //txtCarName.Text = r.CarName;
 
             txtZip1.Text = r.ZipCode1;
             txtZip2.Text = r.ZipCode2;
 
             txtAddFuri.Text = r.Address1;
 
-            if (r.AddressKanji == null)
-            {
-                txtAdd.Text = string.Empty;
-            }
-            else
-            {
-                txtAdd.Text = r.AddressKanji;
-            }
+            //if (r.AddressKanji == null)
+            //{
+            //    txtAdd.Text = string.Empty;
+            //}
+            //else
+            //{
+            //    txtAdd.Text = r.AddressKanji;
+            //}
 
             txtFuri.Text = r.Name;
             txtTel.Text = r.Mobile1;
@@ -224,19 +224,19 @@ namespace SZOK_OCR.DATA
             // テキストボックス表示色設定
             txtTourokuNum.BackColor = Color.White;
             txtShataiNum.BackColor = Color.White;
-            txtYear.BackColor = Color.White;
-            txtMonth.BackColor = Color.White;
-            txtDay.BackColor = Color.White;
+            txtYYMMDD.BackColor = Color.White;
+            //txtMonth.BackColor = Color.White;
+            //txtDay.BackColor = Color.White;
             txtMaker.BackColor = Color.White;
             txtColor.BackColor = Color.White;
             txtStyle.BackColor = Color.White;
             txtStyleName.BackColor = Color.White;
-            txtSharyoNum.BackColor = Color.White;
-            txtCarName.BackColor = Color.White;
+            //txtSharyoNum.BackColor = Color.White;
+            //txtCarName.BackColor = Color.White;
             txtZip1.BackColor = Color.White;
             txtZip2.BackColor = Color.White;
             txtAddFuri.BackColor = Color.White;
-            txtAdd.BackColor = Color.White;
+            //txtAdd.BackColor = Color.White;
             txtFuri.BackColor = Color.White;
             txtTel.BackColor = Color.White;
             txtTel2.BackColor = Color.White;
@@ -245,19 +245,19 @@ namespace SZOK_OCR.DATA
 
             txtTourokuNum.ForeColor = Color.Navy;
             txtShataiNum.ForeColor = Color.Navy;
-            txtYear.ForeColor = Color.Navy;
-            txtMonth.ForeColor = Color.Navy;
-            txtDay.ForeColor = Color.Navy;
+            txtYYMMDD.ForeColor = Color.Navy;
+            //txtMonth.ForeColor = Color.Navy;
+            //txtDay.ForeColor = Color.Navy;
             txtMaker.ForeColor = Color.Navy;
             txtColor.ForeColor = Color.Navy;
             txtStyle.ForeColor = Color.Navy;
             txtStyleName.ForeColor = Color.Navy;
-            txtSharyoNum.ForeColor = Color.Navy;
-            txtCarName.ForeColor = Color.Navy;
+            //txtSharyoNum.ForeColor = Color.Navy;
+            //txtCarName.ForeColor = Color.Navy;
             txtZip1.ForeColor = Color.Navy;
             txtZip2.ForeColor = Color.Navy;
             txtAddFuri.ForeColor = Color.Navy;
-            txtAdd.ForeColor = Color.Navy;
+            //txtAdd.ForeColor = Color.Navy;
             txtFuri.ForeColor = Color.Navy;
             txtTel.ForeColor = Color.Navy;
             txtTel2.ForeColor = Color.Navy;
@@ -268,40 +268,9 @@ namespace SZOK_OCR.DATA
             lblNoImage.Visible = false;
 
             dispShowMode();
-
-            //linkLabel4.Text = DISP_MODE;
         }
 
-        private void dispEditMode()
-        {
-            // 情報
-            radioButton1.AutoCheck = true;
-            radioButton2.AutoCheck = true;
-            txtTourokuNum.ReadOnly = false;
-            txtShataiNum.ReadOnly = false;
-            txtYear.ReadOnly = false;
-            txtMonth.ReadOnly = false;
-            txtDay.ReadOnly = false;
-            txtStyle.ReadOnly = false;
-            txtStyleName.ReadOnly = false;
-            txtSharyoNum.ReadOnly = false;
-            txtSharyoNum2.ReadOnly = false;
-            txtCarName.ReadOnly = false;
-            txtZip1.ReadOnly = false;
-            txtZip2.ReadOnly = false;
-            txtAddFuri.ReadOnly = false;
-            txtAdd.ReadOnly = false;
-            txtFuri.ReadOnly = false;
-            txtTel.ReadOnly = false;
-            txtTel2.ReadOnly = false;
-            txtTel3.ReadOnly = false;
-
-            txtMaker.ReadOnly = false;
-            txtColor.ReadOnly = false;
-            txtMemo.ReadOnly = false;
-
-            button1.Visible = true;
-        }
+    
 
         private void dispShowMode()
         {
@@ -310,18 +279,18 @@ namespace SZOK_OCR.DATA
             radioButton2.AutoCheck = false;
             txtTourokuNum.ReadOnly = true;
             txtShataiNum.ReadOnly = true;
-            txtYear.ReadOnly = true;
-            txtMonth.ReadOnly = true;
-            txtDay.ReadOnly = true;
+            txtYYMMDD.ReadOnly = true;
+            //txtMonth.ReadOnly = true;
+            //txtDay.ReadOnly = true;
             txtStyle.ReadOnly = true;
             txtStyleName.ReadOnly = true;
-            txtSharyoNum.ReadOnly = true;
-            txtSharyoNum2.ReadOnly = true;
-            txtCarName.ReadOnly = true;
+            //txtSharyoNum.ReadOnly = true;
+            //txtSharyoNum2.ReadOnly = true;
+            //txtCarName.ReadOnly = true;
             txtZip1.ReadOnly = true;
             txtZip2.ReadOnly = true;
             txtAddFuri.ReadOnly = true;
-            txtAdd.ReadOnly = true;
+            //txtAdd.ReadOnly = true;
             txtFuri.ReadOnly = true;
             txtTel.ReadOnly = true;
             txtTel2.ReadOnly = true;
@@ -330,10 +299,6 @@ namespace SZOK_OCR.DATA
             txtMaker.ReadOnly = true;
             txtColor.ReadOnly = true;
             txtMemo.ReadOnly = true;
-
-            button1.Visible = false;
-            //linkLabel2.Visible = false;
-
         }
     }
 }
