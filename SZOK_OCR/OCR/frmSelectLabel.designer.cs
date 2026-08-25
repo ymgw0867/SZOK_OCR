@@ -42,7 +42,8 @@
             // button1
             // 
             this.button1.BackColor = System.Drawing.SystemColors.Control;
-            this.button1.Font = new System.Drawing.Font("ＭＳ ゴシック", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.Font = new System.Drawing.Font("Yu Gothic UI", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.button1.Location = new System.Drawing.Point(272, 506);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(78, 28);
@@ -54,7 +55,8 @@
             // button2
             // 
             this.button2.BackColor = System.Drawing.SystemColors.Control;
-            this.button2.Font = new System.Drawing.Font("ＭＳ ゴシック", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button2.Font = new System.Drawing.Font("Yu Gothic UI", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.button2.Location = new System.Drawing.Point(355, 506);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(78, 28);
@@ -77,7 +79,7 @@
             // lblDataCnt
             // 
             this.lblDataCnt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblDataCnt.Font = new System.Drawing.Font("ＭＳ ゴシック", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.lblDataCnt.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.lblDataCnt.Location = new System.Drawing.Point(376, 458);
             this.lblDataCnt.Name = "lblDataCnt";
             this.lblDataCnt.Size = new System.Drawing.Size(57, 26);
@@ -87,17 +89,17 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("ＭＳ ゴシック", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label1.Location = new System.Drawing.Point(139, 463);
+            this.label1.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label1.Location = new System.Drawing.Point(157, 463);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(232, 16);
+            this.label1.Size = new System.Drawing.Size(213, 21);
             this.label1.TabIndex = 9;
             this.label1.Text = "現在、処理中の防犯登録データ\r\n";
             // 
             // lblOCRCnt
             // 
             this.lblOCRCnt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblOCRCnt.Font = new System.Drawing.Font("ＭＳ ゴシック", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.lblOCRCnt.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.lblOCRCnt.Location = new System.Drawing.Point(376, 427);
             this.lblOCRCnt.Name = "lblOCRCnt";
             this.lblOCRCnt.Size = new System.Drawing.Size(57, 26);
@@ -107,10 +109,10 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("ＭＳ ゴシック", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label3.Location = new System.Drawing.Point(131, 432);
+            this.label3.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label3.Location = new System.Drawing.Point(158, 432);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(240, 16);
+            this.label3.Size = new System.Drawing.Size(212, 21);
             this.label3.TabIndex = 11;
             this.label3.Text = "前バージョンのOCR認識後データ\r\n";
             // 

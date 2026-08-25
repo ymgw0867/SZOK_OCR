@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Data.SqlClient;
 using System.Text;
 using SZOK_OCR.Common;
+using SZOK_OCR.DATA;
 
 namespace SZOK_OCR.OCR
 {
@@ -14,15 +15,17 @@ namespace SZOK_OCR.OCR
         {
             InitializeComponent();
 
-            adp.Fill(dtsC.SCAN_DATA);
-            dAdp.Fill(dts.防犯カード);
+            //adp.Fill(dtsC.SCAN_DATA);
+            //dAdp.Fill(dts.防犯カード);
         }
 
-        cardDataSet dtsC = new cardDataSet();
-        cardDataSetTableAdapters.SCAN_DATATableAdapter adp = new cardDataSetTableAdapters.SCAN_DATATableAdapter();
 
-        szokDataSet dts = new szokDataSet();
-        szokDataSetTableAdapters.防犯カードTableAdapter dAdp = new szokDataSetTableAdapters.防犯カードTableAdapter();
+        // コメント化：2026/08/25
+        //cardDataSet dtsC = new cardDataSet();
+        //cardDataSetTableAdapters.SCAN_DATATableAdapter adp = new cardDataSetTableAdapters.SCAN_DATATableAdapter();
+
+        //szokDataSet dts = new szokDataSet();
+        //szokDataSetTableAdapters.防犯カードTableAdapter dAdp = new szokDataSetTableAdapters.防犯カードTableAdapter();
 
         string colChk = "c0";
         string colLabel = "c1";
@@ -67,8 +70,15 @@ namespace SZOK_OCR.OCR
 
         private int GetLocalData()
         {
-            int val = dts.防犯カード.Count();
-            lblDataCnt.Text = val.ToString("#,##0");
+            int val = 0;
+
+            //int val = dts.防犯カード.Count();
+
+            // 2026/08/25：SQL Serverに変更
+            ClsMaster cls = new ClsMaster(Properties.Settings.Default.sServerName, Properties.Settings.Default.sLogin, Properties.Settings.Default.sPass, Properties.Settings.Default.sDatabase);
+
+            int d = cls.Count<TblScandata>(System.Net.Dns.GetHostName());
+            lblDataCnt.Text = d.ToString("#,##0");
 
             // 前バージョンのＯＣＲ認識後データ
             int ocrCnt = System.IO.Directory.GetFiles(Properties.Settings.Default.dataPath, "*.csv").Count();
@@ -85,29 +95,47 @@ namespace SZOK_OCR.OCR
         ///-----------------------------------------------------------------
         private void getScanData(DataGridView dg)
         {
-            if (dtsC.SCAN_DATA.Count == 0)
-            {
-                // データがなければ終了
-                return;
-            }
+            // 2026/08/25 コメント化
+            //if (dtsC.SCAN_DATA.Count == 0)
+            //{
+            //    // データがなければ終了
+            //    return;
+            //}
 
-            var ss = dtsC.SCAN_DATA.Select(a => a.ラベル).Distinct();
+            //var ss = dtsC.SCAN_DATA.Select(a => a.ラベル).Distinct();
 
-            dg.Rows.Add(ss.Count());
+            //dg.Rows.Add(ss.Count());
+            //int iX = 0;
 
+            // コメント化：2026/08/25
+            // データグリッドビューに表示
+            //foreach (var t in ss)
+            //{
+            //    dg[colChk, iX].Value = "false";
+            //    dg[colLabel, iX].Value = t;
+            //    dg[colName, iX].Value = dtsC.SCAN_DATA.Where(a => a.ラベル == t).Select(a => a.処理担当者).First();
+            //    dg[colCount, iX].Value = dtsC.SCAN_DATA.Where(a => a.ラベル == t).Count();
+
+            //    iX++;
+            //}
+
+
+            ClsMaster master = new ClsMaster(Properties.Settings.Default.sServerName, Properties.Settings.Default.sLogin, Properties.Settings.Default.sPass, Properties.Settings.Default.sDatabase);
+            var labelCounts = master.LabelCount();
+
+            dg.Rows.Add(labelCounts.Count());
             int iX = 0;
 
             // データグリッドビューに表示
-            foreach (var t in ss)
+            foreach (var t in labelCounts)
             {
-                dg[colChk, iX].Value = "false";
-                dg[colLabel, iX].Value = t;
-                dg[colName, iX].Value = dtsC.SCAN_DATA.Where(a => a.ラベル == t).Select(a => a.処理担当者).First();
-                dg[colCount, iX].Value = dtsC.SCAN_DATA.Where(a => a.ラベル == t).Count();
+                dg[colChk,   iX].Value = "false";
+                dg[colLabel, iX].Value = t.Label;
+                dg[colName,  iX].Value = t.Person;
+                dg[colCount, iX].Value = t.Count;
 
                 iX++;
             }
-            
             dg.CurrentCell = null;
         }
         
@@ -134,10 +162,10 @@ namespace SZOK_OCR.OCR
                 tempDGV.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
                 // 列ヘッダーフォント指定
-                tempDGV.ColumnHeadersDefaultCellStyle.Font = new Font("ＭＳ ゴシック", 9, FontStyle.Regular);
+                tempDGV.ColumnHeadersDefaultCellStyle.Font = new Font("Yu Gothic UI", 9, FontStyle.Regular);
 
                 // データフォント指定
-                tempDGV.DefaultCellStyle.Font = new Font("ＭＳ ゴシック", (float)10, FontStyle.Regular);
+                tempDGV.DefaultCellStyle.Font = new Font("Yu Gothic UI", (float)10, FontStyle.Regular);
 
                 // 行の高さ
                 tempDGV.ColumnHeadersHeight = 20;
@@ -160,7 +188,7 @@ namespace SZOK_OCR.OCR
                 tempDGV.Columns.Add(colCount, "ＯＣＲ認識件数");
 
                 tempDGV.Columns[colChk].Width = 40;
-                tempDGV.Columns[colLabel].Width = 120;
+                tempDGV.Columns[colLabel].Width = 140;
                 //tempDGV.Columns[colName].Width = 300;
                 tempDGV.Columns[colCount].Width = 120;
 
@@ -259,6 +287,7 @@ namespace SZOK_OCR.OCR
             // OCR認識したスキャンデータを取り込む
             if (n > 0)
             {
+                // 2026/08/25 SQL Serverに変更
                 GetScanToData();
             }
 
@@ -302,25 +331,33 @@ namespace SZOK_OCR.OCR
                 {
                     string lbl = Utility.nulltoStr2(Dgv1[colLabel, i].Value);
 
-                    adp.FillByLabel(dtsC.SCAN_DATA, lbl);
+                    //adp.FillByLabel(dtsC.SCAN_DATA, lbl);
 
-                    //foreach (var t in dtsC.SCAN_DATA) // 2020/01/06 コメント化
+                    ////foreach (var t in dtsC.SCAN_DATA) // 2020/01/06 コメント化
 
-                    // 2020/01/06 ID順に読み込み
-                    foreach (var t in dtsC.SCAN_DATA.OrderBy(a => a.ID))
-                    {
-                        // 共有のSCAN_DATAをローカルの防犯登録データに出力
-                        dAdp.Insert(t.データ区分, t.画像名, t.登録年, t.登録月, t.登録日, t.登録番号, t.車体番号,
-                            t.メーカー, t.塗色, t.車種, t.郵便番号1, t.郵便番号2, t.車両番号1, t.車両番号2, t.車名,
-                            t.住所漢字, t.住所1, string.Empty, t.氏名, t.TEL携帯, t.TEL携帯2, t.TEL携帯3, t.PC名, t.CSV作成日,
-                            t.備考, t.更新年月日, 0);
+                    //// 2020/01/06 ID順に読み込み
+                    //foreach (var t in dtsC.SCAN_DATA.OrderBy(a => a.ID))
+                    //{
+                    //    // 共有のSCAN_DATAをローカルの防犯登録データに出力
+                    //    dAdp.Insert(t.データ区分, t.画像名, t.登録年, t.登録月, t.登録日, t.登録番号, t.車体番号,
+                    //        t.メーカー, t.塗色, t.車種, t.郵便番号1, t.郵便番号2, t.車両番号1, t.車両番号2, t.車名,
+                    //        t.住所漢字, t.住所1, string.Empty, t.氏名, t.TEL携帯, t.TEL携帯2, t.TEL携帯3, t.PC名, t.CSV作成日,
+                    //        t.備考, t.更新年月日, 0);
 
-                        // 画像をローカルのDATAフォルダに移動
-                        System.IO.File.Move(Properties.Settings.Default.scanDataPath + t.画像名, Properties.Settings.Default.dataPath + t.画像名);
-                    }
+                    //    // 画像をローカルのDATAフォルダに移動
+                    //    System.IO.File.Move(Properties.Settings.Default.scanDataPath + t.画像名, Properties.Settings.Default.dataPath + t.画像名);
+                    //}
 
-                    // 該当スキャンデータ削除
-                    adp.DeleteQueryLabel(lbl);
+                    //// 該当スキャンデータ削除
+                    //adp.DeleteQueryLabel(lbl);
+
+                    // 選択したラベルのSCAN_DATAを取得：2026/08/25 SQL Serverに変更
+                    ClsMaster master = new ClsMaster(Properties.Settings.Default.sServerName, Properties.Settings.Default.sLogin, Properties.Settings.Default.sPass, Properties.Settings.Default.sDatabase);
+                    var scans = master.ReadLabel(lbl);
+
+                    // 選択したラベルのSCAN_DATAを防犯カードに登録：2026/08/25 SQL Serverに変更
+                    master = new ClsMaster(Properties.Settings.Default.sServerName, Properties.Settings.Default.sLogin, Properties.Settings.Default.sPass, Properties.Settings.Default.sDatabase);
+                    master.InsertWorkTbl(scans, System.Net.Dns.GetHostName());
                 }
             }
         }

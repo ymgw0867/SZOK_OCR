@@ -35,30 +35,36 @@ namespace SZOK_OCR
 
         private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            cardDataSet dtsC = new cardDataSet();
-            cardDataSetTableAdapters.SCAN_DATATableAdapter sAdp = new cardDataSetTableAdapters.SCAN_DATATableAdapter();
+            // コメント化：2026/08/25
+            //cardDataSet dtsC = new cardDataSet();
+            //cardDataSetTableAdapters.SCAN_DATATableAdapter sAdp = new cardDataSetTableAdapters.SCAN_DATATableAdapter();
 
-            szokDataSet dts = new szokDataSet();
-            szokDataSetTableAdapters.防犯カードTableAdapter adp = new szokDataSetTableAdapters.防犯カードTableAdapter();
+            //szokDataSet dts = new szokDataSet();
+            //szokDataSetTableAdapters.防犯カードTableAdapter adp = new szokDataSetTableAdapters.防犯カードTableAdapter();
 
-            // 自らのロックファイルを削除する
-            Utility.deleteLockFile(Properties.Settings.Default.dataPath, System.Net.Dns.GetHostName());
+            //// 自らのロックファイルを削除する
+            //Utility.deleteLockFile(Properties.Settings.Default.dataPath, System.Net.Dns.GetHostName());
 
-            //他のPCで処理中の場合、続行不可
-            if (Utility.existsLockFile(Properties.Settings.Default.dataPath))
-            {
-                MessageBox.Show("他のＰＣで処理中です。しばらくおまちください。", "確認", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                return;
-            }
+            ////他のPCで処理中の場合、続行不可
+            //if (Utility.existsLockFile(Properties.Settings.Default.dataPath))
+            //{
+            //    MessageBox.Show("他のＰＣで処理中です。しばらくおまちください。", "確認", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            //    return;
+            //}
 
             // 前バージョンのＯＣＲ認識後データ
             int ocrCnt = System.IO.Directory.GetFiles(Properties.Settings.Default.dataPath, "*.csv").Count();
-            
+
+            // 2026/08/25：SQL Serverに変更
+            ClsMaster cls = new ClsMaster(Properties.Settings.Default.sServerName, Properties.Settings.Default.sLogin, Properties.Settings.Default.sPass, Properties.Settings.Default.sDatabase);
+
             // ＯＣＲ認識したスキャンデータ件数
-            int s = sAdp.Fill(dtsC.SCAN_DATA);
+            //int s = sAdp.Fill(dtsC.SCAN_DATA);    // コメント化：2026/08/25
+            int s = cls.Count<TblScandata>();
 
             // 処理中の防犯登録データ
-            int d = adp.Fill(dts.防犯カード);
+            //int d = adp.Fill(dts.防犯カード);      // コメント化：2026/08/25
+            int d = cls.Count<TblScandata>(System.Net.Dns.GetHostName());
 
             // 処理可能なデータが存在するか？
             if ((ocrCnt + s + d) == 0)
@@ -67,8 +73,9 @@ namespace SZOK_OCR
                 return;
             }
 
-            //LOCKファイル作成
-            Utility.makeLockFile(Properties.Settings.Default.dataPath, System.Net.Dns.GetHostName());
+            // コメント化：2026/08/25
+            ////LOCKファイル作成
+            //Utility.makeLockFile(Properties.Settings.Default.dataPath, System.Net.Dns.GetHostName());
 
             this.Hide();
 
@@ -79,8 +86,9 @@ namespace SZOK_OCR
             bool _myBool = frmLabel.MyBool;
             frmLabel.Dispose();
 
-            // ロックファイルを削除する
-            Utility.deleteLockFile(Properties.Settings.Default.dataPath, System.Net.Dns.GetHostName());
+            // コメント化：2026/08/25
+            //// ロックファイルを削除する
+            //Utility.deleteLockFile(Properties.Settings.Default.dataPath, System.Net.Dns.GetHostName());
 
             if (!_myBool)
             {
@@ -89,9 +97,9 @@ namespace SZOK_OCR
             else
             {
                 // データ作成処理へ
-                frmCorrect frm = new frmCorrect(string.Empty);
-                frm.ShowDialog();
-                Show();
+                //frmCorrect frm = new frmCorrect(string.Empty);
+                //frm.ShowDialog();
+                //Show();
             }
         }
 

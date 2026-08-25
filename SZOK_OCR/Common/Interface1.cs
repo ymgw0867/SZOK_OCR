@@ -19,9 +19,9 @@ namespace SZOK_OCR.Common
 
         void UpDate<T>(T Object);
 
-        //int Count<T>();
+        int Count<T>();
 
-        //int Count<T>(string id);
+        int Count<T>(string id);
 
         void Insert<T>(List<T> Object);
 

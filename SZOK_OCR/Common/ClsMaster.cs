@@ -127,6 +127,37 @@ namespace SZOK_OCR.Common
         }
 
         /// <summary>
+        /// 指定された型のデータ件数を取得する
+        /// </summary>
+        /// <typeparam name="T">データの型</typeparam>
+        /// <returns>データ件数</returns>
+        public int Count<T>()
+        {
+            // SCAN_DATAのとき
+            if (typeof(T) == typeof(TblScandata))
+            {
+                string sql = "SELECT COUNT(*) FROM SCAN_DATA";
+                return GetCount(sql);
+            }
+
+            MessageBox.Show("Invalid Data Class");
+            return 0;
+        }
+
+        public int Count<T>(string id)
+        {
+            // 防犯カードのとき
+            if (typeof(T) == typeof(TblScandata))
+            {
+                string sql = "SELECT COUNT(*) FROM 防犯カード WHERE PC名 = @PC";
+                return GetCount(sql, id);
+            }
+
+            MessageBox.Show("Invalid Data Class");
+            return 0;
+        }
+
+        /// <summary>
         /// 環境設定テーブルのデータを取得する：2026/08/18
         /// </summary>
         /// <param name="id">ID</param>
@@ -330,6 +361,118 @@ namespace SZOK_OCR.Common
             }
         }
 
+        /// <summary>
+        /// 防犯カードテーブルにデータを挿入する：2026/08/18
+        /// </summary>
+        /// <param name="scandataList">挿入するスキャンデータのリスト</param>
+        /// <param name="pc">PC名</param>
+        public void InsertWorkTbl(List<TblScandata> scandataList, string pc)
+        {
+            using (var conn = new SqlConnection(sqlBuilder.ConnectionString))
+            {
+                conn.Open();
+
+                using (var transaction = conn.BeginTransaction())
+                {
+                    try
+                    {
+                        // 取得したデータのラベルを取得する
+                        string label = scandataList.FirstOrDefault()?.Label;
+
+                        string sql = "INSERT INTO 防犯カード (データ区分, 画像名, 登録年, 登録月, 登録日, 登録番号," +
+                            "車体番号, メーカー, 塗色, 車種, 郵便番号1, 郵便番号2, 車両番号1, 車両番号2, 車名, 住所漢字," +
+                            "住所1, 住所2, 氏名, TEL携帯, TEL携帯2, TEL携帯3, PC名, CSV作成日, 備考, 更新年月日, ラベル, 処理担当者) " +
+                            "values (@datakbn, @imageName, @Year, @Month, @Day, @number, @VehicleIdentificationNumber," +
+                            "@Maker, @Color, @CarModel, @ZipCode1, @ZipCode2, @VehicleNumber1, @VehicleNumber2, @CarName, @AddressKanji," +
+                            "@Address1, @Address2, @Name, @Mobile1, @Mobile2, @Mobile3, @PC, @CsvCreationDate, @Memo, @UpDate, @Label, @Person)";
+
+                        using (SqlCommand com = new SqlCommand(sql, conn, transaction))
+                        {
+                            com.Parameters.Add("@datakbn", SqlDbType.NVarChar);
+                            com.Parameters.Add("@imageName", SqlDbType.NVarChar);
+                            com.Parameters.Add("@Year", SqlDbType.Int);
+                            com.Parameters.Add("@Month", SqlDbType.Int);
+                            com.Parameters.Add("@Day", SqlDbType.Int);
+                            com.Parameters.Add("@number", SqlDbType.NVarChar);
+                            com.Parameters.Add("@VehicleIdentificationNumber", SqlDbType.NVarChar);
+                            com.Parameters.Add("@Maker", SqlDbType.NVarChar);
+                            com.Parameters.Add("@Color", SqlDbType.NVarChar);
+                            com.Parameters.Add("@CarModel", SqlDbType.NVarChar);
+                            com.Parameters.Add("@ZipCode1", SqlDbType.NVarChar);
+                            com.Parameters.Add("@ZipCode2", SqlDbType.NVarChar);
+                            com.Parameters.Add("@VehicleNumber1", SqlDbType.NVarChar);
+                            com.Parameters.Add("@VehicleNumber2", SqlDbType.NVarChar);
+                            com.Parameters.Add("@CarName", SqlDbType.NVarChar);
+                            com.Parameters.Add("@AddressKanji", SqlDbType.NVarChar);
+                            com.Parameters.Add("@Address1", SqlDbType.NVarChar);
+                            com.Parameters.Add("@Address2", SqlDbType.NVarChar);
+                            com.Parameters.Add("@Name", SqlDbType.NVarChar);
+                            com.Parameters.Add("@Mobile1", SqlDbType.NVarChar);
+                            com.Parameters.Add("@Mobile2", SqlDbType.NVarChar);
+                            com.Parameters.Add("@Mobile3", SqlDbType.NVarChar);
+                            com.Parameters.Add("@PC", SqlDbType.NVarChar);
+                            com.Parameters.Add("@CsvCreationDate", SqlDbType.DateTime);
+                            com.Parameters.Add("@Memo", SqlDbType.NVarChar);
+                            com.Parameters.Add("@UpDate", SqlDbType.NVarChar);
+                            com.Parameters.Add("@Label", SqlDbType.NVarChar);
+                            com.Parameters.Add("@Person", SqlDbType.NVarChar);
+
+                            com.Prepare();
+
+                            var upDate = System.DateTime.Now.ToString();
+                            foreach (var scandata in scandataList)
+                            {
+                                com.Parameters["@datakbn"].Value = scandata.DataCategory;
+                                com.Parameters["@imageName"].Value = scandata.ImageFileName;
+                                com.Parameters["@Year"].Value = scandata.AddYear;
+                                com.Parameters["@Month"].Value = scandata.AddMonth;
+                                com.Parameters["@Day"].Value = scandata.AddDay;
+                                com.Parameters["@number"].Value = scandata.Number;
+                                com.Parameters["@VehicleIdentificationNumber"].Value = scandata.VehicleIdentificationNumber;
+                                com.Parameters["@Maker"].Value = scandata.Maker;
+                                com.Parameters["@Color"].Value = scandata.Color;
+                                com.Parameters["@CarModel"].Value = scandata.CarModel;
+                                com.Parameters["@ZipCode1"].Value = scandata.ZipCode1;
+                                com.Parameters["@ZipCode2"].Value = scandata.ZipCode2;
+                                com.Parameters["@VehicleNumber1"].Value = scandata.VehicleNumber1;
+                                com.Parameters["@VehicleNumber2"].Value = scandata.VehicleNumber2;
+                                com.Parameters["@CarName"].Value = scandata.CarName;
+                                com.Parameters["@AddressKanji"].Value = scandata.AddressKanji;
+                                com.Parameters["@Address1"].Value = scandata.Address1;
+                                com.Parameters["@Address2"].Value = scandata.Address2;
+                                com.Parameters["@Name"].Value = scandata.Name;
+                                com.Parameters["@Mobile1"].Value = scandata.Mobile1;
+                                com.Parameters["@Mobile2"].Value = scandata.Mobile2;
+                                com.Parameters["@Mobile3"].Value = scandata.Mobile3;
+                                com.Parameters["@PC"].Value = pc;
+                                com.Parameters["@CsvCreationDate"].Value = scandata.CsvCreationDate;
+                                com.Parameters["@Memo"].Value = scandata.Memo;
+                                com.Parameters["@UpDate"].Value = upDate;
+                                com.Parameters["@Label"].Value = scandata.Label;
+                                com.Parameters["@Person"].Value = scandata.Person;
+                                com.ExecuteNonQuery();
+                            }
+
+                            // SCAN_DATAテーブルのデータを削除する
+                            string deleteSql = "DELETE FROM SCAN_DATA WHERE ラベル = @Label";
+                            using (SqlCommand deleteCom = new SqlCommand(deleteSql, conn, transaction))
+                            {
+                                deleteCom.Parameters.Add("@Label", SqlDbType.NVarChar).Value = label;
+                                deleteCom.ExecuteNonQuery();
+                            }
+                        }
+
+                        transaction.Commit();
+                    }
+                    catch
+                    {
+                        transaction.Rollback();
+                        throw;
+                    }
+                }
+            }
+        }
+
 
         /// <summary>
         /// SCANDATAテーブルにデータを挿入する：2026/08/18
@@ -387,6 +530,11 @@ namespace SZOK_OCR.Common
                 return Read(param) as List<T>;
             }
 
+            //if (typeof(T) == typeof(ClsLabelCount))
+            //{
+            //    return Read() as List<T>;
+            //}
+
             //List<T> resultList = new List<T>();
             //using (SqlCommand cmd = new SqlCommand(sql, conn))
             //{
@@ -413,6 +561,41 @@ namespace SZOK_OCR.Common
             return null;
         }
 
+        public List<ClsLabelCount> LabelCount()
+        {
+            var LabelCounts = new List<ClsLabelCount>();
+
+            try
+            {
+                using (var conn = new SqlConnection(sqlBuilder.ConnectionString))
+                {
+                    conn.Open();
+                    string sql = "SELECT ラベル, 処理担当者, COUNT(*) AS 件数 FROM SCAN_DATA GROUP BY ラベル, 処理担当者 ORDER BY ラベル";
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
+                    {
+                        using (SqlDataReader dr = cmd.ExecuteReader())
+                        {
+                            while (dr.Read())
+                            {
+                                ClsLabelCount labelCount = new ClsLabelCount
+                                {
+                                    Label = Utility.NulltoStr(dr["ラベル"]),
+                                    Person = Utility.NulltoStr(dr["処理担当者"]),
+                                    Count = Utility.NulltoStr(dr["件数"])
+                                };
+                                LabelCounts.Add(labelCount);
+                            }
+                        }
+                    }
+                }
+                return LabelCounts;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return LabelCounts;
+            }
+        }
 
         public List<TblScandata> Read(ScandataParameter param)
         {
@@ -543,6 +726,77 @@ namespace SZOK_OCR.Common
             }
         }
 
+
+        public List<TblScandata> ReadLabel(string label)
+        {
+            var lines = new List<TblScandata>();
+
+            try
+            {
+                using (var conn = new SqlConnection(sqlBuilder.ConnectionString))
+                {
+                    conn.Open();
+
+                    string sql = "SELECT ID,データ区分,画像名,登録年,登録月,登録日,登録番号,車体番号,メーカー,塗色,車種,郵便番号1,郵便番号2," +
+                        "住所1,氏名,TEL携帯,TEL携帯2,TEL携帯3,ラベル,処理担当者,PC名,CSV作成日,備考,更新年月日 FROM SCAN_DATA " +
+                        "WHERE (ラベル = @Label) ";
+
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
+                    {
+                        cmd.CommandTimeout = 120; // 秒。デフォルト30から一時的に伸ばして様子を見る                                               
+                        cmd.Parameters.Add("@Label", SqlDbType.NVarChar, 255).Value = label;
+
+                        using (SqlDataReader dr = cmd.ExecuteReader())
+                        {
+                            while (dr.Read())
+                            {
+                                TblScandata scandata = new TblScandata
+                                {
+                                    ID = Utility.StrtoInt(dr["ID"].ToString()),
+                                    DataCategory = Utility.StrtoInt(Utility.NulltoStr(dr["データ区分"])),
+                                    ImageFileName = Utility.NulltoStr(dr["画像名"]),
+                                    AddYear = Utility.NulltoStr(dr["登録年"]),
+                                    AddMonth = Utility.NulltoStr(dr["登録月"]),
+                                    AddDay = Utility.NulltoStr(dr["登録日"]),
+                                    Number = Utility.NulltoStr(dr["登録番号"]),
+                                    VehicleIdentificationNumber = Utility.NulltoStr(dr["車体番号"]),
+                                    Maker = Utility.NulltoStr(dr["メーカー"]),
+                                    Color = Utility.NulltoStr(dr["塗色"]),
+                                    CarModel = Utility.StrtoInt(Utility.NulltoStr(dr["車種"])),
+                                    ZipCode1 = Utility.NulltoStr(dr["郵便番号1"]),
+                                    ZipCode2 = Utility.NulltoStr(dr["郵便番号2"]),
+                                    VehicleNumber1 = string.Empty,
+                                    VehicleNumber2 = string.Empty,
+                                    CarName = string.Empty,
+                                    Address1 = Utility.NulltoStr(dr["住所1"]),
+                                    Address2 = string.Empty,
+                                    Name = Utility.NulltoStr(dr["氏名"]),
+                                    Mobile1 = Utility.NulltoStr(dr["TEL携帯"]),
+                                    Mobile2 = Utility.NulltoStr(dr["TEL携帯2"]),
+                                    Mobile3 = Utility.NulltoStr(dr["TEL携帯3"]),
+                                    PC = Utility.NulltoStr(dr["PC名"]),
+                                    CsvCreationDate = Utility.NulltoStr(dr["CSV作成日"]),
+                                    Memo = Utility.NulltoStr(dr["備考"]),
+                                    UpDate = System.DateTime.Parse(Utility.NulltoStr(dr["更新年月日"])),
+                                    Label = Utility.NulltoStr(dr["ラベル"]),
+                                    Person = Utility.NulltoStr(dr["処理担当者"])
+                                };
+
+                                lines.Add(scandata);
+                            }
+                        }
+                    }
+                }
+                return lines;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return lines;
+            }
+        }
+
+
         /// <summary>
         /// 指定された文字列をSQLパラメータに変換する。空文字列の場合はDBNull.Valueを返す。
         /// </summary>
@@ -551,6 +805,51 @@ namespace SZOK_OCR.Common
         static object ToParam(string value)
         {
             return string.IsNullOrEmpty(value) ? (object)DBNull.Value : value;
+        }
+
+        private int GetCount(string sql)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(sqlBuilder.ConnectionString))
+                {
+                    conn.Open();
+
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
+                    {
+                        var rtn = cmd.ExecuteScalar();
+                        return Convert.ToInt32(rtn);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return 0;
+            }
+        }
+
+        private int GetCount(string sql, string pc)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(sqlBuilder.ConnectionString))
+                {
+                    conn.Open();
+
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@PC", pc);
+                        var rtn = cmd.ExecuteScalar();
+                        return Convert.ToInt32(rtn);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return 0;
+            }
         }
     }
 }
