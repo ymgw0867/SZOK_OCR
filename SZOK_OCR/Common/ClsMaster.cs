@@ -388,68 +388,37 @@ namespace SZOK_OCR.Common
 
                         using (SqlCommand com = new SqlCommand(sql, conn, transaction))
                         {
-                            com.Parameters.Add("@datakbn", SqlDbType.NVarChar);
-                            com.Parameters.Add("@imageName", SqlDbType.NVarChar);
-                            com.Parameters.Add("@Year", SqlDbType.Int);
-                            com.Parameters.Add("@Month", SqlDbType.Int);
-                            com.Parameters.Add("@Day", SqlDbType.Int);
-                            com.Parameters.Add("@number", SqlDbType.NVarChar);
-                            com.Parameters.Add("@VehicleIdentificationNumber", SqlDbType.NVarChar);
-                            com.Parameters.Add("@Maker", SqlDbType.NVarChar);
-                            com.Parameters.Add("@Color", SqlDbType.NVarChar);
-                            com.Parameters.Add("@CarModel", SqlDbType.NVarChar);
-                            com.Parameters.Add("@ZipCode1", SqlDbType.NVarChar);
-                            com.Parameters.Add("@ZipCode2", SqlDbType.NVarChar);
-                            com.Parameters.Add("@VehicleNumber1", SqlDbType.NVarChar);
-                            com.Parameters.Add("@VehicleNumber2", SqlDbType.NVarChar);
-                            com.Parameters.Add("@CarName", SqlDbType.NVarChar);
-                            com.Parameters.Add("@AddressKanji", SqlDbType.NVarChar);
-                            com.Parameters.Add("@Address1", SqlDbType.NVarChar);
-                            com.Parameters.Add("@Address2", SqlDbType.NVarChar);
-                            com.Parameters.Add("@Name", SqlDbType.NVarChar);
-                            com.Parameters.Add("@Mobile1", SqlDbType.NVarChar);
-                            com.Parameters.Add("@Mobile2", SqlDbType.NVarChar);
-                            com.Parameters.Add("@Mobile3", SqlDbType.NVarChar);
-                            com.Parameters.Add("@PC", SqlDbType.NVarChar);
-                            com.Parameters.Add("@CsvCreationDate", SqlDbType.DateTime);
-                            com.Parameters.Add("@Memo", SqlDbType.NVarChar);
-                            com.Parameters.Add("@UpDate", SqlDbType.NVarChar);
-                            com.Parameters.Add("@Label", SqlDbType.NVarChar);
-                            com.Parameters.Add("@Person", SqlDbType.NVarChar);
-
-                            com.Prepare();
-
-                            var upDate = System.DateTime.Now.ToString();
                             foreach (var scandata in scandataList)
                             {
-                                com.Parameters["@datakbn"].Value = scandata.DataCategory;
-                                com.Parameters["@imageName"].Value = scandata.ImageFileName;
-                                com.Parameters["@Year"].Value = scandata.AddYear;
-                                com.Parameters["@Month"].Value = scandata.AddMonth;
-                                com.Parameters["@Day"].Value = scandata.AddDay;
-                                com.Parameters["@number"].Value = scandata.Number;
-                                com.Parameters["@VehicleIdentificationNumber"].Value = scandata.VehicleIdentificationNumber;
-                                com.Parameters["@Maker"].Value = scandata.Maker;
-                                com.Parameters["@Color"].Value = scandata.Color;
-                                com.Parameters["@CarModel"].Value = scandata.CarModel;
-                                com.Parameters["@ZipCode1"].Value = scandata.ZipCode1;
-                                com.Parameters["@ZipCode2"].Value = scandata.ZipCode2;
-                                com.Parameters["@VehicleNumber1"].Value = scandata.VehicleNumber1;
-                                com.Parameters["@VehicleNumber2"].Value = scandata.VehicleNumber2;
-                                com.Parameters["@CarName"].Value = scandata.CarName;
-                                com.Parameters["@AddressKanji"].Value = scandata.AddressKanji;
-                                com.Parameters["@Address1"].Value = scandata.Address1;
-                                com.Parameters["@Address2"].Value = scandata.Address2;
-                                com.Parameters["@Name"].Value = scandata.Name;
-                                com.Parameters["@Mobile1"].Value = scandata.Mobile1;
-                                com.Parameters["@Mobile2"].Value = scandata.Mobile2;
-                                com.Parameters["@Mobile3"].Value = scandata.Mobile3;
-                                com.Parameters["@PC"].Value = pc;
-                                com.Parameters["@CsvCreationDate"].Value = scandata.CsvCreationDate;
-                                com.Parameters["@Memo"].Value = scandata.Memo;
-                                com.Parameters["@UpDate"].Value = upDate;
-                                com.Parameters["@Label"].Value = scandata.Label;
-                                com.Parameters["@Person"].Value = scandata.Person;
+                                com.Parameters.Clear();
+                                com.Parameters.AddWithValue("@datakbn", scandata.DataCategory);
+                                com.Parameters.AddWithValue("@imageName", scandata.ImageFileName);
+                                com.Parameters.AddWithValue("@Year", scandata.AddYear);
+                                com.Parameters.AddWithValue("@Month", scandata.AddMonth);
+                                com.Parameters.AddWithValue("@Day", scandata.AddDay);
+                                com.Parameters.AddWithValue("@number", scandata.Number);
+                                com.Parameters.AddWithValue("@VehicleIdentificationNumber", scandata.VehicleIdentificationNumber);
+                                com.Parameters.AddWithValue("@Maker", scandata.Maker);
+                                com.Parameters.AddWithValue("@Color", scandata.Color);
+                                com.Parameters.AddWithValue("@CarModel", scandata.CarModel);
+                                com.Parameters.AddWithValue("@ZipCode1", scandata.ZipCode1);
+                                com.Parameters.AddWithValue("@ZipCode2", scandata.ZipCode2);
+                                com.Parameters.AddWithValue("@VehicleNumber1", "");
+                                com.Parameters.AddWithValue("@VehicleNumber2", "");
+                                com.Parameters.AddWithValue("@CarName", "");
+                                com.Parameters.AddWithValue("@AddressKanji", "");
+                                com.Parameters.AddWithValue("@Address1", scandata.Address1);
+                                com.Parameters.AddWithValue("@Address2", scandata.Address2);
+                                com.Parameters.AddWithValue("@Name", scandata.Name);
+                                com.Parameters.AddWithValue("@Mobile1", scandata.Mobile1);
+                                com.Parameters.AddWithValue("@Mobile2", scandata.Mobile2);
+                                com.Parameters.AddWithValue("@Mobile3", scandata.Mobile3);
+                                com.Parameters.AddWithValue("@PC", pc);
+                                com.Parameters.AddWithValue("@CsvCreationDate", scandata.CsvCreationDate);
+                                com.Parameters.AddWithValue("@Memo", scandata.Memo);
+                                com.Parameters.AddWithValue("@UpDate", System.DateTime.Now.ToString());
+                                com.Parameters.AddWithValue("@Label", scandata.Label);
+                                com.Parameters.AddWithValue("@Person", scandata.Person);
                                 com.ExecuteNonQuery();
                             }
 

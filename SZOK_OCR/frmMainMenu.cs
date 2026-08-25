@@ -99,7 +99,7 @@ namespace SZOK_OCR
                 // データ作成処理へ
                 //frmCorrect frm = new frmCorrect(string.Empty);
                 //frm.ShowDialog();
-                //Show();
+                Show();
             }
         }
 
