@@ -249,7 +249,7 @@ namespace SZOK_OCR.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("ASER-A515\\SQLEXPRESS")]
+        [global::System.Configuration.DefaultSettingValueAttribute("192.168.1.51\\SQLEXPRESS,1433")]
         public string sServerName {
             get {
                 return ((string)(this["sServerName"]));

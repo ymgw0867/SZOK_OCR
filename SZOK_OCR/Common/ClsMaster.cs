@@ -81,6 +81,12 @@ namespace SZOK_OCR.Common
                 return (T)(Object)GetClsScandata(Utility.StrtoInt(sCode));
             }
 
+            // 防犯カードのとき
+            if (typeof(T) == typeof(TblWorkcard))
+            {
+                return (T)(Object)GetClsWorkcard(Utility.StrtoInt(sCode));
+            }
+
             //// 得意先マスターのとき
             //if (typeof(T) == typeof(ClsTokuisakiData))
             //{
@@ -205,6 +211,11 @@ namespace SZOK_OCR.Common
             }
         }
 
+        /// <summary>
+        /// SCAN_DATAテーブルのデータを取得する：2026/08/18
+        /// </summary>
+        /// <param name="id">ID</param>
+        /// <returns>TblScandataクラス</returns>
         private TblScandata GetClsScandata(int id)
         {
             TblScandata scandata = null;
@@ -269,6 +280,77 @@ namespace SZOK_OCR.Common
                 return scandata;
             }
         }
+
+        /// <summary>
+        /// 防犯カードテーブルのデータを取得する：2026/08/26
+        /// </summary>
+        /// <param name="id">防犯カードのID</param>
+        /// <returns>TblWorkcardオブジェクト</returns>
+        private TblWorkcard GetClsWorkcard(int id)
+        {
+            TblWorkcard workcard = null;
+
+            try
+            {
+                using (var conn = new SqlConnection(sqlBuilder.ConnectionString))
+                {
+                    conn.Open();
+
+                    string sql = "SELECT * FROM 防犯カード WHERE ID = @ID";
+
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@ID", id);
+
+                        using (var dr = cmd.ExecuteReader())
+                        {
+                            while (dr.Read())
+                            {
+                                workcard = new TblWorkcard
+                                {
+                                    ID = Utility.StrtoInt(dr["ID"].ToString()),
+                                    DataCategory = Utility.StrtoInt(Utility.NulltoStr(dr["データ区分"])),
+                                    ImageFileName = Utility.NulltoStr(dr["画像名"]),
+                                    AddYear = Utility.NulltoStr(dr["登録年"]),
+                                    AddMonth = Utility.NulltoStr(dr["登録月"]),
+                                    AddDay = Utility.NulltoStr(dr["登録日"]),
+                                    Number = Utility.NulltoStr(dr["登録番号"]),
+                                    VehicleIdentificationNumber = Utility.NulltoStr(dr["車体番号"]),
+                                    Maker = Utility.NulltoStr(dr["メーカー"]),
+                                    Color = Utility.NulltoStr(dr["塗色"]),
+                                    CarModel = Utility.StrtoInt(Utility.NulltoStr(dr["車種"])),
+                                    ZipCode1 = Utility.NulltoStr(dr["郵便番号1"]),
+                                    ZipCode2 = Utility.NulltoStr(dr["郵便番号2"]),
+                                    VehicleNumber1 = string.Empty,
+                                    VehicleNumber2 = string.Empty,
+                                    CarName = string.Empty,
+                                    Address1 = Utility.NulltoStr(dr["住所1"]),
+                                    Address2 = string.Empty,
+                                    Name = Utility.NulltoStr(dr["氏名"]),
+                                    Mobile1 = Utility.NulltoStr(dr["TEL携帯"]),
+                                    Mobile2 = Utility.NulltoStr(dr["TEL携帯2"]),
+                                    Mobile3 = Utility.NulltoStr(dr["TEL携帯3"]),
+                                    PC = Utility.NulltoStr(dr["PC名"]),
+                                    CsvCreationDate = Utility.NulltoStr(dr["CSV作成日"]),
+                                    Memo = Utility.NulltoStr(dr["備考"]),
+                                    UpDate = System.DateTime.Parse(Utility.NulltoStr(dr["更新年月日"])),
+                                    Label = Utility.NulltoStr(dr["ラベル"]),
+                                    Person = Utility.NulltoStr(dr["処理担当者"])
+                                };
+                            }
+                        }
+                    }
+                }
+
+                return workcard;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return workcard;
+            }
+        }
+
 
         /// <summary>
         /// 環境設定テーブルのデータを更新する：2026/08/18
@@ -381,10 +463,10 @@ namespace SZOK_OCR.Common
 
                         string sql = "INSERT INTO 防犯カード (データ区分, 画像名, 登録年, 登録月, 登録日, 登録番号," +
                             "車体番号, メーカー, 塗色, 車種, 郵便番号1, 郵便番号2, 車両番号1, 車両番号2, 車名, 住所漢字," +
-                            "住所1, 住所2, 氏名, TEL携帯, TEL携帯2, TEL携帯3, PC名, CSV作成日, 備考, 更新年月日, ラベル, 処理担当者) " +
+                            "住所1, 住所2, 氏名, TEL携帯, TEL携帯2, TEL携帯3, PC名, CSV作成日, 備考, 更新年月日, ラベル, 処理担当者, 確認) " +
                             "values (@datakbn, @imageName, @Year, @Month, @Day, @number, @VehicleIdentificationNumber," +
                             "@Maker, @Color, @CarModel, @ZipCode1, @ZipCode2, @VehicleNumber1, @VehicleNumber2, @CarName, @AddressKanji," +
-                            "@Address1, @Address2, @Name, @Mobile1, @Mobile2, @Mobile3, @PC, @CsvCreationDate, @Memo, @UpDate, @Label, @Person)";
+                            "@Address1, @Address2, @Name, @Mobile1, @Mobile2, @Mobile3, @PC, @CsvCreationDate, @Memo, @UpDate, @Label, @Person, @Confirmation)";
 
                         using (SqlCommand com = new SqlCommand(sql, conn, transaction))
                         {
@@ -419,6 +501,7 @@ namespace SZOK_OCR.Common
                                 com.Parameters.AddWithValue("@UpDate", System.DateTime.Now.ToString());
                                 com.Parameters.AddWithValue("@Label", scandata.Label);
                                 com.Parameters.AddWithValue("@Person", scandata.Person);
+                                com.Parameters.AddWithValue("@Confirmation", 0);
                                 com.ExecuteNonQuery();
                             }
 
@@ -695,7 +778,11 @@ namespace SZOK_OCR.Common
             }
         }
 
-
+        /// <summary>
+        /// 指定されたラベルに一致するSCAN_DATAテーブルのデータを取得する
+        /// </summary>
+        /// <param name="label">ラベル</param>
+        /// <returns>指定されたラベルに一致するSCAN_DATAテーブルのデータのリスト</returns>
         public List<TblScandata> ReadLabel(string label)
         {
             var lines = new List<TblScandata>();
@@ -765,6 +852,75 @@ namespace SZOK_OCR.Common
             }
         }
 
+
+        public List<TblScandata> ReadPc(string pc)
+        {
+            var lines = new List<TblScandata>();
+
+            try
+            {
+                using (var conn = new SqlConnection(sqlBuilder.ConnectionString))
+                {
+                    conn.Open();
+
+                    string sql = "SELECT ID,データ区分,画像名,登録年,登録月,登録日,登録番号,車体番号,メーカー,塗色,車種,郵便番号1,郵便番号2," +
+                        "住所1,氏名,TEL携帯,TEL携帯2,TEL携帯3,ラベル,処理担当者,PC名,CSV作成日,備考,更新年月日 FROM SCAN_DATA " +
+                        "WHERE (PC名 = @PC) ";
+
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
+                    {
+                        cmd.CommandTimeout = 120; // 秒。デフォルト30から一時的に伸ばして様子を見る                                               
+                        cmd.Parameters.Add("@PC", SqlDbType.NVarChar, 255).Value = pc;
+
+                        using (SqlDataReader dr = cmd.ExecuteReader())
+                        {
+                            while (dr.Read())
+                            {
+                                TblScandata scandata = new TblScandata
+                                {
+                                    ID = Utility.StrtoInt(dr["ID"].ToString()),
+                                    DataCategory = Utility.StrtoInt(Utility.NulltoStr(dr["データ区分"])),
+                                    ImageFileName = Utility.NulltoStr(dr["画像名"]),
+                                    AddYear = Utility.NulltoStr(dr["登録年"]),
+                                    AddMonth = Utility.NulltoStr(dr["登録月"]),
+                                    AddDay = Utility.NulltoStr(dr["登録日"]),
+                                    Number = Utility.NulltoStr(dr["登録番号"]),
+                                    VehicleIdentificationNumber = Utility.NulltoStr(dr["車体番号"]),
+                                    Maker = Utility.NulltoStr(dr["メーカー"]),
+                                    Color = Utility.NulltoStr(dr["塗色"]),
+                                    CarModel = Utility.StrtoInt(Utility.NulltoStr(dr["車種"])),
+                                    ZipCode1 = Utility.NulltoStr(dr["郵便番号1"]),
+                                    ZipCode2 = Utility.NulltoStr(dr["郵便番号2"]),
+                                    VehicleNumber1 = string.Empty,
+                                    VehicleNumber2 = string.Empty,
+                                    CarName = string.Empty,
+                                    Address1 = Utility.NulltoStr(dr["住所1"]),
+                                    Address2 = string.Empty,
+                                    Name = Utility.NulltoStr(dr["氏名"]),
+                                    Mobile1 = Utility.NulltoStr(dr["TEL携帯"]),
+                                    Mobile2 = Utility.NulltoStr(dr["TEL携帯2"]),
+                                    Mobile3 = Utility.NulltoStr(dr["TEL携帯3"]),
+                                    PC = Utility.NulltoStr(dr["PC名"]),
+                                    CsvCreationDate = Utility.NulltoStr(dr["CSV作成日"]),
+                                    Memo = Utility.NulltoStr(dr["備考"]),
+                                    UpDate = System.DateTime.Parse(Utility.NulltoStr(dr["更新年月日"])),
+                                    Label = Utility.NulltoStr(dr["ラベル"]),
+                                    Person = Utility.NulltoStr(dr["処理担当者"])
+                                };
+
+                                lines.Add(scandata);
+                            }
+                        }
+                    }
+                }
+                return lines;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return lines;
+            }
+        }
 
         /// <summary>
         /// 指定された文字列をSQLパラメータに変換する。空文字列の場合はDBNull.Valueを返す。

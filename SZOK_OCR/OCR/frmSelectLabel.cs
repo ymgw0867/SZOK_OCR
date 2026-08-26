@@ -68,6 +68,10 @@ namespace SZOK_OCR.OCR
             }
         }
 
+        /// <summary>
+        ///   ローカルの防犯登録データ件数を取得する
+        /// </summary>
+        /// <returns>処理中の防犯登録データ件数</returns>
         private int GetLocalData()
         {
             int val = 0;
@@ -262,7 +266,7 @@ namespace SZOK_OCR.OCR
             Close();
         }
 
-        public int MyCnt { get; set; }
+        public int  MyCnt { get; set; }
         public bool MyBool { get; set; }
 
         private void button1_Click(object sender, EventArgs e)
@@ -325,6 +329,9 @@ namespace SZOK_OCR.OCR
         ///-------------------------------------------------------
         private void GetScanToData()
         {
+            // カーソルを待機中にする
+            Cursor.Current = Cursors.WaitCursor;
+
             for (int i = 0; i < Dgv1.Rows.Count; i++)
             {
                 if (Dgv1[colChk, i].Value.ToString() == "True")
@@ -360,6 +367,9 @@ namespace SZOK_OCR.OCR
                     master.InsertWorkTbl(scans, System.Net.Dns.GetHostName());
                 }
             }
+
+            // カーソルを元に戻す
+            Cursor.Current = Cursors.Default;
         }
 
         private void Dgv1_CellValueChanged(object sender, DataGridViewCellEventArgs e)

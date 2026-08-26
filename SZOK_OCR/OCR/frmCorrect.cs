@@ -25,6 +25,14 @@ namespace SZOK_OCR.OCR
 
         string[] zipArray = null;   // 郵便番号配列
 
+        Image OcrImg = null;
+
+        // 画像サイズ
+        float B_WIDTH = 0.43f;
+        float B_HEIGHT = 0.43f;
+        float n_width = 0f;
+        float n_height = 0f;
+
         public frmCorrect(string sID)
         {
             InitializeComponent();
@@ -34,8 +42,9 @@ namespace SZOK_OCR.OCR
                 // 画像パス取得
                 global.pblImagePath = Properties.Settings.Default.dataPath;
 
-                // ＯＣＲデータ読み込み   
-                adp.Fill(dts.防犯カード);
+                // コメント化：2026/08/26
+                //// ＯＣＲデータ読み込み   
+                //adp.Fill(dts.防犯カード);
             }
             else　// 登録済みデータの検索及び編集
             {
@@ -60,14 +69,18 @@ namespace SZOK_OCR.OCR
             // 勤務データ登録
             if (dID == string.Empty)
             {
-                // CSVデータをMDBへ読み込みます
-                GetCsvDataToMDB();
+                // コメント化：2026/08/26
+                //// CSVデータをMDBへ読み込みます
+                //GetCsvDataToMDB();
+                //// データセットへデータを読み込みます
+                //adp.Fill(dts.防犯カード);
 
-                // データセットへデータを読み込みます
-                adp.Fill(dts.防犯カード);
-                
+                // 2026/08/26：SQL Serverに変更
+                ClsMaster cls = new ClsMaster(Properties.Settings.Default.sServerName, Properties.Settings.Default.sLogin, Properties.Settings.Default.sPass, Properties.Settings.Default.sDatabase);
+                int d = cls.Count<TblScandata>(System.Net.Dns.GetHostName());
+
                 // データテーブル件数カウント
-                if (dts.防犯カード.Count == 0)
+                if (d == 0)
                 {
                     MessageBox.Show("対象となるＯＣＲ防犯登録データがありません", "ＯＣＲ自転車防犯登録データ登録", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 
@@ -100,8 +113,12 @@ namespace SZOK_OCR.OCR
         ///-------------------------------------------------------------
         private void keyArrayCreate()
         {
+            // 2026/08/25：SQL Serverに変更
+            ClsMaster cls = new ClsMaster(Properties.Settings.Default.sServerName, Properties.Settings.Default.sLogin, Properties.Settings.Default.sPass, Properties.Settings.Default.sDatabase);
+            var data = cls.ReadPc(System.Net.Dns.GetHostName());
+
             int iX = 0;
-            foreach (var t in dts.防犯カード.OrderBy(a=> a.ID))
+            foreach (var t in data.OrderBy(a => a.ID))
             {
                 Array.Resize(ref cID, iX + 1);
                 cID[iX] = t.ID;
@@ -151,76 +168,161 @@ namespace SZOK_OCR.OCR
         /// <param name="tempImgName">
         ///     画像名</param>
         /// ------------------------------------------------------------------------------
-        public void ShowImage(string tempImgName)
+        public void ShowImage(string img)
         {
-            //修正画面へ組み入れた画像フォームの表示    
-            //画像の出力が無い場合は、画像表示をしない。
-            if (tempImgName == string.Empty)
+            if (System.IO.File.Exists(img))
             {
-                leadImg.Visible = false;
-                lblNoImage.Visible = false;
-                global.pblImagePath = string.Empty;
-                return;
-            }
-
-            //画像ファイルがあるとき表示
-            if (System.IO.File.Exists(tempImgName))
-            {
-                lblNoImage.Visible = false;
-                leadImg.Visible = true;
-
-                // 画像操作ボタン
-                btnPlus.Enabled = true;
-                btnMinus.Enabled = true;
-
-                //画像ロード
-                Leadtools.Codecs.RasterCodecs.Startup();
-                Leadtools.Codecs.RasterCodecs cs = new Leadtools.Codecs.RasterCodecs();
-
-                // 描画時に使用される速度、品質、およびスタイルを制御します。 
-                Leadtools.RasterPaintProperties prop = new Leadtools.RasterPaintProperties();
-                prop = Leadtools.RasterPaintProperties.Default;
-                prop.PaintDisplayMode = Leadtools.RasterPaintDisplayModeFlags.Resample;
-                leadImg.PaintProperties = prop;
-
-                leadImg.Image = cs.Load(tempImgName, 0, Leadtools.Codecs.CodecsLoadByteOrder.BgrOrGray, 1, 1);
-
-                //画像表示倍率設定
-                if (global.miMdlZoomRate == 0f)
-                {
-                    leadImg.ScaleFactor *= global.ZOOM_RATE;
-                }
-                else
-                {
-                    leadImg.ScaleFactor *= global.miMdlZoomRate;
-                }
-
-                //画像のマウスによる移動を可能とする
-                leadImg.InteractiveMode = Leadtools.WinForms.RasterViewerInteractiveMode.Pan;
-
-                // グレースケールに変換
-                Leadtools.ImageProcessing.GrayscaleCommand grayScaleCommand = new Leadtools.ImageProcessing.GrayscaleCommand();
-                grayScaleCommand.BitsPerPixel = 8;
-                grayScaleCommand.Run(leadImg.Image);
-                leadImg.Refresh();
-
-                cs.Dispose();
-                Leadtools.Codecs.RasterCodecs.Shutdown();
-                //global.pblImagePath = tempImgName;
+                // System.Drawing.Imageを作成する
+                OcrImg = Utility.CreateImage(img);
+                imgShow(OcrImg, B_WIDTH, B_HEIGHT);
+                trackBar1.Enabled = true;
+                btnLeft.Enabled = true;
             }
             else
             {
-                //画像ファイルがないとき
-                lblNoImage.Visible = true;
+                pictureBox1.Image = null;
+                trackBar1.Enabled = false;
+                btnLeft.Enabled = false;
+            }
 
-                // 画像操作ボタン
-                btnPlus.Enabled = false;
-                btnMinus.Enabled = false;
+        }
 
-                leadImg.Visible = false;
-                //global.pblImagePath = string.Empty;
+        ///---------------------------------------------------------
+        /// <summary>
+        ///     画像表示メイン : 2020/04/14 </summary>
+        /// <param name="mImg">
+        ///     Mat形式イメージ</param>
+        /// <param name="w">
+        ///     width</param>
+        /// <param name="h">
+        ///     height</param>
+        ///---------------------------------------------------------
+        private void imgShow(Image mImg, float w, float h)
+        {
+            int cWidth = 0;
+            int cHeight = 0;
+
+            int pWidth = panel1.Width - 2;
+            int pHeight = panel1.Height - 2;
+
+            try
+            {
+                Bitmap bt = new Bitmap(mImg);
+
+                // Bitmapサイズ
+                if (pWidth < (bt.Width * w) || pHeight < (bt.Height * h))
+                {
+                    cWidth = (int)(bt.Width * w);
+                    cHeight = (int)(bt.Height * h);
+                }
+                else
+                {
+                    cWidth = pWidth;
+                    cHeight = pHeight;
+                }
+
+                // Bitmap を生成
+                Bitmap canvas = new Bitmap(cWidth, cHeight);
+
+                // ImageオブジェクトのGraphicsオブジェクトを作成する
+                Graphics g = Graphics.FromImage(canvas);
+
+                // 画像をcanvasの座標(0, 0)の位置に指定のサイズで描画する
+                g.DrawImage(bt, 0, 0, bt.Width * w, bt.Height * h);
+
+                //メモリクリア
+                bt.Dispose();
+                g.Dispose();
+
+                // PictureBox1に表示する
+                pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+                pictureBox1.Image = canvas;
+            }
+            catch (Exception ex)
+            {
+                pictureBox1.Image = null;
+                MessageBox.Show(ex.Message);
             }
         }
+
+        /// ------------------------------------------------------------------------------
+        /// <summary>
+        ///     伝票画像表示 </summary>
+        /// <param name="iX">
+        ///     現在の伝票</param>
+        /// <param name="tempImgName">
+        ///     画像名</param>
+        /// ------------------------------------------------------------------------------
+        //public void ShowImage(string tempImgName)
+        //{
+        //    //修正画面へ組み入れた画像フォームの表示    
+        //    //画像の出力が無い場合は、画像表示をしない。
+        //    if (tempImgName == string.Empty)
+        //    {
+        //        leadImg.Visible = false;
+        //        lblNoImage.Visible = false;
+        //        global.pblImagePath = string.Empty;
+        //        return;
+        //    }
+
+        //    //画像ファイルがあるとき表示
+        //    if (System.IO.File.Exists(tempImgName))
+        //    {
+        //        lblNoImage.Visible = false;
+        //        leadImg.Visible = true;
+
+        //        // 画像操作ボタン
+        //        btnPlus.Enabled = true;
+        //        btnMinus.Enabled = true;
+
+        //        //画像ロード
+        //        Leadtools.Codecs.RasterCodecs.Startup();
+        //        Leadtools.Codecs.RasterCodecs cs = new Leadtools.Codecs.RasterCodecs();
+
+        //        // 描画時に使用される速度、品質、およびスタイルを制御します。 
+        //        Leadtools.RasterPaintProperties prop = new Leadtools.RasterPaintProperties();
+        //        prop = Leadtools.RasterPaintProperties.Default;
+        //        prop.PaintDisplayMode = Leadtools.RasterPaintDisplayModeFlags.Resample;
+        //        leadImg.PaintProperties = prop;
+
+        //        leadImg.Image = cs.Load(tempImgName, 0, Leadtools.Codecs.CodecsLoadByteOrder.BgrOrGray, 1, 1);
+
+        //        //画像表示倍率設定
+        //        if (global.miMdlZoomRate == 0f)
+        //        {
+        //            leadImg.ScaleFactor *= global.ZOOM_RATE;
+        //        }
+        //        else
+        //        {
+        //            leadImg.ScaleFactor *= global.miMdlZoomRate;
+        //        }
+
+        //        //画像のマウスによる移動を可能とする
+        //        leadImg.InteractiveMode = Leadtools.WinForms.RasterViewerInteractiveMode.Pan;
+
+        //        // グレースケールに変換
+        //        Leadtools.ImageProcessing.GrayscaleCommand grayScaleCommand = new Leadtools.ImageProcessing.GrayscaleCommand();
+        //        grayScaleCommand.BitsPerPixel = 8;
+        //        grayScaleCommand.Run(leadImg.Image);
+        //        leadImg.Refresh();
+
+        //        cs.Dispose();
+        //        Leadtools.Codecs.RasterCodecs.Shutdown();
+        //        //global.pblImagePath = tempImgName;
+        //    }
+        //    else
+        //    {
+        //        //画像ファイルがないとき
+        //        lblNoImage.Visible = true;
+
+        //        // 画像操作ボタン
+        //        btnPlus.Enabled = false;
+        //        btnMinus.Enabled = false;
+
+        //        leadImg.Visible = false;
+        //        //global.pblImagePath = string.Empty;
+        //    }
+        //}
 
         private void btnNext_Click(object sender, EventArgs e)
         {
@@ -308,9 +410,9 @@ namespace SZOK_OCR.OCR
             r.車種 = Utility.StrtoInt(txtStyle.Text);
             r.郵便番号1 = txtZip1.Text;
             r.郵便番号2 = txtZip2.Text;
-            r.車両番号1 = kanmaDelete(txtSharyoNum.Text);
-            r.車両番号2 = kanmaDelete(txtSharyoNum2.Text);
-            r.車名 = kanmaDelete(txtCarName.Text);
+            r.車両番号1 = "";
+            r.車両番号2 = "";
+            r.車名 = "";
             r.住所漢字 = txtAdd.Text;
             r.住所1 = Utility.GetStringSubMax(kanmaDelete(txtAddFuri.Text), 40);
             r.住所2 = string.Empty;
@@ -397,12 +499,12 @@ namespace SZOK_OCR.OCR
 
         private void btnMinus_Click(object sender, EventArgs e)
         {
-            if (leadImg.ScaleFactor > global.ZOOM_MIN)
-            {
-                leadImg.ScaleFactor -= global.ZOOM_STEP;
-            }
+            //if (leadImg.ScaleFactor > global.ZOOM_MIN)
+            //{
+            //    leadImg.ScaleFactor -= global.ZOOM_STEP;
+            //}
 
-            global.miMdlZoomRate = (float)leadImg.ScaleFactor;
+            //global.miMdlZoomRate = (float)leadImg.ScaleFactor;
         }
 
         private void leadImg_MouseLeave(object sender, EventArgs e)
@@ -603,12 +705,12 @@ namespace SZOK_OCR.OCR
 
         private void btnPlus_Click_1(object sender, EventArgs e)
         {
-            if (leadImg.ScaleFactor < global.ZOOM_MAX)
-            {
-                leadImg.ScaleFactor += global.ZOOM_STEP;
-            }
+            //if (leadImg.ScaleFactor < global.ZOOM_MAX)
+            //{
+            //    leadImg.ScaleFactor += global.ZOOM_STEP;
+            //}
 
-            global.miMdlZoomRate = (float)leadImg.ScaleFactor;
+            //global.miMdlZoomRate = (float)leadImg.ScaleFactor;
         }
 
         private void linkLabel4_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -713,18 +815,18 @@ namespace SZOK_OCR.OCR
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
         {
-            if (radioButton1.Checked)
-            {
-                txtSharyoNum.Enabled = false;
-                txtSharyoNum2.Enabled = false;
-                txtCarName.Enabled = false;
-            }
-            else
-            {
-                txtSharyoNum.Enabled = true;
-                txtSharyoNum2.Enabled = true;
-                txtCarName.Enabled = true;
-            }
+            //if (radioButton1.Checked)
+            //{
+            //    txtSharyoNum.Enabled = false;
+            //    txtSharyoNum2.Enabled = false;
+            //    txtCarName.Enabled = false;
+            //}
+            //else
+            //{
+            //    txtSharyoNum.Enabled = true;
+            //    txtSharyoNum2.Enabled = true;
+            //    txtCarName.Enabled = true;
+            //}
         }
 
         private void linkLabel5_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -866,6 +968,37 @@ namespace SZOK_OCR.OCR
             }
 
             return ad;
+        }
+
+        private void trackBar1_ValueChanged(object sender, EventArgs e)
+        {
+            n_width = B_WIDTH + (float)trackBar1.Value * 0.05f;
+            n_height = B_HEIGHT + (float)trackBar1.Value * 0.05f;
+
+            imgShow(OcrImg, n_width, n_height);
+
+        }
+
+        private void btnLeft_Click(object sender, EventArgs e)
+        {
+            ImageRotate(pictureBox1.Image);
+        }
+
+        ///-------------------------------------------------------
+        /// <summary>
+        ///     画像回転 </summary>
+        /// <param name="img">
+        ///     Image</param>
+        ///-------------------------------------------------------
+        private void ImageRotate(Image img)
+        {
+            Bitmap bmp = (Bitmap)img;
+
+            // 反転せず時計回りに90度回転する
+            bmp.RotateFlip(RotateFlipType.Rotate90FlipNone);
+
+            //表示
+            pictureBox1.Image = img;
         }
     }
 }

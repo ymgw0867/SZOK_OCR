@@ -18,51 +18,56 @@ namespace SZOK_OCR.OCR
         ///------------------------------------------------------------------------------------
         private void showOcrData(int iX)
         {
-            // 防犯カード行を取得
-            szokDataSet.防犯カードRow r = dts.防犯カード.Single(a => a.ID == cID[iX]);
+            // コメント化：2026/08/26
+            //// 防犯カード行を取得
+            //szokDataSet.防犯カードRow r = dts.防犯カード.Single(a => a.ID == cID[iX]);
+
+            // SQL Serverから防犯カード行を取得するように変更：2026/08/26
+            var master = new ClsMaster(Properties.Settings.Default.sServerName, Properties.Settings.Default.sLogin, Properties.Settings.Default.sPass, Properties.Settings.Default.sDatabase);
+            var r = master.GetData<TblWorkcard>(cID[iX].ToString());
 
             // フォーム初期化
             formInitialize(dID, iX);
 
             // 情報表示
-            if (r.データ区分 == global.flgOff)
+            if (r.DataCategory == global.flgOff)
             {
                 radioButton1.Checked = true;
             }
-            else if (r.データ区分 == global.flgOn)
+            else if (r.DataCategory == global.flgOn)
             {
                 radioButton2.Checked = true;
             }
 
-            txtTourokuNum.Text = r.登録番号;
-            txtShataiNum.Text = r.車体番号;
-            txtYear.Text = r.登録年;
-            txtMonth.Text = r.登録月;
-            txtDay.Text = r.登録日;
-            txtMaker.Text = r.メーカー;
-            txtColor.Text = r.塗色;
+            txtTourokuNum.Text = r.Number;
+            txtShataiNum.Text = r.VehicleIdentificationNumber;
+            txtYear.Text = r.AddYear;
+            txtMonth.Text = r.AddMonth;
+            txtDay.Text = r.AddDay;
+            txtMaker.Text = r.Maker;
+            txtColor.Text = r.Color;
             
-            txtStyle.Text = r.車種.ToString().PadLeft(2, '0');
+            txtStyle.Text = r.CarModel.ToString().PadLeft(2, '0');
             txtStyleName.Text = string.Empty;
 
             global g = new global();
             for (int i = 0; i < g.arrStyle.GetLength(0); i++)
             {
-                if (g.arrStyle[i, 0] == r.車種.ToString().PadLeft(2, '0'))
+                if (g.arrStyle[i, 0] == r.CarModel.ToString().PadLeft(2, '0'))
                 {
                     txtStyleName.Text = g.arrStyle[i, 1];
                     break;
                 }
             }
             
-            txtSharyoNum.Text = r.車両番号1;
-            txtSharyoNum2.Text = r.車両番号2;
-            txtCarName.Text = r.車名;
+            //txtSharyoNum.Text = r.VehicleNumber1;
+            //txtSharyoNum2.Text = r.VehicleNumber2;
+            //txtCarName.Text = r.CarName;
 
-            txtZip1.Text = r.郵便番号1;
-            txtZip2.Text = r.郵便番号2;
+            txtZip1.Text = r.ZipCode1;
+            txtZip2.Text = r.ZipCode2;
 
-            txtAddFuri.Text = r.住所1;
+            txtAddFuri.Text = r.Address1;
 
             string zipAdd = string.Empty;
             string zipAddKN = string.Empty;
@@ -80,21 +85,22 @@ namespace SZOK_OCR.OCR
                 }
             }
 
-            if (r.Is住所漢字Null())
-            {
-                txtAdd.Text = string.Empty;
-            }
-            else
-            {
-                if (r.住所漢字 == string.Empty)
-                {
-                    txtAdd.Text = zipAddKN;
-                }
-                else
-                {
-                    txtAdd.Text = r.住所漢字;
-                }
-            }
+            // コメント化：2026/08/26
+            //if (r.Is住所漢字Null())
+            //{
+            //    txtAdd.Text = string.Empty;
+            //}
+            //else
+            //{
+            //    if (r.住所漢字 == string.Empty)
+            //    {
+            //        txtAdd.Text = zipAddKN;
+            //    }
+            //    else
+            //    {
+            //        txtAdd.Text = r.住所漢字;
+            //    }
+            //}
 
             //// 住所と郵便番号が一致しているか？
             //string str1 = Utility.strSmallTolarge(Utility.getStrConv(txtAddFuri.Text.Replace(" ", "").Trim()));
@@ -111,27 +117,27 @@ namespace SZOK_OCR.OCR
             //    txtAddFuri.BackColor = Color.White;
             //}
 
-            txtFuri.Text = r.氏名;
-            txtTel.Text = r.TEL携帯;
-            txtTel2.Text = r.TEL携帯2;
-            txtTel3.Text = r.TEL携帯3;
+            txtFuri.Text = r.Name;
+            txtTel.Text = r.Mobile1;
+            txtTel2.Text = r.Mobile2;
+            txtTel3.Text = r.Mobile3;
 
-            if (r.Is備考Null())
+            if (r.Memo == null)
             {
                 txtMemo.Text = string.Empty;
             }
             else
             {
-                txtMemo.Text = r.備考;
+                txtMemo.Text = r.Memo;
             }
 
             // 画面確認チェック 2016.01/25
-            if (r.Is確認Null())
+            if (r.Confirmation == null)
             {
                 checkBox1.Checked = false;
                 label22.Visible = false;
             }
-            else if (r.確認 == global.flgOff)
+            else if (r.Confirmation == global.flgOff)
             {
                 checkBox1.Checked = false;
                 label22.Visible = false;
@@ -143,11 +149,10 @@ namespace SZOK_OCR.OCR
             }
 
             // エラー情報表示初期化
-            //lblErrMsg.Visible = false;
             lblErrMsg.Text = string.Empty;
 
             // 画像表示
-            ShowImage(global.pblImagePath + r.画像名.ToString());
+            ShowImage(Properties.Settings.Default.scanDataPath + r.ImageFileName.ToString());
         }
 
         ///------------------------------------------------------------------------------------
@@ -202,12 +207,12 @@ namespace SZOK_OCR.OCR
             txtColor.BackColor = Color.White;
             txtStyle.BackColor = Color.White;
             txtStyleName.BackColor = Color.White;
-            txtSharyoNum.BackColor = Color.White;
-            txtCarName.BackColor = Color.White;
+            //txtSharyoNum.BackColor = Color.White;
+            //txtCarName.BackColor = Color.White;
             txtZip1.BackColor = Color.White;
             txtZip2.BackColor = Color.White;
             txtAddFuri.BackColor = Color.White;
-            txtAdd.BackColor = Color.White;
+            //txtAdd.BackColor = Color.White;
             txtFuri.BackColor = Color.White;
             txtTel.BackColor = Color.White;
             txtTel2.BackColor = Color.White;
@@ -224,12 +229,12 @@ namespace SZOK_OCR.OCR
             txtColor.ForeColor = Color.Navy;
             txtStyle.ForeColor = Color.Navy;
             txtStyleName.ForeColor = Color.Navy;
-            txtSharyoNum.ForeColor = Color.Navy;
-            txtCarName.ForeColor = Color.Navy;
+            //txtSharyoNum.ForeColor = Color.Navy;
+            //txtCarName.ForeColor = Color.Navy;
             txtZip1.ForeColor = Color.Navy;
             txtZip2.ForeColor = Color.Navy;
             txtAddFuri.ForeColor = Color.Navy;
-            txtAdd.ForeColor = Color.Navy;
+            //txtAdd.ForeColor = Color.Navy;
             txtFuri.ForeColor = Color.Navy;
             txtTel.ForeColor = Color.Navy;
             txtTel2.ForeColor = Color.Navy;
@@ -247,12 +252,12 @@ namespace SZOK_OCR.OCR
             txtDay.ReadOnly = false;
             txtStyle.ReadOnly = false;
             txtStyleName.ReadOnly = false;
-            txtSharyoNum.ReadOnly = false;
-            txtCarName.ReadOnly = false;
+            //txtSharyoNum.ReadOnly = false;
+            //txtCarName.ReadOnly = false;
             txtZip1.ReadOnly = false;
             txtZip2.ReadOnly = false;
             txtAddFuri.ReadOnly = false;
-            txtAdd.ReadOnly = false;
+            //txtAdd.ReadOnly = false;
             txtFuri.ReadOnly = false;
             txtTel.ReadOnly = false;
             txtTel2.ReadOnly = false;

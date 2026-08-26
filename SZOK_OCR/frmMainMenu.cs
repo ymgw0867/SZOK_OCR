@@ -97,8 +97,8 @@ namespace SZOK_OCR
             else
             {
                 // データ作成処理へ
-                //frmCorrect frm = new frmCorrect(string.Empty);
-                //frm.ShowDialog();
+                frmCorrect frm = new frmCorrect(string.Empty);
+                frm.ShowDialog();
                 Show();
             }
         }
