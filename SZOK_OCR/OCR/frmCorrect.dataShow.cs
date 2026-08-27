@@ -272,7 +272,7 @@ namespace SZOK_OCR.OCR
                 // スクロールバー設定
                 hScrollBar1.Enabled = true;
                 hScrollBar1.Minimum = 0;
-                hScrollBar1.Maximum =  dts.防犯カード.Count - 1;
+                hScrollBar1.Maximum = cID.Length;
                 hScrollBar1.Value = cIx;
                 hScrollBar1.LargeChange = 1;
                 hScrollBar1.SmallChange = 1;
@@ -402,11 +402,11 @@ namespace SZOK_OCR.OCR
                 }
                 
                 // 車名
-                if (ocr._errNumber == ocr.eCarName)
-                {
-                    txtCarName.BackColor = Color.Yellow;
-                    txtCarName.Focus();
-                }
+                //if (ocr._errNumber == ocr.eCarName)
+                //{
+                //    txtCarName.BackColor = Color.Yellow;
+                //    txtCarName.Focus();
+                //}
 
                 // 郵便番号
                 if (ocr._errNumber == ocr.eZip1)

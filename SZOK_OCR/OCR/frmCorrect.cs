@@ -49,7 +49,7 @@ namespace SZOK_OCR.OCR
             else　// 登録済みデータの検索及び編集
             {
                 dID = sID;
-                adp.Fill(dts.防犯カード);
+                //adp.Fill(dts.防犯カード);
             }
         }
 

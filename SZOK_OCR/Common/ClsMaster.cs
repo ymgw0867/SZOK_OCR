@@ -864,7 +864,7 @@ namespace SZOK_OCR.Common
                     conn.Open();
 
                     string sql = "SELECT ID,データ区分,画像名,登録年,登録月,登録日,登録番号,車体番号,メーカー,塗色,車種,郵便番号1,郵便番号2," +
-                        "住所1,氏名,TEL携帯,TEL携帯2,TEL携帯3,ラベル,処理担当者,PC名,CSV作成日,備考,更新年月日 FROM SCAN_DATA " +
+                        "住所1,氏名,TEL携帯,TEL携帯2,TEL携帯3,ラベル,処理担当者,PC名,CSV作成日,備考,更新年月日 FROM 防犯カード " +
                         "WHERE (PC名 = @PC) ";
 
                     using (SqlCommand cmd = new SqlCommand(sql, conn))

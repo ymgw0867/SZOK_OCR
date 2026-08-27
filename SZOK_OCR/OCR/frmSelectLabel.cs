@@ -74,7 +74,7 @@ namespace SZOK_OCR.OCR
         /// <returns>処理中の防犯登録データ件数</returns>
         private int GetLocalData()
         {
-            int val = 0;
+            //int val = 0;
 
             //int val = dts.防犯カード.Count();
 
@@ -88,7 +88,7 @@ namespace SZOK_OCR.OCR
             int ocrCnt = System.IO.Directory.GetFiles(Properties.Settings.Default.dataPath, "*.csv").Count();
             lblOCRCnt.Text = ocrCnt.ToString("#,##0");
 
-            return val + ocrCnt;
+            return d + ocrCnt;
         }
 
         ///-----------------------------------------------------------------
