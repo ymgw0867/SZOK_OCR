@@ -96,6 +96,7 @@
     <Compile Include="Common\Interface1.cs" />
     <Compile Include="Common\OCRData.cs" />
     <Compile Include="Common\TblConfig.cs" />
+    <Compile Include="Common\TblRegistrationCard.cs" />
     <Compile Include="Common\TblScandata.cs" />
     <Compile Include="Common\TblWorkcard.cs" />
     <Compile Include="Common\Utility.cs" />

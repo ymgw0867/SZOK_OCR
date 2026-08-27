@@ -24,50 +24,50 @@ namespace SZOK_OCR.OCR
 
             // SQL Serverから防犯カード行を取得するように変更：2026/08/26
             var master = new ClsMaster(Properties.Settings.Default.sServerName, Properties.Settings.Default.sLogin, Properties.Settings.Default.sPass, Properties.Settings.Default.sDatabase);
-            var r = master.GetData<TblWorkcard>(cID[iX].ToString());
+            tblWork = master.GetData<TblWorkcard>(cID[iX].ToString());
 
             // フォーム初期化
             formInitialize(dID, iX);
 
             // 情報表示
-            if (r.DataCategory == global.flgOff)
+            if (tblWork.DataCategory == global.flgOff)
             {
                 radioButton1.Checked = true;
             }
-            else if (r.DataCategory == global.flgOn)
+            else if (tblWork.DataCategory == global.flgOn)
             {
                 radioButton2.Checked = true;
             }
 
-            txtTourokuNum.Text = r.Number;
-            txtShataiNum.Text = r.VehicleIdentificationNumber;
-            txtYear.Text = r.AddYear;
-            txtMonth.Text = r.AddMonth;
-            txtDay.Text = r.AddDay;
-            txtMaker.Text = r.Maker;
-            txtColor.Text = r.Color;
+            txtTourokuNum.Text = tblWork.Number;
+            txtShataiNum.Text = tblWork.VehicleIdentificationNumber;
+            txtYear.Text = tblWork.AddYear;
+            txtMonth.Text = tblWork.AddMonth;
+            txtDay.Text = tblWork.AddDay;
+            txtMaker.Text = tblWork.Maker;
+            txtColor.Text = tblWork.Color;
             
-            txtStyle.Text = r.CarModel.ToString().PadLeft(2, '0');
+            txtStyle.Text = tblWork.CarModel.ToString().PadLeft(2, '0');
             txtStyleName.Text = string.Empty;
 
             global g = new global();
             for (int i = 0; i < g.arrStyle.GetLength(0); i++)
             {
-                if (g.arrStyle[i, 0] == r.CarModel.ToString().PadLeft(2, '0'))
+                if (g.arrStyle[i, 0] == tblWork.CarModel.ToString().PadLeft(2, '0'))
                 {
                     txtStyleName.Text = g.arrStyle[i, 1];
                     break;
                 }
             }
             
-            //txtSharyoNum.Text = r.VehicleNumber1;
-            //txtSharyoNum2.Text = r.VehicleNumber2;
-            //txtCarName.Text = r.CarName;
+            //txtSharyoNum.Text = tblWork.VehicleNumber1;
+            //txtSharyoNum2.Text = tblWork.VehicleNumber2;
+            //txtCarName.Text = tblWork.CarName;
 
-            txtZip1.Text = r.ZipCode1;
-            txtZip2.Text = r.ZipCode2;
+            txtZip1.Text = tblWork.ZipCode1;
+            txtZip2.Text = tblWork.ZipCode2;
 
-            txtAddFuri.Text = r.Address1;
+            txtAddFuri.Text = tblWork.Address1;
 
             string zipAdd = string.Empty;
             string zipAddKN = string.Empty;
@@ -117,27 +117,27 @@ namespace SZOK_OCR.OCR
             //    txtAddFuri.BackColor = Color.White;
             //}
 
-            txtFuri.Text = r.Name;
-            txtTel.Text = r.Mobile1;
-            txtTel2.Text = r.Mobile2;
-            txtTel3.Text = r.Mobile3;
+            txtFuri.Text = tblWork.Name;
+            txtTel.Text = tblWork.Mobile1;
+            txtTel2.Text = tblWork.Mobile2;
+            txtTel3.Text = tblWork.Mobile3;
 
-            if (r.Memo == null)
+            if (tblWork.Memo == null)
             {
                 txtMemo.Text = string.Empty;
             }
             else
             {
-                txtMemo.Text = r.Memo;
+                txtMemo.Text = tblWork.Memo;
             }
 
             // 画面確認チェック 2016.01/25
-            if (r.Confirmation == null)
+            if (tblWork.Confirmation == null)
             {
                 checkBox1.Checked = false;
                 label22.Visible = false;
             }
-            else if (r.Confirmation == global.flgOff)
+            else if (tblWork.Confirmation == global.flgOff)
             {
                 checkBox1.Checked = false;
                 label22.Visible = false;
@@ -152,7 +152,7 @@ namespace SZOK_OCR.OCR
             lblErrMsg.Text = string.Empty;
 
             // 画像表示
-            ShowImage(Properties.Settings.Default.scanDataPath + r.ImageFileName.ToString());
+            ShowImage(Properties.Settings.Default.scanDataPath + tblWork.ImageFileName.ToString());
         }
 
         ///------------------------------------------------------------------------------------
@@ -212,7 +212,7 @@ namespace SZOK_OCR.OCR
             txtZip1.BackColor = Color.White;
             txtZip2.BackColor = Color.White;
             txtAddFuri.BackColor = Color.White;
-            //txtAdd.BackColor = Color.White;
+            txtAdd.BackColor = Color.White;
             txtFuri.BackColor = Color.White;
             txtTel.BackColor = Color.White;
             txtTel2.BackColor = Color.White;
@@ -234,7 +234,7 @@ namespace SZOK_OCR.OCR
             txtZip1.ForeColor = Color.Navy;
             txtZip2.ForeColor = Color.Navy;
             txtAddFuri.ForeColor = Color.Navy;
-            //txtAdd.ForeColor = Color.Navy;
+            txtAdd.ForeColor = Color.Navy;
             txtFuri.ForeColor = Color.Navy;
             txtTel.ForeColor = Color.Navy;
             txtTel2.ForeColor = Color.Navy;
@@ -257,7 +257,7 @@ namespace SZOK_OCR.OCR
             txtZip1.ReadOnly = false;
             txtZip2.ReadOnly = false;
             txtAddFuri.ReadOnly = false;
-            //txtAdd.ReadOnly = false;
+            txtAdd.ReadOnly = false;
             txtFuri.ReadOnly = false;
             txtTel.ReadOnly = false;
             txtTel2.ReadOnly = false;

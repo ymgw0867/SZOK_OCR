@@ -555,7 +555,7 @@ namespace SZOK_OCR.Common
         /// <returns>
         ///     True:エラーなし、false:エラーあり</returns>
         ///-----------------------------------------------------------------------------------------------
-        public Boolean errCheckMain(int sIx, int eIx, Form frm, szokDataSet dts, int [] cID, string [] z)
+        public Boolean errCheckMain(int sIx, int eIx, Form frm, int [] cID, string [] z)
         {
             int rCnt = 0;
 
@@ -586,11 +586,16 @@ namespace SZOK_OCR.Common
                 // 指定範囲ならエラーチェックを実施する：（i:行index）
                 if (i >= sIx && i <= eIx)
                 {
-                    // 防犯登録カードのコレクションを取得します
-                    szokDataSet.防犯カードRow r = dts.防犯カード.Single(a => a.ID == cID[i]);
+                    // コメント化：2026/08/27
+                    //// 防犯登録カードのコレクションを取得します
+                    //szokDataSet.防犯カードRow r = dts.防犯カード.Single(a => a.ID == cID[i]);
+
+                    // SQL Serverから防犯カード行を取得するように変更：2026/08/27
+                    var master = new ClsMaster(Properties.Settings.Default.sServerName, Properties.Settings.Default.sLogin, Properties.Settings.Default.sPass, Properties.Settings.Default.sDatabase);
+                    var r = master.GetData<TblWorkcard>(cID[i].ToString());
 
                     // エラーチェック実施
-                    eCheck = errCheckData(dts, r, z);
+                    eCheck = errCheckData(r, z);
 
                     if (!eCheck)　//エラーがあったとき
                     {
@@ -934,6 +939,320 @@ namespace SZOK_OCR.Common
 
             // 確認チェック
             if (r.Is確認Null() || r.確認 == global.flgOff)
+            {
+                setErrStatus(eCheck, 0, "画面確認が未チェックです");
+                return false;
+            }
+
+            return true;
+        }
+
+
+        public Boolean errCheckData(TblWorkcard r, string[] z)
+        {
+            // 登録番号
+            if (r.Number == string.Empty || r.Number.Length < 10)
+            {
+                setErrStatus(eTourokuNum, 0, "登録番号が正しくありません");
+                return false;
+            }
+
+            if (r.Number.Substring(0, 3) != global.DATA_CPA)
+            {
+                setErrStatus(eTourokuNum, 0, "登録番号が正しくありません");
+                return false;
+            }
+
+            // コメント化：2026/08/27
+            //// 登録番号登録済みチェック
+            //cardDataSet cDts = new cardDataSet();
+            //cardDataSetTableAdapters.防犯登録データTableAdapter cAdp = new cardDataSetTableAdapters.防犯登録データTableAdapter();
+
+            //// 2019/06/25 コメント化
+            //cAdp.Fill(cDts.防犯登録データ);
+
+            //if (cDts.防犯登録データ.Any(a => (a.Is除外Null() || a.除外 == global.flgOff) && a.登録番号 == r.登録番号))
+            //{
+            //    setErrStatus(eTourokuNum, 0, "過去に登録されている登録番号です");
+            //    return false;
+            //}
+
+            //// Fillで絞込 2019/06/25
+            //cAdp.FillByISNumber(cDts.防犯登録データ, r.Number);
+
+            //if (cDts.防犯登録データ.Count() > 0)
+            //{
+            //    setErrStatus(eTourokuNum, 0, "過去に登録されている登録番号です");
+            //    return false;
+            //}
+
+            // SQL Server接続：2026/08/27
+            var master = new ClsMaster(Properties.Settings.Default.sServerName, Properties.Settings.Default.sLogin, Properties.Settings.Default.sPass, Properties.Settings.Default.sDatabase);
+            var cnt = master.CountNumber<TblRegistrationCard>($"{global.DATA_CPA}{r.Number}");
+
+            if (cnt > 0)
+            {
+                setErrStatus(eTourokuNum, 0, "過去に登録されている登録番号です");
+                return false;
+            }
+
+            // コメント化：2026/08/27
+            //// 登録番号重複チェック
+            //if (dts.防犯カード.Any(a => a.ID != r.ID && a.Number == r.Number))
+            //{
+            //    setErrStatus(eTourokuNum, 0, "現在、読み込み中データに同じ登録番号が複数あります");
+            //    return false;
+            //}
+
+            // 登録番号重複チェック：2026/08/27
+            cnt = master.CountNumber<TblRegistrationCard>($"{global.DATA_CPA}{r.Number}", System.Net.Dns.GetHostName());
+            if (cnt > 1)
+            {
+                setErrStatus(eTourokuNum, 0, "現在、読み込み中データに同じ登録番号が複数あります");
+                return false;
+            }
+
+            // 車体番号
+            if (r.VehicleIdentificationNumber == string.Empty)
+            {
+                setErrStatus(eShataiNum, 0, "車体番号が未入力です");
+                return false;
+            }
+
+            // 登録年
+            if (!Utility.NumericCheck(r.AddYear.ToString()))
+            {
+                setErrStatus(eYear, 0, "登録年が正しくありません");
+                return false;
+            }
+
+            // 登録月
+            if (!Utility.NumericCheck(r.AddMonth.ToString()))
+            {
+                setErrStatus(eMonth, 0, "月が正しくありません");
+                return false;
+            }
+
+            if (int.Parse(r.AddMonth.ToString()) < 1 || int.Parse(r.AddMonth.ToString()) > 12)
+            {
+                setErrStatus(eMonth, 0, "月が正しくありません");
+                return false;
+            }
+
+            // 登録日
+            if (!Utility.NumericCheck(r.AddDay.ToString()))
+            {
+                setErrStatus(eDay, 0, "月が正しくありません");
+                return false;
+            }
+
+            if (int.Parse(r.AddDay.ToString()) < 1 || int.Parse(r.AddDay.ToString()) > 31)
+            {
+                setErrStatus(eDay, 0, "登録日が正しくありません");
+                return false;
+            }
+
+            // 存在する日付・翌日以降チェック
+            DateTime dt;
+            string sDt = "20" + r.AddYear.ToString() + "/" + r.AddMonth.ToString() + "/" + r.AddDay.ToString();
+            if (!DateTime.TryParse(sDt, out dt))
+            {
+                setErrStatus(eYear, 0, "登録年月日が正しくありません");
+                return false;
+            }
+            else
+            {
+                if (dt > DateTime.Today)
+                {
+                    setErrStatus(eYear, 0, "登録年月日が翌日以降になっています");
+                    return false;
+                }
+            }
+
+            // メーカー・漢字が含まれていたらエラー 2016/07/15
+            if (!Utility.isOneByteChar(r.Maker))
+            {
+                setErrStatus(eMaker, 0, "漢字が含まれています");
+                return false;
+            }
+
+            // カラー・漢字が含まれていたらエラー 2016/07/15
+            if (!Utility.isOneByteChar(r.Color))
+            {
+                setErrStatus(eColor, 0, "漢字が含まれています");
+                return false;
+            }
+
+            // 車種
+            bool shashu = false;
+            string dArray = string.Empty;
+
+            global g = new global();
+            for (int i = 0; i < g.arrStyle.GetLength(0); i++)
+            {
+                if (g.arrStyle[i, 0] == r.CarModel.ToString().PadLeft(2, '0'))
+                {
+                    shashu = true;
+                    dArray = g.arrStyle[i, 2];
+
+                    break;
+                }
+            }
+
+            if (!shashu)
+            {
+                setErrStatus(eStyle, 0, "車種が正しくありません");
+                return false;
+            }
+            else
+            {
+                // 自転車・原付の車種か？
+                if (r.DataCategory != 90 && dArray != r.DataCategory.ToString())
+                {
+                    setErrStatus(eStyle, 0, "カード種類と車種が一致していません");
+                    return false;
+                }
+            }
+
+            // 車名・漢字が含まれていたらエラー 2016/07/15
+            if (!Utility.isOneByteChar(r.CarName))
+            {
+                setErrStatus(eCarName, 0, "漢字が含まれています");
+                return false;
+            }
+
+            // 郵便番号
+            // 未入力のとき
+            if (r.ZipCode1 == string.Empty || r.ZipCode2 == string.Empty)
+            {
+                setErrStatus(eZip1, 0, "郵便番号が正しくありません");
+                return false;
+            }
+
+            string[] zipAdd = null;
+            int iZ = 0;
+
+            // 郵便番号CSVに該当があるか（住所に"ｹﾝｶﾞｲ"と記入されているときはエラーとしない）
+            if (!r.Address1.Contains(global.KENGAI_ADD))
+            {
+                bool zipStatus = false;
+                string zipText = r.ZipCode1 + r.ZipCode2;
+
+                if (zipText.Length == 7)
+                {
+                    if (z != null)
+                    {
+                        foreach (var t in z)
+                        {
+                            string[] zip = t.Split(',');
+
+                            if (zipText == zip[2].Replace("\"", ""))
+                            {
+                                // 「同一郵便番号で複数の地名」への対応：該当地名を配列に格納 2016/06/07
+                                Array.Resize(ref zipAdd, iZ + 1);
+                                zipAdd[iZ] = (zip[4] + " " + zip[5]).Replace("\"", "");
+                                zipStatus = true;
+                                iZ++;
+                            }
+                        }
+
+                        // 郵便番号該当なし
+                        if (!zipStatus)
+                        {
+                            setErrStatus(eZip1, 0, "郵便番号が正しくありません");
+                            return false;
+                        }
+                    }
+                }
+                else
+                {
+                    setErrStatus(eZip1, 0, "郵便番号が正しくありません");
+                    return false;
+                }
+            }
+
+            // 住所
+            string sAddress = r.Address1;
+
+            if (sAddress.Trim() == string.Empty)
+            {
+                setErrStatus(eAddFuri, 0, "住所が未入力です");
+                return false;
+            }
+
+            // 漢字が含まれていたらエラー 2016/07/15
+            if (!Utility.isOneByteChar(sAddress))
+            {
+                setErrStatus(eAddFuri, 0, "漢字が含まれています");
+                return false;
+            }
+
+            // 住所と郵便番号が一致しているか？
+            string str1 = Utility.strSmallTolarge(Utility.getStrConv(sAddress.Replace(" ", "").Trim()));
+            bool errAddStatus = false;
+
+            // 住所配列から判断する：2016/06/07
+            if (zipAdd != null)
+            {
+                for (int i = 0; i < zipAdd.Length; i++)
+                {
+                    // 以下に掲載がない場合の文字列を除去する：2016/06/07
+                    string str2 = Utility.strSmallTolarge((Utility.getStrConv(zipAdd[i].Replace(global.IKAKEISAI_ADD, "").Replace(" ", "").Trim())));
+
+                    //  ()表記は除去する 2016/06/07
+                    int zC = str2.IndexOf("(");
+
+                    if (zC != -1)
+                    {
+                        str2 = str2.Replace(str2.Substring(zC, str2.Length - zC), "");
+                    }
+
+                    if (str1.Contains(str2))
+                    {
+                        errAddStatus = true;
+                        break;
+                    }
+                }
+
+                if (!errAddStatus)
+                {
+                    setErrStatus(eAddFuri, 0, "郵便番号と住所が一致していません");
+                    return false;
+                }
+            }
+
+            // 氏名（フリガナ
+            if (r.Name.Trim() == string.Empty)
+            {
+                setErrStatus(eFuri, 0, "氏名が未入力です");
+                return false;
+            }
+
+            // 氏名（フリガナ）・漢字が含まれていたらエラー 2016/07/15
+            if (!Utility.isOneByteChar(r.Name))
+            {
+                setErrStatus(eFuri, 0, "漢字が含まれています");
+                return false;
+            }
+
+            // TEL/携帯番号
+            string sTel = r.Mobile1 + "-" + r.Mobile2 + "-" + r.Mobile3;
+
+            if (sTel.Replace("-", string.Empty) == string.Empty)
+            {
+                setErrStatus(eTel, 0, "TEL/携帯番号が未入力です");
+                return false;
+            }
+
+            // TEL/携帯番号：正規化チェック
+            if (!Utility.regexTelNum(sTel))
+            {
+                setErrStatus(eTel, 0, "TEL/携帯番号が正しくありません");
+                return false;
+            }
+
+            // 確認チェック
+            if (r.Confirmation == null || r.Confirmation == global.flgOff)
             {
                 setErrStatus(eCheck, 0, "画面確認が未チェックです");
                 return false;

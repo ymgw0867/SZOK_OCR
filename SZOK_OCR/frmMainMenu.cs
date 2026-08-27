@@ -64,7 +64,7 @@ namespace SZOK_OCR
 
             // 処理中の防犯登録データ
             //int d = adp.Fill(dts.防犯カード);      // コメント化：2026/08/25
-            int d = cls.Count<TblScandata>(System.Net.Dns.GetHostName());
+            int d = cls.Count<TblWorkcard>(System.Net.Dns.GetHostName());
 
             // 処理可能なデータが存在するか？
             if ((ocrCnt + s + d) == 0)

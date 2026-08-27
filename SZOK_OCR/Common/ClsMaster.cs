@@ -1,4 +1,5 @@
 ﻿using DocumentFormat.OpenXml.Office.Word;
+using DocumentFormat.OpenXml.Office2010.Excel;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -9,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static ClosedXML.Excel.XLPredefinedFormat;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Rebar;
 
 namespace SZOK_OCR.Common
@@ -87,24 +89,6 @@ namespace SZOK_OCR.Common
                 return (T)(Object)GetClsWorkcard(Utility.StrtoInt(sCode));
             }
 
-            //// 得意先マスターのとき
-            //if (typeof(T) == typeof(ClsTokuisakiData))
-            //{
-            //    return (T)(Object)GetClsTokuisakiData(sCode);
-            //}
-
-            //// 発注書ヘッダのとき
-            //if (typeof(T) == typeof(ClsOrderData.Head))
-            //{
-            //    return (T)(Object)GetOrderHeadData(sCode);
-            //}
-
-            //// 仮伝票番号テーブルのとき
-            //if (typeof(T) == typeof(ClsKariDenNum))
-            //{
-            //    return (T)(Object)GetClsKariDenNum(sCode);
-            //}
-
             MessageBox.Show("Invalid Data Class");
             return default(T);
         }
@@ -159,10 +143,36 @@ namespace SZOK_OCR.Common
         public int Count<T>(string id)
         {
             // 防犯カードのとき
-            if (typeof(T) == typeof(TblScandata))
+            if (typeof(T) == typeof(TblWorkcard))
             {
-                string sql = "SELECT COUNT(*) FROM 防犯カード WHERE PC名 = @PC";
+                string sql = "SELECT COUNT(*) FROM 防犯カード WHERE PC名 = @val";
                 return GetCount(sql, id);
+            }
+
+            MessageBox.Show("Invalid Data Class");
+            return 0;
+        }
+
+        public int CountNumber<T>(string number)
+        {
+            // 防犯登録カードのとき
+            if (typeof(T) == typeof(TblRegistrationCard))
+            {
+                string sql = "SELECT COUNT(*) FROM 防犯登録データ WHERE 登録番号 = @val";
+                return GetCount(sql, number);
+            }
+
+            MessageBox.Show("Invalid Data Class");
+            return 0;
+        }
+
+        public int CountNumber<T>(string number, string pcName)
+        {
+            // 防犯カードのとき
+            if (typeof(T) == typeof(TblWorkcard))
+            {
+                string sql = "SELECT COUNT(*) FROM 防犯カード WHERE 登録番号 = @Number and PC名 = @val";
+                return GetCount(sql, number, pcName);
             }
 
             MessageBox.Show("Invalid Data Class");
@@ -393,6 +403,10 @@ namespace SZOK_OCR.Common
             }
         }
 
+        /// <summary>
+        /// 防犯カードテーブルのデータを更新する：2026/08/26
+        /// </summary>
+        /// <param name="workcardData">TblWorkcardクラス</param>
         private void UpDate(TblWorkcard workcardData)
         {
             try
@@ -402,18 +416,46 @@ namespace SZOK_OCR.Common
                     conn.Open();
 
                     string sql = "UPDATE 防犯カード SET " +
-                             "年 = @year, 月 = @month, データ保存月数 = @dataSave, 郵便番号データパス = @zipPath, " +
-                             "更新年月日 = @upDate " +
-                             "WHERE ID = @ID";
+                            "データ区分 = @datakbn, 画像名 = @imageName, 登録年 = @Year, 登録月 = @Month, 登録日 = @Day, " +
+                            "登録番号 = @number, 車体番号 = @VehicleIdentificationNumber, メーカー = @Maker, 塗色 = @Color, " +
+                            "車種 = @CarModel, 郵便番号1 = @ZipCode1, 郵便番号2 = @ZipCode2, 車両番号1 = @VehicleNumber1, " +
+                            "車両番号2 = @VehicleNumber2, 車名 = @CarName, 住所漢字 = @AddressKanji," +
+                            "住所1 = @Address1, 住所2 = @Address2, 氏名 = @Name, TEL携帯 = @Mobile1, TEL携帯2 = @Mobile2, TEL携帯3 = @Mobile3, " +
+                            "PC名 = @PC, CSV作成日 = @CsvCreationDate, 備考 = @Memo, 更新年月日 = @UpDate, ラベル = @Label, " +
+                            "処理担当者 = @Person, 確認 = @Confirmation " +
+                            "WHERE ID = @ID";
 
                     using (SqlCommand com = new SqlCommand(sql, conn))
                     {
+                        com.Parameters.AddWithValue("@datakbn", workcardData.DataCategory);
+                        com.Parameters.AddWithValue("@imageName", workcardData.ImageFileName);
                         com.Parameters.AddWithValue("@year", workcardData.AddYear);
                         com.Parameters.AddWithValue("@month", workcardData.AddMonth);
                         com.Parameters.AddWithValue("@day", workcardData.AddDay);
-                        com.Parameters.AddWithValue("@dataSave", workcardData.AddDataSaveMonth);
-                        com.Parameters.AddWithValue("@zipPath", workcardData.ZipCodePath);
-                        com.Parameters.AddWithValue("@upDate", System.DateTime.Now.ToString());
+                        com.Parameters.AddWithValue("@number", workcardData.Number);
+                        com.Parameters.AddWithValue("@VehicleIdentificationNumber", workcardData.VehicleIdentificationNumber);
+                        com.Parameters.AddWithValue("@Maker", workcardData.Maker);
+                        com.Parameters.AddWithValue("@Color", workcardData.Color);
+                        com.Parameters.AddWithValue("@CarModel", workcardData.CarModel);
+                        com.Parameters.AddWithValue("@ZipCode1", workcardData.ZipCode1);
+                        com.Parameters.AddWithValue("@ZipCode2", workcardData.ZipCode2);
+                        com.Parameters.AddWithValue("@VehicleNumber1", workcardData.VehicleNumber1);
+                        com.Parameters.AddWithValue("@VehicleNumber2", workcardData.VehicleNumber2);
+                        com.Parameters.AddWithValue("@CarName", workcardData.CarName);
+                        com.Parameters.AddWithValue("@AddressKanji", workcardData.AddressKanji);
+                        com.Parameters.AddWithValue("@Address1", workcardData.Address1);
+                        com.Parameters.AddWithValue("@Address2", workcardData.Address2);
+                        com.Parameters.AddWithValue("@Name", workcardData.Name);
+                        com.Parameters.AddWithValue("@Mobile1", workcardData.Mobile1);
+                        com.Parameters.AddWithValue("@Mobile2", workcardData.Mobile2);
+                        com.Parameters.AddWithValue("@Mobile3", workcardData.Mobile3);
+                        com.Parameters.AddWithValue("@PC", workcardData.PC);
+                        com.Parameters.AddWithValue("@CsvCreationDate", workcardData.CsvCreationDate);
+                        com.Parameters.AddWithValue("@Memo", workcardData.Memo);
+                        com.Parameters.AddWithValue("@UpDate", System.DateTime.Now.ToString());
+                        com.Parameters.AddWithValue("@Label", workcardData.Label);
+                        com.Parameters.AddWithValue("@Person", workcardData.Person);
+                        com.Parameters.AddWithValue("@Confirmation", workcardData.Confirmation);
                         com.Parameters.AddWithValue("@ID", workcardData.ID);
                         com.ExecuteNonQuery();
                     }
@@ -970,6 +1012,11 @@ namespace SZOK_OCR.Common
             return string.IsNullOrEmpty(value) ? (object)DBNull.Value : value;
         }
 
+        /// <summary>
+        /// 指定されたSQLクエリを実行し、結果の件数を取得する
+        /// </summary>
+        /// <param name="sql">実行するSQLクエリ</param>
+        /// <returns>結果の件数</returns>
         private int GetCount(string sql)
         {
             try
@@ -992,6 +1039,12 @@ namespace SZOK_OCR.Common
             }
         }
 
+        /// <summary>
+        /// 指定されたSQLクエリを実行し、指定されたPC名に一致する結果の件数を取得する
+        /// </summary>
+        /// <param name="sql">実行するSQLクエリ</param>
+        /// <param name="pc">PC名</param>
+        /// <returns>結果の件数</returns>
         private int GetCount(string sql, string pc)
         {
             try
@@ -1002,6 +1055,37 @@ namespace SZOK_OCR.Common
 
                     using (SqlCommand cmd = new SqlCommand(sql, conn))
                     {
+                        cmd.Parameters.AddWithValue("@val", pc);
+                        var rtn = cmd.ExecuteScalar();
+                        return Convert.ToInt32(rtn);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return 0;
+            }
+        }
+
+        /// <summary>
+        /// 指定されたSQLクエリを実行し、指定された登録番号とPC名に一致する結果の件数を取得する
+        /// </summary>
+        /// <param name="sql">実行するSQLクエリ</param>
+        /// <param name="number">登録番号</param>
+        /// <param name="pc">PC名</param>
+        /// <returns>結果の件数</returns>
+        private int GetCount(string sql, string number, string pc)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(sqlBuilder.ConnectionString))
+                {
+                    conn.Open();
+
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@Number", number);
                         cmd.Parameters.AddWithValue("@PC", pc);
                         var rtn = cmd.ExecuteScalar();
                         return Convert.ToInt32(rtn);

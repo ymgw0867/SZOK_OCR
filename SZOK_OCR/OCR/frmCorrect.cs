@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DocumentFormat.OpenXml.Office2010.Excel;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using SZOK_OCR.Common;
+using static ClosedXML.Excel.XLPredefinedFormat;
 
 namespace SZOK_OCR.OCR
 {
@@ -14,6 +16,8 @@ namespace SZOK_OCR.OCR
     {
         szokDataSetTableAdapters.防犯カードTableAdapter adp = new szokDataSetTableAdapters.防犯カードTableAdapter();
         szokDataSet dts = new szokDataSet();
+
+        TblWorkcard tblWork = new TblWorkcard();
 
         // 検索ＩＤ
         string dID = string.Empty;
@@ -65,7 +69,7 @@ namespace SZOK_OCR.OCR
 
             // 郵便番号CSV配列読み込み
             Utility.zipCsvLoad(ref zipArray);
-            
+
             // 勤務データ登録
             if (dID == string.Empty)
             {
@@ -77,7 +81,7 @@ namespace SZOK_OCR.OCR
 
                 // 2026/08/26：SQL Serverに変更
                 ClsMaster cls = new ClsMaster(Properties.Settings.Default.sServerName, Properties.Settings.Default.sLogin, Properties.Settings.Default.sPass, Properties.Settings.Default.sDatabase);
-                int d = cls.Count<TblScandata>(System.Net.Dns.GetHostName());
+                int d = cls.Count<TblWorkcard>(System.Net.Dns.GetHostName());
 
                 // データテーブル件数カウント
                 if (d == 0)
@@ -184,7 +188,6 @@ namespace SZOK_OCR.OCR
                 trackBar1.Enabled = false;
                 btnLeft.Enabled = false;
             }
-
         }
 
         ///---------------------------------------------------------
@@ -388,50 +391,41 @@ namespace SZOK_OCR.OCR
         ///-------------------------------------------------------------------
         private void cuDataUpdate(int sID)
         {
-            szokDataSet.防犯カードRow r = dts.防犯カード.Single(a => a.ID == sID);
+            // コメント化：2026/08/27
+            //szokDataSet.防犯カードRow r = dts.防犯カード.Single(a => a.ID == sID);
 
+            tblWork.AddYear = txtYear.Text;
+            tblWork.AddMonth = txtMonth.Text;
+            tblWork.AddDay = txtDay.Text;
+            tblWork.Number = kanmaDelete(txtTourokuNum.Text);
+            tblWork.VehicleIdentificationNumber = kanmaDelete(txtShataiNum.Text);
+            tblWork.Maker = kanmaDelete(txtMaker.Text);
+            tblWork.Color = kanmaDelete(txtColor.Text);
+            tblWork.CarModel = Utility.StrtoInt(txtStyle.Text);
+            tblWork.ZipCode1 = txtZip1.Text;
+            tblWork.ZipCode2 = txtZip2.Text;
+            tblWork.AddressKanji = txtAdd.Text;
+            tblWork.Address1 = Utility.GetStringSubMax(kanmaDelete(txtAddFuri.Text), 40);
+            tblWork.Name = kanmaDelete(txtFuri.Text);
+            tblWork.Mobile1 = txtTel.Text;
+            tblWork.Mobile2 = txtTel2.Text;
+            tblWork.Mobile3 = txtTel3.Text;
+            tblWork.Memo = txtMemo.Text;
+            tblWork.UpDate = System.DateTime.Now;
+
+            // データ区分
             if (radioButton1.Checked)
             {
-                r.データ区分 = global.flgOff;
+                tblWork.DataCategory = global.flgOff;
             }
             else if (radioButton2.Checked)
             {
-                r.データ区分 = global.flgOn;
+                tblWork.DataCategory = global.flgOn;
             }
 
-            r.登録年 = txtYear.Text;
-            r.登録月 = txtMonth.Text;
-            r.登録日 = txtDay.Text;
-
-            r.登録番号 = kanmaDelete(txtTourokuNum.Text);
-            r.車体番号 = kanmaDelete(txtShataiNum.Text);
-            r.メーカー = kanmaDelete(txtMaker.Text);
-            r.塗色 = kanmaDelete(txtColor.Text);
-            r.車種 = Utility.StrtoInt(txtStyle.Text);
-            r.郵便番号1 = txtZip1.Text;
-            r.郵便番号2 = txtZip2.Text;
-            r.車両番号1 = "";
-            r.車両番号2 = "";
-            r.車名 = "";
-            r.住所漢字 = txtAdd.Text;
-            r.住所1 = Utility.GetStringSubMax(kanmaDelete(txtAddFuri.Text), 40);
-            r.住所2 = string.Empty;
-            r.氏名 = kanmaDelete(txtFuri.Text);
-            r.TEL携帯 = txtTel.Text;
-            r.TEL携帯2 = txtTel2.Text;
-            r.TEL携帯3 = txtTel3.Text;
-            r.備考 = txtMemo.Text;
-            r.更新年月日 = DateTime.Now;
-
-            // 画面確認チェック 2016/01/25
-            if (checkBox1.Checked)
-            {
-                r.確認 = global.flgOn;
-            }
-            else
-            {
-                r.確認 = global.flgOff;
-            }
+            // 防犯カード：データベース更新 2026/08/27
+            var master = new ClsMaster(Properties.Settings.Default.sServerName, Properties.Settings.Default.sLogin, Properties.Settings.Default.sPass, Properties.Settings.Default.sDatabase);
+            master.UpDate<TblWorkcard>(tblWork);
         }
 
         ///----------------------------------------------------------------
@@ -473,8 +467,8 @@ namespace SZOK_OCR.OCR
                 StringBuilder sb = new StringBuilder();
                 sb.Append("すべてのＯＣＲ防犯登録カードデータが削除されました。").Append(Environment.NewLine);
                 sb.Append("処理を終了します。").Append(Environment.NewLine);
-                
-                MessageBox.Show(sb.ToString(),"データ削除",MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                MessageBox.Show(sb.ToString(), "データ削除", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.Close();
                 return;
             }
@@ -544,7 +538,7 @@ namespace SZOK_OCR.OCR
             ocr._errMsg = string.Empty;
 
             // エラーチェック実行①:カレントレコードから最終レコードまで
-            if (!ocr.errCheckMain(cIdx, cID.Length - 1, this, dts, cID, zipArray))
+            if (!ocr.errCheckMain(cIdx, cID.Length - 1, this, cID, zipArray))
             {
                 return false;
             }
@@ -552,7 +546,7 @@ namespace SZOK_OCR.OCR
             // エラーチェック実行②:最初のレコードからカレントレコードの前のレコードまで
             if (cIdx > 0)
             {
-                if (!ocr.errCheckMain(0, (cIdx - 1), this, dts, cID, zipArray))
+                if (!ocr.errCheckMain(0, (cIdx - 1), this, cID, zipArray))
                 {
                     return false;
                 }
@@ -692,25 +686,12 @@ namespace SZOK_OCR.OCR
             // カレントデータ更新
             cuDataUpdate(cID[cI]);
 
-            // データベース更新
-            adp.Update(dts.防犯カード);
+            // コメント化：2026/08/27
+            //// データベース更新
+            //adp.Update(dts.防犯カード);
 
             // 閉じる
             this.Close();
-        }
-
-        private void linkPlus_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-        }
-
-        private void btnPlus_Click_1(object sender, EventArgs e)
-        {
-            //if (leadImg.ScaleFactor < global.ZOOM_MAX)
-            //{
-            //    leadImg.ScaleFactor += global.ZOOM_STEP;
-            //}
-
-            //global.miMdlZoomRate = (float)leadImg.ScaleFactor;
         }
 
         private void linkLabel4_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -858,7 +839,7 @@ namespace SZOK_OCR.OCR
                         {
                             zipAdd = zipAdd.Replace(zipAdd.Substring(zC, zipAdd.Length - zC), "");
                         }
-                        
+
                         // 漢字
                         zipAddKN = (zip[7] + zip[8]).Replace("\"", "").Replace(global.IKAKEISAIKN_ADD, "");
 
@@ -896,7 +877,7 @@ namespace SZOK_OCR.OCR
                 // 複数の該当郵便番号あり
                 string msg = "郵便番号 " + zp + " は複数の地名が存在します。" + Environment.NewLine;
                 msg += "「〒⇔住所」ボタンから該当する地名を選択してください";
-                MessageBox.Show(msg,"複数地名あり",MessageBoxButtons.OK,MessageBoxIcon.Information);
+                MessageBox.Show(msg, "複数地名あり", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
@@ -939,7 +920,7 @@ namespace SZOK_OCR.OCR
 
         private void linkKengai_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            if (MessageBox.Show("「" + global.KENGAI_ADD + "」を住所先頭に追加します。よろしいですか","確認",MessageBoxButtons.YesNo,MessageBoxIcon.Question) == DialogResult.No)
+            if (MessageBox.Show("「" + global.KENGAI_ADD + "」を住所先頭に追加します。よろしいですか", "確認", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
             {
                 return;
             }

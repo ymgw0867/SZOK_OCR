@@ -31,12 +31,10 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmCorrect));
             this.hScrollBar1 = new System.Windows.Forms.HScrollBar();
-            this.btnMinus = new System.Windows.Forms.Button();
             this.btnEnd = new System.Windows.Forms.Button();
             this.btnNext = new System.Windows.Forms.Button();
             this.btnBefore = new System.Windows.Forms.Button();
             this.btnFirst = new System.Windows.Forms.Button();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.lblNoImage = new System.Windows.Forms.Label();
             this.lblPage = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
@@ -77,6 +75,8 @@
             this.label55 = new System.Windows.Forms.Label();
             this.txtColor = new System.Windows.Forms.TextBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label10 = new System.Windows.Forms.Label();
+            this.txtAdd = new System.Windows.Forms.TextBox();
             this.linkKengai = new System.Windows.Forms.LinkLabel();
             this.label22 = new System.Windows.Forms.Label();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
@@ -87,46 +87,33 @@
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.linkLabel2 = new System.Windows.Forms.LinkLabel();
             this.linkLabel3 = new System.Windows.Forms.LinkLabel();
-            this.btnPlus = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.btnLeft = new System.Windows.Forms.Button();
             this.linkLabel4 = new System.Windows.Forms.LinkLabel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel5 = new System.Windows.Forms.Panel();
-            this.btnLeft = new System.Windows.Forms.Button();
             this.trackBar1 = new System.Windows.Forms.TrackBar();
-            this.txtAdd = new System.Windows.Forms.TextBox();
-            this.label10 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // hScrollBar1
             // 
-            this.hScrollBar1.Location = new System.Drawing.Point(696, 631);
+            this.hScrollBar1.Location = new System.Drawing.Point(644, 631);
             this.hScrollBar1.Name = "hScrollBar1";
-            this.hScrollBar1.Size = new System.Drawing.Size(300, 27);
+            this.hScrollBar1.Size = new System.Drawing.Size(352, 27);
             this.hScrollBar1.TabIndex = 110;
             this.hScrollBar1.Scroll += new System.Windows.Forms.ScrollEventHandler(this.hScrollBar1_Scroll);
-            // 
-            // btnMinus
-            // 
-            this.btnMinus.Image = ((System.Drawing.Image)(resources.GetObject("btnMinus.Image")));
-            this.btnMinus.Location = new System.Drawing.Point(554, 630);
-            this.btnMinus.Name = "btnMinus";
-            this.btnMinus.Size = new System.Drawing.Size(27, 28);
-            this.btnMinus.TabIndex = 116;
-            this.btnMinus.TabStop = false;
-            this.btnMinus.UseVisualStyleBackColor = true;
-            this.btnMinus.Click += new System.EventHandler(this.btnMinus_Click);
             // 
             // btnEnd
             // 
             this.btnEnd.Font = new System.Drawing.Font("メイリオ", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.btnEnd.Image = ((System.Drawing.Image)(resources.GetObject("btnEnd.Image")));
-            this.btnEnd.Location = new System.Drawing.Point(670, 630);
+            this.btnEnd.Location = new System.Drawing.Point(618, 630);
             this.btnEnd.Name = "btnEnd";
             this.btnEnd.Size = new System.Drawing.Size(27, 28);
             this.btnEnd.TabIndex = 114;
@@ -138,7 +125,7 @@
             // 
             this.btnNext.Font = new System.Drawing.Font("メイリオ", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.btnNext.Image = ((System.Drawing.Image)(resources.GetObject("btnNext.Image")));
-            this.btnNext.Location = new System.Drawing.Point(643, 630);
+            this.btnNext.Location = new System.Drawing.Point(591, 630);
             this.btnNext.Name = "btnNext";
             this.btnNext.Size = new System.Drawing.Size(27, 28);
             this.btnNext.TabIndex = 113;
@@ -150,7 +137,7 @@
             // 
             this.btnBefore.Font = new System.Drawing.Font("メイリオ", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.btnBefore.Image = ((System.Drawing.Image)(resources.GetObject("btnBefore.Image")));
-            this.btnBefore.Location = new System.Drawing.Point(616, 630);
+            this.btnBefore.Location = new System.Drawing.Point(564, 630);
             this.btnBefore.Name = "btnBefore";
             this.btnBefore.Size = new System.Drawing.Size(27, 28);
             this.btnBefore.TabIndex = 112;
@@ -162,21 +149,13 @@
             // 
             this.btnFirst.Font = new System.Drawing.Font("メイリオ", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.btnFirst.Image = ((System.Drawing.Image)(resources.GetObject("btnFirst.Image")));
-            this.btnFirst.Location = new System.Drawing.Point(589, 630);
+            this.btnFirst.Location = new System.Drawing.Point(537, 630);
             this.btnFirst.Name = "btnFirst";
             this.btnFirst.Size = new System.Drawing.Size(27, 28);
             this.btnFirst.TabIndex = 111;
             this.btnFirst.TabStop = false;
             this.btnFirst.UseVisualStyleBackColor = true;
             this.btnFirst.Click += new System.EventHandler(this.btnFirst_Click);
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Location = new System.Drawing.Point(15, 17);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(137, 71);
-            this.pictureBox1.TabIndex = 124;
-            this.pictureBox1.TabStop = false;
             // 
             // lblNoImage
             // 
@@ -192,7 +171,7 @@
             // lblPage
             // 
             this.lblPage.AutoSize = true;
-            this.lblPage.Location = new System.Drawing.Point(534, 675);
+            this.lblPage.Location = new System.Drawing.Point(537, 666);
             this.lblPage.Name = "lblPage";
             this.lblPage.Size = new System.Drawing.Size(54, 17);
             this.lblPage.TabIndex = 126;
@@ -672,6 +651,28 @@
             this.panel1.Size = new System.Drawing.Size(459, 612);
             this.panel1.TabIndex = 0;
             // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("Yu Gothic UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label10.Location = new System.Drawing.Point(8, 388);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(79, 19);
+            this.label10.TabIndex = 155;
+            this.label10.Text = "住所漢字：";
+            // 
+            // txtAdd
+            // 
+            this.txtAdd.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtAdd.Font = new System.Drawing.Font("Yu Gothic UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.txtAdd.ImeMode = System.Windows.Forms.ImeMode.KatakanaHalf;
+            this.txtAdd.Location = new System.Drawing.Point(103, 388);
+            this.txtAdd.MaxLength = 40;
+            this.txtAdd.Multiline = true;
+            this.txtAdd.Name = "txtAdd";
+            this.txtAdd.Size = new System.Drawing.Size(337, 64);
+            this.txtAdd.TabIndex = 154;
+            // 
             // linkKengai
             // 
             this.linkKengai.AutoSize = true;
@@ -795,16 +796,21 @@
             this.linkLabel3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.linkLabel3.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel3_LinkClicked);
             // 
-            // btnPlus
+            // btnLeft
             // 
-            this.btnPlus.Image = ((System.Drawing.Image)(resources.GetObject("btnPlus.Image")));
-            this.btnPlus.Location = new System.Drawing.Point(528, 630);
-            this.btnPlus.Name = "btnPlus";
-            this.btnPlus.Size = new System.Drawing.Size(27, 28);
-            this.btnPlus.TabIndex = 131;
-            this.btnPlus.TabStop = false;
-            this.btnPlus.UseVisualStyleBackColor = true;
-            this.btnPlus.Click += new System.EventHandler(this.btnPlus_Click_1);
+            this.btnLeft.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(216)))), ((int)(((byte)(232)))), ((int)(((byte)(254)))));
+            this.btnLeft.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnLeft.Font = new System.Drawing.Font("ＭＳ ゴシック", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.btnLeft.Image = ((System.Drawing.Image)(resources.GetObject("btnLeft.Image")));
+            this.btnLeft.Location = new System.Drawing.Point(227, 7);
+            this.btnLeft.Margin = new System.Windows.Forms.Padding(4);
+            this.btnLeft.Name = "btnLeft";
+            this.btnLeft.Size = new System.Drawing.Size(36, 34);
+            this.btnLeft.TabIndex = 621;
+            this.btnLeft.TabStop = false;
+            this.toolTip1.SetToolTip(this.btnLeft, "勤務表画像を右に90度回転します");
+            this.btnLeft.UseVisualStyleBackColor = false;
+            this.btnLeft.Click += new System.EventHandler(this.btnLeft_Click);
             // 
             // linkLabel4
             // 
@@ -822,6 +828,9 @@
             // 
             // panel2
             // 
+            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel2.Controls.Add(this.panel5);
+            this.panel2.Controls.Add(this.pictureBox1);
             this.panel2.Controls.Add(this.lblNoImage);
             this.panel2.Location = new System.Drawing.Point(14, 16);
             this.panel2.Name = "panel2";
@@ -834,31 +843,15 @@
             this.panel5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel5.Controls.Add(this.btnLeft);
             this.panel5.Controls.Add(this.trackBar1);
-            this.panel5.Location = new System.Drawing.Point(716, 661);
+            this.panel5.Location = new System.Drawing.Point(240, 673);
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(271, 48);
             this.panel5.TabIndex = 639;
             // 
-            // btnLeft
-            // 
-            this.btnLeft.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(216)))), ((int)(((byte)(232)))), ((int)(((byte)(254)))));
-            this.btnLeft.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnLeft.Font = new System.Drawing.Font("ＭＳ ゴシック", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.btnLeft.Image = ((System.Drawing.Image)(resources.GetObject("btnLeft.Image")));
-            this.btnLeft.Location = new System.Drawing.Point(228, 6);
-            this.btnLeft.Margin = new System.Windows.Forms.Padding(4);
-            this.btnLeft.Name = "btnLeft";
-            this.btnLeft.Size = new System.Drawing.Size(36, 34);
-            this.btnLeft.TabIndex = 621;
-            this.btnLeft.TabStop = false;
-            this.toolTip1.SetToolTip(this.btnLeft, "勤務表画像を右に90度回転します");
-            this.btnLeft.UseVisualStyleBackColor = false;
-            this.btnLeft.Click += new System.EventHandler(this.btnLeft_Click);
-            // 
             // trackBar1
             // 
             this.trackBar1.LargeChange = 2;
-            this.trackBar1.Location = new System.Drawing.Point(11, 3);
+            this.trackBar1.Location = new System.Drawing.Point(8, 12);
             this.trackBar1.Margin = new System.Windows.Forms.Padding(4);
             this.trackBar1.Name = "trackBar1";
             this.trackBar1.Size = new System.Drawing.Size(209, 45);
@@ -866,48 +859,30 @@
             this.trackBar1.TabStop = false;
             this.trackBar1.ValueChanged += new System.EventHandler(this.trackBar1_ValueChanged);
             // 
-            // txtAdd
+            // pictureBox1
             // 
-            this.txtAdd.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtAdd.Font = new System.Drawing.Font("Yu Gothic UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.txtAdd.ImeMode = System.Windows.Forms.ImeMode.KatakanaHalf;
-            this.txtAdd.Location = new System.Drawing.Point(103, 388);
-            this.txtAdd.MaxLength = 40;
-            this.txtAdd.Multiline = true;
-            this.txtAdd.Name = "txtAdd";
-            this.txtAdd.Size = new System.Drawing.Size(337, 64);
-            this.txtAdd.TabIndex = 154;
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Font = new System.Drawing.Font("Yu Gothic UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label10.Location = new System.Drawing.Point(8, 388);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(79, 19);
-            this.label10.TabIndex = 155;
-            this.label10.Text = "住所漢字：";
+            this.pictureBox1.Location = new System.Drawing.Point(1, 1);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(100, 50);
+            this.pictureBox1.TabIndex = 126;
+            this.pictureBox1.TabStop = false;
             // 
             // frmCorrect
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1010, 748);
-            this.Controls.Add(this.panel5);
             this.Controls.Add(this.linkLabel4);
-            this.Controls.Add(this.btnPlus);
             this.Controls.Add(this.linkLabel3);
             this.Controls.Add(this.linkLabel2);
             this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.lblPage);
-            this.Controls.Add(this.btnMinus);
             this.Controls.Add(this.btnEnd);
             this.Controls.Add(this.btnNext);
             this.Controls.Add(this.btnBefore);
             this.Controls.Add(this.btnFirst);
             this.Controls.Add(this.hScrollBar1);
-            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.panel2);
             this.Font = new System.Drawing.Font("Meiryo UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -917,27 +892,24 @@
             this.Text = "防犯登録カードデータ作成";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmCorrect_FormClosing);
             this.Load += new System.EventHandler(this.frmCorrect_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel5.ResumeLayout(false);
             this.panel5.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-        private System.Windows.Forms.Button btnMinus;
         private System.Windows.Forms.Button btnEnd;
         private System.Windows.Forms.Button btnNext;
         private System.Windows.Forms.Button btnBefore;
         private System.Windows.Forms.Button btnFirst;
         private System.Windows.Forms.HScrollBar hScrollBar1;
-        //private Leadtools.WinForms.RasterImageViewer leadImg;
-        private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label lblNoImage;
         private System.Windows.Forms.Label lblPage;
         private System.Windows.Forms.Label label8;
@@ -981,7 +953,6 @@
         private System.Windows.Forms.LinkLabel linkLabel1;
         private System.Windows.Forms.LinkLabel linkLabel2;
         private System.Windows.Forms.LinkLabel linkLabel3;
-        private System.Windows.Forms.Button btnPlus;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.LinkLabel linkLabel4;
         private System.Windows.Forms.Label label5;
@@ -997,6 +968,7 @@
         private System.Windows.Forms.TrackBar trackBar1;
         private System.Windows.Forms.TextBox txtAdd;
         private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }
 

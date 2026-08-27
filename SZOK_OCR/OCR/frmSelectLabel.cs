@@ -81,7 +81,7 @@ namespace SZOK_OCR.OCR
             // 2026/08/25：SQL Serverに変更
             ClsMaster cls = new ClsMaster(Properties.Settings.Default.sServerName, Properties.Settings.Default.sLogin, Properties.Settings.Default.sPass, Properties.Settings.Default.sDatabase);
 
-            int d = cls.Count<TblScandata>(System.Net.Dns.GetHostName());
+            int d = cls.Count<TblWorkcard>(System.Net.Dns.GetHostName());
             lblDataCnt.Text = d.ToString("#,##0");
 
             // 前バージョンのＯＣＲ認識後データ
