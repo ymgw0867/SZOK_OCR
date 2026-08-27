@@ -130,6 +130,12 @@ namespace SZOK_OCR.Common
             {
                 UpDate((TblConfig)(object)(cls));
             }
+
+            // 防犯カードのとき
+            if (typeof(T) == typeof(TblWorkcard))
+            {
+                UpDate((TblWorkcard)(object)(cls));
+            }
         }
 
         /// <summary>
@@ -377,6 +383,38 @@ namespace SZOK_OCR.Common
                         com.Parameters.AddWithValue("@zipPath", configData.ZipCodePath);
                         com.Parameters.AddWithValue("@upDate", System.DateTime.Now.ToString());
                         com.Parameters.AddWithValue("@ID", configData.ID);
+                        com.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void UpDate(TblWorkcard workcardData)
+        {
+            try
+            {
+                using (var conn = new SqlConnection(sqlBuilder.ConnectionString))
+                {
+                    conn.Open();
+
+                    string sql = "UPDATE 防犯カード SET " +
+                             "年 = @year, 月 = @month, データ保存月数 = @dataSave, 郵便番号データパス = @zipPath, " +
+                             "更新年月日 = @upDate " +
+                             "WHERE ID = @ID";
+
+                    using (SqlCommand com = new SqlCommand(sql, conn))
+                    {
+                        com.Parameters.AddWithValue("@year", workcardData.AddYear);
+                        com.Parameters.AddWithValue("@month", workcardData.AddMonth);
+                        com.Parameters.AddWithValue("@day", workcardData.AddDay);
+                        com.Parameters.AddWithValue("@dataSave", workcardData.AddDataSaveMonth);
+                        com.Parameters.AddWithValue("@zipPath", workcardData.ZipCodePath);
+                        com.Parameters.AddWithValue("@upDate", System.DateTime.Now.ToString());
+                        com.Parameters.AddWithValue("@ID", workcardData.ID);
                         com.ExecuteNonQuery();
                     }
                 }
