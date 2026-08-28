@@ -340,6 +340,7 @@ namespace SZOK_OCR.Common
                                     VehicleNumber1 = string.Empty,
                                     VehicleNumber2 = string.Empty,
                                     CarName = string.Empty,
+                                    AddressKanji = Utility.NulltoStr(dr["住所漢字"]),
                                     Address1 = Utility.NulltoStr(dr["住所1"]),
                                     Address2 = string.Empty,
                                     Name = Utility.NulltoStr(dr["氏名"]),
@@ -351,7 +352,8 @@ namespace SZOK_OCR.Common
                                     Memo = Utility.NulltoStr(dr["備考"]),
                                     UpDate = System.DateTime.Parse(Utility.NulltoStr(dr["更新年月日"])),
                                     Label = Utility.NulltoStr(dr["ラベル"]),
-                                    Person = Utility.NulltoStr(dr["処理担当者"])
+                                    Person = Utility.NulltoStr(dr["処理担当者"]),
+                                    Confirmation = Utility.StrtoInt(Utility.NulltoStr(dr["確認"]))
                                 };
                             }
                         }
@@ -1086,7 +1088,7 @@ namespace SZOK_OCR.Common
                     using (SqlCommand cmd = new SqlCommand(sql, conn))
                     {
                         cmd.Parameters.AddWithValue("@Number", number);
-                        cmd.Parameters.AddWithValue("@PC", pc);
+                        cmd.Parameters.AddWithValue("@val", pc);
                         var rtn = cmd.ExecuteScalar();
                         return Convert.ToInt32(rtn);
                     }

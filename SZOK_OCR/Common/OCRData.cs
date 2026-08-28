@@ -1005,7 +1005,7 @@ namespace SZOK_OCR.Common
             //}
 
             // 登録番号重複チェック：2026/08/27
-            cnt = master.CountNumber<TblRegistrationCard>($"{global.DATA_CPA}{r.Number}", System.Net.Dns.GetHostName());
+            cnt = master.CountNumber<TblWorkcard>($"{global.DATA_CPA}{r.Number}", System.Net.Dns.GetHostName());
             if (cnt > 1)
             {
                 setErrStatus(eTourokuNum, 0, "現在、読み込み中データに同じ登録番号が複数あります");

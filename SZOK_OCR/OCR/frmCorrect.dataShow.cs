@@ -46,7 +46,7 @@ namespace SZOK_OCR.OCR
             txtDay.Text = tblWork.AddDay;
             txtMaker.Text = tblWork.Maker;
             txtColor.Text = tblWork.Color;
-            
+
             txtStyle.Text = tblWork.CarModel.ToString().PadLeft(2, '0');
             txtStyleName.Text = string.Empty;
 
@@ -59,7 +59,7 @@ namespace SZOK_OCR.OCR
                     break;
                 }
             }
-            
+
             //txtSharyoNum.Text = tblWork.VehicleNumber1;
             //txtSharyoNum2.Text = tblWork.VehicleNumber2;
             //txtCarName.Text = tblWork.CarName;
@@ -101,6 +101,16 @@ namespace SZOK_OCR.OCR
             //        txtAdd.Text = r.住所漢字;
             //    }
             //}
+
+            // SQL Serverから取得した防犯カード行の住所漢字を表示するように変更：2026/08/28
+            if (string.IsNullOrEmpty(tblWork.AddressKanji))
+            {
+                txtAdd.Text = zipAddKN;
+            }
+            else
+            {
+                txtAdd.Text = tblWork.AddressKanji;
+            }
 
             //// 住所と郵便番号が一致しているか？
             //string str1 = Utility.strSmallTolarge(Utility.getStrConv(txtAddFuri.Text.Replace(" ", "").Trim()));
@@ -326,7 +336,7 @@ namespace SZOK_OCR.OCR
                 // その他のボタンを無効とする
                 linkLabel3.Visible = false;
                 linkLabel2.Visible = false;
-                
+
                 //データ数表示
                 lblPage.Text = string.Empty;
             }
@@ -400,7 +410,7 @@ namespace SZOK_OCR.OCR
                     txtStyle.BackColor = Color.Yellow;
                     txtStyle.Focus();
                 }
-                
+
                 // 車名
                 //if (ocr._errNumber == ocr.eCarName)
                 //{

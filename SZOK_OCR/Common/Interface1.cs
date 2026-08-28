@@ -27,5 +27,6 @@ namespace SZOK_OCR.Common
 
         //bool Delete<T>(string sql);
         //bool Delete<T>();
+        bool Delete<T>(string id);
     }
 }

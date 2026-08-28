@@ -119,7 +119,7 @@ namespace SZOK_OCR.OCR
         {
             // 2026/08/25：SQL Serverに変更
             ClsMaster cls = new ClsMaster(Properties.Settings.Default.sServerName, Properties.Settings.Default.sLogin, Properties.Settings.Default.sPass, Properties.Settings.Default.sDatabase);
-            var data = cls.ReadPc(System.Net.Dns.GetHostName());
+            var data = cls.ReadPc(System.Net.Dns.GetHostName());    // PC名で検索
 
             int iX = 0;
             foreach (var t in data.OrderBy(a => a.ID))
@@ -423,6 +423,9 @@ namespace SZOK_OCR.OCR
                 tblWork.DataCategory = global.flgOn;
             }
 
+            // 確認済みフラグ
+            tblWork.Confirmation = checkBox1.Checked ? global.flgOn : global.flgOff;
+
             // 防犯カード：データベース更新 2026/08/27
             var master = new ClsMaster(Properties.Settings.Default.sServerName, Properties.Settings.Default.sLogin, Properties.Settings.Default.sPass, Properties.Settings.Default.sDatabase);
             master.UpDate<TblWorkcard>(tblWork);
@@ -452,11 +455,11 @@ namespace SZOK_OCR.OCR
             string fName = r.画像名;   // 画像名取得
             r.Delete();     // データ削除
 
-            // データベース更新
-            adp.Update(dts.防犯カード);
-
-            // データ再読み込み
-            adp.Fill(dts.防犯カード);
+            // コメント化：2026/08/28
+            //// データベース更新
+            //adp.Update(dts.防犯カード);
+            //// データ再読み込み
+            //adp.Fill(dts.防犯カード);
 
             // 画像削除 2016/05/26
             System.IO.File.Delete(Properties.Settings.Default.dataPath + fName);
