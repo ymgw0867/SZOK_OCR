@@ -9,6 +9,7 @@ using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using SZOK_OCR.DATA;
 using static ClosedXML.Excel.XLPredefinedFormat;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Rebar;
@@ -1100,5 +1101,52 @@ namespace SZOK_OCR.Common
                 return 0;
             }
         }
+
+        public bool Delete<T>(string id)
+        {
+            // 防犯カードのとき
+            if (typeof(T) == typeof(TblWorkcard))
+            {
+                return DeleteWorkCard(id);
+            }
+
+            MessageBox.Show("Invalid Data Class");
+            return false;
+        }
+
+        /// <summary>
+        /// 指定されたIDに一致する防犯カードテーブルのデータを削除する
+        /// </summary>
+        /// <param name="id">削除する防犯カードのID</param>
+        /// <returns>削除が成功した場合はtrue、それ以外の場合はfalse</returns>
+        private bool DeleteWorkCard(string id)
+        {
+            SqlTransaction tran = null;
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(sqlBuilder.ConnectionString))
+                {
+                    conn.Open();
+
+                    // 防犯カードデータ
+                    string sql = "DELETE FROM 防犯カード WHERE ID = @ID";
+
+                    using (SqlCommand cmd = new SqlCommand(sql, conn, tran))
+                    {
+                        cmd.Parameters.AddWithValue("@ID", id);
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return false;
+            }
+        }
+
     }
 }

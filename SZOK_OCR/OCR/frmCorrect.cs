@@ -449,11 +449,31 @@ namespace SZOK_OCR.OCR
         {
         }
 
+        /// <summary>
+        ///    防犯カードデータ削除
+        /// </summary>
+        /// <param name="sID">防犯カードデータID</param>
         private void cuDataDelete(int sID)
         {
-            szokDataSet.防犯カードRow r = dts.防犯カード.Single(a => a.ID == sID);
-            string fName = r.画像名;   // 画像名取得
-            r.Delete();     // データ削除
+            // コメント化：2026/08/28
+            //szokDataSet.防犯カードRow r = dts.防犯カード.Single(a => a.ID == sID);
+
+            // 画像名取得
+            string imgName = tblWork.ImageFileName;   
+
+            // 防犯カード：データベース削除 2026/08/28
+            var master = new ClsMaster(Properties.Settings.Default.sServerName, Properties.Settings.Default.sLogin, Properties.Settings.Default.sPass, Properties.Settings.Default.sDatabase); 
+            if (master.Delete<TblWorkcard>(sID.ToString()))   // データ削除
+            {
+                // データ削除成功時の処理：画像削除
+                if (System.IO.File.Exists(Properties.Settings.Default.scanDataPath + imgName))
+                {
+                    System.IO.File.Delete(Properties.Settings.Default.scanDataPath + imgName);
+                }
+            }
+
+            // コメント化：2026/08/28
+            //r.Delete();     // データ削除
 
             // コメント化：2026/08/28
             //// データベース更新
@@ -461,11 +481,9 @@ namespace SZOK_OCR.OCR
             //// データ再読み込み
             //adp.Fill(dts.防犯カード);
 
-            // 画像削除 2016/05/26
-            System.IO.File.Delete(Properties.Settings.Default.dataPath + fName);
-
             // すべてのデータを削除したときは終了します
-            if (dts.防犯カード.Count() == 0)
+            var dCnt = master.ReadPc(System.Net.Dns.GetHostName()).Count();  // PC名で検索
+            if (dCnt == 0)
             {
                 StringBuilder sb = new StringBuilder();
                 sb.Append("すべてのＯＣＲ防犯登録カードデータが削除されました。").Append(Environment.NewLine);
