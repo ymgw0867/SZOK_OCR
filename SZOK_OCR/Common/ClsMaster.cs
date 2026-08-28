@@ -631,7 +631,7 @@ namespace SZOK_OCR.Common
 
                         using (SqlCommand com = new SqlCommand(sql, conn, transaction))
                         {
-                            foreach (var workcard in workcards)
+                            foreach (var workcard in workcards.OrderBy(w => w.ID))
                             {
                                 com.Parameters.Clear();
                                 com.Parameters.AddWithValue("@datakbn",         workcard.DataCategory);
@@ -674,6 +674,13 @@ namespace SZOK_OCR.Common
                                 // 画像ファイルを移動する
                                 if (System.IO.File.Exists(Properties.Settings.Default.scanDataPath + workcard.ImageFileName))
                                 {
+                                    // 既に画像ファイルが存在する場合は削除する
+                                    if (System.IO.File.Exists(Properties.Settings.Default.imgPath + workcard.ImageFileName))
+                                    {
+                                        System.IO.File.Delete(Properties.Settings.Default.imgPath + workcard.ImageFileName);
+                                    }
+
+                                    // 画像ファイルを移動する
                                     System.IO.File.Copy(Properties.Settings.Default.scanDataPath + workcard.ImageFileName, Properties.Settings.Default.imgPath + workcard.ImageFileName);
                                     System.IO.File.Delete(Properties.Settings.Default.scanDataPath + workcard.ImageFileName);
                                 }
@@ -1029,7 +1036,7 @@ namespace SZOK_OCR.Common
                     conn.Open();
 
                     string sql = "SELECT ID,データ区分,画像名,登録年,登録月,登録日,登録番号,車体番号,メーカー,塗色,車種,郵便番号1,郵便番号2," +
-                        "住所1,氏名,TEL携帯,TEL携帯2,TEL携帯3,ラベル,処理担当者,PC名,CSV作成日,備考,更新年月日 FROM 防犯カード " +
+                        "住所漢字,住所1,氏名,TEL携帯,TEL携帯2,TEL携帯3,ラベル,処理担当者,PC名,CSV作成日,備考,更新年月日 FROM 防犯カード " +
                         "WHERE (PC名 = @PC) ";
 
                     using (SqlCommand cmd = new SqlCommand(sql, conn))

@@ -88,8 +88,8 @@ namespace SZOK_OCR.DATA
             txtsMaker.Text = string.Empty;
             txtsColor.Text = string.Empty;
             cmbCarStyle.SelectedIndex = 0;
-            txtsSharyoNum.Text = string.Empty;
-            txtsCarName.Text = string.Empty;
+            //txtsSharyoNum.Text = string.Empty;
+            //txtsCarName.Text = string.Empty;
             txtsZip1.Text = string.Empty;
             txtsZip2.Text = string.Empty;
             txtsAdd.Text = string.Empty;
@@ -128,10 +128,10 @@ namespace SZOK_OCR.DATA
                 tempDGV.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.BottomCenter;
 
                 // 列ヘッダーフォント指定
-                tempDGV.ColumnHeadersDefaultCellStyle.Font = new Font("Meiryo UI", 10, FontStyle.Regular);
+                tempDGV.ColumnHeadersDefaultCellStyle.Font = new Font("Yu Gothic UI", 10, FontStyle.Regular);
 
                 // データフォント指定
-                tempDGV.DefaultCellStyle.Font = new Font("Meiryo UI", 10, FontStyle.Regular);
+                tempDGV.DefaultCellStyle.Font = new Font("Yu Gothic UI", 10, FontStyle.Regular);
 
                 // 行の高さ
                 tempDGV.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
@@ -139,7 +139,7 @@ namespace SZOK_OCR.DATA
                 tempDGV.RowTemplate.Height = 20;
 
                 // 全体の高さ
-                tempDGV.Height = 542;
+                tempDGV.Height = 722;
 
                 // 奇数行の色
                 tempDGV.AlternatingRowsDefaultCellStyle.BackColor = SystemColors.ControlLight;
@@ -152,8 +152,8 @@ namespace SZOK_OCR.DATA
                 tempDGV.Columns.Add(colMaker, "メーカー");
                 tempDGV.Columns.Add(colColor, "カラー");
                 tempDGV.Columns.Add(colCarStyle, "車種");
-                tempDGV.Columns.Add(colSharyoNum, "車両番号");
-                tempDGV.Columns.Add(colCarName, "車名");
+                //tempDGV.Columns.Add(colSharyoNum, "車両番号");
+                //tempDGV.Columns.Add(colCarName, "車名");
                 tempDGV.Columns.Add(colZip, "〒");
                 tempDGV.Columns.Add(colAdd, "住所");
                 tempDGV.Columns.Add(colFuri, "氏名");
@@ -171,8 +171,8 @@ namespace SZOK_OCR.DATA
                 tempDGV.Columns[colMaker].Width = 100;
                 tempDGV.Columns[colColor].Width = 100;
                 tempDGV.Columns[colCarStyle].Width = 100;
-                tempDGV.Columns[colSharyoNum].Width = 100;
-                tempDGV.Columns[colCarName].Width = 100;
+                //tempDGV.Columns[colSharyoNum].Width = 100;
+                //tempDGV.Columns[colCarName].Width = 100;
                 tempDGV.Columns[colZip].Width = 100;
                 tempDGV.Columns[colAdd].Width = 300;
                 tempDGV.Columns[colFuri].Width = 120;
@@ -318,17 +318,17 @@ namespace SZOK_OCR.DATA
                 s = s.Where(q => q.車種.ToString().PadLeft(2, '0') == cs).OrderBy(q => q.登録番号);
             }
 
-            // 車両番号
-            if (txtsSharyoNum.Text != string.Empty)
-            {
-                s = s.Where(q => !q.Is車両番号1Null() && (q.車両番号1 + q.車両番号2).Contains(txtsSharyoNum.Text)).OrderBy(q => q.登録番号);
-            }
+            //// 車両番号
+            //if (txtsSharyoNum.Text != string.Empty)
+            //{
+            //    s = s.Where(q => !q.Is車両番号1Null() && (q.車両番号1 + q.車両番号2).Contains(txtsSharyoNum.Text)).OrderBy(q => q.登録番号);
+            //}
 
-            // 車名
-            if (txtsCarName.Text != string.Empty)
-            {
-                s = s.Where(q => q.車名.Contains(Utility.getStrConv(txtsCarName.Text))).OrderBy(q => q.登録番号);
-            }
+            //// 車名
+            //if (txtsCarName.Text != string.Empty)
+            //{
+            //    s = s.Where(q => q.車名.Contains(Utility.getStrConv(txtsCarName.Text))).OrderBy(q => q.登録番号);
+            //}
 
             // 郵便番号
             if (txtsZip1.Text != string.Empty)

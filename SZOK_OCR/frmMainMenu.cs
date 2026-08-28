@@ -201,7 +201,7 @@ namespace SZOK_OCR
         private void linkLabel3_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             this.Hide();
-            SZOK_OCR.DATA.frmCardList frm = new DATA.frmCardList();
+            DATA.frmCardList frm = new DATA.frmCardList();
             frm.ShowDialog();
             this.Show();
         }
