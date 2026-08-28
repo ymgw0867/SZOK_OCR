@@ -92,7 +92,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Yu Gothic UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label2.Location = new System.Drawing.Point(438, 18);
+            this.label2.Location = new System.Drawing.Point(447, 18);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(79, 19);
             this.label2.TabIndex = 2;
@@ -132,7 +132,7 @@
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Yu Gothic UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label8.Location = new System.Drawing.Point(480, 52);
+            this.label8.Location = new System.Drawing.Point(489, 52);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(37, 19);
             this.label8.TabIndex = 8;
@@ -162,7 +162,7 @@
             // 
             this.label13.AutoSize = true;
             this.label13.Font = new System.Drawing.Font("Yu Gothic UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label13.Location = new System.Drawing.Point(446, 81);
+            this.label13.Location = new System.Drawing.Point(449, 84);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(77, 19);
             this.label13.TabIndex = 13;
@@ -520,6 +520,7 @@
             // 
             // txtsYY
             // 
+            this.txtsYY.BackColor = System.Drawing.Color.LightPink;
             this.txtsYY.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtsYY.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.txtsYY.ImeMode = System.Windows.Forms.ImeMode.Off;
@@ -613,7 +614,7 @@
             // 
             // label22
             // 
-            this.label22.Location = new System.Drawing.Point(12, 681);
+            this.label22.Location = new System.Drawing.Point(13, 873);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(168, 30);
             this.label22.TabIndex = 126;

@@ -64,5 +64,8 @@ namespace SZOK_OCR.Common
         public string Mobile3 { get; set; } // 携帯電話3
         public string Label { get; set; }   // ラベル
         public string Person { get; set; }  // 担当者
+        public int? CsvCreation { get; set; }  // 全て,CSV作成済み,CSV未作成
+        public string CsvCreationDate { get; set; }  // CSV作成日
+        public int? Exception { get; set; } = 0; // 例外フラグ
     }
 }

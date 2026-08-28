@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DocumentFormat.OpenXml.Office.CustomUI;
+using MyLibrary;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,7 +9,6 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using SZOK_OCR.Common;
-using MyLibrary;
 
 namespace SZOK_OCR.DATA
 {
@@ -101,6 +102,7 @@ namespace SZOK_OCR.DATA
             comboBox1.SelectedIndex = 0;
             label21.Enabled = false;
             dateTimePicker1.Enabled = false;
+            dateTimePicker1.Checked = false;
 
             linkLabel2.Enabled = false;
             chkJyogai.Checked = false;      // 2016/05/30
@@ -234,12 +236,13 @@ namespace SZOK_OCR.DATA
                 return;
             }
 
-            dataShow();
+            //dataShow();
+            DataFind();     // 2026/08/28
         }
 
         ///-------------------------------------------------------------------------
         /// <summary>
-        ///     データグリッドに防犯登録カードデータを表示する </summary>
+        ///     データグリッドに防犯登録データを表示する </summary>
         /// <returns>
         ///     表示件数</returns>
         ///-------------------------------------------------------------------------
@@ -497,6 +500,136 @@ namespace SZOK_OCR.DATA
             return s.Count();
         }
 
+        /// <summary>
+        ///   検索条件を取得する
+        /// </summary>
+        /// <returns>検索条件のパラメータ</returns>
+        private ScandataParameter GetSearchParameter()
+        {
+            ScandataParameter param = new ScandataParameter();
+
+            param.DataCategory = cmbShubetsu.SelectedIndex > 0 ? (int?)(cmbShubetsu.SelectedIndex - 1) : null;
+            param.AddYear = txtsYY.Text;
+            param.AddMonth = txtsMM.Text;
+            param.AddDay = txtsDD.Text;
+            param.Number = txtsCpa.Text;
+            param.VehicleIdentificationNumber = txtsCarbodyNum.Text;
+            param.Maker = txtsMaker.Text;
+            param.Color = txtsColor.Text;
+            param.CarModel = cmbCarStyle.SelectedIndex > 0 ? (int?)Utility.StrtoInt(cmbCarStyle.Text.Substring(0, 2)) : null;
+            param.ZipCode1 = txtsZip1.Text;
+            param.ZipCode2 = txtsZip2.Text;
+            param.Address1 = txtsAdd.Text;
+            param.Name = txtsFuri.Text;
+            param.Mobile1 = txtsTel1.Text;
+            param.Mobile2 = txtsTel2.Text;
+            param.Mobile3 = txtsTel3.Text;
+            param.CsvCreation = comboBox1.SelectedIndex > 0 ? (int?)(comboBox1.SelectedIndex - 1) : null;
+            param.CsvCreationDate = dateTimePicker1.Checked ? dateTimePicker1.Text : string.Empty;
+            param.Exception = chkJyogai.Checked ? (int?)1 : (int?)0;
+            return param;
+        }
+
+        /// <summary>
+        ///    データグリッドに防犯登録カードデータを表示する
+        /// </summary>
+        /// <returns>表示したデータの件数</returns>
+        private int DataFind()
+        {
+            var param = GetSearchParameter();
+
+            label22.Text = string.Empty;    // 2019/11/15
+
+            dg.Rows.Clear();
+
+            System.Threading.Thread.Sleep(1000);
+            Application.DoEvents();
+
+            this.Cursor = Cursors.WaitCursor;
+
+            // SQL Server接続
+            var master = new ClsMaster(Properties.Settings.Default.sServerName, Properties.Settings.Default.sLogin,
+                                   Properties.Settings.Default.sPass, Properties.Settings.Default.sDatabase);
+
+            var result = master.Read<TblRegistrationCard>(param);
+
+
+            int iX = 0;
+
+            // 2019/06/25
+            System.Threading.Thread.Sleep(100);
+            Application.DoEvents();
+
+            if (result.Count() > 0)
+            {
+                dg.Rows.Add(result.Count());
+            }
+
+            foreach (var t in result)
+            {
+                //dg.Rows.Add();
+
+                if (t.DataCategory == global.flgOff)
+                {
+                    dg[coldKbn, iX].Value = "自転車";
+                }
+                else
+                {
+                    dg[coldKbn, iX].Value = "原付";
+                }
+
+                dg[colCPA, iX].Value = t.Number;
+                dg[colCarbodyNum, iX].Value = t.VehicleIdentificationNumber;
+                dg[colyymmdd, iX].Value = "20" + t.AddYear + "/" + t.AddMonth.PadLeft(2, '0') + "/" + t.AddDay.PadLeft(2, '0');
+                dg[colMaker, iX].Value = t.Maker;
+                dg[colColor, iX].Value = t.Color;
+                dg[colCarStyle, iX].Value = getCarStyleName(t.CarModel.ToString().PadLeft(2, '0'));
+                dg[colZip, iX].Value = t.ZipCode1 + "-" + t.ZipCode2;
+                dg[colAdd, iX].Value = t.Address1.Trim();
+                dg[colFuri, iX].Value = t.Name;
+                dg[colTel, iX].Value = t.Mobile1.Trim() + "-" + t.Mobile2.Trim() + "-" + t.Mobile3.Trim();
+                dg[colID, iX].Value = t.ID;
+                dg[colCsv, iX].Value = t.CsvCreationDate;
+
+                if (t.Exception == global.flgOn)
+                {
+                    dg[colJyogai, iX].Value = "◯";
+                }
+                else
+                {
+                    dg[colJyogai, iX].Value = "";
+                }
+
+                iX++;
+            }
+
+            if (result.Count() > 0)
+            {
+                dg.CurrentCell = null;
+                linkLabel2.Enabled = true;
+
+                // 2019/11/15
+                label22.Text = "該当件数：" + result.Count().ToString("#,##0") + "件";
+            }
+            else
+            {
+                // 2019/06/25
+                this.Cursor = Cursors.Default;
+                MessageBox.Show("条件に該当するデータはありませんでした", "検索結果", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                linkLabel2.Enabled = false;
+
+                // 2019/11/15
+                label22.Text = "該当件数： 0件";
+            }
+
+            System.Threading.Thread.Sleep(500);
+            Application.DoEvents();
+
+            // 2019/06/25
+            this.Cursor = Cursors.Default;
+            return result.Count();
+        }
+
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             this.Close();
@@ -546,7 +679,7 @@ namespace SZOK_OCR.DATA
                 showPastData(iX);
 
                 // データ再表示
-                dataShow();
+                DataFind();     // 2026/08/28
             }
         }
 

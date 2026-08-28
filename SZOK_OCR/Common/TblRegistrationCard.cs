@@ -38,6 +38,6 @@ namespace SZOK_OCR.Common
         public string CsvCreationDate { get; set; }
         public string Memo { get; set; }
         public DateTime UpDate { get; set; }
-        public int exception { get; set; } = 0;
+        public int Exception { get; set; } = 0;
     }
 }

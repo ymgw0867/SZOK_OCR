@@ -47,6 +47,7 @@
             this.txtsAdd = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.txtLabel = new System.Windows.Forms.TextBox();
             this.txtName = new System.Windows.Forms.TextBox();
             this.label21 = new System.Windows.Forms.Label();
@@ -72,7 +73,6 @@
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.linkLabel2 = new System.Windows.Forms.LinkLabel();
             this.label22 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dg)).BeginInit();
             this.SuspendLayout();
@@ -322,6 +322,20 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1522, 122);
             this.panel1.TabIndex = 0;
+            // 
+            // textBox1
+            // 
+            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBox1.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.textBox1.ImeMode = System.Windows.Forms.ImeMode.Off;
+            this.textBox1.Location = new System.Drawing.Point(812, 13);
+            this.textBox1.MaxLength = 2;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.ReadOnly = true;
+            this.textBox1.Size = new System.Drawing.Size(29, 29);
+            this.textBox1.TabIndex = 149;
+            this.textBox1.Text = "20";
+            this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // txtLabel
             // 
@@ -624,20 +638,6 @@
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(149, 25);
             this.label22.TabIndex = 126;
-            // 
-            // textBox1
-            // 
-            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox1.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.textBox1.ImeMode = System.Windows.Forms.ImeMode.Off;
-            this.textBox1.Location = new System.Drawing.Point(812, 13);
-            this.textBox1.MaxLength = 2;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(29, 29);
-            this.textBox1.TabIndex = 149;
-            this.textBox1.Text = "20";
-            this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // frmScanList
             // 

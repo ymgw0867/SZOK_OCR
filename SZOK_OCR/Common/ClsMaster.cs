@@ -754,6 +754,12 @@ namespace SZOK_OCR.Common
                 return Read(param) as List<T>;
             }
 
+            // 防犯登録カードのとき
+            if (typeof(T) == typeof(TblRegistrationCard))
+            {
+                return ReadRegistrationCard(param) as List<T>;
+            }
+
             //if (typeof(T) == typeof(ClsLabelCount))
             //{
             //    return Read() as List<T>;
@@ -821,6 +827,11 @@ namespace SZOK_OCR.Common
             }
         }
 
+        /// <summary>
+        /// SCAN_DATAテーブルのデータを取得する：2026/08/28
+        /// </summary>
+        /// <param name="param">検索パラメータ</param>
+        /// <returns>SCAN_DATAのリスト</returns>
         public List<TblScandata> Read(ScandataParameter param)
         {
             var lines = new List<TblScandata>();
@@ -937,6 +948,157 @@ namespace SZOK_OCR.Common
                                 };
 
                                 lines.Add(scandata);
+                            }
+                        }
+                    }
+                }
+                return lines;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return lines;
+            }
+        }
+
+        /// <summary>
+        /// 防犯登録カードテーブルのデータを取得する：2026/08/28
+        /// </summary>
+        /// <param name="param">検索パラメータ</param>
+        /// <returns>防犯登録カードのリスト</returns>
+        public List<TblRegistrationCard> ReadRegistrationCard(ScandataParameter param)
+        {
+            var lines = new List<TblRegistrationCard>();
+
+            try
+            {
+                using (var conn = new SqlConnection(sqlBuilder.ConnectionString))
+                {
+                    conn.Open();
+
+                    string sql = "SELECT ID,データ区分,画像名,登録年,登録月,登録日,登録番号,車体番号,メーカー,塗色,車種,郵便番号1,郵便番号2," +
+                        "住所漢字, 住所1,氏名,TEL携帯,TEL携帯2,TEL携帯3,PC名,CSV作成日,備考,更新年月日,除外 FROM 防犯登録データ " +
+                        "WHERE (" +
+                        "(@DataCategory IS NULL OR データ区分 = @DataCategory) AND " +
+                        "(@AddYear IS NULL OR 登録年 = @AddYear) AND " +
+                        "(@AddMonth IS NULL OR 登録月 = @AddMonth OR 登録月 = @AddMonth2) AND " +
+                        "(@AddDay IS NULL OR 登録日 = @AddDay OR 登録日 = @AddDay2) AND " +
+                        "(@Number IS NULL OR 登録番号 LIKE '%' + @Number + '%') AND " +
+                        "(@VehicleIdentificationNumber IS NULL OR 車体番号 LIKE '%' + @VehicleIdentificationNumber + '%') AND " +
+                        "(@Maker IS NULL OR メーカー LIKE '%' + @Maker + '%') AND " +
+                        "(@Color IS NULL OR 塗色 LIKE '%' + @Color + '%') AND " +
+                        "(@CarModel IS NULL OR 車種 = @CarModel) AND " +
+                        "(@ZipCode1 IS NULL OR 郵便番号1 LIKE '%' + @ZipCode1 + '%') AND " +
+                        "(@ZipCode2 IS NULL OR 郵便番号2 LIKE '%' + @ZipCode2 + '%') AND " +
+                        "(@Address1 IS NULL OR 住所1 LIKE '%' + @Address1 + '%') AND " +
+                        "(@Name IS NULL OR 氏名 LIKE '%' + @Name + '%') AND " +
+                        "(@Mobile1 IS NULL OR TEL携帯 LIKE '%' + @Mobile1 + '%') AND " +
+                        "(@Mobile2 IS NULL OR TEL携帯2 LIKE '%' + @Mobile2 + '%') AND " +
+                        "(@Mobile3 IS NULL OR TEL携帯3 LIKE '%' + @Mobile3 + '%') AND " +
+                        "(@CsvCreationDate IS NULL OR CSV作成日 = @CsvCreationDate) AND " +
+                        "(@Exception IS NULL OR 除外 = @Exception)) ";
+
+                    // CSV作成日がNULLかどうかの条件を追加
+                    if (param.CsvCreation != null)
+                    {
+                        if (param.CsvCreation == 1)
+                        {
+                            sql += "AND CSV作成日 IS NOT NULL ";
+                        }
+                        else if (param.CsvCreation == 0)
+                        {
+                            sql += "AND (CSV作成日 IS NULL OR CSV作成日 = '') ";
+                        }
+                    }
+
+                    sql += "ORDER BY 登録番号 OPTION (RECOMPILE)";
+
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
+                    {
+                        cmd.CommandTimeout = 120; // 秒。デフォルト30から一時的に伸ばして様子を見る
+
+                        var dataCategoryParameter = cmd.Parameters.Add("@DataCategory", System.Data.SqlDbType.Int);
+                        dataCategoryParameter.Value = param.DataCategory.HasValue ? (object)param.DataCategory.Value : DBNull.Value;
+
+                        cmd.Parameters.Add("@AddYear", SqlDbType.NVarChar, 2).Value = ToParam(param.AddYear);
+
+                        cmd.Parameters.Add("@AddMonth", SqlDbType.NVarChar, 2).Value = ToParam(param.AddMonth);
+                        if (!string.IsNullOrEmpty(param.AddMonth))
+                        {
+                            cmd.Parameters.Add("@AddMonth2", SqlDbType.NVarChar, 2).Value = param.AddMonth.PadLeft(2, '0');
+                        }
+                        else
+                        {
+                            cmd.Parameters.Add("@AddMonth2", SqlDbType.NVarChar, 2).Value = DBNull.Value;
+                        }
+
+                        cmd.Parameters.Add("@AddDay", SqlDbType.NVarChar, 2).Value = ToParam(param.AddDay);
+                        if (!string.IsNullOrEmpty(param.AddDay))
+                        {
+                            cmd.Parameters.Add("@AddDay2", SqlDbType.NVarChar, 2).Value = param.AddDay.PadLeft(2, '0');
+                        }
+                        else
+                        {
+                            cmd.Parameters.Add("@AddDay2", SqlDbType.NVarChar, 2).Value = DBNull.Value;
+                        }
+
+                        cmd.Parameters.Add("@Number", SqlDbType.NVarChar, 20).Value = ToParam(param.Number);
+                        cmd.Parameters.Add("@VehicleIdentificationNumber", SqlDbType.NVarChar, 20).Value = ToParam(param.VehicleIdentificationNumber);
+                        cmd.Parameters.Add("@Maker", SqlDbType.NVarChar, 10).Value = ToParam(param.Maker);
+                        cmd.Parameters.Add("@Color", SqlDbType.NVarChar, 6).Value = ToParam(param.Color);
+
+                        var CarModelParameter = cmd.Parameters.Add("@CarModel", System.Data.SqlDbType.Int);
+                        CarModelParameter.Value = param.CarModel.HasValue ? (object)param.CarModel.Value : DBNull.Value;
+
+                        cmd.Parameters.Add("@ZipCode1", SqlDbType.NVarChar, 3).Value = ToParam(param.ZipCode1);
+                        cmd.Parameters.Add("@ZipCode2", SqlDbType.NVarChar, 4).Value = ToParam(param.ZipCode2);
+                        cmd.Parameters.Add("@Address1", SqlDbType.NVarChar, 40).Value = ToParam(param.Address1);
+                        cmd.Parameters.Add("@Name", SqlDbType.NVarChar, 16).Value = ToParam(param.Name);
+                        cmd.Parameters.Add("@Mobile1", SqlDbType.NVarChar, 4).Value = ToParam(param.Mobile1);
+                        cmd.Parameters.Add("@Mobile2", SqlDbType.NVarChar, 4).Value = ToParam(param.Mobile2);
+                        cmd.Parameters.Add("@Mobile3", SqlDbType.NVarChar, 4).Value = ToParam(param.Mobile3);
+                        cmd.Parameters.Add("@CsvCreationDate", SqlDbType.NVarChar, 255).Value = ToParam(param.CsvCreationDate);
+
+                        var ExceptionParameter = cmd.Parameters.Add("@Exception", System.Data.SqlDbType.Int);
+                        ExceptionParameter.Value = param.Exception.HasValue ? (object)param.Exception.Value : DBNull.Value;
+
+                        using (SqlDataReader dr = cmd.ExecuteReader())
+                        {
+                            while (dr.Read())
+                            {
+                                var registrationCard = new TblRegistrationCard
+                                {
+                                    ID = Utility.StrtoInt(dr["ID"].ToString()),
+                                    DataCategory = Utility.StrtoInt(Utility.NulltoStr(dr["データ区分"])),
+                                    ImageFileName = Utility.NulltoStr(dr["画像名"]),
+                                    AddYear = Utility.NulltoStr(dr["登録年"]),
+                                    AddMonth = Utility.NulltoStr(dr["登録月"]),
+                                    AddDay = Utility.NulltoStr(dr["登録日"]),
+                                    Number = Utility.NulltoStr(dr["登録番号"]),
+                                    VehicleIdentificationNumber = Utility.NulltoStr(dr["車体番号"]),
+                                    Maker = Utility.NulltoStr(dr["メーカー"]),
+                                    Color = Utility.NulltoStr(dr["塗色"]),
+                                    CarModel = Utility.StrtoInt(Utility.NulltoStr(dr["車種"])),
+                                    ZipCode1 = Utility.NulltoStr(dr["郵便番号1"]),
+                                    ZipCode2 = Utility.NulltoStr(dr["郵便番号2"]),
+                                    VehicleNumber1 = string.Empty,
+                                    VehicleNumber2 = string.Empty,
+                                    CarName = string.Empty,
+                                    AddressKanji = Utility.NulltoStr(dr["住所漢字"]),
+                                    Address1 = Utility.NulltoStr(dr["住所1"]),
+                                    Address2 = string.Empty,
+                                    Name = Utility.NulltoStr(dr["氏名"]),
+                                    Mobile1 = Utility.NulltoStr(dr["TEL携帯"]),
+                                    Mobile2 = Utility.NulltoStr(dr["TEL携帯2"]),
+                                    Mobile3 = Utility.NulltoStr(dr["TEL携帯3"]),
+                                    PC = Utility.NulltoStr(dr["PC名"]),
+                                    CsvCreationDate = Utility.NulltoStr(dr["CSV作成日"]),
+                                    Memo = Utility.NulltoStr(dr["備考"]),
+                                    UpDate = System.DateTime.Parse(Utility.NulltoStr(dr["更新年月日"])),
+                                    Exception = Utility.StrtoInt(Utility.NulltoStr(dr["除外"]))
+                                };
+
+                                lines.Add(registrationCard);
                             }
                         }
                     }
