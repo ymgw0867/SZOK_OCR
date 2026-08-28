@@ -755,64 +755,74 @@ namespace SZOK_OCR.OCR
         {
             this.Cursor = Cursors.WaitCursor;
 
-            cardDataSet cDts = new cardDataSet();
-            cardDataSetTableAdapters.防犯登録データTableAdapter cAdp = new cardDataSetTableAdapters.防犯登録データTableAdapter();
+            // コメント化：2026/08/28
+            //cardDataSet cDts = new cardDataSet();
+            //cardDataSetTableAdapters.防犯登録データTableAdapter cAdp = new cardDataSetTableAdapters.防犯登録データTableAdapter();
 
-            // 2019/06/25 コメント化
-            //cAdp.Fill(cDts.防犯登録データ);
+            //// 2019/06/25 コメント化
+            ////cAdp.Fill(cDts.防犯登録データ);
 
-            int cnt = 0;
+            // 2026/08/28：SQL Serverに変更
+            var master = new ClsMaster(Properties.Settings.Default.sServerName, Properties.Settings.Default.sLogin, Properties.Settings.Default.sPass, Properties.Settings.Default.sDatabase);
 
-            foreach (var t in dts.防犯カード)
-            {
-                var c = cDts.防犯登録データ.New防犯登録データRow();
-                c.データ区分 = t.データ区分;
-                c.画像名 = t.画像名;
-                c.登録年 = t.登録年;
-                c.登録月 = t.登録月;
-                c.登録日 = t.登録日;
-                c.登録番号 = t.登録番号;
-                c.車体番号 = t.車体番号;
-                c.メーカー = t.メーカー;
-                c.塗色 = t.塗色;
-                c.車種 = t.車種;
-                c.郵便番号1 = t.郵便番号1;
-                c.郵便番号2 = t.郵便番号2;
-                c.車両番号1 = t.車両番号1;
-                c.車両番号2 = t.車両番号2;
-                c.車名 = t.車名;
-                c.住所漢字 = t.住所漢字;
-                c.住所1 = t.住所1;
-                //c.住所2 = t.住所2;
-                c.氏名 = t.氏名;
-                c.TEL携帯 = t.TEL携帯;
-                c.TEL携帯2 = t.TEL携帯2;
-                c.TEL携帯3 = t.TEL携帯3;
-                c.PC名 = t.PC名;
-                c.CSV作成日 = t.CSV作成日;
-                c.備考 = t.備考;
-                c.更新年月日 = t.更新年月日;
-                c.除外 = global.flgOff;       // 2016/05/30
+            // 防犯カードデータ取得
+            var work = master.ReadPc(System.Net.Dns.GetHostName());
 
-                cDts.防犯登録データ.Add防犯登録データRow(c);
+            // 防犯登録データ新規登録
+            master.InsertRegistrationCardTbl(work);   
 
-                cnt++;
+            ////int cnt = 0;
 
-                // カードイメージを移動する
-                System.IO.File.Move(Properties.Settings.Default.dataPath + t.画像名, Properties.Settings.Default.imgPath + t.画像名);
+            //foreach (var t in dts.防犯カード)
+            //{
+            //    var c = cDts.防犯登録データ.New防犯登録データRow();
+            //    c.データ区分 = t.データ区分;
+            //    c.画像名 = t.画像名;
+            //    c.登録年 = t.登録年;
+            //    c.登録月 = t.登録月;
+            //    c.登録日 = t.登録日;
+            //    c.登録番号 = t.登録番号;
+            //    c.車体番号 = t.車体番号;
+            //    c.メーカー = t.メーカー;
+            //    c.塗色 = t.塗色;
+            //    c.車種 = t.車種;
+            //    c.郵便番号1 = t.郵便番号1;
+            //    c.郵便番号2 = t.郵便番号2;
+            //    c.車両番号1 = t.車両番号1;
+            //    c.車両番号2 = t.車両番号2;
+            //    c.車名 = t.車名;
+            //    c.住所漢字 = t.住所漢字;
+            //    c.住所1 = t.住所1;
+            //    //c.住所2 = t.住所2;
+            //    c.氏名 = t.氏名;
+            //    c.TEL携帯 = t.TEL携帯;
+            //    c.TEL携帯2 = t.TEL携帯2;
+            //    c.TEL携帯3 = t.TEL携帯3;
+            //    c.PC名 = t.PC名;
+            //    c.CSV作成日 = t.CSV作成日;
+            //    c.備考 = t.備考;
+            //    c.更新年月日 = t.更新年月日;
+            //    c.除外 = global.flgOff;       // 2016/05/30
 
-                // OCRデータを削除する
-                t.Delete();
-            }
+            //    cDts.防犯登録データ.Add防犯登録データRow(c);
 
-            // データベース更新
-            cAdp.Update(cDts.防犯登録データ);
-            adp.Update(dts.防犯カード);
+            //    //cnt++;
+
+            //    // カードイメージを移動する
+            //    System.IO.File.Move(Properties.Settings.Default.dataPath + t.画像名, Properties.Settings.Default.imgPath + t.画像名);
+
+            //    // OCRデータを削除する
+            //    t.Delete();
+            //}
+
+            //// データベース更新
+            //cAdp.Update(cDts.防犯登録データ);
+            //adp.Update(dts.防犯カード);
 
             this.Cursor = Cursors.Default;
 
             // 終了メッセージ
-            MessageBox.Show(cnt.ToString("#,##0") + "件の防犯登録データを登録しました", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("防犯登録データを登録しました", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e)

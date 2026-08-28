@@ -608,6 +608,88 @@ namespace SZOK_OCR.Common
             }
         }
 
+        /// <summary>
+        /// 防犯登録データテーブルにデータを挿入する：2026/08/28
+        /// </summary>
+        /// <param name="workcards">挿入する防犯カードデータのリスト</param>
+        public void InsertRegistrationCardTbl(List<TblWorkcard> workcards)
+        {
+            using (var conn = new SqlConnection(sqlBuilder.ConnectionString))
+            {
+                conn.Open();
+
+                using (var transaction = conn.BeginTransaction())
+                {
+                    try
+                    {
+                        string sql = "INSERT INTO 防犯登録データ (データ区分, 画像名, 登録年, 登録月, 登録日, 登録番号," +
+                            "車体番号, メーカー, 塗色, 車種, 郵便番号1, 郵便番号2, 車両番号1, 車両番号2, 車名, 住所漢字," +
+                            "住所1, 住所2, 氏名, TEL携帯, TEL携帯2, TEL携帯3, PC名, CSV作成日, 備考, 更新年月日, 除外) " +
+                            "values (@datakbn, @imageName, @Year, @Month, @Day, @number, @VehicleIdentificationNumber," +
+                            "@Maker, @Color, @CarModel, @ZipCode1, @ZipCode2, @VehicleNumber1, @VehicleNumber2, @CarName, @AddressKanji," +
+                            "@Address1, @Address2, @Name, @Mobile1, @Mobile2, @Mobile3, @PC, @CsvCreationDate, @Memo, @UpDate, @exception)";
+
+                        using (SqlCommand com = new SqlCommand(sql, conn, transaction))
+                        {
+                            foreach (var workcard in workcards)
+                            {
+                                com.Parameters.Clear();
+                                com.Parameters.AddWithValue("@datakbn",         workcard.DataCategory);
+                                com.Parameters.AddWithValue("@imageName",       workcard.ImageFileName);
+                                com.Parameters.AddWithValue("@Year",            workcard.AddYear);
+                                com.Parameters.AddWithValue("@Month",           workcard.AddMonth);
+                                com.Parameters.AddWithValue("@Day",             workcard.AddDay);
+                                com.Parameters.AddWithValue("@number",          workcard.Number);
+                                com.Parameters.AddWithValue("@VehicleIdentificationNumber", workcard.VehicleIdentificationNumber);
+                                com.Parameters.AddWithValue("@Maker",           workcard.Maker);
+                                com.Parameters.AddWithValue("@Color",           workcard.Color);
+                                com.Parameters.AddWithValue("@CarModel",        workcard.CarModel);
+                                com.Parameters.AddWithValue("@ZipCode1",        workcard.ZipCode1);
+                                com.Parameters.AddWithValue("@ZipCode2",        workcard.ZipCode2);
+                                com.Parameters.AddWithValue("@VehicleNumber1",  "");
+                                com.Parameters.AddWithValue("@VehicleNumber2",  "");
+                                com.Parameters.AddWithValue("@CarName",         "");
+                                com.Parameters.AddWithValue("@AddressKanji",    workcard.AddressKanji);
+                                com.Parameters.AddWithValue("@Address1",        workcard.Address1);
+                                com.Parameters.AddWithValue("@Address2",        workcard.Address2);
+                                com.Parameters.AddWithValue("@Name",            workcard.Name);
+                                com.Parameters.AddWithValue("@Mobile1",         workcard.Mobile1);
+                                com.Parameters.AddWithValue("@Mobile2",         workcard.Mobile2);
+                                com.Parameters.AddWithValue("@Mobile3",         workcard.Mobile3);
+                                com.Parameters.AddWithValue("@PC",              workcard.PC);
+                                com.Parameters.AddWithValue("@CsvCreationDate", workcard.CsvCreationDate);
+                                com.Parameters.AddWithValue("@Memo",            workcard.Memo);
+                                com.Parameters.AddWithValue("@UpDate",          System.DateTime.Now.ToString());
+                                com.Parameters.AddWithValue("@exception",       global.flgOff);
+                                com.ExecuteNonQuery();
+
+                                // 防犯カードデータを削除する
+                                string deleteSql = "DELETE FROM 防犯カード WHERE ID = @ID";
+                                using (SqlCommand deleteCom = new SqlCommand(deleteSql, conn, transaction))
+                                {
+                                    deleteCom.Parameters.AddWithValue("@ID", workcard.ID);
+                                    deleteCom.ExecuteNonQuery();
+                                }
+
+                                // 画像ファイルを移動する
+                                if (System.IO.File.Exists(Properties.Settings.Default.scanDataPath + workcard.ImageFileName))
+                                {
+                                    System.IO.File.Copy(Properties.Settings.Default.scanDataPath + workcard.ImageFileName, Properties.Settings.Default.imgPath + workcard.ImageFileName);
+                                    System.IO.File.Delete(Properties.Settings.Default.scanDataPath + workcard.ImageFileName);
+                                }
+                            }
+                        }
+
+                        transaction.Commit();
+                    }
+                    catch
+                    {
+                        transaction.Rollback();
+                        throw;
+                    }
+                }
+            }
+        }
 
         /// <summary>
         /// SCANDATAテーブルにデータを挿入する：2026/08/18
@@ -936,9 +1018,9 @@ namespace SZOK_OCR.Common
         }
 
 
-        public List<TblScandata> ReadPc(string pc)
+        public List<TblWorkcard> ReadPc(string pc)
         {
-            var lines = new List<TblScandata>();
+            var lines = new List<TblWorkcard>();
 
             try
             {
@@ -959,7 +1041,7 @@ namespace SZOK_OCR.Common
                         {
                             while (dr.Read())
                             {
-                                TblScandata scandata = new TblScandata
+                                TblWorkcard work = new TblWorkcard
                                 {
                                     ID = Utility.StrtoInt(dr["ID"].ToString()),
                                     DataCategory = Utility.StrtoInt(Utility.NulltoStr(dr["データ区分"])),
@@ -977,6 +1059,7 @@ namespace SZOK_OCR.Common
                                     VehicleNumber1 = string.Empty,
                                     VehicleNumber2 = string.Empty,
                                     CarName = string.Empty,
+                                    AddressKanji = Utility.NulltoStr(dr["住所漢字"]),
                                     Address1 = Utility.NulltoStr(dr["住所1"]),
                                     Address2 = string.Empty,
                                     Name = Utility.NulltoStr(dr["氏名"]),
@@ -991,7 +1074,7 @@ namespace SZOK_OCR.Common
                                     Person = Utility.NulltoStr(dr["処理担当者"])
                                 };
 
-                                lines.Add(scandata);
+                                lines.Add(work);
                             }
                         }
                     }
