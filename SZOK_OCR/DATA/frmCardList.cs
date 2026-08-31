@@ -525,7 +525,7 @@ namespace SZOK_OCR.DATA
             param.Mobile2 = txtsTel2.Text;
             param.Mobile3 = txtsTel3.Text;
             param.CsvCreation = comboBox1.SelectedIndex > 0 ? (int?)(comboBox1.SelectedIndex - 1) : null;
-            param.CsvCreationDate = dateTimePicker1.Checked ? dateTimePicker1.Text : string.Empty;
+            param.CsvCreationDate = dateTimePicker1.Checked ? DateTime.Parse(dateTimePicker1.Text).ToString("yyyyMMdd") : string.Empty;
             param.Exception = chkJyogai.Checked ? (int?)1 : (int?)0;
             return param;
         }
@@ -557,7 +557,7 @@ namespace SZOK_OCR.DATA
             int iX = 0;
 
             // 2019/06/25
-            System.Threading.Thread.Sleep(100);
+            System.Threading.Thread.Sleep(10);
             Application.DoEvents();
 
             if (result.Count() > 0)
@@ -706,13 +706,13 @@ namespace SZOK_OCR.DATA
             {
                 label21.Enabled = true;
                 dateTimePicker1.Enabled = true;
-                dateTimePicker1.Checked = false;
             }
             else
             {
                 label21.Enabled = false;
                 dateTimePicker1.Enabled = false;
             }
+            dateTimePicker1.Checked = false;
         }
 
         private void FrmCardList_Shown(object sender, EventArgs e)

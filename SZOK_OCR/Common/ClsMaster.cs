@@ -995,18 +995,28 @@ namespace SZOK_OCR.Common
                         "(@Mobile1 IS NULL OR TEL携帯 LIKE '%' + @Mobile1 + '%') AND " +
                         "(@Mobile2 IS NULL OR TEL携帯2 LIKE '%' + @Mobile2 + '%') AND " +
                         "(@Mobile3 IS NULL OR TEL携帯3 LIKE '%' + @Mobile3 + '%') AND " +
-                        "(@CsvCreationDate IS NULL OR CSV作成日 = @CsvCreationDate) AND " +
                         "(@Exception IS NULL OR 除外 = @Exception)) ";
 
-                    // CSV作成日がNULLかどうかの条件を追加
+                    // 県警用CSV作成済み条件を追加
                     if (param.CsvCreation != null)
                     {
-                        if (param.CsvCreation == 1)
+                        if (param.CsvCreation == 0)
                         {
-                            sql += "AND CSV作成日 IS NOT NULL ";
+                            // CSV作成済み
+                            if (string.IsNullOrEmpty(param.CsvCreationDate))
+                            {
+                                // 作成日付指定なし
+                                sql += "AND (CSV作成日 IS NOT NULL AND CSV作成日 != '') ";
+                            }
+                            else
+                            {
+                                // 作成日付指定
+                                sql += "AND (CSV作成日 IS NOT NULL AND CSV作成日 != '' AND CSV作成日 LIKE '%' + @CsvCreationDate + '%') ";
+                            }
                         }
-                        else if (param.CsvCreation == 0)
+                        else if (param.CsvCreation == 1)
                         {
+                            // CSV未作成
                             sql += "AND (CSV作成日 IS NULL OR CSV作成日 = '') ";
                         }
                     }
