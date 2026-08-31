@@ -73,25 +73,24 @@
             this.lblData = new System.Windows.Forms.Label();
             this.chkJyogai = new System.Windows.Forms.CheckBox();
             this.lblMode = new System.Windows.Forms.Label();
+            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.label22 = new System.Windows.Forms.Label();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.label5 = new System.Windows.Forms.Label();
-            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.linkLabel4 = new System.Windows.Forms.LinkLabel();
-            this.linkLabel2 = new System.Windows.Forms.LinkLabel();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.panel5 = new System.Windows.Forms.Panel();
             this.btnLeft = new System.Windows.Forms.Button();
-            this.trackBar1 = new System.Windows.Forms.TrackBar();
+            this.linkLabel4 = new System.Windows.Forms.LinkLabel();
+            this.panel2 = new System.Windows.Forms.Panel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.panel5 = new System.Windows.Forms.Panel();
+            this.trackBar1 = new System.Windows.Forms.TrackBar();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // lblNoImage
@@ -118,25 +117,27 @@
             // txtTel
             // 
             this.txtTel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtTel.Font = new System.Drawing.Font("Meiryo UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.txtTel.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.txtTel.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.txtTel.Location = new System.Drawing.Point(112, 473);
-            this.txtTel.MaxLength = 13;
+            this.txtTel.MaxLength = 5;
             this.txtTel.Name = "txtTel";
-            this.txtTel.Size = new System.Drawing.Size(59, 32);
+            this.txtTel.Size = new System.Drawing.Size(59, 33);
             this.txtTel.TabIndex = 18;
+            this.txtTel.TabStop = false;
             this.txtTel.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtTel.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtYear_KeyPress);
             // 
             // txtFuri
             // 
             this.txtFuri.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtFuri.Font = new System.Drawing.Font("Meiryo UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.txtFuri.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.txtFuri.ImeMode = System.Windows.Forms.ImeMode.KatakanaHalf;
             this.txtFuri.Location = new System.Drawing.Point(112, 436);
             this.txtFuri.Name = "txtFuri";
-            this.txtFuri.Size = new System.Drawing.Size(337, 32);
+            this.txtFuri.Size = new System.Drawing.Size(337, 33);
             this.txtFuri.TabIndex = 17;
+            this.txtFuri.TabStop = false;
             this.txtFuri.Leave += new System.EventHandler(this.txtMaker_Leave);
             // 
             // button1
@@ -147,6 +148,7 @@
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(104, 31);
             this.button1.TabIndex = 14;
+            this.button1.TabStop = false;
             this.button1.Text = "〒⇔住所変換";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
@@ -154,62 +156,67 @@
             // txtAddFuri
             // 
             this.txtAddFuri.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtAddFuri.Font = new System.Drawing.Font("Meiryo UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.txtAddFuri.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.txtAddFuri.ImeMode = System.Windows.Forms.ImeMode.KatakanaHalf;
             this.txtAddFuri.Location = new System.Drawing.Point(112, 293);
             this.txtAddFuri.Multiline = true;
             this.txtAddFuri.Name = "txtAddFuri";
             this.txtAddFuri.Size = new System.Drawing.Size(337, 64);
             this.txtAddFuri.TabIndex = 15;
+            this.txtAddFuri.TabStop = false;
             this.txtAddFuri.Leave += new System.EventHandler(this.txtMaker_Leave);
             // 
             // txtAdd
             // 
             this.txtAdd.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtAdd.Font = new System.Drawing.Font("Meiryo UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.txtAdd.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.txtAdd.ImeMode = System.Windows.Forms.ImeMode.Hiragana;
             this.txtAdd.Location = new System.Drawing.Point(112, 362);
             this.txtAdd.Multiline = true;
             this.txtAdd.Name = "txtAdd";
             this.txtAdd.Size = new System.Drawing.Size(337, 69);
             this.txtAdd.TabIndex = 16;
+            this.txtAdd.TabStop = false;
             // 
             // txtZip2
             // 
             this.txtZip2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtZip2.Font = new System.Drawing.Font("Meiryo UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.txtZip2.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.txtZip2.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.txtZip2.Location = new System.Drawing.Point(177, 257);
             this.txtZip2.MaxLength = 4;
             this.txtZip2.Name = "txtZip2";
-            this.txtZip2.Size = new System.Drawing.Size(65, 31);
+            this.txtZip2.Size = new System.Drawing.Size(65, 33);
             this.txtZip2.TabIndex = 13;
+            this.txtZip2.TabStop = false;
             this.txtZip2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtZip2.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtYear_KeyPress);
             // 
             // txtZip1
             // 
             this.txtZip1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtZip1.Font = new System.Drawing.Font("Meiryo UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.txtZip1.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.txtZip1.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.txtZip1.Location = new System.Drawing.Point(112, 257);
             this.txtZip1.MaxLength = 3;
             this.txtZip1.Name = "txtZip1";
-            this.txtZip1.Size = new System.Drawing.Size(46, 31);
+            this.txtZip1.Size = new System.Drawing.Size(46, 33);
             this.txtZip1.TabIndex = 12;
+            this.txtZip1.TabStop = false;
             this.txtZip1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtZip1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtYear_KeyPress);
             // 
             // txtMaker
             // 
             this.txtMaker.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtMaker.Font = new System.Drawing.Font("Meiryo UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.txtMaker.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.txtMaker.ImeMode = System.Windows.Forms.ImeMode.KatakanaHalf;
             this.txtMaker.Location = new System.Drawing.Point(112, 185);
             this.txtMaker.MaxLength = 10;
             this.txtMaker.Name = "txtMaker";
-            this.txtMaker.Size = new System.Drawing.Size(135, 31);
+            this.txtMaker.Size = new System.Drawing.Size(135, 33);
             this.txtMaker.TabIndex = 6;
+            this.txtMaker.TabStop = false;
             this.txtMaker.Leave += new System.EventHandler(this.txtMaker_Leave);
             // 
             // label18
@@ -235,13 +242,14 @@
             // txtTel3
             // 
             this.txtTel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtTel3.Font = new System.Drawing.Font("Meiryo UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.txtTel3.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.txtTel3.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.txtTel3.Location = new System.Drawing.Point(275, 473);
-            this.txtTel3.MaxLength = 13;
+            this.txtTel3.MaxLength = 4;
             this.txtTel3.Name = "txtTel3";
-            this.txtTel3.Size = new System.Drawing.Size(59, 32);
+            this.txtTel3.Size = new System.Drawing.Size(59, 33);
             this.txtTel3.TabIndex = 20;
+            this.txtTel3.TabStop = false;
             this.txtTel3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtTel3.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtYear_KeyPress);
             // 
@@ -258,26 +266,28 @@
             // txtTel2
             // 
             this.txtTel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtTel2.Font = new System.Drawing.Font("Meiryo UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.txtTel2.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.txtTel2.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.txtTel2.Location = new System.Drawing.Point(193, 473);
-            this.txtTel2.MaxLength = 13;
+            this.txtTel2.MaxLength = 4;
             this.txtTel2.Name = "txtTel2";
-            this.txtTel2.Size = new System.Drawing.Size(59, 32);
+            this.txtTel2.Size = new System.Drawing.Size(59, 33);
             this.txtTel2.TabIndex = 19;
+            this.txtTel2.TabStop = false;
             this.txtTel2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtTel2.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtYear_KeyPress);
             // 
             // txtDay
             // 
             this.txtDay.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtDay.Font = new System.Drawing.Font("Meiryo UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.txtDay.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.txtDay.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.txtDay.Location = new System.Drawing.Point(250, 149);
             this.txtDay.MaxLength = 2;
             this.txtDay.Name = "txtDay";
-            this.txtDay.Size = new System.Drawing.Size(32, 31);
+            this.txtDay.Size = new System.Drawing.Size(32, 33);
             this.txtDay.TabIndex = 5;
+            this.txtDay.TabStop = false;
             this.txtDay.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtDay.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtYear_KeyPress);
             // 
@@ -294,13 +304,14 @@
             // txtMonth
             // 
             this.txtMonth.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtMonth.Font = new System.Drawing.Font("Meiryo UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.txtMonth.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.txtMonth.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.txtMonth.Location = new System.Drawing.Point(194, 149);
             this.txtMonth.MaxLength = 2;
             this.txtMonth.Name = "txtMonth";
-            this.txtMonth.Size = new System.Drawing.Size(32, 31);
+            this.txtMonth.Size = new System.Drawing.Size(32, 33);
             this.txtMonth.TabIndex = 4;
+            this.txtMonth.TabStop = false;
             this.txtMonth.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtMonth.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtYear_KeyPress);
             // 
@@ -318,12 +329,13 @@
             // 
             this.txtShataiNum.BackColor = System.Drawing.Color.White;
             this.txtShataiNum.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtShataiNum.Font = new System.Drawing.Font("Meiryo UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.txtShataiNum.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.txtShataiNum.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.txtShataiNum.Location = new System.Drawing.Point(112, 113);
             this.txtShataiNum.Name = "txtShataiNum";
-            this.txtShataiNum.Size = new System.Drawing.Size(337, 31);
+            this.txtShataiNum.Size = new System.Drawing.Size(337, 33);
             this.txtShataiNum.TabIndex = 2;
+            this.txtShataiNum.TabStop = false;
             this.txtShataiNum.Leave += new System.EventHandler(this.txtMaker_Leave);
             // 
             // label14
@@ -339,12 +351,13 @@
             // txtTourokuNum
             // 
             this.txtTourokuNum.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtTourokuNum.Font = new System.Drawing.Font("Meiryo UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.txtTourokuNum.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.txtTourokuNum.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.txtTourokuNum.Location = new System.Drawing.Point(112, 77);
             this.txtTourokuNum.Name = "txtTourokuNum";
-            this.txtTourokuNum.Size = new System.Drawing.Size(337, 31);
+            this.txtTourokuNum.Size = new System.Drawing.Size(337, 33);
             this.txtTourokuNum.TabIndex = 1;
+            this.txtTourokuNum.TabStop = false;
             this.txtTourokuNum.Leave += new System.EventHandler(this.txtMaker_Leave);
             // 
             // label13
@@ -431,13 +444,14 @@
             // 
             this.txtStyle.BackColor = System.Drawing.Color.White;
             this.txtStyle.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtStyle.Font = new System.Drawing.Font("Meiryo UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.txtStyle.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.txtStyle.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.txtStyle.Location = new System.Drawing.Point(112, 221);
             this.txtStyle.MaxLength = 2;
             this.txtStyle.Name = "txtStyle";
-            this.txtStyle.Size = new System.Drawing.Size(33, 31);
+            this.txtStyle.Size = new System.Drawing.Size(33, 33);
             this.txtStyle.TabIndex = 8;
+            this.txtStyle.TabStop = false;
             this.txtStyle.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtStyle.Leave += new System.EventHandler(this.txtStyle_Leave);
             // 
@@ -455,13 +469,13 @@
             // 
             this.txtStyleName.BackColor = System.Drawing.Color.White;
             this.txtStyleName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtStyleName.Font = new System.Drawing.Font("Meiryo UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.txtStyleName.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.txtStyleName.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.txtStyleName.Location = new System.Drawing.Point(144, 221);
             this.txtStyleName.MaxLength = 5;
             this.txtStyleName.Name = "txtStyleName";
             this.txtStyleName.ReadOnly = true;
-            this.txtStyleName.Size = new System.Drawing.Size(305, 31);
+            this.txtStyleName.Size = new System.Drawing.Size(305, 33);
             this.txtStyleName.TabIndex = 144;
             this.txtStyleName.TabStop = false;
             // 
@@ -488,23 +502,25 @@
             // txtMemo
             // 
             this.txtMemo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtMemo.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.txtMemo.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.txtMemo.Location = new System.Drawing.Point(112, 510);
             this.txtMemo.Multiline = true;
             this.txtMemo.Name = "txtMemo";
             this.txtMemo.Size = new System.Drawing.Size(336, 30);
             this.txtMemo.TabIndex = 21;
+            this.txtMemo.TabStop = false;
             // 
             // txtYear
             // 
             this.txtYear.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtYear.Font = new System.Drawing.Font("Meiryo UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.txtYear.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.txtYear.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.txtYear.Location = new System.Drawing.Point(137, 149);
             this.txtYear.MaxLength = 4;
             this.txtYear.Name = "txtYear";
-            this.txtYear.Size = new System.Drawing.Size(32, 31);
+            this.txtYear.Size = new System.Drawing.Size(32, 33);
             this.txtYear.TabIndex = 3;
+            this.txtYear.TabStop = false;
             this.txtYear.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtYear.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtYear_KeyPress);
             // 
@@ -521,12 +537,13 @@
             // txtColor
             // 
             this.txtColor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtColor.Font = new System.Drawing.Font("Meiryo UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.txtColor.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.txtColor.ImeMode = System.Windows.Forms.ImeMode.KatakanaHalf;
             this.txtColor.Location = new System.Drawing.Point(314, 185);
             this.txtColor.Name = "txtColor";
-            this.txtColor.Size = new System.Drawing.Size(135, 31);
+            this.txtColor.Size = new System.Drawing.Size(135, 33);
             this.txtColor.TabIndex = 7;
+            this.txtColor.TabStop = false;
             this.txtColor.Leave += new System.EventHandler(this.txtMaker_Leave);
             // 
             // panel1
@@ -534,6 +551,7 @@
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Controls.Add(this.lblData);
             this.panel1.Controls.Add(this.chkJyogai);
+            this.panel1.Controls.Add(this.linkLabel4);
             this.panel1.Controls.Add(this.lblMode);
             this.panel1.Controls.Add(this.linkLabel1);
             this.panel1.Controls.Add(this.label22);
@@ -603,6 +621,7 @@
             this.chkJyogai.Name = "chkJyogai";
             this.chkJyogai.Size = new System.Drawing.Size(56, 23);
             this.chkJyogai.TabIndex = 159;
+            this.chkJyogai.TabStop = false;
             this.chkJyogai.Text = "除外";
             this.chkJyogai.UseVisualStyleBackColor = true;
             // 
@@ -616,6 +635,21 @@
             this.lblMode.TabIndex = 158;
             this.lblMode.Text = "現在、閲覧モードです";
             this.lblMode.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // linkLabel1
+            // 
+            this.linkLabel1.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.linkLabel1.Image = ((System.Drawing.Image)(resources.GetObject("linkLabel1.Image")));
+            this.linkLabel1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.linkLabel1.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
+            this.linkLabel1.Location = new System.Drawing.Point(391, 632);
+            this.linkLabel1.Name = "linkLabel1";
+            this.linkLabel1.Size = new System.Drawing.Size(58, 21);
+            this.linkLabel1.TabIndex = 127;
+            this.linkLabel1.TabStop = true;
+            this.linkLabel1.Text = "終了";
+            this.linkLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
             // label22
             // 
@@ -635,6 +669,7 @@
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(241, 23);
             this.checkBox1.TabIndex = 156;
+            this.checkBox1.TabStop = false;
             this.checkBox1.Text = "静岡県警察本部用ＣＳＶデータ作成";
             this.checkBox1.UseVisualStyleBackColor = true;
             // 
@@ -671,73 +706,6 @@
             this.label5.TabIndex = 152;
             this.label5.Text = "カード種類：";
             // 
-            // linkLabel1
-            // 
-            this.linkLabel1.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.linkLabel1.Image = ((System.Drawing.Image)(resources.GetObject("linkLabel1.Image")));
-            this.linkLabel1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.linkLabel1.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-            this.linkLabel1.Location = new System.Drawing.Point(391, 632);
-            this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(58, 21);
-            this.linkLabel1.TabIndex = 127;
-            this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "終了";
-            this.linkLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
-            // 
-            // linkLabel4
-            // 
-            this.linkLabel4.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.linkLabel4.Image = ((System.Drawing.Image)(resources.GetObject("linkLabel4.Image")));
-            this.linkLabel4.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.linkLabel4.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-            this.linkLabel4.Location = new System.Drawing.Point(880, 703);
-            this.linkLabel4.Name = "linkLabel4";
-            this.linkLabel4.Size = new System.Drawing.Size(130, 24);
-            this.linkLabel4.TabIndex = 132;
-            this.linkLabel4.TabStop = true;
-            this.linkLabel4.Text = "編集モードにする";
-            this.linkLabel4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.linkLabel4.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel4_LinkClicked);
-            // 
-            // linkLabel2
-            // 
-            this.linkLabel2.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.linkLabel2.Image = ((System.Drawing.Image)(resources.GetObject("linkLabel2.Image")));
-            this.linkLabel2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.linkLabel2.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-            this.linkLabel2.Location = new System.Drawing.Point(860, 649);
-            this.linkLabel2.Name = "linkLabel2";
-            this.linkLabel2.Size = new System.Drawing.Size(58, 21);
-            this.linkLabel2.TabIndex = 133;
-            this.linkLabel2.TabStop = true;
-            this.linkLabel2.Text = "除外";
-            this.linkLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.linkLabel2.Visible = false;
-            this.linkLabel2.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel2_LinkClicked);
-            // 
-            // panel2
-            // 
-            this.panel2.AutoScroll = true;
-            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel2.Controls.Add(this.pictureBox1);
-            this.panel2.Location = new System.Drawing.Point(12, 16);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(512, 722);
-            this.panel2.TabIndex = 134;
-            // 
-            // panel5
-            // 
-            this.panel5.BackColor = System.Drawing.SystemColors.InactiveBorder;
-            this.panel5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel5.Controls.Add(this.btnLeft);
-            this.panel5.Controls.Add(this.trackBar1);
-            this.panel5.Location = new System.Drawing.Point(537, 690);
-            this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(271, 48);
-            this.panel5.TabIndex = 639;
-            // 
             // btnLeft
             // 
             this.btnLeft.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(216)))), ((int)(((byte)(232)))), ((int)(((byte)(254)))));
@@ -754,6 +722,50 @@
             this.btnLeft.UseVisualStyleBackColor = false;
             this.btnLeft.Click += new System.EventHandler(this.btnLeft_Click);
             // 
+            // linkLabel4
+            // 
+            this.linkLabel4.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.linkLabel4.Image = ((System.Drawing.Image)(resources.GetObject("linkLabel4.Image")));
+            this.linkLabel4.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.linkLabel4.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
+            this.linkLabel4.Location = new System.Drawing.Point(14, 629);
+            this.linkLabel4.Name = "linkLabel4";
+            this.linkLabel4.Size = new System.Drawing.Size(130, 24);
+            this.linkLabel4.TabIndex = 132;
+            this.linkLabel4.TabStop = true;
+            this.linkLabel4.Text = "編集モードにする";
+            this.linkLabel4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.linkLabel4.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel4_LinkClicked);
+            // 
+            // panel2
+            // 
+            this.panel2.AutoScroll = true;
+            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel2.Controls.Add(this.pictureBox1);
+            this.panel2.Location = new System.Drawing.Point(12, 16);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(512, 722);
+            this.panel2.TabIndex = 134;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(100, 50);
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
+            // 
+            // panel5
+            // 
+            this.panel5.BackColor = System.Drawing.SystemColors.InactiveBorder;
+            this.panel5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel5.Controls.Add(this.btnLeft);
+            this.panel5.Controls.Add(this.trackBar1);
+            this.panel5.Location = new System.Drawing.Point(537, 690);
+            this.panel5.Name = "panel5";
+            this.panel5.Size = new System.Drawing.Size(271, 48);
+            this.panel5.TabIndex = 639;
+            // 
             // trackBar1
             // 
             this.trackBar1.LargeChange = 2;
@@ -765,22 +777,12 @@
             this.trackBar1.TabStop = false;
             this.trackBar1.ValueChanged += new System.EventHandler(this.trackBar1_ValueChanged);
             // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(100, 50);
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
-            // 
             // frmPastData
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1028, 748);
             this.Controls.Add(this.panel5);
-            this.Controls.Add(this.linkLabel2);
-            this.Controls.Add(this.linkLabel4);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.lblNoImage);
             this.Controls.Add(this.panel2);
@@ -795,10 +797,10 @@
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panel5.ResumeLayout(false);
             this.panel5.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -850,7 +852,6 @@
         private System.Windows.Forms.RadioButton radioButton2;
         private System.Windows.Forms.RadioButton radioButton1;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.LinkLabel linkLabel2;
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.Label lblMode;

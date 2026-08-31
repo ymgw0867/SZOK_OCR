@@ -675,19 +675,24 @@ namespace SZOK_OCR.Common
         ///--------------------------------------------------------------
         public static void zipCsvLoad(ref string[] z)
         {
-            szokDataSetTableAdapters.環境設定TableAdapter adp = new szokDataSetTableAdapters.環境設定TableAdapter();
-            szokDataSet dts = new szokDataSet();
-            adp.Fill(dts.環境設定);
+            // コメント化：2026/08/31
+            //szokDataSetTableAdapters.環境設定TableAdapter adp = new szokDataSetTableAdapters.環境設定TableAdapter();
+            //szokDataSet dts = new szokDataSet();
+            //adp.Fill(dts.環境設定);
 
-            var s = dts.環境設定.Single(a => a.ID == global.configKEY);
+            //var s = dts.環境設定.Single(a => a.ID == global.configKEY);
 
-            if (!System.IO.File.Exists(s.郵便番号データパス))
+            // sqlserver接続に変更：2026/08/31
+            ClsMaster master = new ClsMaster(Properties.Settings.Default.sServerName, Properties.Settings.Default.sLogin, Properties.Settings.Default.sPass, Properties.Settings.Default.sDatabase);
+            var s = master.GetData<TblConfig>(global.configKEY.ToString());
+
+            if (!System.IO.File.Exists(s.ZipCodePath))
             {
                 return;
             }
 
             // 郵便番号CSV読み込み
-            z = System.IO.File.ReadAllLines(s.郵便番号データパス, Encoding.Default);
+            z = System.IO.File.ReadAllLines(s.ZipCodePath, Encoding.Default);
         }
 
 

@@ -49,11 +49,12 @@ namespace SZOK_OCR.DATA
         string colCarName = "col9";
         string colZip = "col10";
         string colAdd = "col11";
-        string colFuri = "col12";
-        string colTel = "col13";
+        string colAddKN = "col12";
+        string colFuri = "col13";
+        string colTel = "col14";
         string colID = "colID";
-        string colCsv = "col14";
-        string colJyogai = "col15";
+        string colCsv = "col15";
+        string colJyogai = "col16";
 
         private void frmCardList_Load(object sender, EventArgs e)
         {
@@ -170,7 +171,8 @@ namespace SZOK_OCR.DATA
                 //tempDGV.Columns.Add(colSharyoNum, "車両番号");
                 //tempDGV.Columns.Add(colCarName, "車名");
                 tempDGV.Columns.Add(colZip, "〒");
-                tempDGV.Columns.Add(colAdd, "住所");
+                tempDGV.Columns.Add(colAddKN, "住所");
+                tempDGV.Columns.Add(colAdd, "住所フリガナ");
                 tempDGV.Columns.Add(colFuri, "氏名");
                 tempDGV.Columns.Add(colTel, "ＴＥＬ／携帯");
                 tempDGV.Columns.Add(colCsv, "静岡県警用CSV作成");
@@ -189,6 +191,7 @@ namespace SZOK_OCR.DATA
                 //tempDGV.Columns[colSharyoNum].Width = 100;
                 //tempDGV.Columns[colCarName].Width = 100;
                 tempDGV.Columns[colZip].Width = 100;
+                tempDGV.Columns[colAddKN].Width = 220;
                 tempDGV.Columns[colAdd].Width = 330;
                 tempDGV.Columns[colFuri].Width = 150;
                 tempDGV.Columns[colTel].Width = 140;
@@ -598,6 +601,7 @@ namespace SZOK_OCR.DATA
                 dg[colColor, iX].Value = t.Color;
                 dg[colCarStyle, iX].Value = getCarStyleName(t.CarModel.ToString().PadLeft(2, '0'));
                 dg[colZip, iX].Value = t.ZipCode1 + "-" + t.ZipCode2;
+                dg[colAddKN, iX].Value = t.AddressKanji.Trim();
                 dg[colAdd, iX].Value = t.Address1.Trim();
                 dg[colFuri, iX].Value = t.Name;
                 dg[colTel, iX].Value = t.Mobile1.Trim() + "-" + t.Mobile2.Trim() + "-" + t.Mobile3.Trim();

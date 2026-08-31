@@ -12,20 +12,13 @@ namespace SZOK_OCR.DATA
 {
     public partial class frmPastData : Form
     {
-        cardDataSet dts = new cardDataSet();
-        cardDataSetTableAdapters.防犯登録データTableAdapter adp = new cardDataSetTableAdapters.防犯登録データTableAdapter();
-
         // 検索ＩＤ
         int dID = 0;
 
         string EDIT_MODE = "閲覧モードにする";
         string DISP_MODE = "編集モードにする";
         string DELTAG = "delete";
-
-        /// <summary>
-        ///     カレントデータRowsインデックス</summary>
-        //int[] cID = null;
-        //int cI = 0;
+        bool EditMode = false;
 
         string[] zipArray = null;   // 郵便番号配列
 
@@ -35,14 +28,9 @@ namespace SZOK_OCR.DATA
             
             // 登録済みデータの検索及び編集
             dID = sID;
-
-            // 2019/06/25 コメント化
-            //adp.Fill(dts.防犯登録データ);
-
-            // 2026/08/31 コメント化
-            //// 2019/06/25 対象IDに絞込
-            //adp.FillByID(dts.防犯登録データ, dID);
         }
+
+        TblRegistrationCard r = null;
 
         Image OcrImg = null;
 
@@ -204,90 +192,15 @@ namespace SZOK_OCR.DATA
                 trackBar1.Enabled = false;
                 btnLeft.Enabled = false;
             }
-
-            ////修正画面へ組み入れた画像フォームの表示    
-            ////画像の出力が無い場合は、画像表示をしない。
-            //if (tempImgName == string.Empty)
-            //{
-            //    leadImg.Visible = false;
-            //    lblNoImage.Visible = false;
-            //    global.pblImagePath = string.Empty;
-            //    return;
-            //}
-
-            ////画像ファイルがあるとき表示
-            //if (System.IO.File.Exists(tempImgName))
-            //{
-            //    lblNoImage.Visible = false;
-            //    leadImg.Visible = true;
-
-            //    // 画像操作ボタン
-            //    btnPlus.Enabled = true;
-            //    btnMinus.Enabled = true;
-
-            //    //画像ロード
-            //    Leadtools.Codecs.RasterCodecs.Startup();
-            //    Leadtools.Codecs.RasterCodecs cs = new Leadtools.Codecs.RasterCodecs();
-
-            //    // 描画時に使用される速度、品質、およびスタイルを制御します。 
-            //    Leadtools.RasterPaintProperties prop = new Leadtools.RasterPaintProperties();
-            //    prop = Leadtools.RasterPaintProperties.Default;
-            //    prop.PaintDisplayMode = Leadtools.RasterPaintDisplayModeFlags.Resample;
-            //    leadImg.PaintProperties = prop;
-
-            //    leadImg.Image = cs.Load(tempImgName, 0, Leadtools.Codecs.CodecsLoadByteOrder.BgrOrGray, 1, 1);
-
-            //    //画像表示倍率設定
-            //    if (global.miMdlZoomRate == 0f)
-            //    {
-            //        leadImg.ScaleFactor *= global.ZOOM_RATE;
-            //    }
-            //    else
-            //    {
-            //        leadImg.ScaleFactor *= global.miMdlZoomRate;
-            //    }
-
-            //    //画像のマウスによる移動を可能とする
-            //    leadImg.InteractiveMode = Leadtools.WinForms.RasterViewerInteractiveMode.Pan;
-
-            //    // グレースケールに変換
-            //    Leadtools.ImageProcessing.GrayscaleCommand grayScaleCommand = new Leadtools.ImageProcessing.GrayscaleCommand();
-            //    grayScaleCommand.BitsPerPixel = 8;
-            //    grayScaleCommand.Run(leadImg.Image);
-            //    leadImg.Refresh();
-
-            //    cs.Dispose();
-            //    Leadtools.Codecs.RasterCodecs.Shutdown();
-            //    //global.pblImagePath = tempImgName;
-            //}
-            //else
-            //{
-            //    //画像ファイルがないとき
-            //    lblNoImage.Visible = true;
-
-            //    // 画像操作ボタン
-            //    btnPlus.Enabled = false;
-            //    btnMinus.Enabled = false;
-
-            //    leadImg.Visible = false;
-            //    //global.pblImagePath = string.Empty;
-            //}
         }
         
-        private void btnRtn_Click(object sender, EventArgs e)
-        {
-        }
-
         private void frmCorrect_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (this.Tag.ToString() != DELTAG)
+            if (EditMode)
             {
                 // カレントデータ更新
-                cuDataUpdate(dID);
+                cuDataUpdate();
             }
-
-            // データベース更新
-            adp.Update(dts.防犯登録データ);
 
             // 後片付け
             this.Dispose();
@@ -299,61 +212,71 @@ namespace SZOK_OCR.DATA
         /// <param name="sID">
         ///     防犯カードデータID</param>
         ///-------------------------------------------------------------------
-        private void cuDataUpdate(int sID)
+        private void cuDataUpdate()
         {
-            var r = dts.防犯登録データ.Single(a => a.ID == sID);
+            // TblRegistrationCard クラス取得 2026/08/31 追加
+            GetTblRegistrationCard();
 
+            // SQL Server更新：2026/08/31
+            var master = new ClsMaster(Properties.Settings.Default.sServerName, Properties.Settings.Default.sLogin,
+                                   Properties.Settings.Default.sPass, Properties.Settings.Default.sDatabase);
+
+            // 防犯登録データ更新：2026/08/31
+            master.UpDate<TblRegistrationCard>(r);
+        }
+
+        /// <summary>
+        ///    TblRegistrationCard クラス取得 2026/08/31 追加
+        /// </summary>
+        private void GetTblRegistrationCard()
+        {
             // 自転車・原付
             if (radioButton1.Checked)
             {
-                r.データ区分 = global.flgOff;
+                r.DataCategory = global.flgOff;
             }
             else if (radioButton2.Checked)
             {
-                r.データ区分 = global.flgOn;
+                r.DataCategory = global.flgOn;
             }
 
-            r.登録年 = txtYear.Text;
-            r.登録月 = txtMonth.Text;
-            r.登録日 = txtDay.Text;
+            r.AddYear = txtYear.Text;
+            r.AddMonth = txtMonth.Text;
+            r.AddDay = txtDay.Text;
 
-            r.登録番号 = kanmaDelete(txtTourokuNum.Text);
-            r.車体番号 = kanmaDelete(txtShataiNum.Text);
-            r.メーカー = kanmaDelete(txtMaker.Text);
-            r.塗色 = kanmaDelete(txtColor.Text);
-            r.車種 = Utility.StrtoInt(txtStyle.Text);
-            r.郵便番号1 = txtZip1.Text;
-            r.郵便番号2 = txtZip2.Text;
-            //r.車両番号1 = kanmaDelete(txtSharyoNum.Text);
-            //r.車両番号2 = kanmaDelete(txtSharyoNum2.Text);
-            //r.車名 = kanmaDelete(txtCarName.Text);
-            r.住所漢字 = kanmaDelete(txtAdd.Text);
-            r.住所1 = kanmaDelete(txtAddFuri.Text);
-            r.住所2 = string.Empty;
-            r.氏名 = kanmaDelete(txtFuri.Text);
-            r.TEL携帯 = txtTel.Text;
-            r.TEL携帯2 = txtTel2.Text;
-            r.TEL携帯3 = txtTel3.Text;
-            r.備考 = txtMemo.Text;
-            
+            r.Number = kanmaDelete(txtTourokuNum.Text);
+            r.VehicleIdentificationNumber = kanmaDelete(txtShataiNum.Text);
+            r.Maker = kanmaDelete(txtMaker.Text);
+            r.Color = kanmaDelete(txtColor.Text);
+            r.CarModel = Utility.StrtoInt(txtStyle.Text);
+            r.ZipCode1 = txtZip1.Text;
+            r.ZipCode2 = txtZip2.Text;
+            r.AddressKanji = kanmaDelete(txtAdd.Text);
+            r.Address1 = kanmaDelete(txtAddFuri.Text);
+            r.Name = kanmaDelete(txtFuri.Text);
+            r.Mobile1 = txtTel.Text;
+            r.Mobile2 = txtTel2.Text;
+            r.Mobile3 = txtTel3.Text;
+            r.Memo = txtMemo.Text;
+
             if (!checkBox1.Checked)
             {
-                r.CSV作成日 = string.Empty;
+                r.CsvCreationDate = string.Empty;
             }
 
-            r.更新年月日 = DateTime.Now;
+            r.UpDate = DateTime.Now;
 
             // データ除外 2016/05/30
             if (chkJyogai.Checked)
             {
-                r.除外 = global.flgOn;
+                r.Exception = global.flgOn;
             }
             else
             {
-                r.除外 = global.flgOff;
+                r.Exception = global.flgOff;
             }
         }
-        
+
         ///----------------------------------------------------------------
         /// <summary>
         ///     シングルコーテーションとカンマを除去 </summary>
@@ -367,22 +290,7 @@ namespace SZOK_OCR.DATA
             return s.Replace("'", "").Replace(",", "");
         }
 
-
-        private void leadImg_MouseLeave(object sender, EventArgs e)
-        {
-            this.Cursor = Cursors.Default;
-        }
-
-        private void leadImg_MouseMove(object sender, MouseEventArgs e)
-        {
-            this.Cursor = Cursors.Hand;
-        }
-
-        private void btnErrCheck_Click(object sender, EventArgs e)
-        {
-        }
-
-        
+                
         private void txtStyle_Leave(object sender, EventArgs e)
         {
             txtStyle.Text = txtStyle.Text.PadLeft(2, '0');
@@ -427,10 +335,6 @@ namespace SZOK_OCR.DATA
             this.Close();
         }
 
-        private void linkPlus_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-        }
-
 
         private void linkLabel4_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
@@ -448,6 +352,7 @@ namespace SZOK_OCR.DATA
 
                 linkLabel4.Text = EDIT_MODE;
                 dispEditMode(); // 編集モードへ
+                EditMode = true;   // 編集モードフラグ：2026/08/31
             }
             else if (linkLabel4.Text == EDIT_MODE)
             {
@@ -484,51 +389,6 @@ namespace SZOK_OCR.DATA
             //    txtSharyoNum2.Enabled = true;
             //    txtCarName.Enabled = true;
             //}
-        }
-
-        private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            // 確認
-            if (MessageBox.Show("表示中の防犯登録カードデータを除外して良いですか", "削除確認", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
-            {
-                return;
-            }
-
-            //// データ削除
-            //dataDelete(dID);
-
-            // データ除外
-            dataExclusion(dID);
-
-            // 閉じる
-            this.Close();
-        }
-
-        private void dataDelete(int iX)
-        {
-            // 防犯カード行を取得
-            var r = dts.防犯登録データ.Single(a => a.ID == iX);
-            string imgNm = r.画像名;
-            r.Delete();
-
-            //// データベース更新 
-            //adp.Update(dts.防犯登録データ);
-
-            // 画像削除
-            System.IO.File.Delete(Properties.Settings.Default.imgPath + imgNm);
-
-            // tag書き換え
-            this.Tag = DELTAG;
-        }
-
-        private void dataExclusion(int iX)
-        {
-            // 防犯カード行を取得
-            var r = dts.防犯登録データ.Single(a => a.ID == iX);
-            r.除外 = global.flgOn;
-
-            // データベース更新 
-            adp.Update(dts.防犯登録データ);
         }
     }
 }

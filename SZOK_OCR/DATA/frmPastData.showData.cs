@@ -19,20 +19,14 @@ namespace SZOK_OCR.DATA
         ///------------------------------------------------------------------------------------
         private void showOcrData(int iX)
         {
-            // コメント化：2028/08/31
-            //// 防犯カード行を取得
-            //var r = dts.防犯登録データ.Single(a => a.ID == iX);
-
             // SQL Server接続
             var master = new ClsMaster(Properties.Settings.Default.sServerName, Properties.Settings.Default.sLogin,
                                    Properties.Settings.Default.sPass, Properties.Settings.Default.sDatabase);
 
-            var r = master.GetData<TblRegistrationCard>(iX.ToString());
+            r = master.GetData<TblRegistrationCard>(iX.ToString());
 
             // フォーム初期化
             formInitialize();
-
-            // 情報表示
 
             // 情報表示
             if (r.DataCategory == global.flgOff)
@@ -63,12 +57,11 @@ namespace SZOK_OCR.DATA
                 }
             }
 
-
             txtZip1.Text = r.ZipCode1;
             txtZip2.Text = r.ZipCode2;
 
+            txtAdd.Text = r.AddressKanji;
             txtAddFuri.Text = r.Address1;
-
 
             txtFuri.Text = r.Name;
             txtTel.Text = r.Mobile1;
@@ -84,77 +77,6 @@ namespace SZOK_OCR.DATA
                 txtMemo.Text = r.Memo;
             }
 
-
-
-
-            //if (r.データ区分 == global.flgOff)
-            //{
-            //    radioButton1.Checked = true;
-            //}
-            //else if (r.データ区分 == global.flgOn)
-            //{
-            //    radioButton2.Checked = true;
-            //}
-
-            //txtTourokuNum.Text = r.登録番号;
-            //txtShataiNum.Text = r.車体番号;
-            //txtYear.Text = r.登録年;
-            //txtMonth.Text = r.登録月;
-            //txtDay.Text = r.登録日;
-            //txtMaker.Text = r.メーカー;
-            //txtColor.Text = r.塗色;
-
-            //global g = new global();
-            //for (int i = 0; i < g.arrStyle.GetLength(0); i++)
-            //{
-            //    if (g.arrStyle[i, 0] == r.車種.ToString().PadLeft(2, '0'))
-            //    {
-            //        txtStyle.Text = r.車種.ToString().PadLeft(2, '0');
-            //        txtStyleName.Text = g.arrStyle[i, 1];
-            //        break;
-            //    }
-            //}
-
-            //if (r.Is車両番号1Null())
-            //{
-            //    txtSharyoNum.Text = "";
-            //}
-            //else
-            //{
-            //    txtSharyoNum.Text = r.車両番号1;
-            //}
-
-            //txtSharyoNum2.Text = r.車両番号2;
-            //txtCarName.Text = r.車名;
-
-            //txtZip1.Text = r.郵便番号1;
-            //txtZip2.Text = r.郵便番号2;
-
-            //txtAddFuri.Text = r.住所1;
-
-            //if (r.Is住所漢字Null())
-            //{
-            //    txtAdd.Text = string.Empty;
-            //}
-            //else
-            //{
-            //    txtAdd.Text = r.住所漢字;
-            //}
-
-            //txtFuri.Text = r.氏名;
-            //txtTel.Text = r.TEL携帯;
-            //txtTel2.Text = r.TEL携帯2;
-            //txtTel3.Text = r.TEL携帯3;
-
-            //if (r.Is備考Null())
-            //{
-            //    txtMemo.Text = string.Empty;
-            //}
-            //else
-            //{
-            //    txtMemo.Text = r.備考;
-            //}
-
             // 県警察本部用ＣＳＶデータ作成日
             if (r.CsvCreationDate != string.Empty)
             {
@@ -168,9 +90,7 @@ namespace SZOK_OCR.DATA
             label22.Text = r.CsvCreationDate;
 
             // 画像表示
-            ShowImage(Properties.Settings.Default.scanDataPath + r.ImageFileName.ToString());
-
-            linkLabel1.Focus();
+            ShowImage(Properties.Settings.Default.imgPath + r.ImageFileName.ToString());
 
             // 除外データのとき
             if (r.Exception == global.flgOn)
@@ -184,39 +104,10 @@ namespace SZOK_OCR.DATA
                 lblData.Visible = false;
                 chkJyogai.Checked = false;
             }
+
+            linkLabel1.Focus();
         }
 
-        ///------------------------------------------------------------------------------------
-        /// <summary>
-        ///     画像を表示する </summary>
-        /// <param name="pic">
-        ///     pictureBoxオブジェクト</param>
-        /// <param name="imgName">
-        ///     イメージファイルパス</param>
-        /// <param name="fX">
-        ///     X方向のスケールファクター</param>
-        /// <param name="fY">
-        ///     Y方向のスケールファクター</param>
-        ///------------------------------------------------------------------------------------
-        private void ImageGraphicsPaint(PictureBox pic, string imgName, float fX, float fY, int RectDest, int RectSrc)
-        {
-            Image _img = Image.FromFile(imgName);
-            Graphics g = Graphics.FromImage(pic.Image);
-
-            // 各変換設定値のリセット
-            g.ResetTransform();
-
-            // X軸とY軸の拡大率の設定
-            g.ScaleTransform(fX, fY);
-
-            // 画像を表示する
-            g.DrawImage(_img, RectDest, RectSrc);
-
-            // 現在の倍率,座標を保持する
-            global.ZOOM_NOW = fX;
-            global.RECTD_NOW = RectDest;
-            global.RECTS_NOW = RectSrc;
-        }
 
         ///------------------------------------------------------------------------------------
         /// <summary>
@@ -351,7 +242,6 @@ namespace SZOK_OCR.DATA
             checkBox1.AutoCheck = false;
 
             button1.Visible = false;
-            linkLabel2.Visible = false;
 
             chkJyogai.AutoCheck = false;
         }

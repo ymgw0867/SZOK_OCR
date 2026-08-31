@@ -14,13 +14,10 @@ namespace SZOK_OCR.DATA
 {
     public partial class frmScanData : Form
     {
-        cardDataSet dts = new cardDataSet();
-        cardDataSetTableAdapters.SCAN_DATATableAdapter adp = new cardDataSetTableAdapters.SCAN_DATATableAdapter();
-
         // 検索ＩＤ
         int dID = 0;
 
-        string[] zipArray = null;   // 郵便番号配列
+        //string[] zipArray = null;   // 郵便番号配列
 
         public frmScanData(int sID)
         {
@@ -28,9 +25,6 @@ namespace SZOK_OCR.DATA
             
             // 登録済みデータの検索及び編集
             dID = sID;
-
-            //// 2019/11/14 対象IDに絞込
-            //adp.FillByID(dts.SCAN_DATA, dID);
         }
 
         Image OcrImg = null;
@@ -140,9 +134,6 @@ namespace SZOK_OCR.DATA
             this.Close();
         }
 
-        private void linkPlus_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-        }
 
         private void btnPlus_Click_1(object sender, EventArgs e)
         {

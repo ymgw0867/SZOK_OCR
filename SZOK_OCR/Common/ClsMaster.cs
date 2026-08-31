@@ -127,6 +127,11 @@ namespace SZOK_OCR.Common
             {
                 UpDate((TblWorkcard)(object)(cls));
             }
+            // 防犯登録データのとき
+            if (typeof(T) == typeof(TblRegistrationCard))
+            {
+                UpDate((TblRegistrationCard)(object)(cls));
+            }
         }
 
         /// <summary>
@@ -376,7 +381,11 @@ namespace SZOK_OCR.Common
             }
         }
 
-
+        /// <summary>
+        /// 防犯登録データテーブルのデータを取得する：2026/08/31
+        /// </summary>
+        /// <param name="id">防犯登録データのID</param>
+        /// <returns>TblRegistrationCardオブジェクト</returns>
         private TblRegistrationCard GetClsRegistrationCard(int id)
         {
             TblRegistrationCard registrationCard = null;
@@ -426,7 +435,7 @@ namespace SZOK_OCR.Common
                                     CsvCreationDate = Utility.NulltoStr(dr["CSV作成日"]),
                                     Memo = Utility.NulltoStr(dr["備考"]),
                                     UpDate = System.DateTime.Parse(Utility.NulltoStr(dr["更新年月日"])),
-                                    Exception = Utility.StrtoInt(Utility.NulltoStr(dr["例外"]))
+                                    Exception = Utility.StrtoInt(Utility.NulltoStr(dr["除外"]))
                                 };
                             }
                         }
@@ -531,6 +540,67 @@ namespace SZOK_OCR.Common
                         com.Parameters.AddWithValue("@Person", workcardData.Person);
                         com.Parameters.AddWithValue("@Confirmation", workcardData.Confirmation);
                         com.Parameters.AddWithValue("@ID", workcardData.ID);
+                        com.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// 防犯登録データテーブルを更新する：2026/08/31
+        /// </summary>
+        /// <param name="registrationCard">更新する防犯登録データ</param>
+        private void UpDate(TblRegistrationCard registrationCard)
+        {
+            try
+            {
+                using (var conn = new SqlConnection(sqlBuilder.ConnectionString))
+                {
+                    conn.Open();
+
+                    string sql = "UPDATE 防犯登録データ SET " +
+                            "データ区分 = @datakbn, 画像名 = @imageName, 登録年 = @Year, 登録月 = @Month, 登録日 = @Day, " +
+                            "登録番号 = @number, 車体番号 = @VehicleIdentificationNumber, メーカー = @Maker, 塗色 = @Color, " +
+                            "車種 = @CarModel, 郵便番号1 = @ZipCode1, 郵便番号2 = @ZipCode2, 車両番号1 = @VehicleNumber1, " +
+                            "車両番号2 = @VehicleNumber2, 車名 = @CarName, 住所漢字 = @AddressKanji," +
+                            "住所1 = @Address1, 住所2 = @Address2, 氏名 = @Name, TEL携帯 = @Mobile1, TEL携帯2 = @Mobile2, TEL携帯3 = @Mobile3, " +
+                            "PC名 = @PC, CSV作成日 = @CsvCreationDate, 備考 = @Memo, 更新年月日 = @UpDate, 除外 = @Exception " +
+                            "WHERE ID = @ID";
+
+                    using (SqlCommand com = new SqlCommand(sql, conn))
+                    {
+                        com.Parameters.AddWithValue("@datakbn", registrationCard.DataCategory);
+                        com.Parameters.AddWithValue("@imageName", registrationCard.ImageFileName);
+                        com.Parameters.AddWithValue("@year", registrationCard.AddYear);
+                        com.Parameters.AddWithValue("@month", registrationCard.AddMonth);
+                        com.Parameters.AddWithValue("@day", registrationCard.AddDay);
+                        com.Parameters.AddWithValue("@number", registrationCard.Number);
+                        com.Parameters.AddWithValue("@VehicleIdentificationNumber", registrationCard.VehicleIdentificationNumber);
+                        com.Parameters.AddWithValue("@Maker", registrationCard.Maker);
+                        com.Parameters.AddWithValue("@Color", registrationCard.Color);
+                        com.Parameters.AddWithValue("@CarModel", registrationCard.CarModel);
+                        com.Parameters.AddWithValue("@ZipCode1", registrationCard.ZipCode1);
+                        com.Parameters.AddWithValue("@ZipCode2", registrationCard.ZipCode2);
+                        com.Parameters.AddWithValue("@VehicleNumber1", registrationCard.VehicleNumber1);
+                        com.Parameters.AddWithValue("@VehicleNumber2", registrationCard.VehicleNumber2);
+                        com.Parameters.AddWithValue("@CarName", registrationCard.CarName);
+                        com.Parameters.AddWithValue("@AddressKanji", registrationCard.AddressKanji);
+                        com.Parameters.AddWithValue("@Address1", registrationCard.Address1);
+                        com.Parameters.AddWithValue("@Address2", registrationCard.Address2);
+                        com.Parameters.AddWithValue("@Name", registrationCard.Name);
+                        com.Parameters.AddWithValue("@Mobile1", registrationCard.Mobile1);
+                        com.Parameters.AddWithValue("@Mobile2", registrationCard.Mobile2);
+                        com.Parameters.AddWithValue("@Mobile3", registrationCard.Mobile3);
+                        com.Parameters.AddWithValue("@PC", registrationCard.PC);
+                        com.Parameters.AddWithValue("@CsvCreationDate", registrationCard.CsvCreationDate);
+                        com.Parameters.AddWithValue("@Memo", registrationCard.Memo);
+                        com.Parameters.AddWithValue("@UpDate", System.DateTime.Now.ToString());
+                        com.Parameters.AddWithValue("@Exception", registrationCard.Exception);
+                        com.Parameters.AddWithValue("@ID", registrationCard.ID);
                         com.ExecuteNonQuery();
                     }
                 }

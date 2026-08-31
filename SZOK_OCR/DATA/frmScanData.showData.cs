@@ -19,9 +19,6 @@ namespace SZOK_OCR.DATA
         ///------------------------------------------------------------------------------------
         private void showOcrData(int iX)
         {
-            ////スキャンデータ行を取得
-            //var r = dts.SCAN_DATA.Single(a => a.ID == iX);
-
             // SQL Server接続
             var master = new ClsMaster(Properties.Settings.Default.sServerName, Properties.Settings.Default.sLogin,
                                    Properties.Settings.Default.sPass, Properties.Settings.Default.sDatabase);
@@ -30,78 +27,6 @@ namespace SZOK_OCR.DATA
 
             // フォーム初期化
             formInitialize();
-
-            //// 情報表示
-            //if (r.データ区分 == global.flgOff)
-            //{
-            //    radioButton1.Checked = true;
-            //}
-            //else if (r.データ区分 == global.flgOn)
-            //{
-            //    radioButton2.Checked = true;
-            //}
-
-            //txtTourokuNum.Text = r.登録番号;
-            //txtShataiNum.Text = r.車体番号;
-            //txtYear.Text = r.登録年;
-            //txtMonth.Text = r.登録月;
-            //txtDay.Text = r.登録日;
-            //txtMaker.Text = r.メーカー;
-            //txtColor.Text = r.塗色;
-
-            //global g = new global();
-            //for (int i = 0; i < g.arrStyle.GetLength(0); i++)
-            //{
-            //    if (g.arrStyle[i, 0] == r.車種.ToString().PadLeft(2, '0'))
-            //    {
-            //        txtStyle.Text = r.車種.ToString().PadLeft(2, '0');
-            //        txtStyleName.Text = g.arrStyle[i, 1];
-            //        break;
-            //    }
-            //}
-
-            //if (r.Is車両番号1Null())
-            //{
-            //    txtSharyoNum.Text = "";
-            //}
-            //else
-            //{
-            //    txtSharyoNum.Text = r.車両番号1;
-            //}
-
-            //txtSharyoNum2.Text = r.車両番号2;
-            //txtCarName.Text = r.車名;
-
-            //txtZip1.Text = r.郵便番号1;
-            //txtZip2.Text = r.郵便番号2;
-
-            //txtAddFuri.Text = r.住所1;
-
-            //if (r.Is住所漢字Null())
-            //{
-            //    txtAdd.Text = string.Empty;
-            //}
-            //else
-            //{
-            //    txtAdd.Text = r.住所漢字;
-            //}
-
-            //txtFuri.Text = r.氏名;
-            //txtTel.Text = r.TEL携帯;
-            //txtTel2.Text = r.TEL携帯2;
-            //txtTel3.Text = r.TEL携帯3;
-
-            //if (r.Is備考Null())
-            //{
-            //    txtMemo.Text = string.Empty;
-            //}
-            //else
-            //{
-            //    txtMemo.Text = r.備考;
-            //}
-
-            //// 画像表示
-            //ShowImage(Properties.Settings.Default.scanDataPath + r.画像名.ToString());
 
             // 情報表示
             if (r.DataCategory == global.flgOff)
@@ -116,8 +41,6 @@ namespace SZOK_OCR.DATA
             txtTourokuNum.Text = r.Number;
             txtShataiNum.Text = r.VehicleIdentificationNumber;
             txtYYMMDD.Text = $"20{r.AddYear}年{r.AddMonth}月{r.AddDay}日";
-            //txtMonth.Text = r.AddMonth;
-            //txtDay.Text = r.AddDay;
             txtMaker.Text = r.Maker;
             txtColor.Text = r.Color;
 
@@ -132,31 +55,10 @@ namespace SZOK_OCR.DATA
                 }
             }
 
-            //if (r.VehicleNumber1 == null)
-            //{
-            //    txtSharyoNum.Text = "";
-            //}
-            //else
-            //{
-            //    txtSharyoNum.Text = r.VehicleNumber1;
-            //}
-
-            //txtSharyoNum2.Text = r.VehicleNumber2;
-            //txtCarName.Text = r.CarName;
-
             txtZip1.Text = r.ZipCode1;
             txtZip2.Text = r.ZipCode2;
 
             txtAddFuri.Text = r.Address1;
-
-            //if (r.AddressKanji == null)
-            //{
-            //    txtAdd.Text = string.Empty;
-            //}
-            //else
-            //{
-            //    txtAdd.Text = r.AddressKanji;
-            //}
 
             txtFuri.Text = r.Name;
             txtTel.Text = r.Mobile1;
@@ -181,38 +83,6 @@ namespace SZOK_OCR.DATA
 
         ///------------------------------------------------------------------------------------
         /// <summary>
-        ///     画像を表示する </summary>
-        /// <param name="pic">
-        ///     pictureBoxオブジェクト</param>
-        /// <param name="imgName">
-        ///     イメージファイルパス</param>
-        /// <param name="fX">
-        ///     X方向のスケールファクター</param>
-        /// <param name="fY">
-        ///     Y方向のスケールファクター</param>
-        ///------------------------------------------------------------------------------------
-        private void ImageGraphicsPaint(PictureBox pic, string imgName, float fX, float fY, int RectDest, int RectSrc)
-        {
-            Image _img = Image.FromFile(imgName);
-            Graphics g = Graphics.FromImage(pic.Image);
-
-            // 各変換設定値のリセット
-            g.ResetTransform();
-
-            // X軸とY軸の拡大率の設定
-            g.ScaleTransform(fX, fY);
-
-            // 画像を表示する
-            g.DrawImage(_img, RectDest, RectSrc);
-
-            // 現在の倍率,座標を保持する
-            global.ZOOM_NOW = fX;
-            global.RECTD_NOW = RectDest;
-            global.RECTS_NOW = RectSrc;
-        }
-
-        ///------------------------------------------------------------------------------------
-        /// <summary>
         ///     フォーム表示初期化 </summary>
         /// <param name="sID">
         ///     過去データ表示時のヘッダID</param>
@@ -225,18 +95,13 @@ namespace SZOK_OCR.DATA
             txtTourokuNum.BackColor = Color.White;
             txtShataiNum.BackColor = Color.White;
             txtYYMMDD.BackColor = Color.White;
-            //txtMonth.BackColor = Color.White;
-            //txtDay.BackColor = Color.White;
             txtMaker.BackColor = Color.White;
             txtColor.BackColor = Color.White;
             txtStyle.BackColor = Color.White;
             txtStyleName.BackColor = Color.White;
-            //txtSharyoNum.BackColor = Color.White;
-            //txtCarName.BackColor = Color.White;
             txtZip1.BackColor = Color.White;
             txtZip2.BackColor = Color.White;
             txtAddFuri.BackColor = Color.White;
-            //txtAdd.BackColor = Color.White;
             txtFuri.BackColor = Color.White;
             txtTel.BackColor = Color.White;
             txtTel2.BackColor = Color.White;
@@ -246,31 +111,24 @@ namespace SZOK_OCR.DATA
             txtTourokuNum.ForeColor = Color.Navy;
             txtShataiNum.ForeColor = Color.Navy;
             txtYYMMDD.ForeColor = Color.Navy;
-            //txtMonth.ForeColor = Color.Navy;
-            //txtDay.ForeColor = Color.Navy;
             txtMaker.ForeColor = Color.Navy;
             txtColor.ForeColor = Color.Navy;
             txtStyle.ForeColor = Color.Navy;
             txtStyleName.ForeColor = Color.Navy;
-            //txtSharyoNum.ForeColor = Color.Navy;
-            //txtCarName.ForeColor = Color.Navy;
             txtZip1.ForeColor = Color.Navy;
             txtZip2.ForeColor = Color.Navy;
             txtAddFuri.ForeColor = Color.Navy;
-            //txtAdd.ForeColor = Color.Navy;
             txtFuri.ForeColor = Color.Navy;
             txtTel.ForeColor = Color.Navy;
             txtTel2.ForeColor = Color.Navy;
             txtTel3.ForeColor = Color.Navy;
             txtMemo.ForeColor = Color.Navy;
 
-            //lblErrMsg.Text = string.Empty;
             lblNoImage.Visible = false;
 
             dispShowMode();
         }
-
-    
+           
 
         private void dispShowMode()
         {
@@ -280,17 +138,11 @@ namespace SZOK_OCR.DATA
             txtTourokuNum.ReadOnly = true;
             txtShataiNum.ReadOnly = true;
             txtYYMMDD.ReadOnly = true;
-            //txtMonth.ReadOnly = true;
-            //txtDay.ReadOnly = true;
             txtStyle.ReadOnly = true;
             txtStyleName.ReadOnly = true;
-            //txtSharyoNum.ReadOnly = true;
-            //txtSharyoNum2.ReadOnly = true;
-            //txtCarName.ReadOnly = true;
             txtZip1.ReadOnly = true;
             txtZip2.ReadOnly = true;
             txtAddFuri.ReadOnly = true;
-            //txtAdd.ReadOnly = true;
             txtFuri.ReadOnly = true;
             txtTel.ReadOnly = true;
             txtTel2.ReadOnly = true;
