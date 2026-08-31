@@ -90,6 +90,12 @@ namespace SZOK_OCR.Common
                 return (T)(Object)GetClsWorkcard(Utility.StrtoInt(sCode));
             }
 
+            // 防犯登録データのとき
+            if (typeof(T) == typeof(TblRegistrationCard))
+            {
+                return (T)(Object)GetClsRegistrationCard(Utility.StrtoInt(sCode));
+            }
+
             MessageBox.Show("Invalid Data Class");
             return default(T);
         }
@@ -370,6 +376,71 @@ namespace SZOK_OCR.Common
             }
         }
 
+
+        private TblRegistrationCard GetClsRegistrationCard(int id)
+        {
+            TblRegistrationCard registrationCard = null;
+
+            try
+            {
+                using (var conn = new SqlConnection(sqlBuilder.ConnectionString))
+                {
+                    conn.Open();
+
+                    string sql = "SELECT * FROM 防犯登録データ WHERE ID = @ID";
+
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@ID", id);
+
+                        using (var dr = cmd.ExecuteReader())
+                        {
+                            while (dr.Read())
+                            {
+                                registrationCard = new TblRegistrationCard
+                                {
+                                    ID = Utility.StrtoInt(dr["ID"].ToString()),
+                                    DataCategory = Utility.StrtoInt(Utility.NulltoStr(dr["データ区分"])),
+                                    ImageFileName = Utility.NulltoStr(dr["画像名"]),
+                                    AddYear = Utility.NulltoStr(dr["登録年"]),
+                                    AddMonth = Utility.NulltoStr(dr["登録月"]),
+                                    AddDay = Utility.NulltoStr(dr["登録日"]),
+                                    Number = Utility.NulltoStr(dr["登録番号"]),
+                                    VehicleIdentificationNumber = Utility.NulltoStr(dr["車体番号"]),
+                                    Maker = Utility.NulltoStr(dr["メーカー"]),
+                                    Color = Utility.NulltoStr(dr["塗色"]),
+                                    CarModel = Utility.StrtoInt(Utility.NulltoStr(dr["車種"])),
+                                    ZipCode1 = Utility.NulltoStr(dr["郵便番号1"]),
+                                    ZipCode2 = Utility.NulltoStr(dr["郵便番号2"]),
+                                    VehicleNumber1 = string.Empty,
+                                    VehicleNumber2 = string.Empty,
+                                    CarName = string.Empty,
+                                    AddressKanji = Utility.NulltoStr(dr["住所漢字"]),
+                                    Address1 = Utility.NulltoStr(dr["住所1"]),
+                                    Address2 = string.Empty,
+                                    Name = Utility.NulltoStr(dr["氏名"]),
+                                    Mobile1 = Utility.NulltoStr(dr["TEL携帯"]),
+                                    Mobile2 = Utility.NulltoStr(dr["TEL携帯2"]),
+                                    Mobile3 = Utility.NulltoStr(dr["TEL携帯3"]),
+                                    PC = Utility.NulltoStr(dr["PC名"]),
+                                    CsvCreationDate = Utility.NulltoStr(dr["CSV作成日"]),
+                                    Memo = Utility.NulltoStr(dr["備考"]),
+                                    UpDate = System.DateTime.Parse(Utility.NulltoStr(dr["更新年月日"])),
+                                    Exception = Utility.StrtoInt(Utility.NulltoStr(dr["例外"]))
+                                };
+                            }
+                        }
+                    }
+                }
+
+                return registrationCard;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return registrationCard;
+            }
+        }
 
         /// <summary>
         /// 環境設定テーブルのデータを更新する：2026/08/18

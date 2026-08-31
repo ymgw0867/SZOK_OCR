@@ -17,6 +17,19 @@ namespace SZOK_OCR.DATA
         public frmCardList()
         {
             InitializeComponent();
+
+            txtsCarbodyNum.Leave += new EventHandler(txtsCpa_Leave);
+            txtsMM.Leave += new EventHandler(txtsCpa_Leave);
+            txtsDD.Leave += new EventHandler(txtsCpa_Leave);
+            txtsMaker.Leave += new EventHandler(txtsCpa_Leave);
+            txtsColor.Leave += new EventHandler(txtsCpa_Leave);
+            txtsZip1.Leave += new EventHandler(txtsCpa_Leave);
+            txtsZip2.Leave += new EventHandler(txtsCpa_Leave);
+            txtsAdd.Leave += new EventHandler(txtsCpa_Leave);
+            txtsFuri.Leave += new EventHandler(txtsCpa_Leave);
+            txtsTel1.Leave += new EventHandler(txtsCpa_Leave);
+            txtsTel2.Leave += new EventHandler(txtsCpa_Leave);
+            txtsTel3.Leave += new EventHandler(txtsCpa_Leave);
         }
 
         cardDataSet dts = new cardDataSet();
@@ -168,7 +181,7 @@ namespace SZOK_OCR.DATA
 
                 tempDGV.Columns[coldKbn].Width = 90;
                 tempDGV.Columns[colCPA].Width = 140;
-                tempDGV.Columns[colCarbodyNum].Width = 260;
+                tempDGV.Columns[colCarbodyNum].Width = 200;
                 tempDGV.Columns[colyymmdd].Width = 110;
                 tempDGV.Columns[colMaker].Width = 100;
                 tempDGV.Columns[colColor].Width = 100;
@@ -176,9 +189,9 @@ namespace SZOK_OCR.DATA
                 //tempDGV.Columns[colSharyoNum].Width = 100;
                 //tempDGV.Columns[colCarName].Width = 100;
                 tempDGV.Columns[colZip].Width = 100;
-                tempDGV.Columns[colAdd].Width = 300;
-                tempDGV.Columns[colFuri].Width = 120;
-                tempDGV.Columns[colTel].Width = 120;
+                tempDGV.Columns[colAdd].Width = 330;
+                tempDGV.Columns[colFuri].Width = 150;
+                tempDGV.Columns[colTel].Width = 140;
                 tempDGV.Columns[colCsv].Width = 170;
                 tempDGV.Columns[colJyogai].Width = 60;
 
@@ -718,6 +731,19 @@ namespace SZOK_OCR.DATA
         private void FrmCardList_Shown(object sender, EventArgs e)
         {
             txtsYY.Text = (DateTime.Now.Year - 2000).ToString();
+        }
+
+        private void txtsCpa_Leave(object sender, EventArgs e)
+        {
+            TextBox txt = sender as TextBox;
+            if (txt != null && txt.Text != string.Empty)
+            {
+                txt.BackColor = Color.LightPink;
+            }
+            else
+            {
+                txt.BackColor = Color.White;
+            }
         }
     }
 }
