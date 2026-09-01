@@ -963,46 +963,15 @@ namespace SZOK_OCR.Common
                 return false;
             }
 
-            // コメント化：2026/08/27
-            //// 登録番号登録済みチェック
-            //cardDataSet cDts = new cardDataSet();
-            //cardDataSetTableAdapters.防犯登録データTableAdapter cAdp = new cardDataSetTableAdapters.防犯登録データTableAdapter();
-
-            //// 2019/06/25 コメント化
-            //cAdp.Fill(cDts.防犯登録データ);
-
-            //if (cDts.防犯登録データ.Any(a => (a.Is除外Null() || a.除外 == global.flgOff) && a.登録番号 == r.登録番号))
-            //{
-            //    setErrStatus(eTourokuNum, 0, "過去に登録されている登録番号です");
-            //    return false;
-            //}
-
-            //// Fillで絞込 2019/06/25
-            //cAdp.FillByISNumber(cDts.防犯登録データ, r.Number);
-
-            //if (cDts.防犯登録データ.Count() > 0)
-            //{
-            //    setErrStatus(eTourokuNum, 0, "過去に登録されている登録番号です");
-            //    return false;
-            //}
-
             // SQL Server接続：2026/08/27
             var master = new ClsMaster(Properties.Settings.Default.sServerName, Properties.Settings.Default.sLogin, Properties.Settings.Default.sPass, Properties.Settings.Default.sDatabase);
-            var cnt = master.CountNumber<TblRegistrationCard>($"{global.DATA_CPA}{r.Number}");
+            var cnt = master.CountNumber<TblRegistrationCard>(r.Number);
 
             if (cnt > 0)
             {
                 setErrStatus(eTourokuNum, 0, "過去に登録されている登録番号です");
                 return false;
             }
-
-            // コメント化：2026/08/27
-            //// 登録番号重複チェック
-            //if (dts.防犯カード.Any(a => a.ID != r.ID && a.Number == r.Number))
-            //{
-            //    setErrStatus(eTourokuNum, 0, "現在、読み込み中データに同じ登録番号が複数あります");
-            //    return false;
-            //}
 
             // 登録番号重複チェック：2026/08/27
             cnt = master.CountNumber<TblWorkcard>($"{global.DATA_CPA}{r.Number}", System.Net.Dns.GetHostName());
