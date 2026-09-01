@@ -901,32 +901,17 @@ namespace SZOK_OCR.Common
                 return ReadRegistrationCard(param) as List<T>;
             }
 
-            //if (typeof(T) == typeof(ClsLabelCount))
-            //{
-            //    return Read() as List<T>;
-            //}
+            MessageBox.Show("Invalid Data Class");
+            return null;
+        }
 
-            //List<T> resultList = new List<T>();
-            //using (SqlCommand cmd = new SqlCommand(sql, conn))
-            //{
-            //    using (SqlDataReader reader = cmd.ExecuteReader())
-            //    {
-            //        while (reader.Read())
-            //        {
-            //            T obj = Activator.CreateInstance<T>();
-            //            for (int i = 0; i < reader.FieldCount; i++)
-            //            {
-            //                var property = typeof(T).GetProperty(reader.GetName(i));
-            //                if (property != null && !reader.IsDBNull(i))
-            //                {
-            //                    property.SetValue(obj, reader.GetValue(i));
-            //                }
-            //            }
-            //            resultList.Add(obj);
-            //        }
-            //    }
-            //}
-            //return resultList;
+        public List<T> Read<T>()
+        {
+            // CSV作成履歴のとき
+            if (typeof(T) == typeof(TblCSVCreationHistory))
+            {
+                return ReadCSVCreationHistory() as List<T>;
+            }
 
             MessageBox.Show("Invalid Data Class");
             return null;
@@ -1395,6 +1380,53 @@ namespace SZOK_OCR.Common
                                 };
 
                                 lines.Add(work);
+                            }
+                        }
+                    }
+                }
+                return lines;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return lines;
+            }
+        }
+
+        /// <summary>
+        /// CSV作成履歴テーブルのデータを取得する
+        /// </summary>
+        /// <returns>CSV作成履歴のリスト</returns>
+        public List<TblCSVCreationHistory> ReadCSVCreationHistory()
+        {
+            var lines = new List<TblCSVCreationHistory>();
+
+            try
+            {
+                using (var conn = new SqlConnection(sqlBuilder.ConnectionString))
+                {
+                    conn.Open();
+
+                    string sql = "SELECT ID, 作成年月日, 開始年月日, 終了年月日, 出力件数, PC名, 摘要 FROM CSV作成履歴 ";
+
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
+                    {
+                        cmd.CommandTimeout = 120; // 秒。デフォルト30から一時的に伸ばして様子を見る    
+
+                        using (SqlDataReader dr = cmd.ExecuteReader())
+                        {
+                            while (dr.Read())
+                            {
+                                TblCSVCreationHistory history = new TblCSVCreationHistory
+                                {
+                                    ID = Utility.StrtoInt(dr["ID"].ToString()),
+                                    CreationDate = System.DateTime.Parse(Utility.NulltoStr(dr["作成年月日"])),
+                                    Outputs = Utility.StrtoInt(Utility.NulltoStr(dr["出力件数"])),
+                                    PC = Utility.NulltoStr(dr["PC名"]),
+                                    Memo = Utility.NulltoStr(dr["摘要"])
+                                };
+
+                                lines.Add(history);
                             }
                         }
                     }

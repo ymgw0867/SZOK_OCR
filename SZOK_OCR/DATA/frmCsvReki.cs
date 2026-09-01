@@ -17,8 +17,9 @@ namespace SZOK_OCR.DATA
             InitializeComponent();
         }
 
-        cardDataSet dts = new cardDataSet();
-        cardDataSetTableAdapters.CSV作成履歴TableAdapter adp = new cardDataSetTableAdapters.CSV作成履歴TableAdapter();
+        // コメント化：2026/09/01
+        //cardDataSet dts = new cardDataSet();
+        //cardDataSetTableAdapters.CSV作成履歴TableAdapter adp = new cardDataSetTableAdapters.CSV作成履歴TableAdapter();
 
         // カラム定義
         string colDate = "col1";
@@ -48,10 +49,10 @@ namespace SZOK_OCR.DATA
                 tempDGV.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.BottomCenter;
 
                 // 列ヘッダーフォント指定
-                tempDGV.ColumnHeadersDefaultCellStyle.Font = new Font("Meiryo UI", 9, FontStyle.Regular);
+                tempDGV.ColumnHeadersDefaultCellStyle.Font = new Font("Yu Gothic UI", 10, FontStyle.Regular);
 
                 // データフォント指定
-                tempDGV.DefaultCellStyle.Font = new Font("Meiryo UI", 9, FontStyle.Regular);
+                tempDGV.DefaultCellStyle.Font = new Font("Yu Gothic UI", 10, FontStyle.Regular);
 
                 // 行の高さ
                 tempDGV.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
@@ -130,7 +131,9 @@ namespace SZOK_OCR.DATA
             // データグリッド定義
             GridViewSetting(dg);
 
-            adp.Fill(dts.CSV作成履歴);
+            // コメント化：2026/09/01
+            //adp.Fill(dts.CSV作成履歴);
+
             dataShow(dg);
         }
 
@@ -138,45 +141,20 @@ namespace SZOK_OCR.DATA
         {
             int iX = 0;
 
-            foreach (var t in dts.CSV作成履歴.OrderByDescending(a => a.作成年月日))
+            // SQL Server接続
+            var master = new ClsMaster(Properties.Settings.Default.sServerName, Properties.Settings.Default.sLogin,
+                                   Properties.Settings.Default.sPass, Properties.Settings.Default.sDatabase);
+
+            var result = master.Read<TblCSVCreationHistory>();
+
+            foreach (var t in result.OrderByDescending(a => a.CreationDate))
             {
                 gv.Rows.Add();
 
-                if (t.Is作成年月日Null())
-                {
-                    gv[colDate, iX].Value = string.Empty;
-                }
-                else
-                {
-                    gv[colDate, iX].Value = t.作成年月日;
-                }
-
-                if (t.Is摘要Null())
-                {
-                    gv[colTekiyou, iX].Value = string.Empty;
-                }
-                else
-                {
-                    gv[colTekiyou, iX].Value = t.摘要;
-                }
-
-                if (t.Is出力件数Null())
-                {
-                    gv[colCnt, iX].Value = string.Empty;
-                }
-                else
-                {
-                    gv[colCnt, iX].Value = t.出力件数.ToString("#,##0");
-                }
-
-                if (t.IsPC名Null())
-                {
-                    gv[colPc, iX].Value = string.Empty;
-                }
-                else
-                {
-                    gv[colPc, iX].Value = t.PC名;
-                }
+                gv[colDate, iX].Value = t.CreationDate;
+                gv[colTekiyou, iX].Value = t.Memo == null ? string.Empty : t.Memo;
+                gv[colCnt, iX].Value = t.Outputs.ToString("#,##0");
+                gv[colPc, iX].Value = t.PC == null ? string.Empty : t.PC;
                 
                 iX++;
             }
