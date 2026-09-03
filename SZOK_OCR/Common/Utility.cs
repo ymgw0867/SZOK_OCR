@@ -758,7 +758,7 @@ namespace SZOK_OCR.Common
         /// <param name="sFileName">
         ///     CSVファイル名</param>
         ///----------------------------------------------------------------------------
-        public static void csvFileWrite(string sPath, string[] arrayData, string sFileName)
+        public static void CsvFileWrite(string sPath, string[] arrayData, string sFileName)
         {
             // ファイル名
             string outFileName = sPath + sFileName + ".csv";

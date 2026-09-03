@@ -1,5 +1,6 @@
 ﻿using DocumentFormat.OpenXml.Office.Word;
 using DocumentFormat.OpenXml.Office2010.Excel;
+using Microsoft.Office.Interop.Excel;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -107,6 +108,8 @@ namespace SZOK_OCR.Common
             {
                 Insert((List<TblScandata>)(object)(cls));
             }
+
+            MessageBox.Show("Invalid Data Class");
         }
 
         /// <summary>
@@ -612,6 +615,71 @@ namespace SZOK_OCR.Common
         }
 
         /// <summary>
+        /// 防犯登録データテーブルのCSV作成日を更新する：2026/09/03
+        /// </summary>
+        /// <param name="Datacategory">データ区分</param>
+        /// <param name="csvDate">CSV作成日</param>
+        public void UpDateRegisCsvCreation(int Datacategory, string csvDate)
+        {
+            try
+            {
+                using (var conn = new SqlConnection(sqlBuilder.ConnectionString))
+                {
+                    conn.Open();
+
+                    string sql = "UPDATE 防犯登録データ SET " +
+                            "CSV作成日 = @CsvCreationDate, 更新年月日 = @UpDate " +
+                            "WHERE データ区分 = @DataCategory AND " +
+                            "(CSV作成日 IS NULL OR CSV作成日 = '') AND " +
+                            "(除外 IS NULL OR 除外 = @Exception)) ";
+
+                    using (SqlCommand com = new SqlCommand(sql, conn))
+                    { 
+                        com.Parameters.AddWithValue("@DataCategory", Datacategory);
+                        com.Parameters.AddWithValue("@CsvCreationDate", csvDate);
+                        com.Parameters.AddWithValue("@UpDate", System.DateTime.Now.ToString());
+                        com.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// 防犯登録データテーブルのCSV作成日を更新する（個別）：2026/09/03
+        /// </summary>
+        /// <param name="tblRegistration">防犯登録データクラス</param>
+        public void UpDateRegisCsvCreation(TblRegistrationCard tblRegistration)
+        {
+            try
+            {
+                using (var conn = new SqlConnection(sqlBuilder.ConnectionString))
+                {
+                    conn.Open();
+
+                    string sql = "UPDATE 防犯登録データ SET " +
+                        "CSV作成日 = @CsvCreationDate, 更新年月日 = @UpDate " +
+                        "WHERE ID = @ID";
+
+                    using (SqlCommand com = new SqlCommand(sql, conn))
+                    {
+                        com.Parameters.AddWithValue("@ID", tblRegistration.ID);
+                        com.Parameters.AddWithValue("@CsvCreationDate", tblRegistration.CsvCreationDate);
+                        com.Parameters.AddWithValue("@UpDate", System.DateTime.Now.ToString());
+                        com.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        /// <summary>
         /// SCANDATAテーブルにデータを挿入する：2026/08/18
         /// </summary>
         /// <param name="scandataList">挿入するTblScandataのリスト</param>
@@ -663,6 +731,31 @@ namespace SZOK_OCR.Common
                         com.Parameters.AddWithValue("@Person", scandata.Person);
                         com.ExecuteNonQuery();
                     }
+                }
+            }
+        }
+
+        /// <summary>
+        /// CSV作成履歴テーブルにデータを挿入する：2026/08/18
+        /// </summary>
+        /// <param name="tblCSVCreations">挿入するCSV作成履歴データ</param>
+        public void Insert(TblCSVCreationHistory tblCSVCreations)
+        {
+            using (var conn = new SqlConnection(sqlBuilder.ConnectionString))
+            {
+                conn.Open();
+
+                string sql = "INSERT INTO CSV作成履歴 (作成年月日, 出力件数, PC名, 摘要) " +
+                    "values (@CsvCreationDate, @OutputCount, @PCName, @Summary)";
+
+                using (SqlCommand com = new SqlCommand(sql, conn))
+                {
+                    com.Parameters.Clear();
+                    com.Parameters.AddWithValue("@CsvCreationDate", tblCSVCreations.CreationDate);
+                    com.Parameters.AddWithValue("@OutputCount",     tblCSVCreations.Outputs);
+                    com.Parameters.AddWithValue("@PCName",          tblCSVCreations.PC);
+                    com.Parameters.AddWithValue("@Summary",         tblCSVCreations.Memo);
+                    com.ExecuteNonQuery();
                 }
             }
         }
@@ -917,6 +1010,10 @@ namespace SZOK_OCR.Common
             return null;
         }
 
+        /// <summary>
+        /// SCAN_DATAテーブルのラベル件数を取得する：2026/09/03
+        /// </summary>
+        /// <returns>ラベル件数のリスト</returns>
         public List<ClsLabelCount> LabelCount()
         {
             var LabelCounts = new List<ClsLabelCount>();
@@ -1249,6 +1346,87 @@ namespace SZOK_OCR.Common
         }
 
         /// <summary>
+        /// 防犯登録データテーブルからCSV作成対象のデータを取得する：2026/09/03
+        /// </summary>
+        /// <param name="DataCategory">データ区分</param>
+        /// <returns>防犯登録データのリスト</returns>
+        public List<TblRegistrationCard> ReadCsvCreationData(int DataCategory)
+        {
+            var lines = new List<TblRegistrationCard>();
+
+            try
+            {
+                using (var conn = new SqlConnection(sqlBuilder.ConnectionString))
+                {
+                    conn.Open();
+
+                    string sql = "SELECT ID,データ区分,画像名,登録年,登録月,登録日,登録番号,車体番号,メーカー,塗色,車種,郵便番号1,郵便番号2," +
+                        "住所漢字, 住所1,氏名,TEL携帯,TEL携帯2,TEL携帯3,PC名,CSV作成日,備考,更新年月日,除外 FROM 防犯登録データ " +
+                        "WHERE (" +
+                        "データ区分 = @DataCategory AND " +
+                        "(CSV作成日 IS NULL OR CSV作成日 = '') AND " +
+                        "(除外 IS NULL OR 除外 = @Exception)) " +
+                        "ORDER BY 登録番号";
+
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
+                    {
+                        cmd.CommandTimeout = 120; // 秒。デフォルト30から一時的に伸ばして様子を見る
+
+                        cmd.Parameters.AddWithValue("@DataCategory", DataCategory);
+                        cmd.Parameters.AddWithValue("@Exception", global.flgOff);
+
+                        using (SqlDataReader dr = cmd.ExecuteReader())
+                        {
+                            while (dr.Read())
+                            {
+                                var registrationCard = new TblRegistrationCard
+                                {
+                                    ID = Utility.StrtoInt(dr["ID"].ToString()),
+                                    DataCategory = Utility.StrtoInt(Utility.NulltoStr(dr["データ区分"])),
+                                    ImageFileName = Utility.NulltoStr(dr["画像名"]),
+                                    AddYear = Utility.NulltoStr(dr["登録年"]),
+                                    AddMonth = Utility.NulltoStr(dr["登録月"]),
+                                    AddDay = Utility.NulltoStr(dr["登録日"]),
+                                    Number = Utility.NulltoStr(dr["登録番号"]),
+                                    VehicleIdentificationNumber = Utility.NulltoStr(dr["車体番号"]),
+                                    Maker = Utility.NulltoStr(dr["メーカー"]),
+                                    Color = Utility.NulltoStr(dr["塗色"]),
+                                    CarModel = Utility.StrtoInt(Utility.NulltoStr(dr["車種"])),
+                                    ZipCode1 = Utility.NulltoStr(dr["郵便番号1"]),
+                                    ZipCode2 = Utility.NulltoStr(dr["郵便番号2"]),
+                                    VehicleNumber1 = string.Empty,
+                                    VehicleNumber2 = string.Empty,
+                                    CarName = string.Empty,
+                                    AddressKanji = Utility.NulltoStr(dr["住所漢字"]),
+                                    Address1 = Utility.NulltoStr(dr["住所1"]),
+                                    Address2 = string.Empty,
+                                    Name = Utility.NulltoStr(dr["氏名"]),
+                                    Mobile1 = Utility.NulltoStr(dr["TEL携帯"]),
+                                    Mobile2 = Utility.NulltoStr(dr["TEL携帯2"]),
+                                    Mobile3 = Utility.NulltoStr(dr["TEL携帯3"]),
+                                    PC = Utility.NulltoStr(dr["PC名"]),
+                                    CsvCreationDate = Utility.NulltoStr(dr["CSV作成日"]),
+                                    Memo = Utility.NulltoStr(dr["備考"]),
+                                    UpDate = System.DateTime.Parse(Utility.NulltoStr(dr["更新年月日"])),
+                                    Exception = Utility.StrtoInt(Utility.NulltoStr(dr["除外"]))
+                                };
+
+                                lines.Add(registrationCard);
+                            }
+                        }
+                    }
+                }
+                return lines;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return lines;
+            }
+        }
+
+
+        /// <summary>
         /// 指定されたラベルに一致するSCAN_DATAテーブルのデータを取得する
         /// </summary>
         /// <param name="label">ラベル</param>
@@ -1322,7 +1500,11 @@ namespace SZOK_OCR.Common
             }
         }
 
-
+        /// <summary>
+        /// 指定されたPC名に一致する防犯登録カードテーブルのデータを取得する
+        /// </summary>
+        /// <param name="pc">PC名</param>
+        /// <returns>防犯登録カードテーブルのデータのリスト</returns>
         public List<TblWorkcard> ReadPc(string pc)
         {
             var lines = new List<TblWorkcard>();
