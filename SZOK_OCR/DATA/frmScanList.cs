@@ -163,8 +163,8 @@ namespace SZOK_OCR.DATA
                 tempDGV.Columns.Add(colMaker, "メーカー");
                 tempDGV.Columns.Add(colColor, "カラー");
                 tempDGV.Columns.Add(colCarStyle, "車種");
-                //tempDGV.Columns.Add(colSharyoNum, "車両番号");
-                //tempDGV.Columns.Add(colCarName, "車名");
+                tempDGV.Columns.Add(colSharyoNum, "車両番号");
+                tempDGV.Columns.Add(colCarName, "車名");
                 tempDGV.Columns.Add(colZip, "〒");
                 tempDGV.Columns.Add(colAdd, "住所");
                 tempDGV.Columns.Add(colFuri, "氏名");
@@ -184,8 +184,8 @@ namespace SZOK_OCR.DATA
                 tempDGV.Columns[colMaker].Width = 100;
                 tempDGV.Columns[colColor].Width = 100;
                 tempDGV.Columns[colCarStyle].Width = 100;
-                //tempDGV.Columns[colSharyoNum].Width = 100;
-                //tempDGV.Columns[colCarName].Width = 100;
+                tempDGV.Columns[colSharyoNum].Width = 100;
+                tempDGV.Columns[colCarName].Width = 100;
                 tempDGV.Columns[colZip].Width = 100;
                 tempDGV.Columns[colAdd].Width = 330;
                 tempDGV.Columns[colFuri].Width = 150;
@@ -272,9 +272,9 @@ namespace SZOK_OCR.DATA
             param.CarModel = cmbCarStyle.SelectedIndex > 0 ? (int?)Utility.StrtoInt(cmbCarStyle.Text.Substring(0, 2)) : null;
             param.ZipCode1 = txtsZip1.Text;
             param.ZipCode2 = txtsZip2.Text;
-            //param.VehicleNumber1 = txtsSharyoNum.Text.Length >= 4 ? txtsSharyoNum.Text.Substring(0, 4) : string.Empty;
-            //param.VehicleNumber2 = txtsSharyoNum.Text.Length > 4 ? txtsSharyoNum.Text.Substring(4) : string.Empty;
-            //param.CarName = txtsCarName.Text;
+            param.VehicleNumber1 = txtsSharyoNum.Text.Length >= 4 ? txtsSharyoNum.Text.Substring(0, 4) : string.Empty;
+            param.VehicleNumber2 = txtsSharyoNum.Text.Length > 4 ? txtsSharyoNum.Text.Substring(4) : string.Empty;
+            param.CarName = txtsCarName.Text;
             param.Address1 = txtsAdd.Text;
             param.Name = txtsFuri.Text;
             param.Mobile1 = txtsTel1.Text;
@@ -642,18 +642,17 @@ namespace SZOK_OCR.DATA
                 s = s.Where(q => q.車種.ToString().PadLeft(2, '0') == cs).OrderBy(q => q.登録番号);
             }
 
-            // コメント化：2026/08/19
-            //// 車両番号
-            //if (txtsSharyoNum.Text != string.Empty)
-            //{
-            //    s = s.Where(q => !q.Is車両番号1Null() && (q.車両番号1 + q.車両番号2).Contains(txtsSharyoNum.Text)).OrderBy(q => q.登録番号);
-            //}
+            // 車両番号
+            if (txtsSharyoNum.Text != string.Empty)
+            {
+                s = s.Where(q => !q.Is車両番号1Null() && (q.車両番号1 + q.車両番号2).Contains(txtsSharyoNum.Text)).OrderBy(q => q.登録番号);
+            }
 
-            //// 車名
-            //if (txtsCarName.Text != string.Empty)
-            //{
-            //    s = s.Where(q => q.車名.Contains(Utility.getStrConv(txtsCarName.Text))).OrderBy(q => q.登録番号);
-            //}
+            // 車名
+            if (txtsCarName.Text != string.Empty)
+            {
+                s = s.Where(q => q.車名.Contains(Utility.getStrConv(txtsCarName.Text))).OrderBy(q => q.登録番号);
+            }
 
             // 郵便番号
             if (txtsZip1.Text != string.Empty)

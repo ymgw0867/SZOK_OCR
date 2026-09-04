@@ -827,18 +827,18 @@ namespace SZOK_OCR.OCR
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
         {
-            //if (radioButton1.Checked)
-            //{
-            //    txtSharyoNum.Enabled = false;
-            //    txtSharyoNum2.Enabled = false;
-            //    txtCarName.Enabled = false;
-            //}
-            //else
-            //{
-            //    txtSharyoNum.Enabled = true;
-            //    txtSharyoNum2.Enabled = true;
-            //    txtCarName.Enabled = true;
-            //}
+            if (radioButton1.Checked)
+            {
+                txtSharyoNum.Enabled = false;
+                txtSharyoNum2.Enabled = false;
+                txtCarName.Enabled = false;
+            }
+            else
+            {
+                txtSharyoNum.Enabled = true;
+                txtSharyoNum2.Enabled = true;
+                txtCarName.Enabled = true;
+            }
         }
 
         private void linkLabel5_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

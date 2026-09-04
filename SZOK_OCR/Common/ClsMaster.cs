@@ -651,8 +651,8 @@ namespace SZOK_OCR.Common
         /// <summary>
         /// 防犯登録データテーブルのCSV作成日を更新する（個別）：2026/09/03
         /// </summary>
-        /// <param name="tblRegistration">防犯登録データクラス</param>
-        public void UpDateRegisCsvCreation(TblRegistrationCard tblRegistration)
+        /// <param name="id">防犯登録データのID</param>
+        public void UpDateRegisCsvCreation(int id)
         {
             try
             {
@@ -666,8 +666,8 @@ namespace SZOK_OCR.Common
 
                     using (SqlCommand com = new SqlCommand(sql, conn))
                     {
-                        com.Parameters.AddWithValue("@ID", tblRegistration.ID);
-                        com.Parameters.AddWithValue("@CsvCreationDate", tblRegistration.CsvCreationDate);
+                        com.Parameters.AddWithValue("@ID", id);
+                        com.Parameters.AddWithValue("@CsvCreationDate", System.DateTime.Now.ToString("yyyyMMdd HH:mm:ss"));
                         com.Parameters.AddWithValue("@UpDate", System.DateTime.Now.ToString());
                         com.ExecuteNonQuery();
                     }

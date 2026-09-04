@@ -103,8 +103,8 @@ namespace SZOK_OCR.DATA
             txtsMaker.Text = string.Empty;
             txtsColor.Text = string.Empty;
             cmbCarStyle.SelectedIndex = 0;
-            //txtsSharyoNum.Text = string.Empty;
-            //txtsCarName.Text = string.Empty;
+            txtsSharyoNum.Text = string.Empty;
+            txtsCarName.Text = string.Empty;
             txtsZip1.Text = string.Empty;
             txtsZip2.Text = string.Empty;
             txtsAdd.Text = string.Empty;
@@ -168,8 +168,8 @@ namespace SZOK_OCR.DATA
                 tempDGV.Columns.Add(colMaker, "メーカー");
                 tempDGV.Columns.Add(colColor, "カラー");
                 tempDGV.Columns.Add(colCarStyle, "車種");
-                //tempDGV.Columns.Add(colSharyoNum, "車両番号");
-                //tempDGV.Columns.Add(colCarName, "車名");
+                tempDGV.Columns.Add(colSharyoNum, "車両番号");
+                tempDGV.Columns.Add(colCarName, "車名");
                 tempDGV.Columns.Add(colZip, "〒");
                 tempDGV.Columns.Add(colAddKN, "住所");
                 tempDGV.Columns.Add(colAdd, "住所フリガナ");
@@ -188,8 +188,8 @@ namespace SZOK_OCR.DATA
                 tempDGV.Columns[colMaker].Width = 100;
                 tempDGV.Columns[colColor].Width = 100;
                 tempDGV.Columns[colCarStyle].Width = 100;
-                //tempDGV.Columns[colSharyoNum].Width = 100;
-                //tempDGV.Columns[colCarName].Width = 100;
+                tempDGV.Columns[colSharyoNum].Width = 100;
+                tempDGV.Columns[colCarName].Width = 100;
                 tempDGV.Columns[colZip].Width = 100;
                 tempDGV.Columns[colAddKN].Width = 220;
                 tempDGV.Columns[colAdd].Width = 330;

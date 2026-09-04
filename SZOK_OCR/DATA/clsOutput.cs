@@ -34,7 +34,7 @@ namespace SZOK_OCR.DATA
         /// <returns>
         ///     出力件数</returns>
         /// -------------------------------------------------------------------------
-        public int saveCycleCsv()
+        public int SaveCycleCsv()
         {
             // 出力配列
             string[] arrayCsv = null;
@@ -111,11 +111,10 @@ namespace SZOK_OCR.DATA
                 // CSV作成日を登録：2026/09/03
                 //master.UpDateRegisCsvCreation(global.DATA_CYCLE, DateTime.Now.ToString("yyyyMMdd HH:mm:ss"));
 
-                // CSV作成日を登録：2026/09/03
+                // 防犯登録データにCSV作成日を登録：2026/09/03
                 foreach (var t in regis)
                 {
-                    t.CsvCreationDate = DateTime.Now.ToString("yyyyMMdd HH:mm:ss");
-                    master.UpDateRegisCsvCreation(t);
+                    master.UpDateRegisCsvCreation(t.ID);
                 }
 
                 // コメント化： 2026/09/03
@@ -144,7 +143,7 @@ namespace SZOK_OCR.DATA
         /// <returns>
         ///     出力件数</returns>
         /// -------------------------------------------------------------------------
-        public int saveAutoCsv()
+        public int SaveAutoCsv()
         {
             // 出力配列
             string[] arrayCsv = null;
@@ -155,72 +154,93 @@ namespace SZOK_OCR.DATA
             string add1 = "";
             string add2 = "";
 
-            foreach (var t in dts.防犯登録データ.Where(a => a.データ区分 == global.DATA_AUTO &&
-                                                      (a.IsCSV作成日Null() || a.CSV作成日 == string.Empty) &&
-                                                     (a.Is除外Null() || a.除外 == global.flgOff))
-                                               .OrderBy(a => a.登録番号))
+            var master = new ClsMaster(Properties.Settings.Default.sServerName, Properties.Settings.Default.sLogin, Properties.Settings.Default.sPass, Properties.Settings.Default.sDatabase);
+            var regis = master.ReadCsvCreationData(global.DATA_AUTO);
+
+            foreach (var t in regis)
             {
                 cnt++;
 
                 sb.Clear();
                 sb.Append(global.DATA_CPA).Append(",");
-                sb.Append(t.登録番号.Replace(global.DATA_CPA, "").Trim()).Append(",");
-                sb.Append(t.車体番号).Append(",");
-                sb.Append(t.車両番号1).Append(",");
-                sb.Append(t.車両番号2).Append(",");
+                sb.Append(t.Number.Replace(global.DATA_CPA, "").Trim()).Append(",");
+                sb.Append(t.VehicleIdentificationNumber).Append(",");
+                sb.Append(t.VehicleNumber1).Append(",");
+                sb.Append(t.VehicleNumber2).Append(",");
 
                 // 西暦4ケタに変更 : 2016/03/08
-                sb.Append("20" + t.登録年 + t.登録月.PadLeft(2, '0') + t.登録日.PadLeft(2, '0')).Append(",");
-                sb.Append(t.メーカー.Replace("\r", "").Replace("\n", "").Replace(",", "")).Append(",");
-                sb.Append(t.車名.Replace("\r", "").Replace("\n", "").Replace(",", "")).Append(",");
-                sb.Append(t.塗色.Replace("\r", "").Replace("\n", "").Replace(",", "")).Append(",");
-                sb.Append(t.車種.ToString().PadLeft(2, '0').Replace("\r", "").Replace("\n", "").Replace(",", "")).Append(",");
+                sb.Append("20" + t.AddYear + t.AddMonth.PadLeft(2, '0') + t.AddDay.PadLeft(2, '0')).Append(",");
+                sb.Append(t.Maker.Replace("\r", "").Replace("\n", "").Replace(",", "")).Append(",");
+                sb.Append(t.CarName.Replace("\r", "").Replace("\n", "").Replace(",", "")).Append(",");
+                sb.Append(t.Color.Replace("\r", "").Replace("\n", "").Replace(",", "")).Append(",");
+                sb.Append(t.CarModel.ToString().PadLeft(2, '0').Replace("\r", "").Replace("\n", "").Replace(",", "")).Append(",");
 
                 // 郵便番号住所とそれ以下の住所を各々取得する : 2016/03/08
                 add1 = "";
                 add2 = "";
 
                 // 2016/05/26
-                if (t.住所1.Contains(global.KENGAI_ADD))
+                if (t.Address1.Contains(global.KENGAI_ADD))
                 {
                     // 「ｹﾝｶﾞｲ」のとき
                     add1 = global.KENGAI_ADD;
-                    add2 = t.住所1.Replace(global.KENGAI_ADD, "").Trim();
+                    add2 = t.Address1.Replace(global.KENGAI_ADD, "").Trim();
                 }
                 else
                 {
                     //getAddressSplit(out add1, out add2, t.住所1);     // 郵便番号住所とそれ以下の住所に分割する
-                    getAddressSplitCity(out add1, out add2, t.住所1); // 市区町村とそれ以下の住所に分割する 2016/06/08
+                    getAddressSplitCity(out add1, out add2, t.Address1); // 市区町村とそれ以下の住所に分割する 2016/06/08
                 }
 
                 sb.Append(add1.Replace("\r", "").Replace("\n", "").Replace(",", "")).Append(",");    // 郵便番号住所 : 2016/03/08
                 sb.Append(add2.Replace("\r", "").Replace("\n", "").Replace(",", "")).Append(",");    // 以下の住所 : 2016/03/08
 
-                sb.Append(t.氏名.Replace("\r", "").Replace("\n", "").Replace(",", "")).Append(",");
-                sb.Append(t.TEL携帯.Replace("\r", "").Replace("\n", "").Replace(",", "")).Append(",");
-                sb.Append(t.TEL携帯2.Replace("\r", "").Replace("\n", "").Replace(",", "")).Append(",");
-                sb.Append(t.TEL携帯3.Replace("\r", "").Replace("\n", "").Replace(",", ""));
+                sb.Append(t.Name.Replace("\r", "").Replace("\n", "").Replace(",", "")).Append(",");
+                sb.Append(t.Mobile1.Replace("\r", "").Replace("\n", "").Replace(",", "")).Append(",");
+                sb.Append(t.Mobile2.Replace("\r", "").Replace("\n", "").Replace(",", "")).Append(",");
+                sb.Append(t.Mobile3.Replace("\r", "").Replace("\n", "").Replace(",", ""));
 
                 // 配列にセット
                 Array.Resize(ref arrayCsv, cnt);        // 配列のサイズ拡張
                 arrayCsv[cnt - 1] = sb.ToString();      // 文字列のセット
 
-                // CSV作成日を登録
-                t.CSV作成日 = DateTime.Now.Year.ToString() + DateTime.Now.Month.ToString().PadLeft(2, '0') + DateTime.Now.Day.ToString().PadLeft(2, '0') +
-                             " " + DateTime.Now.Hour.ToString().PadLeft(2, '0') + ":" + DateTime.Now.Minute.ToString().PadLeft(2, '0') + ":" + DateTime.Now.Second.ToString().PadLeft(2, '0');
-                t.更新年月日 = DateTime.Now;
+                // コメント化： 2026/09/04
+                //// CSV作成日を登録
+                //t.CSV作成日 = DateTime.Now.Year.ToString() + DateTime.Now.Month.ToString().PadLeft(2, '0') + DateTime.Now.Day.ToString().PadLeft(2, '0') +
+                //             " " + DateTime.Now.Hour.ToString().PadLeft(2, '0') + ":" + DateTime.Now.Minute.ToString().PadLeft(2, '0') + ":" + DateTime.Now.Second.ToString().PadLeft(2, '0');
+                //t.更新年月日 = DateTime.Now;
             }
 
             if (cnt > 0)
             {
                 // CSVファイル出力
-                Utility.csvFileWrite(global.cnfPath, arrayCsv, global.CSV_AUTO);
+                Utility.CsvFileWrite(global.cnfPath, arrayCsv, global.CSV_AUTO);
 
-                // カードデータ更新
-                adp.Update(dts.防犯登録データ);
+                // コメント化： 2026/09/04
+                //// カードデータ更新
+                //adp.Update(dts.防犯登録データ);
 
-                // 作成履歴
-                csvRirekiUpdate(cnt, global.CSV_AUTO);
+                // 防犯登録データにCSV作成日を登録：2026/09/03
+                foreach (var t in regis)
+                {
+                    master.UpDateRegisCsvCreation(t.ID);
+                }
+
+                // コメント化： 2026/09/04
+                //// 作成履歴
+                //csvRirekiUpdate(cnt, global.CSV_AUTO);
+
+                // CSV作成履歴クラス作成：2026/09/04
+                var csvCreationHistory = new TblCSVCreationHistory
+                {
+                    CreationDate = DateTime.Now,
+                    Outputs = cnt,
+                    PC = Environment.MachineName,
+                    Memo = global.CSV_AUTO
+                };
+
+                // CSV作成履歴を登録：2026/09/03
+                master.Insert(csvCreationHistory);
             }
 
             return cnt;
@@ -236,15 +256,15 @@ namespace SZOK_OCR.DATA
         ///-----------------------------------------------------------------------
         private void csvRirekiUpdate(int cnt, string sTekiyo)
         {
-            var s = dts.CSV作成履歴.NewCSV作成履歴Row();
-            s.作成年月日 = DateTime.Now;
-            s.出力件数 = cnt;
-            s.PC名 = Environment.MachineName;
-            s.摘要 = sTekiyo;
-            dts.CSV作成履歴.AddCSV作成履歴Row(s);
+            //var s = dts.CSV作成履歴.NewCSV作成履歴Row();
+            //s.作成年月日 = DateTime.Now;
+            //s.出力件数 = cnt;
+            //s.PC名 = Environment.MachineName;
+            //s.摘要 = sTekiyo;
+            //dts.CSV作成履歴.AddCSV作成履歴Row(s);
 
-            // データベース更新
-            cAdp.Update(dts.CSV作成履歴);
+            //// データベース更新
+            //cAdp.Update(dts.CSV作成履歴);
 
 
 

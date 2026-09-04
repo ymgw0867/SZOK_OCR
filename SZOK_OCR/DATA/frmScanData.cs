@@ -158,15 +158,15 @@ namespace SZOK_OCR.DATA
         {
             if (radioButton1.Checked)
             {
-                //txtSharyoNum.Enabled = false;
-                //txtSharyoNum2.Enabled = false;
-                //txtCarName.Enabled = false;
+                txtSharyoNum.Enabled = false;
+                txtSharyoNum2.Enabled = false;
+                txtCarName.Enabled = false;
             }
             else
             {
-                //txtSharyoNum.Enabled = true;
-                //txtSharyoNum2.Enabled = true;
-                //txtCarName.Enabled = true;
+                txtSharyoNum.Enabled = true;
+                txtSharyoNum2.Enabled = true;
+                txtCarName.Enabled = true;
             }
         }
 
