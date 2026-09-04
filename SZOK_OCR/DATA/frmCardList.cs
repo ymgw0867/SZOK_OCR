@@ -30,6 +30,8 @@ namespace SZOK_OCR.DATA
             txtsTel1.Leave += new EventHandler(txtsCpa_Leave);
             txtsTel2.Leave += new EventHandler(txtsCpa_Leave);
             txtsTel3.Leave += new EventHandler(txtsCpa_Leave);
+            txtsSharyoNum.Leave += new EventHandler(txtsCpa_Leave);
+            txtsCarName.Leave += new EventHandler(txtsCpa_Leave);
         }
 
         //cardDataSet dts = new cardDataSet();
@@ -168,13 +170,13 @@ namespace SZOK_OCR.DATA
                 tempDGV.Columns.Add(colMaker, "メーカー");
                 tempDGV.Columns.Add(colColor, "カラー");
                 tempDGV.Columns.Add(colCarStyle, "車種");
-                tempDGV.Columns.Add(colSharyoNum, "車両番号");
-                tempDGV.Columns.Add(colCarName, "車名");
                 tempDGV.Columns.Add(colZip, "〒");
                 tempDGV.Columns.Add(colAddKN, "住所");
                 tempDGV.Columns.Add(colAdd, "住所フリガナ");
                 tempDGV.Columns.Add(colFuri, "氏名");
                 tempDGV.Columns.Add(colTel, "ＴＥＬ／携帯");
+                tempDGV.Columns.Add(colSharyoNum, "車両番号");
+                tempDGV.Columns.Add(colCarName, "車名");
                 tempDGV.Columns.Add(colCsv, "静岡県警用CSV作成");
                 tempDGV.Columns.Add(colJyogai, "除外");
                 tempDGV.Columns.Add(colID, "");
@@ -188,8 +190,8 @@ namespace SZOK_OCR.DATA
                 tempDGV.Columns[colMaker].Width = 100;
                 tempDGV.Columns[colColor].Width = 100;
                 tempDGV.Columns[colCarStyle].Width = 100;
-                tempDGV.Columns[colSharyoNum].Width = 100;
-                tempDGV.Columns[colCarName].Width = 100;
+                tempDGV.Columns[colSharyoNum].Width = 70;
+                tempDGV.Columns[colCarName].Width = 70;
                 tempDGV.Columns[colZip].Width = 100;
                 tempDGV.Columns[colAddKN].Width = 220;
                 tempDGV.Columns[colAdd].Width = 330;
@@ -535,6 +537,8 @@ namespace SZOK_OCR.DATA
             param.CarModel = cmbCarStyle.SelectedIndex > 0 ? (int?)Utility.StrtoInt(cmbCarStyle.Text.Substring(0, 2)) : null;
             param.ZipCode1 = txtsZip1.Text;
             param.ZipCode2 = txtsZip2.Text;
+            param.VehicleNumber1 = txtsSharyoNum.Text;
+            param.CarName = txtsCarName.Text;
             param.Address1 = txtsAdd.Text;
             param.Name = txtsFuri.Text;
             param.Mobile1 = txtsTel1.Text;
@@ -616,6 +620,9 @@ namespace SZOK_OCR.DATA
                 {
                     dg[colJyogai, iX].Value = "";
                 }
+
+                dg[colSharyoNum, iX].Value = t.VehicleNumber1 + t.VehicleNumber2;
+                dg[colCarName, iX].Value = t.CarName;
 
                 iX++;
             }

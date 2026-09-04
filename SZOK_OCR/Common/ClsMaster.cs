@@ -130,6 +130,7 @@ namespace SZOK_OCR.Common
             {
                 UpDate((TblWorkcard)(object)(cls));
             }
+
             // 防犯登録データのとき
             if (typeof(T) == typeof(TblRegistrationCard))
             {
@@ -282,9 +283,9 @@ namespace SZOK_OCR.Common
                                     CarModel = Utility.StrtoInt(Utility.NulltoStr(dr["車種"])),
                                     ZipCode1 = Utility.NulltoStr(dr["郵便番号1"]),
                                     ZipCode2 = Utility.NulltoStr(dr["郵便番号2"]),
-                                    VehicleNumber1 = string.Empty,
-                                    VehicleNumber2 = string.Empty,
-                                    CarName = string.Empty,
+                                    VehicleNumber1 = Utility.NulltoStr(dr["車両番号1"]),
+                                    VehicleNumber2 = Utility.NulltoStr(dr["車両番号2"]),
+                                    CarName = Utility.NulltoStr(dr["車名"]),
                                     Address1 = Utility.NulltoStr(dr["住所1"]),
                                     Address2 = string.Empty,
                                     Name = Utility.NulltoStr(dr["氏名"]),
@@ -352,9 +353,9 @@ namespace SZOK_OCR.Common
                                     CarModel = Utility.StrtoInt(Utility.NulltoStr(dr["車種"])),
                                     ZipCode1 = Utility.NulltoStr(dr["郵便番号1"]),
                                     ZipCode2 = Utility.NulltoStr(dr["郵便番号2"]),
-                                    VehicleNumber1 = string.Empty,
-                                    VehicleNumber2 = string.Empty,
-                                    CarName = string.Empty,
+                                    VehicleNumber1 = Utility.NulltoStr(dr["車両番号1"]),
+                                    VehicleNumber2 = Utility.NulltoStr(dr["車両番号2"]),
+                                    CarName = Utility.NulltoStr(dr["車名"]),
                                     AddressKanji = Utility.NulltoStr(dr["住所漢字"]),
                                     Address1 = Utility.NulltoStr(dr["住所1"]),
                                     Address2 = string.Empty,
@@ -424,12 +425,12 @@ namespace SZOK_OCR.Common
                                     CarModel = Utility.StrtoInt(Utility.NulltoStr(dr["車種"])),
                                     ZipCode1 = Utility.NulltoStr(dr["郵便番号1"]),
                                     ZipCode2 = Utility.NulltoStr(dr["郵便番号2"]),
-                                    VehicleNumber1 = string.Empty,
-                                    VehicleNumber2 = string.Empty,
-                                    CarName = string.Empty,
+                                    VehicleNumber1 = Utility.NulltoStr(dr["車両番号1"]),
+                                    VehicleNumber2 = Utility.NulltoStr(dr["車両番号2"]),
+                                    CarName = Utility.NulltoStr(dr["車名"]),
                                     AddressKanji = Utility.NulltoStr(dr["住所漢字"]),
                                     Address1 = Utility.NulltoStr(dr["住所1"]),
-                                    Address2 = string.Empty,
+                                    Address2 = Utility.NulltoStr(dr["住所2"]),
                                     Name = Utility.NulltoStr(dr["氏名"]),
                                     Mobile1 = Utility.NulltoStr(dr["TEL携帯"]),
                                     Mobile2 = Utility.NulltoStr(dr["TEL携帯2"]),
@@ -880,9 +881,9 @@ namespace SZOK_OCR.Common
                                 com.Parameters.AddWithValue("@CarModel",        workcard.CarModel);
                                 com.Parameters.AddWithValue("@ZipCode1",        workcard.ZipCode1);
                                 com.Parameters.AddWithValue("@ZipCode2",        workcard.ZipCode2);
-                                com.Parameters.AddWithValue("@VehicleNumber1",  "");
-                                com.Parameters.AddWithValue("@VehicleNumber2",  "");
-                                com.Parameters.AddWithValue("@CarName",         "");
+                                com.Parameters.AddWithValue("@VehicleNumber1",  workcard.VehicleNumber1);
+                                com.Parameters.AddWithValue("@VehicleNumber2",  workcard.VehicleNumber2);
+                                com.Parameters.AddWithValue("@CarName",         workcard.CarName);
                                 com.Parameters.AddWithValue("@AddressKanji",    workcard.AddressKanji);
                                 com.Parameters.AddWithValue("@Address1",        workcard.Address1);
                                 com.Parameters.AddWithValue("@Address2",        workcard.Address2);
@@ -988,7 +989,7 @@ namespace SZOK_OCR.Common
                 return Read(param) as List<T>;
             }
 
-            // 防犯登録カードのとき
+            // 防犯登録データのとき
             if (typeof(T) == typeof(TblRegistrationCard))
             {
                 return ReadRegistrationCard(param) as List<T>;
@@ -1066,7 +1067,7 @@ namespace SZOK_OCR.Common
                     conn.Open();
 
                     string sql = "SELECT ID,データ区分,画像名,登録年,登録月,登録日,登録番号,車体番号,メーカー,塗色,車種,郵便番号1,郵便番号2," +
-                        "住所1,氏名,TEL携帯,TEL携帯2,TEL携帯3,ラベル,処理担当者,PC名,CSV作成日,備考,更新年月日 FROM SCAN_DATA " +
+                        "車両番号1,車両番号2,車名,住所1,住所2,氏名,TEL携帯,TEL携帯2,TEL携帯3,ラベル,処理担当者,PC名,CSV作成日,備考,更新年月日 FROM SCAN_DATA " +
                         "WHERE (" +
                         "(@DataCategory IS NULL OR データ区分 = @DataCategory) AND " +
                         "(@AddYear IS NULL OR 登録年 = @AddYear) AND " +
@@ -1079,6 +1080,8 @@ namespace SZOK_OCR.Common
                         "(@CarModel IS NULL OR 車種 = @CarModel) AND " +
                         "(@ZipCode1 IS NULL OR 郵便番号1 LIKE '%' + @ZipCode1 + '%') AND " +
                         "(@ZipCode2 IS NULL OR 郵便番号2 LIKE '%' + @ZipCode2 + '%') AND " +
+                        "(@VehicleNumber1 IS NULL OR 車両番号1 + 車両番号2 LIKE '%' + @VehicleNumber1 + '%') AND " +
+                        "(@CarName IS NULL OR 車名 LIKE '%' + @CarName + '%') AND " +
                         "(@Address1 IS NULL OR 住所1 LIKE '%' + @Address1 + '%') AND " +
                         "(@Name IS NULL OR 氏名 LIKE '%' + @Name + '%') AND " +
                         "(@Mobile1 IS NULL OR TEL携帯 LIKE '%' + @Mobile1 + '%') AND " +
@@ -1126,6 +1129,8 @@ namespace SZOK_OCR.Common
 
                         cmd.Parameters.Add("@ZipCode1", SqlDbType.NVarChar, 3).Value = ToParam(param.ZipCode1);
                         cmd.Parameters.Add("@ZipCode2", SqlDbType.NVarChar, 4).Value = ToParam(param.ZipCode2);
+                        cmd.Parameters.Add("@VehicleNumber1", SqlDbType.NVarChar, 4).Value = ToParam(param.VehicleNumber1);
+                        cmd.Parameters.Add("@CarName", SqlDbType.NVarChar, 4).Value = ToParam(param.CarName);
                         cmd.Parameters.Add("@Address1", SqlDbType.NVarChar, 40).Value = ToParam(param.Address1);
                         cmd.Parameters.Add("@Name", SqlDbType.NVarChar, 16).Value = ToParam(param.Name);
                         cmd.Parameters.Add("@Mobile1", SqlDbType.NVarChar, 4).Value = ToParam(param.Mobile1);
@@ -1153,11 +1158,11 @@ namespace SZOK_OCR.Common
                                     CarModel = Utility.StrtoInt(Utility.NulltoStr(dr["車種"])),
                                     ZipCode1 = Utility.NulltoStr(dr["郵便番号1"]),
                                     ZipCode2 = Utility.NulltoStr(dr["郵便番号2"]),
-                                    VehicleNumber1 = string.Empty,
-                                    VehicleNumber2 = string.Empty,
-                                    CarName = string.Empty,
+                                    VehicleNumber1 = Utility.NulltoStr(dr["車両番号1"]),
+                                    VehicleNumber2 = Utility.NulltoStr(dr["車両番号2"]),
+                                    CarName = Utility.NulltoStr(dr["車名"]),
                                     Address1 = Utility.NulltoStr(dr["住所1"]),
-                                    Address2 = string.Empty,
+                                    Address2 = Utility.NulltoStr(dr["住所2"]),
                                     Name = Utility.NulltoStr(dr["氏名"]),
                                     Mobile1 = Utility.NulltoStr(dr["TEL携帯"]),
                                     Mobile2 = Utility.NulltoStr(dr["TEL携帯2"]),
@@ -1200,7 +1205,7 @@ namespace SZOK_OCR.Common
                     conn.Open();
 
                     string sql = "SELECT ID,データ区分,画像名,登録年,登録月,登録日,登録番号,車体番号,メーカー,塗色,車種,郵便番号1,郵便番号2," +
-                        "住所漢字, 住所1,氏名,TEL携帯,TEL携帯2,TEL携帯3,PC名,CSV作成日,備考,更新年月日,除外 FROM 防犯登録データ " +
+                        "車両番号1,車両番号2,車名,住所漢字, 住所1,氏名,TEL携帯,TEL携帯2,TEL携帯3,PC名,CSV作成日,備考,更新年月日,除外 FROM 防犯登録データ " +
                         "WHERE (" +
                         "(@DataCategory IS NULL OR データ区分 = @DataCategory) AND " +
                         "(@AddYear IS NULL OR 登録年 = @AddYear) AND " +
@@ -1213,6 +1218,8 @@ namespace SZOK_OCR.Common
                         "(@CarModel IS NULL OR 車種 = @CarModel) AND " +
                         "(@ZipCode1 IS NULL OR 郵便番号1 LIKE '%' + @ZipCode1 + '%') AND " +
                         "(@ZipCode2 IS NULL OR 郵便番号2 LIKE '%' + @ZipCode2 + '%') AND " +
+                        "(@VehicleNumber1 IS NULL OR (車両番号1 + 車両番号2) LIKE '%' + @VehicleNumber1 + '%') AND " +
+                        "(@CarName IS NULL OR 車名 LIKE '%' + @CarName + '%') AND " +
                         "(@Address1 IS NULL OR 住所1 LIKE '%' + @Address1 + '%') AND " +
                         "(@Name IS NULL OR 氏名 LIKE '%' + @Name + '%') AND " +
                         "(@Mobile1 IS NULL OR TEL携帯 LIKE '%' + @Mobile1 + '%') AND " +
@@ -1285,6 +1292,8 @@ namespace SZOK_OCR.Common
 
                         cmd.Parameters.Add("@ZipCode1", SqlDbType.NVarChar, 3).Value = ToParam(param.ZipCode1);
                         cmd.Parameters.Add("@ZipCode2", SqlDbType.NVarChar, 4).Value = ToParam(param.ZipCode2);
+                        cmd.Parameters.Add("@VehicleNumber1", SqlDbType.NVarChar, 4).Value = ToParam(param.VehicleNumber1);
+                        cmd.Parameters.Add("@CarName", SqlDbType.NVarChar, 4).Value = ToParam(param.CarName);
                         cmd.Parameters.Add("@Address1", SqlDbType.NVarChar, 40).Value = ToParam(param.Address1);
                         cmd.Parameters.Add("@Name", SqlDbType.NVarChar, 16).Value = ToParam(param.Name);
                         cmd.Parameters.Add("@Mobile1", SqlDbType.NVarChar, 4).Value = ToParam(param.Mobile1);
@@ -1314,9 +1323,9 @@ namespace SZOK_OCR.Common
                                     CarModel = Utility.StrtoInt(Utility.NulltoStr(dr["車種"])),
                                     ZipCode1 = Utility.NulltoStr(dr["郵便番号1"]),
                                     ZipCode2 = Utility.NulltoStr(dr["郵便番号2"]),
-                                    VehicleNumber1 = string.Empty,
-                                    VehicleNumber2 = string.Empty,
-                                    CarName = string.Empty,
+                                    VehicleNumber1 = Utility.NulltoStr(dr["車両番号1"]),
+                                    VehicleNumber2 = Utility.NulltoStr(dr["車両番号2"]),
+                                    CarName = Utility.NulltoStr(dr["車名"]),
                                     AddressKanji = Utility.NulltoStr(dr["住所漢字"]),
                                     Address1 = Utility.NulltoStr(dr["住所1"]),
                                     Address2 = string.Empty,
@@ -1516,7 +1525,7 @@ namespace SZOK_OCR.Common
                     conn.Open();
 
                     string sql = "SELECT ID,データ区分,画像名,登録年,登録月,登録日,登録番号,車体番号,メーカー,塗色,車種,郵便番号1,郵便番号2," +
-                        "住所漢字,住所1,氏名,TEL携帯,TEL携帯2,TEL携帯3,ラベル,処理担当者,PC名,CSV作成日,備考,更新年月日 FROM 防犯カード " +
+                        "車両番号1,車両番号2,車名,住所漢字,住所1,氏名,TEL携帯,TEL携帯2,TEL携帯3,ラベル,処理担当者,PC名,CSV作成日,備考,更新年月日 FROM 防犯カード " +
                         "WHERE (PC名 = @PC) ";
 
                     using (SqlCommand cmd = new SqlCommand(sql, conn))
@@ -1543,9 +1552,9 @@ namespace SZOK_OCR.Common
                                     CarModel = Utility.StrtoInt(Utility.NulltoStr(dr["車種"])),
                                     ZipCode1 = Utility.NulltoStr(dr["郵便番号1"]),
                                     ZipCode2 = Utility.NulltoStr(dr["郵便番号2"]),
-                                    VehicleNumber1 = string.Empty,
-                                    VehicleNumber2 = string.Empty,
-                                    CarName = string.Empty,
+                                    VehicleNumber1 = Utility.NulltoStr(dr["車両番号1"]),
+                                    VehicleNumber2 = Utility.NulltoStr(dr["車両番号2"]),
+                                    CarName = Utility.NulltoStr(dr["車名"]),
                                     AddressKanji = Utility.NulltoStr(dr["住所漢字"]),
                                     Address1 = Utility.NulltoStr(dr["住所1"]),
                                     Address2 = string.Empty,

@@ -32,6 +32,8 @@ namespace SZOK_OCR.DATA
             txtsTel3.Leave += new EventHandler(txtsCpa_Leave);
             txtLabel.Leave += new EventHandler(txtsCpa_Leave);
             txtName.Leave += new EventHandler(txtsCpa_Leave);
+            txtsSharyoNum.Leave += new EventHandler(txtsCpa_Leave);
+            txtsCarName.Leave += new EventHandler(txtsCpa_Leave);
         }
 
         cardDataSet dts = new cardDataSet();
@@ -103,8 +105,8 @@ namespace SZOK_OCR.DATA
             txtsMaker.Text = string.Empty;
             txtsColor.Text = string.Empty;
             cmbCarStyle.SelectedIndex = 0;
-            //txtsSharyoNum.Text = string.Empty;
-            //txtsCarName.Text = string.Empty;
+            txtsSharyoNum.Text = string.Empty;
+            txtsCarName.Text = string.Empty;
             txtsZip1.Text = string.Empty;
             txtsZip2.Text = string.Empty;
             txtsAdd.Text = string.Empty;
@@ -163,12 +165,12 @@ namespace SZOK_OCR.DATA
                 tempDGV.Columns.Add(colMaker, "メーカー");
                 tempDGV.Columns.Add(colColor, "カラー");
                 tempDGV.Columns.Add(colCarStyle, "車種");
-                tempDGV.Columns.Add(colSharyoNum, "車両番号");
-                tempDGV.Columns.Add(colCarName, "車名");
                 tempDGV.Columns.Add(colZip, "〒");
                 tempDGV.Columns.Add(colAdd, "住所");
                 tempDGV.Columns.Add(colFuri, "氏名");
                 tempDGV.Columns.Add(colTel, "ＴＥＬ／携帯");
+                tempDGV.Columns.Add(colSharyoNum, "車両番号");
+                tempDGV.Columns.Add(colCarName, "車名");
                 //tempDGV.Columns.Add(colCsv, "静岡県警用CSV作成");
                 //tempDGV.Columns.Add(colJyogai, "除外");
                 tempDGV.Columns.Add(colLabel, "ラベル名");
@@ -184,8 +186,8 @@ namespace SZOK_OCR.DATA
                 tempDGV.Columns[colMaker].Width = 100;
                 tempDGV.Columns[colColor].Width = 100;
                 tempDGV.Columns[colCarStyle].Width = 100;
-                tempDGV.Columns[colSharyoNum].Width = 100;
-                tempDGV.Columns[colCarName].Width = 100;
+                tempDGV.Columns[colSharyoNum].Width = 70;
+                tempDGV.Columns[colCarName].Width = 70;
                 tempDGV.Columns[colZip].Width = 100;
                 tempDGV.Columns[colAdd].Width = 330;
                 tempDGV.Columns[colFuri].Width = 150;
@@ -272,8 +274,8 @@ namespace SZOK_OCR.DATA
             param.CarModel = cmbCarStyle.SelectedIndex > 0 ? (int?)Utility.StrtoInt(cmbCarStyle.Text.Substring(0, 2)) : null;
             param.ZipCode1 = txtsZip1.Text;
             param.ZipCode2 = txtsZip2.Text;
-            param.VehicleNumber1 = txtsSharyoNum.Text.Length >= 4 ? txtsSharyoNum.Text.Substring(0, 4) : string.Empty;
-            param.VehicleNumber2 = txtsSharyoNum.Text.Length > 4 ? txtsSharyoNum.Text.Substring(4) : string.Empty;
+            param.VehicleNumber1 = txtsSharyoNum.Text;
+            //param.VehicleNumber2 = txtsSharyoNum.Text.Length > 4 ? txtsSharyoNum.Text.Substring(4) : string.Empty;
             param.CarName = txtsCarName.Text;
             param.Address1 = txtsAdd.Text;
             param.Name = txtsFuri.Text;
@@ -525,6 +527,8 @@ namespace SZOK_OCR.DATA
                 //    dg[colJyogai, iX].Value = "";
                 //}
 
+                dg[colSharyoNum, iX].Value = t.VehicleNumber1 + t.VehicleNumber2;
+                dg[colCarName, iX].Value = t.CarName;
                 dg[colLabel, iX].Value = t.Label;
                 dg[colName, iX].Value = t.Person;
 

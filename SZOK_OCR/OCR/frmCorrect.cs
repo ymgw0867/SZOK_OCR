@@ -404,6 +404,9 @@ namespace SZOK_OCR.OCR
             tblWork.CarModel = Utility.StrtoInt(txtStyle.Text);
             tblWork.ZipCode1 = txtZip1.Text;
             tblWork.ZipCode2 = txtZip2.Text;
+            tblWork.VehicleNumber1 = txtSharyoNum.Text;
+            tblWork.VehicleNumber2 = txtSharyoNum2.Text;
+            tblWork.CarName = txtCarName.Text;
             tblWork.AddressKanji = txtAdd.Text;
             tblWork.Address1 = Utility.GetStringSubMax(kanmaDelete(txtAddFuri.Text), 40);
             tblWork.Name = kanmaDelete(txtFuri.Text);

@@ -74,6 +74,10 @@ namespace SZOK_OCR.DATA
                 txtMemo.Text = r.Memo;
             }
 
+            txtSharyoNum.Text = r.VehicleNumber1;
+            txtSharyoNum2.Text = r.VehicleNumber2;
+            txtCarName.Text = r.CarName;
+
             // 画像表示
             ShowImage(Properties.Settings.Default.scanDataPath + r.ImageFileName.ToString());
 
@@ -99,6 +103,9 @@ namespace SZOK_OCR.DATA
             txtColor.BackColor = Color.White;
             txtStyle.BackColor = Color.White;
             txtStyleName.BackColor = Color.White;
+            txtSharyoNum.BackColor = Color.White;
+            txtSharyoNum2.BackColor = Color.White;
+            txtCarName.BackColor = Color.White;
             txtZip1.BackColor = Color.White;
             txtZip2.BackColor = Color.White;
             txtAddFuri.BackColor = Color.White;
@@ -115,6 +122,9 @@ namespace SZOK_OCR.DATA
             txtColor.ForeColor = Color.Navy;
             txtStyle.ForeColor = Color.Navy;
             txtStyleName.ForeColor = Color.Navy;
+            txtSharyoNum.ForeColor = Color.Navy;
+            txtSharyoNum2.ForeColor = Color.Navy;
+            txtCarName.ForeColor = Color.Navy;
             txtZip1.ForeColor = Color.Navy;
             txtZip2.ForeColor = Color.Navy;
             txtAddFuri.ForeColor = Color.Navy;
@@ -140,6 +150,9 @@ namespace SZOK_OCR.DATA
             txtYYMMDD.ReadOnly = true;
             txtStyle.ReadOnly = true;
             txtStyleName.ReadOnly = true;
+            txtSharyoNum.ReadOnly = true;
+            txtSharyoNum2.ReadOnly = true;
+            txtCarName.ReadOnly = true;
             txtZip1.ReadOnly = true;
             txtZip2.ReadOnly = true;
             txtAddFuri.ReadOnly = true;

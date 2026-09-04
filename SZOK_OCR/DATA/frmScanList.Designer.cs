@@ -73,6 +73,10 @@
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.linkLabel2 = new System.Windows.Forms.LinkLabel();
             this.label22 = new System.Windows.Forms.Label();
+            this.txtsSharyoNum = new System.Windows.Forms.TextBox();
+            this.label17 = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
+            this.txtsCarName = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dg)).BeginInit();
             this.SuspendLayout();
@@ -81,7 +85,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Yu Gothic UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label1.Location = new System.Drawing.Point(234, 18);
+            this.label1.Location = new System.Drawing.Point(221, 18);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(105, 19);
             this.label1.TabIndex = 1;
@@ -91,7 +95,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Yu Gothic UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label2.Location = new System.Drawing.Point(447, 18);
+            this.label2.Location = new System.Drawing.Point(422, 18);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(79, 19);
             this.label2.TabIndex = 2;
@@ -141,11 +145,11 @@
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Yu Gothic UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label8.Location = new System.Drawing.Point(491, 51);
+            this.label8.Location = new System.Drawing.Point(614, 51);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(37, 19);
+            this.label8.Size = new System.Drawing.Size(23, 19);
             this.label8.TabIndex = 8;
-            this.label8.Text = "〒：";
+            this.label8.Text = "〒";
             // 
             // label9
             // 
@@ -171,7 +175,7 @@
             // 
             this.label13.AutoSize = true;
             this.label13.Font = new System.Drawing.Font("Yu Gothic UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label13.Location = new System.Drawing.Point(443, 83);
+            this.label13.Location = new System.Drawing.Point(424, 83);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(77, 19);
             this.label13.TabIndex = 13;
@@ -182,7 +186,7 @@
             this.txtsCpa.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtsCpa.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.txtsCpa.ImeMode = System.Windows.Forms.ImeMode.Off;
-            this.txtsCpa.Location = new System.Drawing.Point(339, 15);
+            this.txtsCpa.Location = new System.Drawing.Point(326, 15);
             this.txtsCpa.MaxLength = 8;
             this.txtsCpa.Name = "txtsCpa";
             this.txtsCpa.Size = new System.Drawing.Size(87, 29);
@@ -197,10 +201,10 @@
             this.txtsCarbodyNum.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtsCarbodyNum.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.txtsCarbodyNum.ImeMode = System.Windows.Forms.ImeMode.Off;
-            this.txtsCarbodyNum.Location = new System.Drawing.Point(522, 15);
+            this.txtsCarbodyNum.Location = new System.Drawing.Point(497, 15);
             this.txtsCarbodyNum.MaxLength = 20;
             this.txtsCarbodyNum.Name = "txtsCarbodyNum";
-            this.txtsCarbodyNum.Size = new System.Drawing.Size(201, 29);
+            this.txtsCarbodyNum.Size = new System.Drawing.Size(187, 29);
             this.txtsCarbodyNum.TabIndex = 2;
             this.txtsCarbodyNum.Text = "01234567890123456789";
             this.txtsCarbodyNum.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -210,7 +214,7 @@
             this.txtsZip1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtsZip1.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.txtsZip1.ImeMode = System.Windows.Forms.ImeMode.Off;
-            this.txtsZip1.Location = new System.Drawing.Point(522, 47);
+            this.txtsZip1.Location = new System.Drawing.Point(635, 47);
             this.txtsZip1.MaxLength = 3;
             this.txtsZip1.Name = "txtsZip1";
             this.txtsZip1.Size = new System.Drawing.Size(49, 29);
@@ -227,7 +231,7 @@
             this.txtsFuri.Location = new System.Drawing.Point(73, 79);
             this.txtsFuri.MaxLength = 16;
             this.txtsFuri.Name = "txtsFuri";
-            this.txtsFuri.Size = new System.Drawing.Size(353, 29);
+            this.txtsFuri.Size = new System.Drawing.Size(340, 29);
             this.txtsFuri.TabIndex = 14;
             this.txtsFuri.Text = "ｱｲｳｴｵｶｷｸｹｺｱｲｳｴｵｶ";
             this.txtsFuri.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -237,7 +241,7 @@
             this.txtsTel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtsTel1.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.txtsTel1.ImeMode = System.Windows.Forms.ImeMode.Off;
-            this.txtsTel1.Location = new System.Drawing.Point(523, 79);
+            this.txtsTel1.Location = new System.Drawing.Point(497, 79);
             this.txtsTel1.MaxLength = 4;
             this.txtsTel1.Name = "txtsTel1";
             this.txtsTel1.Size = new System.Drawing.Size(49, 29);
@@ -279,6 +283,10 @@
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel1.Controls.Add(this.txtsCarName);
+            this.panel1.Controls.Add(this.label18);
+            this.panel1.Controls.Add(this.label17);
+            this.panel1.Controls.Add(this.txtsSharyoNum);
             this.panel1.Controls.Add(this.textBox1);
             this.panel1.Controls.Add(this.txtLabel);
             this.panel1.Controls.Add(this.txtName);
@@ -403,7 +411,7 @@
             this.txtsTel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtsTel2.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.txtsTel2.ImeMode = System.Windows.Forms.ImeMode.Off;
-            this.txtsTel2.Location = new System.Drawing.Point(586, 79);
+            this.txtsTel2.Location = new System.Drawing.Point(565, 79);
             this.txtsTel2.MaxLength = 4;
             this.txtsTel2.Name = "txtsTel2";
             this.txtsTel2.Size = new System.Drawing.Size(49, 29);
@@ -417,7 +425,7 @@
             this.txtsTel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtsTel3.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.txtsTel3.ImeMode = System.Windows.Forms.ImeMode.Off;
-            this.txtsTel3.Location = new System.Drawing.Point(649, 79);
+            this.txtsTel3.Location = new System.Drawing.Point(635, 79);
             this.txtsTel3.MaxLength = 4;
             this.txtsTel3.Name = "txtsTel3";
             this.txtsTel3.Size = new System.Drawing.Size(49, 29);
@@ -430,7 +438,7 @@
             // 
             this.label19.AutoSize = true;
             this.label19.Font = new System.Drawing.Font("Meiryo UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label19.Location = new System.Drawing.Point(633, 83);
+            this.label19.Location = new System.Drawing.Point(616, 83);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(19, 18);
             this.label19.TabIndex = 144;
@@ -440,7 +448,7 @@
             // 
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Meiryo UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label12.Location = new System.Drawing.Point(570, 83);
+            this.label12.Location = new System.Drawing.Point(547, 83);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(19, 18);
             this.label12.TabIndex = 142;
@@ -451,7 +459,7 @@
             this.txtsZip2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtsZip2.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.txtsZip2.ImeMode = System.Windows.Forms.ImeMode.Off;
-            this.txtsZip2.Location = new System.Drawing.Point(586, 47);
+            this.txtsZip2.Location = new System.Drawing.Point(699, 47);
             this.txtsZip2.MaxLength = 4;
             this.txtsZip2.Name = "txtsZip2";
             this.txtsZip2.Size = new System.Drawing.Size(49, 29);
@@ -464,7 +472,7 @@
             // 
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Meiryo UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label10.Location = new System.Drawing.Point(570, 51);
+            this.label10.Location = new System.Drawing.Point(683, 51);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(19, 18);
             this.label10.TabIndex = 141;
@@ -639,6 +647,52 @@
             this.label22.Size = new System.Drawing.Size(149, 25);
             this.label22.TabIndex = 126;
             // 
+            // txtsSharyoNum
+            // 
+            this.txtsSharyoNum.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtsSharyoNum.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.txtsSharyoNum.ImeMode = System.Windows.Forms.ImeMode.Off;
+            this.txtsSharyoNum.Location = new System.Drawing.Point(326, 47);
+            this.txtsSharyoNum.MaxLength = 7;
+            this.txtsSharyoNum.Name = "txtsSharyoNum";
+            this.txtsSharyoNum.Size = new System.Drawing.Size(87, 29);
+            this.txtsSharyoNum.TabIndex = 9;
+            this.txtsSharyoNum.Text = "123";
+            this.txtsSharyoNum.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Font = new System.Drawing.Font("Yu Gothic UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label17.Location = new System.Drawing.Point(247, 50);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(79, 19);
+            this.label17.TabIndex = 151;
+            this.label17.Text = "車両番号：";
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Font = new System.Drawing.Font("Yu Gothic UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label18.Location = new System.Drawing.Point(450, 51);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(51, 19);
+            this.label18.TabIndex = 153;
+            this.label18.Text = "車名：";
+            // 
+            // txtsCarName
+            // 
+            this.txtsCarName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtsCarName.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.txtsCarName.ImeMode = System.Windows.Forms.ImeMode.Off;
+            this.txtsCarName.Location = new System.Drawing.Point(497, 47);
+            this.txtsCarName.MaxLength = 7;
+            this.txtsCarName.Name = "txtsCarName";
+            this.txtsCarName.Size = new System.Drawing.Size(101, 29);
+            this.txtsCarName.TabIndex = 10;
+            this.txtsCarName.Text = "1234567890";
+            this.txtsCarName.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
             // frmScanList
             // 
             this.AcceptButton = this.button1;
@@ -712,6 +766,10 @@
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.TextBox txtsSharyoNum;
+        private System.Windows.Forms.TextBox txtsCarName;
+        private System.Windows.Forms.Label label18;
     }
 }
 

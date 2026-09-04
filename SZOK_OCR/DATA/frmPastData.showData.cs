@@ -57,6 +57,10 @@ namespace SZOK_OCR.DATA
                 }
             }
 
+            txtSharyoNum.Text = r.VehicleNumber1;
+            txtSharyoNum2.Text = r.VehicleNumber2;
+            txtCarName.Text = r.CarName;
+
             txtZip1.Text = r.ZipCode1;
             txtZip2.Text = r.ZipCode2;
 
@@ -129,8 +133,9 @@ namespace SZOK_OCR.DATA
             txtColor.BackColor = Color.White;
             txtStyle.BackColor = Color.White;
             txtStyleName.BackColor = Color.White;
-            //txtSharyoNum.BackColor = Color.White;
-            //txtCarName.BackColor = Color.White;
+            txtSharyoNum.BackColor = Color.White;
+            txtSharyoNum2.BackColor = Color.White;
+            txtCarName.BackColor = Color.White;
             txtZip1.BackColor = Color.White;
             txtZip2.BackColor = Color.White;
             txtAddFuri.BackColor = Color.White;
@@ -150,8 +155,9 @@ namespace SZOK_OCR.DATA
             txtColor.ForeColor = Color.Navy;
             txtStyle.ForeColor = Color.Navy;
             txtStyleName.ForeColor = Color.Navy;
-            //txtSharyoNum.ForeColor = Color.Navy;
-            //txtCarName.ForeColor = Color.Navy;
+            txtSharyoNum.ForeColor = Color.Navy;
+            txtSharyoNum2.ForeColor = Color.Navy;
+            txtCarName.ForeColor = Color.Navy;
             txtZip1.ForeColor = Color.Navy;
             txtZip2.ForeColor = Color.Navy;
             txtAddFuri.ForeColor = Color.Navy;
@@ -185,9 +191,9 @@ namespace SZOK_OCR.DATA
             txtDay.ReadOnly = false;
             txtStyle.ReadOnly = false;
             txtStyleName.ReadOnly = false;
-            //txtSharyoNum.ReadOnly = false;
-            //txtSharyoNum2.ReadOnly = false;
-            //txtCarName.ReadOnly = false;
+            txtSharyoNum.ReadOnly = false;
+            txtSharyoNum2.ReadOnly = false;
+            txtCarName.ReadOnly = false;
             txtZip1.ReadOnly = false;
             txtZip2.ReadOnly = false;
             txtAddFuri.ReadOnly = false;
@@ -223,9 +229,9 @@ namespace SZOK_OCR.DATA
             txtDay.ReadOnly = true;
             txtStyle.ReadOnly = true;
             txtStyleName.ReadOnly = true;
-            //txtSharyoNum.ReadOnly = true;
-            //txtSharyoNum2.ReadOnly = true;
-            //txtCarName.ReadOnly = true;
+            txtSharyoNum.ReadOnly = true;
+            txtSharyoNum2.ReadOnly = true;
+            txtCarName.ReadOnly = true;
             txtZip1.ReadOnly = true;
             txtZip2.ReadOnly = true;
             txtAddFuri.ReadOnly = true;

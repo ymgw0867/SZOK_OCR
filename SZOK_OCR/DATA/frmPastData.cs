@@ -249,6 +249,9 @@ namespace SZOK_OCR.DATA
             r.Maker = kanmaDelete(txtMaker.Text);
             r.Color = kanmaDelete(txtColor.Text);
             r.CarModel = Utility.StrtoInt(txtStyle.Text);
+            r.VehicleNumber1 = kanmaDelete(txtSharyoNum.Text);
+            r.VehicleNumber2 = kanmaDelete(txtSharyoNum2.Text);
+            r.CarName = kanmaDelete(txtCarName.Text);
             r.ZipCode1 = txtZip1.Text;
             r.ZipCode2 = txtZip2.Text;
             r.AddressKanji = kanmaDelete(txtAdd.Text);
@@ -377,18 +380,18 @@ namespace SZOK_OCR.DATA
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
         {
-            //if (radioButton1.Checked)
-            //{
-            //    txtSharyoNum.Enabled = false;
-            //    txtSharyoNum2.Enabled = false;
-            //    txtCarName.Enabled = false;
-            //}
-            //else
-            //{
-            //    txtSharyoNum.Enabled = true;
-            //    txtSharyoNum2.Enabled = true;
-            //    txtCarName.Enabled = true;
-            //}
+            if (radioButton1.Checked)
+            {
+                txtSharyoNum.Enabled = false;
+                txtSharyoNum2.Enabled = false;
+                txtCarName.Enabled = false;
+            }
+            else
+            {
+                txtSharyoNum.Enabled = true;
+                txtSharyoNum2.Enabled = true;
+                txtCarName.Enabled = true;
+            }
         }
     }
 }
