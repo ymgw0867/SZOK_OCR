@@ -284,9 +284,9 @@ namespace SZOK_OCR.OCR
             {
                 // スクロールバー設定
                 hScrollBar1.Enabled = true;
-                hScrollBar1.Minimum = 0;
+                hScrollBar1.Minimum = 1;
                 hScrollBar1.Maximum = cID.Length;
-                hScrollBar1.Value = cIx;
+                hScrollBar1.Value = cIx + 1;
                 hScrollBar1.LargeChange = 1;
                 hScrollBar1.SmallChange = 1;
 

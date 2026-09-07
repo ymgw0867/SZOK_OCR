@@ -40,10 +40,10 @@ namespace SZOK_OCR.DATA
             // 防犯登録カードデータ CSVファイル出力クラスインスタンス
             clsOutput p = new clsOutput();
 
-            // 自転車登録.CSVファイル作成
+            // 自転車登録.CSVファイル作成：2026/09/03
             int c = p.SaveCycleCsv();
 
-            // 原付登録.CSVファイル作成
+            // 原付登録.CSVファイル作成：2026/09/04
             int a = p.SaveAutoCsv();
 
             // カーソル戻す
