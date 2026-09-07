@@ -18,7 +18,9 @@ namespace SZOK_OCR.DATA
         string EDIT_MODE = "閲覧モードにする";
         string DISP_MODE = "編集モードにする";
         string DELTAG = "delete";
-        bool EditMode = false;
+
+        // 編集モードフラグ：2026/09/07
+        public bool EditMode { get; set; }
 
         string[] zipArray = null;   // 郵便番号配列
 
@@ -28,6 +30,7 @@ namespace SZOK_OCR.DATA
             
             // 登録済みデータの検索及び編集
             dID = sID;
+            EditMode = false;   // 編集モードフラグ：2026/09/07
         }
 
         TblRegistrationCard r = null;
@@ -202,8 +205,9 @@ namespace SZOK_OCR.DATA
                 cuDataUpdate();
             }
 
-            // 後片付け
-            this.Dispose();
+            // コメント化：2026/09/07
+            //// 後片付け
+            //this.Dispose();
         }
 
         ///-------------------------------------------------------------------
@@ -333,7 +337,6 @@ namespace SZOK_OCR.DATA
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-
             // 閉じる
             this.Close();
         }

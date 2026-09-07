@@ -58,6 +58,8 @@ namespace SZOK_OCR.DATA
         string colCsv = "col15";
         string colJyogai = "col16";
 
+        bool EditStatus = false;      // 2026/09/07
+
         private void frmCardList_Load(object sender, EventArgs e)
         {
             Utility.WindowsMinSize(this, this.Width, this.Height);
@@ -522,9 +524,9 @@ namespace SZOK_OCR.DATA
         ///   検索条件を取得する
         /// </summary>
         /// <returns>検索条件のパラメータ</returns>
-        private ScandataParameter GetSearchParameter()
+        private DataParameter GetSearchParameter()
         {
-            ScandataParameter param = new ScandataParameter();
+            DataParameter param = new DataParameter();
 
             param.DataCategory = cmbShubetsu.SelectedIndex > 0 ? (int?)(cmbShubetsu.SelectedIndex - 1) : null;
             param.AddYear = txtsYY.Text;
@@ -702,8 +704,11 @@ namespace SZOK_OCR.DATA
                 int iX = Utility.StrtoInt(dg[colID, e.RowIndex].Value.ToString());
                 showPastData(iX);
 
-                // データ再表示
-                DataFind();     // 2026/08/28
+                // 編集モードでカードデータを表示した場合は、再検索してデータを再表示する：2026/09/07
+                if (EditStatus)
+                {
+                    DataFind();     // 2026/08/28
+                }
             }
         }
 
@@ -713,6 +718,8 @@ namespace SZOK_OCR.DATA
             frmPastData frm = new frmPastData(iX);
             frm.ShowDialog();
             this.Show();
+            EditStatus = frm.EditMode;
+            frm.Dispose();
         }
 
         private void txtsZip1_KeyPress(object sender, KeyPressEventArgs e)

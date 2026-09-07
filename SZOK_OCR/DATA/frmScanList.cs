@@ -259,9 +259,13 @@ namespace SZOK_OCR.DATA
             DataFind();
         }
 
-        private ScandataParameter GetSearchParameter()
+        /// <summary>
+        ///    検索条件を取得する
+        /// </summary>
+        /// <returns>検索条件のパラメータ</returns>
+        private DataParameter GetSearchParameter()
         {
-            ScandataParameter param = new ScandataParameter();
+            DataParameter param = new DataParameter();
 
             param.DataCategory = cmbShubetsu.SelectedIndex > 0 ? (int?)(cmbShubetsu.SelectedIndex - 1) : null;
             param.AddYear = txtsYY.Text;
@@ -287,6 +291,10 @@ namespace SZOK_OCR.DATA
             return param;
         }
 
+        /// <summary>
+        ///   データグリッドに防犯登録カードデータを表示する
+        /// </summary>
+        /// <returns>表示したデータの件数</returns>
         private int DataFind()
         {
             var param = GetSearchParameter();

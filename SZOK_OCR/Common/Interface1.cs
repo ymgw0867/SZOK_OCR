@@ -13,7 +13,7 @@ namespace SZOK_OCR.Common
 
         //List<T> Read<T>(string s);
 
-        List<T> Read<T>(ScandataParameter param);
+        List<T> Read<T>(DataParameter param);
         List<T> Read<T>();
 
         void UpDate<T>(T Object);

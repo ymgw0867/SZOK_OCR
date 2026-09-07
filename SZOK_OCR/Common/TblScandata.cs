@@ -40,7 +40,10 @@ namespace SZOK_OCR.Common
         public string Person { get; set; }
     }
 
-    public class ScandataParameter
+    /// <summary>
+    /// データ検索パラメータ
+    /// </summary>
+    public class DataParameter
     {
         public int? DataCategory { get; set; }   // データ区分
         public string AddYear { get; set; }     // 登録年
@@ -66,6 +69,6 @@ namespace SZOK_OCR.Common
         public string Person { get; set; }  // 担当者
         public int? CsvCreation { get; set; }  // 全て,CSV作成済み,CSV未作成
         public string CsvCreationDate { get; set; }  // CSV作成日
-        public int? Exception { get; set; } = 0; // 例外フラグ
+        public int? Exception { get; set; } = 0; // 除外フラグ
     }
 }

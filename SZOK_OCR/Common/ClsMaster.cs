@@ -981,7 +981,7 @@ namespace SZOK_OCR.Common
             }
         }
 
-        public List<T> Read<T>(ScandataParameter param)
+        public List<T> Read<T>(DataParameter param)
         {
             // SCANDATAのとき
             if (typeof(T) == typeof(TblScandata))
@@ -1056,7 +1056,7 @@ namespace SZOK_OCR.Common
         /// </summary>
         /// <param name="param">検索パラメータ</param>
         /// <returns>SCAN_DATAのリスト</returns>
-        public List<TblScandata> Read(ScandataParameter param)
+        public List<TblScandata> Read(DataParameter param)
         {
             var lines = new List<TblScandata>();
 
@@ -1129,8 +1129,8 @@ namespace SZOK_OCR.Common
 
                         cmd.Parameters.Add("@ZipCode1", SqlDbType.NVarChar, 3).Value = ToParam(param.ZipCode1);
                         cmd.Parameters.Add("@ZipCode2", SqlDbType.NVarChar, 4).Value = ToParam(param.ZipCode2);
-                        cmd.Parameters.Add("@VehicleNumber1", SqlDbType.NVarChar, 4).Value = ToParam(param.VehicleNumber1);
-                        cmd.Parameters.Add("@CarName", SqlDbType.NVarChar, 4).Value = ToParam(param.CarName);
+                        cmd.Parameters.Add("@VehicleNumber1", SqlDbType.NVarChar, 7).Value = ToParam(param.VehicleNumber1);
+                        cmd.Parameters.Add("@CarName", SqlDbType.NVarChar, 10).Value = ToParam(param.CarName);
                         cmd.Parameters.Add("@Address1", SqlDbType.NVarChar, 40).Value = ToParam(param.Address1);
                         cmd.Parameters.Add("@Name", SqlDbType.NVarChar, 16).Value = ToParam(param.Name);
                         cmd.Parameters.Add("@Mobile1", SqlDbType.NVarChar, 4).Value = ToParam(param.Mobile1);
@@ -1194,7 +1194,7 @@ namespace SZOK_OCR.Common
         /// </summary>
         /// <param name="param">検索パラメータ</param>
         /// <returns>防犯登録カードのリスト</returns>
-        public List<TblRegistrationCard> ReadRegistrationCard(ScandataParameter param)
+        public List<TblRegistrationCard> ReadRegistrationCard(DataParameter param)
         {
             var lines = new List<TblRegistrationCard>();
 
@@ -1292,8 +1292,8 @@ namespace SZOK_OCR.Common
 
                         cmd.Parameters.Add("@ZipCode1", SqlDbType.NVarChar, 3).Value = ToParam(param.ZipCode1);
                         cmd.Parameters.Add("@ZipCode2", SqlDbType.NVarChar, 4).Value = ToParam(param.ZipCode2);
-                        cmd.Parameters.Add("@VehicleNumber1", SqlDbType.NVarChar, 4).Value = ToParam(param.VehicleNumber1);
-                        cmd.Parameters.Add("@CarName", SqlDbType.NVarChar, 4).Value = ToParam(param.CarName);
+                        cmd.Parameters.Add("@VehicleNumber1", SqlDbType.NVarChar, 7).Value = ToParam(param.VehicleNumber1);
+                        cmd.Parameters.Add("@CarName", SqlDbType.NVarChar, 10).Value = ToParam(param.CarName);
                         cmd.Parameters.Add("@Address1", SqlDbType.NVarChar, 40).Value = ToParam(param.Address1);
                         cmd.Parameters.Add("@Name", SqlDbType.NVarChar, 16).Value = ToParam(param.Name);
                         cmd.Parameters.Add("@Mobile1", SqlDbType.NVarChar, 4).Value = ToParam(param.Mobile1);
