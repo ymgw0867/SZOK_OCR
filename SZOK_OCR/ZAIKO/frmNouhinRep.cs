@@ -60,10 +60,10 @@ namespace SZOK_OCR.ZAIKO
                 tempDGV.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
                 // 列ヘッダーフォント指定
-                tempDGV.ColumnHeadersDefaultCellStyle.Font = new Font("ＭＳ ゴシック", 10, FontStyle.Regular);
+                tempDGV.ColumnHeadersDefaultCellStyle.Font = new Font("Yu Gothic UI", 10, FontStyle.Regular);
 
                 // データフォント指定
-                tempDGV.DefaultCellStyle.Font = new Font("ＭＳ ゴシック", 10, FontStyle.Regular);
+                tempDGV.DefaultCellStyle.Font = new Font("Yu Gothic UI", 10, FontStyle.Regular);
 
                 // 行の高さ
                 tempDGV.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;

@@ -39,7 +39,8 @@
             // 
             // button1
             // 
-            this.button1.Font = new System.Drawing.Font("MS UI Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.Font = new System.Drawing.Font("Yu Gothic UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.button1.Location = new System.Drawing.Point(40, 74);
             this.button1.Margin = new System.Windows.Forms.Padding(4);
             this.button1.Name = "button1";
@@ -51,7 +52,8 @@
             // 
             // button2
             // 
-            this.button2.Font = new System.Drawing.Font("MS UI Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button2.Font = new System.Drawing.Font("Yu Gothic UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.button2.Location = new System.Drawing.Point(40, 174);
             this.button2.Margin = new System.Windows.Forms.Padding(4);
             this.button2.Name = "button2";
@@ -63,7 +65,8 @@
             // 
             // button3
             // 
-            this.button3.Font = new System.Drawing.Font("MS UI Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button3.Font = new System.Drawing.Font("Yu Gothic UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.button3.Location = new System.Drawing.Point(40, 274);
             this.button3.Margin = new System.Windows.Forms.Padding(4);
             this.button3.Name = "button3";
@@ -75,7 +78,8 @@
             // 
             // button4
             // 
-            this.button4.Font = new System.Drawing.Font("MS UI Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button4.Font = new System.Drawing.Font("Yu Gothic UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.button4.Location = new System.Drawing.Point(40, 124);
             this.button4.Margin = new System.Windows.Forms.Padding(4);
             this.button4.Name = "button4";
@@ -87,7 +91,8 @@
             // 
             // button5
             // 
-            this.button5.Font = new System.Drawing.Font("MS UI Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.button5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button5.Font = new System.Drawing.Font("Yu Gothic UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.button5.Location = new System.Drawing.Point(40, 24);
             this.button5.Margin = new System.Windows.Forms.Padding(4);
             this.button5.Name = "button5";
@@ -99,7 +104,8 @@
             // 
             // button6
             // 
-            this.button6.Font = new System.Drawing.Font("MS UI Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.button6.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button6.Font = new System.Drawing.Font("Yu Gothic UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.button6.Location = new System.Drawing.Point(40, 224);
             this.button6.Margin = new System.Windows.Forms.Padding(4);
             this.button6.Name = "button6";

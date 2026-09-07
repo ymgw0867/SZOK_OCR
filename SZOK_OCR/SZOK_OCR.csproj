@@ -117,6 +117,7 @@
     <Compile Include="Common\TblCSVCreationHistory.cs" />
     <Compile Include="Common\TblRegistrationCard.cs" />
     <Compile Include="Common\TblScandata.cs" />
+    <Compile Include="Common\TblShippingout.cs" />
     <Compile Include="Common\TblWorkcard.cs" />
     <Compile Include="Common\Utility.cs" />
     <Compile Include="config\frmConfig.cs">

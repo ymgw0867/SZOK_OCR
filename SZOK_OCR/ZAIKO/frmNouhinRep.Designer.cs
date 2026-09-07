@@ -65,40 +65,44 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("ＭＳ ゴシック", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label4.Font = new System.Drawing.Font("Yu Gothic UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.label4.Location = new System.Drawing.Point(51, 55);
             this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(49, 14);
+            this.label4.Size = new System.Drawing.Size(51, 19);
             this.label4.TabIndex = 6;
             this.label4.Text = "店名：";
             // 
             // txtTenName
             // 
+            this.txtTenName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtTenName.Font = new System.Drawing.Font("Yu Gothic UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.txtTenName.ImeMode = System.Windows.Forms.ImeMode.Hiragana;
             this.txtTenName.Location = new System.Drawing.Point(100, 51);
             this.txtTenName.Name = "txtTenName";
-            this.txtTenName.Size = new System.Drawing.Size(781, 22);
+            this.txtTenName.Size = new System.Drawing.Size(781, 27);
             this.txtTenName.TabIndex = 7;
             this.txtTenName.TextChanged += new System.EventHandler(this.txtTenName_TextChanged);
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("ＭＳ ゴシック", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label5.Font = new System.Drawing.Font("Yu Gothic UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.label5.Location = new System.Drawing.Point(51, 85);
             this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(49, 14);
+            this.label5.Size = new System.Drawing.Size(51, 19);
             this.label5.TabIndex = 8;
             this.label5.Text = "部数：";
             // 
             // txtBusu
             // 
+            this.txtBusu.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtBusu.Font = new System.Drawing.Font("Yu Gothic UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.txtBusu.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.txtBusu.Location = new System.Drawing.Point(100, 81);
             this.txtBusu.Name = "txtBusu";
-            this.txtBusu.Size = new System.Drawing.Size(112, 22);
+            this.txtBusu.Size = new System.Drawing.Size(112, 27);
             this.txtBusu.TabIndex = 9;
             this.txtBusu.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtBusu.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtDenNum_KeyPress);
@@ -106,30 +110,34 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("ＭＳ ゴシック", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label6.Font = new System.Drawing.Font("Yu Gothic UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.label6.Location = new System.Drawing.Point(9, 115);
             this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(91, 14);
+            this.label6.Size = new System.Drawing.Size(93, 19);
             this.label6.TabIndex = 10;
             this.label6.Text = "登録票番号：";
             // 
             // txtSNum
             // 
+            this.txtSNum.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtSNum.Font = new System.Drawing.Font("Yu Gothic UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.txtSNum.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.txtSNum.Location = new System.Drawing.Point(100, 111);
             this.txtSNum.Name = "txtSNum";
-            this.txtSNum.Size = new System.Drawing.Size(112, 22);
+            this.txtSNum.Size = new System.Drawing.Size(112, 27);
             this.txtSNum.TabIndex = 11;
             this.txtSNum.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtSNum.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtDenNum_KeyPress);
             // 
             // txtENum
             // 
+            this.txtENum.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtENum.Font = new System.Drawing.Font("Yu Gothic UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.txtENum.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.txtENum.Location = new System.Drawing.Point(239, 111);
             this.txtENum.Name = "txtENum";
-            this.txtENum.Size = new System.Drawing.Size(112, 22);
+            this.txtENum.Size = new System.Drawing.Size(112, 27);
             this.txtENum.TabIndex = 12;
             this.txtENum.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtENum.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtDenNum_KeyPress);
@@ -137,31 +145,33 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("ＭＳ ゴシック", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label7.Font = new System.Drawing.Font("Yu Gothic UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.label7.Location = new System.Drawing.Point(215, 115);
             this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(21, 14);
+            this.label7.Size = new System.Drawing.Size(23, 19);
             this.label7.TabIndex = 13;
             this.label7.Text = "～";
             // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("ＭＳ ゴシック", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label8.Font = new System.Drawing.Font("Yu Gothic UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.label8.Location = new System.Drawing.Point(51, 145);
             this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(49, 14);
+            this.label8.Size = new System.Drawing.Size(51, 19);
             this.label8.TabIndex = 14;
             this.label8.Text = "代金：";
             // 
             // txtDaikin
             // 
+            this.txtDaikin.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtDaikin.Font = new System.Drawing.Font("Yu Gothic UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.txtDaikin.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.txtDaikin.Location = new System.Drawing.Point(100, 141);
             this.txtDaikin.Name = "txtDaikin";
-            this.txtDaikin.Size = new System.Drawing.Size(112, 22);
+            this.txtDaikin.Size = new System.Drawing.Size(112, 27);
             this.txtDaikin.TabIndex = 15;
             this.txtDaikin.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtDaikin.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtDenNum_KeyPress);
@@ -188,10 +198,12 @@
             // 
             // txtDenNum
             // 
+            this.txtDenNum.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtDenNum.Font = new System.Drawing.Font("Yu Gothic UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.txtDenNum.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.txtDenNum.Location = new System.Drawing.Point(100, 21);
             this.txtDenNum.Name = "txtDenNum";
-            this.txtDenNum.Size = new System.Drawing.Size(112, 22);
+            this.txtDenNum.Size = new System.Drawing.Size(112, 27);
             this.txtDenNum.TabIndex = 17;
             this.txtDenNum.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtDenNum.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtDenNum_KeyPress);
@@ -199,16 +211,18 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("ＭＳ ゴシック", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label2.Font = new System.Drawing.Font("Yu Gothic UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.label2.Location = new System.Drawing.Point(23, 26);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(77, 14);
+            this.label2.Size = new System.Drawing.Size(79, 19);
             this.label2.TabIndex = 16;
             this.label2.Text = "伝票番号：";
             // 
             // button1
             // 
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.Font = new System.Drawing.Font("Yu Gothic UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.button1.Location = new System.Drawing.Point(613, 600);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(192, 35);
@@ -219,6 +233,8 @@
             // 
             // button2
             // 
+            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button2.Font = new System.Drawing.Font("Yu Gothic UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.button2.Location = new System.Drawing.Point(811, 600);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(95, 35);
@@ -229,7 +245,8 @@
             // 
             // button3
             // 
-            this.button3.Font = new System.Drawing.Font("ＭＳ ゴシック", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button3.Font = new System.Drawing.Font("Yu Gothic UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.button3.Location = new System.Drawing.Point(841, 10);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(65, 28);
@@ -245,7 +262,7 @@
             // label1
             // 
             this.label1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label1.Font = new System.Drawing.Font("ＭＳ ゴシック", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label1.Font = new System.Drawing.Font("Yu Gothic UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.label1.Location = new System.Drawing.Point(19, 10);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(816, 28);

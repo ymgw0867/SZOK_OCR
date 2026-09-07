@@ -11,6 +11,8 @@ namespace SZOK_OCR.Common
     {
         T GetData<T>(string id);
 
+        T GetData<T>(int id);
+
         //List<T> Read<T>(string s);
 
         List<T> Read<T>(DataParameter param);

@@ -19,26 +19,28 @@ namespace SZOK_OCR.ZAIKO
             InitializeComponent();
         }
 
-        cardDataSet dts = new cardDataSet();
-        cardDataSetTableAdapters.出庫データTableAdapter adp = new cardDataSetTableAdapters.出庫データTableAdapter();
-
+        // コメント化：2026/09/07
+        //cardDataSet dts = new cardDataSet();
+        //cardDataSetTableAdapters.出庫データTableAdapter adp = new cardDataSetTableAdapters.出庫データTableAdapter();
 
         private void frmShukkoImport_Load(object sender, EventArgs e)
         {
             label2.Text = "";
             toolStripProgressBar1.Visible = false;
 
-            adp.FillByMaxID(dts.出庫データ);
+            // コメント化：2026/09/07
+            //adp.FillByMaxID(dts.出庫データ);
+            //var s = dts.出庫データ;
 
-            var s = dts.出庫データ;
+            // SQLServer接続：2026/09/07
+            var master = new ClsMaster(Properties.Settings.Default.sServerName, Properties.Settings.Default.sLogin, Properties.Settings.Default.sPass, Properties.Settings.Default.sDatabase);
+            var s = master.GetMaxShippngout();
 
-            foreach (var t in s)
+            if (s != null)
             {
-                label4.Text = "出庫日：" + t.出庫日.ToShortDateString() + "　店名：" + t.店番 + ":" + t.店名;
+                label4.Text = "出庫日：" + s.ShippingDate.ToShortDateString() + "　店名：" + s.ShopNumber + ":" + s.ShopName;
             }
         }
-
-
 
         ///----------------------------------------------------------------------------------
         /// <summary>
@@ -125,7 +127,20 @@ namespace SZOK_OCR.ZAIKO
                         string num = Utility.nulltoStr2(objArray[i, 1]).Trim().PadLeft(4, '0');
                         int Id = Utility.StrtoInt((dt.Year - 2000).ToString() + dt.Month.ToString("D2") + num);
 
-                        if (adp.FillByID(dts.出庫データ, Id) > 0)
+                        // SQLServer接続：2026/09/07
+                        var master = new ClsMaster(Properties.Settings.Default.sServerName, Properties.Settings.Default.sLogin, Properties.Settings.Default.sPass, Properties.Settings.Default.sDatabase);
+                        var shippingOutData = master.GetData<TblShippingout>(Id);
+
+                        // コメント化：2026/09/07
+                        //if (adp.FillByID(dts.出庫データ, Id) > 0)
+                        //{
+                        //    // メッセージ
+                        //    msg = "  登録済みのためスキップしました...... ";
+                        //    sCnt++;
+                        //}
+
+                        // SQLServer接続：2026/09/07
+                        if (shippingOutData != null)
                         {
                             // メッセージ
                             msg = "  登録済みのためスキップしました...... ";
@@ -140,8 +155,25 @@ namespace SZOK_OCR.ZAIKO
                             int edNum = Utility.StrtoInt(Utility.nulltoStr2(objArray[i, 8]));
                             int Uriage = Utility.StrtoInt(Utility.nulltoStr2(objArray[i, 10]));
 
-                            // 出庫データ追加登録
-                            adp.InsertQuery(Id, dt, tNum, tName, Busu, stNum, edNum, Uriage);
+                            // コメント化：2026/09/07
+                            //// 出庫データ追加登録
+                            //adp.InsertQuery(Id, dt, tNum, tName, Busu, stNum, edNum, Uriage);
+
+                            // 出庫データクラス作成：2026/09/07
+                            TblShippingout newShippingOutData = new TblShippingout
+                            {
+                                ID = Id,
+                                ShippingDate = dt,
+                                ShopNumber = tNum,
+                                ShopName = tName,
+                                Copies = Busu,
+                                StartNumber = stNum,
+                                FinishNumber = edNum,
+                                Sales = Uriage
+                            };
+
+                            // 出庫データ追加登録：2026/09/07
+                            master.Insert(newShippingOutData);
 
                             // メッセージ
                             msg = "  登録されました...... ";
@@ -150,8 +182,6 @@ namespace SZOK_OCR.ZAIKO
                         }
 
                         cnt++;
-
-                        //toolStripProgressBar1.Value = cnt;
 
                         listBox1.Items.Add(dt.ToShortDateString() + "  " + Utility.nulltoStr2(objArray[i, 4]) + msg + cnt + "/" + toRow);
                         listBox1.TopIndex = listBox1.Items.Count - 1;
@@ -205,110 +235,110 @@ namespace SZOK_OCR.ZAIKO
         /// <param name="pFile">
         ///     Excel日計表パス</param>
         ///----------------------------------------------------------------------------------
-        private void shukkoMs(string sPath)
-        {
-            Cursor = Cursors.WaitCursor;
-            toolStripProgressBar1.Visible = true;
+        //private void shukkoMs(string sPath)
+        //{
+        //    Cursor = Cursors.WaitCursor;
+        //    toolStripProgressBar1.Visible = true;
 
-            int rNum = 0;
-            string msg = "";
+        //    int rNum = 0;
+        //    string msg = "";
 
-            try
-            {
-                IXLWorkbook bk;
+        //    try
+        //    {
+        //        IXLWorkbook bk;
 
-                int sCnt = 0;
-                int rCnt = 0;
-                int cnt = 0;
+        //        int sCnt = 0;
+        //        int rCnt = 0;
+        //        int cnt = 0;
 
-                using (bk = new XLWorkbook(sPath, XLEventTracking.Disabled))
-                {
-                    var sheet1 = bk.Worksheet(1);
-                    var tbl = sheet1.RangeUsed().AsTable();
+        //        using (bk = new XLWorkbook(sPath, XLEventTracking.Disabled))
+        //        {
+        //            var sheet1 = bk.Worksheet(1);
+        //            var tbl = sheet1.RangeUsed().AsTable();
 
-                    int n = tbl.Rows().Count();
+        //            int n = tbl.Rows().Count();
 
-                    toolStripProgressBar1.Minimum = 1;
-                    toolStripProgressBar1.Maximum = n;
+        //            toolStripProgressBar1.Minimum = 1;
+        //            toolStripProgressBar1.Maximum = n;
                     
-                    foreach (var t in tbl.Rows())
-                    {
-                        //if (t.RowNumber() < 5)
-                        //{
-                        //    continue;
-                        //}
+        //            foreach (var t in tbl.Rows())
+        //            {
+        //                //if (t.RowNumber() < 5)
+        //                //{
+        //                //    continue;
+        //                //}
 
-                        if (Utility.nulltoStr2(t.Cell(1).Value) == string.Empty)
-                        {
-                            continue;
-                        }
+        //                if (Utility.nulltoStr2(t.Cell(1).Value) == string.Empty)
+        //                {
+        //                    continue;
+        //                }
 
-                        rNum = t.RowNumber();
+        //                rNum = t.RowNumber();
 
-                        DateTime dt;
-                        if (!DateTime.TryParse(t.Cell(2).Value.ToString(), out dt))
-                        {
-                            //MessageBox.Show(t.RowNumber().ToString() + " " + t.Cell(2).Value.ToString());
-                            dt = DateTime.FromOADate(Utility.StrtoDouble(t.Cell(2).Value.ToString()));
-                        }
+        //                DateTime dt;
+        //                if (!DateTime.TryParse(t.Cell(2).Value.ToString(), out dt))
+        //                {
+        //                    //MessageBox.Show(t.RowNumber().ToString() + " " + t.Cell(2).Value.ToString());
+        //                    dt = DateTime.FromOADate(Utility.StrtoDouble(t.Cell(2).Value.ToString()));
+        //                }
 
-                        // Excelセルデータ取得
-                        string num = Utility.nulltoStr2(t.Cell(1).Value).PadLeft(4, '0');
-                        int Id = Utility.StrtoInt((dt.Year - 2000).ToString() + dt.Month.ToString("D2") + num);
+        //                // Excelセルデータ取得
+        //                string num = Utility.nulltoStr2(t.Cell(1).Value).PadLeft(4, '0');
+        //                int Id = Utility.StrtoInt((dt.Year - 2000).ToString() + dt.Month.ToString("D2") + num);
 
-                        if (adp.FillByID(dts.出庫データ, Id) > 0)
-                        {
-                            // メッセージ
-                            msg = "  登録済みのためスキップしました...... ";
-                            sCnt++;
-                        }
-                        else
-                        {
-                            int tNum = Utility.StrtoInt(Utility.nulltoStr2(t.Cell(3).Value));
-                            string tName = Utility.nulltoStr2(t.Cell(4).Value);
-                            int Busu = Utility.StrtoInt(Utility.nulltoStr2(t.Cell(5).Value));
-                            int stNum = Utility.StrtoInt(Utility.nulltoStr2(t.Cell(6).Value));
-                            int edNum = Utility.StrtoInt(Utility.nulltoStr2(t.Cell(8).Value));
-                            int Uriage = Utility.StrtoInt(Utility.nulltoStr2(t.Cell(10).Value));
+        //                if (adp.FillByID(dts.出庫データ, Id) > 0)
+        //                {
+        //                    // メッセージ
+        //                    msg = "  登録済みのためスキップしました...... ";
+        //                    sCnt++;
+        //                }
+        //                else
+        //                {
+        //                    int tNum = Utility.StrtoInt(Utility.nulltoStr2(t.Cell(3).Value));
+        //                    string tName = Utility.nulltoStr2(t.Cell(4).Value);
+        //                    int Busu = Utility.StrtoInt(Utility.nulltoStr2(t.Cell(5).Value));
+        //                    int stNum = Utility.StrtoInt(Utility.nulltoStr2(t.Cell(6).Value));
+        //                    int edNum = Utility.StrtoInt(Utility.nulltoStr2(t.Cell(8).Value));
+        //                    int Uriage = Utility.StrtoInt(Utility.nulltoStr2(t.Cell(10).Value));
 
-                            // 出庫データ追加登録
-                            adp.InsertQuery(Id, dt, tNum, tName, Busu, stNum, edNum, Uriage);
+        //                    // 出庫データ追加登録
+        //                    adp.InsertQuery(Id, dt, tNum, tName, Busu, stNum, edNum, Uriage);
 
-                            // メッセージ
-                            msg = "  登録されました...... ";
+        //                    // メッセージ
+        //                    msg = "  登録されました...... ";
 
-                            rCnt++;
-                        }
+        //                    rCnt++;
+        //                }
 
-                        cnt++;
+        //                cnt++;
 
-                        toolStripProgressBar1.Value = cnt;
+        //                toolStripProgressBar1.Value = cnt;
 
-                        listBox1.Items.Add(dt.ToShortDateString() + "  " + Utility.nulltoStr2(t.Cell(4).Value) + msg + cnt + "/" + n);
-                        listBox1.TopIndex = listBox1.Items.Count - 1;
+        //                listBox1.Items.Add(dt.ToShortDateString() + "  " + Utility.nulltoStr2(t.Cell(4).Value) + msg + cnt + "/" + n);
+        //                listBox1.TopIndex = listBox1.Items.Count - 1;
 
-                        System.Threading.Thread.Sleep(80);
-                        Application.DoEvents();
-                    }
-                }
+        //                System.Threading.Thread.Sleep(80);
+        //                Application.DoEvents();
+        //            }
+        //        }
 
-                listBox1.Items.Add("終了しました.....  追加登録：" +  rCnt.ToString("#,##0") + "件、登録済スキップ：" + sCnt.ToString("#,##0") + "件");
-                listBox1.TopIndex = listBox1.Items.Count - 1;
+        //        listBox1.Items.Add("終了しました.....  追加登録：" +  rCnt.ToString("#,##0") + "件、登録済スキップ：" + sCnt.ToString("#,##0") + "件");
+        //        listBox1.TopIndex = listBox1.Items.Count - 1;
 
-                System.Threading.Thread.Sleep(1000);
-                Application.DoEvents();
+        //        System.Threading.Thread.Sleep(1000);
+        //        Application.DoEvents();
 
-                MessageBox.Show("終了しました","確認", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(rNum + Environment.NewLine + ex.Message);
-            }
-            finally
-            {
-                Cursor = Cursors.Default;
-            }
-        }
+        //        MessageBox.Show("終了しました","確認", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show(rNum + Environment.NewLine + ex.Message);
+        //    }
+        //    finally
+        //    {
+        //        Cursor = Cursors.Default;
+        //    }
+        //}
 
         private void button1_Click(object sender, EventArgs e)
         {

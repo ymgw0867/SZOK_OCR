@@ -1,4 +1,5 @@
-﻿using DocumentFormat.OpenXml.Office.Word;
+﻿using DocumentFormat.OpenXml.Office.CustomXsn;
+using DocumentFormat.OpenXml.Office.Word;
 using DocumentFormat.OpenXml.Office2010.Excel;
 using Microsoft.Office.Interop.Excel;
 using System;
@@ -101,12 +102,36 @@ namespace SZOK_OCR.Common
             return default(T);
         }
 
+
+        public T GetData<T>(int id)
+        {
+            // 出庫データのとき
+            if (typeof(T) == typeof(TblShippingout))
+            {
+                return (T)(Object)ReadShippingout(id);
+            }
+
+            MessageBox.Show("Invalid Data Class");
+            return default(T);
+        }
+
         public void Insert<T>(List<T> cls)
         {
             // SCANDATAのとき
             if (typeof(T) == typeof(TblScandata))
             {
                 Insert((List<TblScandata>)(object)(cls));
+            }
+
+            MessageBox.Show("Invalid Data Class");
+        }
+
+        public void Insert<T>(T cls)
+        {
+            // 出庫データのとき
+            if (typeof(T) == typeof(TblShippingout))
+            {
+                Insert((TblShippingout)(object)(cls));
             }
 
             MessageBox.Show("Invalid Data Class");
@@ -240,6 +265,52 @@ namespace SZOK_OCR.Common
             {
                 MessageBox.Show(ex.Message);
                 return configData;
+            }
+        }
+
+        public TblShippingout GetMaxShippngout()
+        {
+            TblShippingout shipp = null;
+
+            try
+            {
+                using (var conn = new SqlConnection(sqlBuilder.ConnectionString))
+                {
+                    conn.Open();
+
+                    string sql = "SELECT ID, 出庫日, 店番, 店名, 部数, 開始登録番号, 終了登録番号, 売上金額 FROM 出庫データ " +
+                        "where 出庫データ.id = " +
+                        "(select max(出庫データ.id) as id from 出庫データ) ";
+
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
+                    {
+                        using (var dr = cmd.ExecuteReader())
+                        {
+                            while (dr.Read())
+                            {
+                                shipp = new TblShippingout
+                                {
+                                    ID = Utility.StrtoInt(Utility.NulltoStr(dr["ID"])),
+                                    ShippingDate = System.DateTime.Parse(Utility.NulltoStr(dr["出庫日"])),
+                                    ShopNumber = Utility.StrtoInt(Utility.NulltoStr(dr["店番"])),
+                                    ShopName = Utility.NulltoStr(dr["店名"]),
+                                    Copies = Utility.StrtoInt(Utility.NulltoStr(dr["部数"])),
+                                    StartNumber = Utility.StrtoInt(Utility.NulltoStr(dr["開始登録番号"])),
+                                    FinishNumber = Utility.StrtoInt(Utility.NulltoStr(dr["終了登録番号"])),
+                                    Sales = Utility.StrtoInt(Utility.NulltoStr(dr["売上金額"]))
+                                };
+                                break; // Assuming ID is unique, we can break after the first match
+                            }
+                        }
+                    }
+                }
+
+                return shipp;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return shipp;
             }
         }
 
@@ -762,6 +833,36 @@ namespace SZOK_OCR.Common
         }
 
         /// <summary>
+        /// 出庫データテーブルにデータを挿入する：2026/09/07
+        /// </summary>
+        /// <param name="tblShippingout">挿入する出庫データ</param>
+        public void Insert(TblShippingout tblShippingout)
+        {
+            using (var conn = new SqlConnection(sqlBuilder.ConnectionString))
+            {
+                conn.Open();
+
+                string sql = "INSERT INTO 出庫データ (ID, 出庫日, 店番, 店名, 部数, 開始登録番号, 終了登録番号, 売上金額) " +
+                    "values (@ID, @ShippingDate, @ShopNumber, @ShopName, @Copies, @StartNumber, @FinishNumber, @Sales)";
+
+                using (SqlCommand com = new SqlCommand(sql, conn))
+                {
+                    com.Parameters.Clear();
+                    com.Parameters.AddWithValue("@ID", tblShippingout.ID);
+                    com.Parameters.AddWithValue("@ShippingDate", tblShippingout.ShippingDate);
+                    com.Parameters.AddWithValue("@ShopNumber", tblShippingout.ShopNumber);
+                    com.Parameters.AddWithValue("@ShopName", tblShippingout.ShopName);
+                    com.Parameters.AddWithValue("@Copies", tblShippingout.Copies);
+                    com.Parameters.AddWithValue("@StartNumber", tblShippingout.StartNumber);
+                    com.Parameters.AddWithValue("@FinishNumber", tblShippingout.FinishNumber);
+                    com.Parameters.AddWithValue("@Sales", tblShippingout.Sales);
+                    com.ExecuteNonQuery();
+                }
+            }
+        }
+
+
+        /// <summary>
         /// 防犯カードテーブルにデータを挿入する：2026/08/18
         /// </summary>
         /// <param name="scandataList">挿入するスキャンデータのリスト</param>
@@ -933,6 +1034,9 @@ namespace SZOK_OCR.Common
             }
         }
 
+
+
+
         /// <summary>
         /// SCANDATAテーブルにデータを挿入する：2026/08/18
         /// </summary>
@@ -1012,7 +1116,56 @@ namespace SZOK_OCR.Common
         }
 
         /// <summary>
-        /// SCAN_DATAテーブルのラベル件数を取得する：2026/09/03
+        /// 出庫データテーブルのデータを取得する：2026/08/28
+        /// </summary>
+        /// <param name="id">ID</param>
+        /// <returns>出庫データ</returns>
+        public TblShippingout ReadShippingout(int id)
+        {
+            try
+            {
+                TblShippingout shipp = null;
+
+                using (var conn = new SqlConnection(sqlBuilder.ConnectionString))
+                {
+                    conn.Open();
+
+                    string sql = "SELECT ID, 出庫日, 店番, 店名, 部数, 開始登録番号, 終了登録番号, 売上金額 FROM 出庫データ WHERE ID = @id";
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@id", id);
+
+                        using (SqlDataReader dr = cmd.ExecuteReader())
+                        {
+                            while (dr.Read())
+                            {
+                                shipp = new TblShippingout
+                                {
+                                    ID = Utility.StrtoInt(Utility.NulltoStr(dr["ID"])),
+                                    ShippingDate = System.DateTime.Parse(Utility.NulltoStr(dr["出庫日"])),
+                                    ShopNumber = Utility.StrtoInt(Utility.NulltoStr(dr["店番"])),
+                                    ShopName = Utility.NulltoStr(dr["店名"]),
+                                    Copies = Utility.StrtoInt(Utility.NulltoStr(dr["部数"])),
+                                    StartNumber = Utility.StrtoInt(Utility.NulltoStr(dr["開始登録番号"])),
+                                    FinishNumber = Utility.StrtoInt(Utility.NulltoStr(dr["終了登録番号"])),
+                                    Sales = Utility.StrtoInt(Utility.NulltoStr(dr["売上金額"]))
+                                };
+                                break; // Assuming ID is unique, we can break after the first match
+                            }
+                        }
+                    }
+                }
+                return shipp;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// SCAN_DATAテーブルのラベル毎のリストを取得する：2026/09/03
         /// </summary>
         /// <returns>ラベル件数のリスト</returns>
         public List<ClsLabelCount> LabelCount()

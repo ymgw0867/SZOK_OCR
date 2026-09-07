@@ -46,10 +46,10 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("ＭＳ ゴシック", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label1.Location = new System.Drawing.Point(15, 15);
+            this.label1.Font = new System.Drawing.Font("Yu Gothic UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label1.Location = new System.Drawing.Point(15, 11);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(287, 14);
+            this.label1.Size = new System.Drawing.Size(235, 19);
             this.label1.TabIndex = 0;
             this.label1.Text = "日計表エクセルファイルを指定してください";
             // 
@@ -57,7 +57,7 @@
             // 
             this.label2.BackColor = System.Drawing.Color.White;
             this.label2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.label2.Font = new System.Drawing.Font("游ゴシック", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label2.Font = new System.Drawing.Font("Yu Gothic UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.label2.Location = new System.Drawing.Point(18, 39);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(724, 25);
@@ -67,8 +67,9 @@
             // 
             // button1
             // 
-            this.button1.Font = new System.Drawing.Font("ＭＳ ゴシック", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.button1.Location = new System.Drawing.Point(308, 8);
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.Font = new System.Drawing.Font("Yu Gothic UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.button1.Location = new System.Drawing.Point(272, 8);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(62, 25);
             this.button1.TabIndex = 2;
@@ -78,7 +79,8 @@
             // 
             // button2
             // 
-            this.button2.Font = new System.Drawing.Font("ＭＳ ゴシック", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button2.Font = new System.Drawing.Font("Yu Gothic UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.button2.Location = new System.Drawing.Point(548, 379);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(94, 33);
@@ -89,7 +91,8 @@
             // 
             // button3
             // 
-            this.button3.Font = new System.Drawing.Font("ＭＳ ゴシック", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button3.Font = new System.Drawing.Font("Yu Gothic UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.button3.Location = new System.Drawing.Point(648, 379);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(94, 33);
@@ -115,12 +118,12 @@
             // 
             // listBox1
             // 
-            this.listBox1.Font = new System.Drawing.Font("游ゴシック", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.listBox1.Font = new System.Drawing.Font("Yu Gothic UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.listBox1.FormattingEnabled = true;
-            this.listBox1.ItemHeight = 16;
+            this.listBox1.ItemHeight = 15;
             this.listBox1.Location = new System.Drawing.Point(17, 72);
             this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(725, 292);
+            this.listBox1.Size = new System.Drawing.Size(725, 289);
             this.listBox1.TabIndex = 6;
             // 
             // openFileDialog1
@@ -130,20 +133,20 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("ＭＳ ゴシック", 8.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label3.Font = new System.Drawing.Font("Yu Gothic UI", 8.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.label3.Location = new System.Drawing.Point(16, 380);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(173, 12);
+            this.label3.Size = new System.Drawing.Size(159, 15);
             this.label3.TabIndex = 7;
             this.label3.Text = "取り込み済み最終出庫データ：";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("ＭＳ ゴシック", 8.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label4.Font = new System.Drawing.Font("Yu Gothic UI", 8.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.label4.Location = new System.Drawing.Point(16, 398);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(0, 12);
+            this.label4.Size = new System.Drawing.Size(0, 15);
             this.label4.TabIndex = 8;
             // 
             // frmShukkoImport
