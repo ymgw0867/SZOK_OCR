@@ -17,11 +17,11 @@ namespace SZOK_OCR.ZAIKO
             InitializeComponent();
         }
 
-        cardDataSet dts = new cardDataSet();
-        cardDataSetTableAdapters.SCAN_DATATableAdapter sAdp = new cardDataSetTableAdapters.SCAN_DATATableAdapter();
-        cardDataSetTableAdapters.防犯登録データTableAdapter dAdp = new cardDataSetTableAdapters.防犯登録データTableAdapter();
-        cardDataSetTableAdapters.出庫データTableAdapter shuAdp = new cardDataSetTableAdapters.出庫データTableAdapter();
-        cardDataSetTableAdapters.回収データTableAdapter kaiAdp = new cardDataSetTableAdapters.回収データTableAdapter();
+        //cardDataSet dts = new cardDataSet();
+        //cardDataSetTableAdapters.SCAN_DATATableAdapter sAdp = new cardDataSetTableAdapters.SCAN_DATATableAdapter();
+        //cardDataSetTableAdapters.防犯登録データTableAdapter dAdp = new cardDataSetTableAdapters.防犯登録データTableAdapter();
+        //cardDataSetTableAdapters.出庫データTableAdapter shuAdp = new cardDataSetTableAdapters.出庫データTableAdapter();
+        //cardDataSetTableAdapters.回収データTableAdapter kaiAdp = new cardDataSetTableAdapters.回収データTableAdapter();
         
         private void frmKaishuData_Load(object sender, EventArgs e)
         {
@@ -30,7 +30,7 @@ namespace SZOK_OCR.ZAIKO
 
         ///-----------------------------------------------------------------
         /// <summary>
-        ///     SCAN_DATA方から回収データを登録する </summary>
+        ///     SCAN_DATA方から回収データを登録する：2026/09/07 </summary>
         ///-----------------------------------------------------------------
         private void SDataToKaishu()
         {
@@ -40,10 +40,15 @@ namespace SZOK_OCR.ZAIKO
             int cnt = 0;
             int rCnt = 0;
 
-            //int n = sAdp.FillByNonKaishu(dts.SCAN_DATA);      // 20200720 コメント化
-            int n = sAdp.FillByNonKaishu202007(dts.SCAN_DATA);  // 20200720 登録番号重複を防ぐため登録番号で照合
+            // コメント化：2026/09/07
+            ////int n = sAdp.FillByNonKaishu(dts.SCAN_DATA);      // 20200720 コメント化
+            //int n = sAdp.FillByNonKaishu202007(dts.SCAN_DATA);  // 20200720 登録番号重複を防ぐため登録番号で照合
+            //shuAdp.Fill(dts.出庫データ);
 
-            shuAdp.Fill(dts.出庫データ);
+            // SQLSERVERからSCAN_DATAを取得するように変更：2026/09/07
+            var master = new ClsMaster(Properties.Settings.Default.sServerName, Properties.Settings.Default.sLogin, Properties.Settings.Default.sPass, Properties.Settings.Default.sDatabase);
+            var scandata = master.ReadScanNonKaishu202007();    // 登録番号重複を防ぐため登録番号で照合：2026/09/07
+            int n = scandata.Count;
 
             toolStripProgressBar1.Minimum = 1;
             toolStripProgressBar1.Maximum = n;
@@ -52,27 +57,68 @@ namespace SZOK_OCR.ZAIKO
 
             try
             {
-                foreach (var t in dts.SCAN_DATA.OrderBy(a => a.ID))
+                // コメント化：2026/09/07
+                //foreach (var t in dts.SCAN_DATA.OrderBy(a => a.ID))
+                //{
+                //    cnt++;
+
+                //    string ocrdt = t.画像名.Substring(0, 4) + "/" + t.画像名.Substring(4, 2) + "/" + t.画像名.Substring(6, 2);
+
+                //    int Num = Utility.StrtoInt(t.登録番号.Replace("CPA", "").Trim());
+
+                //    foreach (var s in dts.出庫データ.Where(a => a.開始登録番号 <= Num && a.終了登録番号 >= Num))
+                //    {
+                //        DateTime dt;
+
+                //        if (DateTime.TryParse(ocrdt, out dt))
+                //        {
+                //            // 回収データ登録
+                //            kaiAdp.InsertQuery(s.ID, dt, Num, global.flgOff, t.ID, DateTime.Now);
+
+                //            rCnt++;
+
+                //            toolStripProgressBar1.Value = cnt;
+                //            listBox1.Items.Add(ocrdt + " " + t.登録番号 + " " + s.店名 + ".....  " + cnt + "/" + n);
+                //            listBox1.TopIndex = listBox1.Items.Count - 1;
+
+                //            System.Threading.Thread.Sleep(100);
+                //            Application.DoEvents();
+                //        }
+                //    }
+                //}
+
+                // SQLSERVERから取得したSCAN_DATAを使用するように変更：2026/09/07
+                foreach (var t in scandata.OrderBy(a => a.ID))
                 {
                     cnt++;
 
-                    string ocrdt = t.画像名.Substring(0, 4) + "/" + t.画像名.Substring(4, 2) + "/" + t.画像名.Substring(6, 2);
+                    string ocrdt = t.ImageFileName.Substring(0, 4) + "/" + t.ImageFileName.Substring(4, 2) + "/" + t.ImageFileName.Substring(6, 2);
 
-                    int Num = Utility.StrtoInt(t.登録番号.Replace("CPA", "").Trim());
+                    int Num = Utility.StrtoInt(t.Number.Replace("CPA", "").Trim());
 
-                    foreach (var s in dts.出庫データ.Where(a => a.開始登録番号 <= Num && a.終了登録番号 >= Num))
+                    // 2026/09/07 SQLSERVERから出庫データを取得するように変更
+                    var shippingOutData = master.GetShippingoutNumber(Num); // 出庫データを取得するメソッドを追加する必要があります
+                    if (shippingOutData != null)
                     {
-                        DateTime dt;
-
-                        if (DateTime.TryParse(ocrdt, out dt))
+                        if (DateTime.TryParse(ocrdt, out DateTime dt))
                         {
                             // 回収データ登録
-                            kaiAdp.InsertQuery(s.ID, dt, Num, global.flgOff, t.ID, DateTime.Now);
+                            //kaiAdp.InsertQuery(shippingOutData.ID, dt, Num, global.flgOff, t.ID, DateTime.Now);
+                            TblCollectionData collectionData = new TblCollectionData
+                            {
+                                ShippingID = shippingOutData.ID,
+                                CollectionDate = dt,
+                                Number = Num,
+                                CardID = global.flgOff,
+                                ScanID = t.ID,
+                                Update = DateTime.Now
+                            };
+                            master.Insert(collectionData);
 
                             rCnt++;
 
                             toolStripProgressBar1.Value = cnt;
-                            listBox1.Items.Add(ocrdt + " " + t.登録番号 + " " + s.店名 + ".....  " + cnt + "/" + n);
+                            listBox1.Items.Add(ocrdt + " " + t.Number + " " + shippingOutData.ShopName + ".....  " + cnt + "/" + n);
                             listBox1.TopIndex = listBox1.Items.Count - 1;
 
                             System.Threading.Thread.Sleep(100);
@@ -183,7 +229,7 @@ namespace SZOK_OCR.ZAIKO
 
             if (comboBox1.SelectedIndex == 0)
             {
-                // SCAN_DATAから回収データを作成
+                // SCAN_DATAから回収データを作成：2026/09/07 SQLSERVERから取得するように変更
                 SDataToKaishu();
             }
             else if (comboBox1.SelectedIndex == 1)

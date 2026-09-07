@@ -1,4 +1,5 @@
-﻿using DocumentFormat.OpenXml.Office.CustomXsn;
+﻿using DocumentFormat.OpenXml.Drawing.Charts;
+using DocumentFormat.OpenXml.Office.CustomXsn;
 using DocumentFormat.OpenXml.Office.Word;
 using DocumentFormat.OpenXml.Office2010.Excel;
 using Microsoft.Office.Interop.Excel;
@@ -108,7 +109,7 @@ namespace SZOK_OCR.Common
             // 出庫データのとき
             if (typeof(T) == typeof(TblShippingout))
             {
-                return (T)(Object)ReadShippingout(id);
+                return (T)(Object)GetShippingout(id);
             }
 
             MessageBox.Show("Invalid Data Class");
@@ -132,6 +133,12 @@ namespace SZOK_OCR.Common
             if (typeof(T) == typeof(TblShippingout))
             {
                 Insert((TblShippingout)(object)(cls));
+            }
+
+            // 回収データのとき
+            if (typeof(T) == typeof(TblCollectionData))
+            {
+                Insert((TblCollectionData)(object)(cls));
             }
 
             MessageBox.Show("Invalid Data Class");
@@ -861,6 +868,33 @@ namespace SZOK_OCR.Common
             }
         }
 
+        /// <summary>
+        /// 回収データテーブルにデータを挿入する：2026/09/07
+        /// </summary>
+        /// <param name="tblCollectionData">挿入する回収データ</param>
+        public void Insert(TblCollectionData tblCollectionData)
+        {
+            using (var conn = new SqlConnection(sqlBuilder.ConnectionString))
+            {
+                conn.Open();
+
+                string sql = "INSERT INTO 回収データ (ID, 出庫ID, 回収年月日, 登録番号, 防犯登録ID, SCANID, 更新年月日) " +
+                    "values (@ID, @ShippingID, @CollectionDate, @Number, @CardID, @SCANID, @UpdateDate)";
+
+                using (SqlCommand com = new SqlCommand(sql, conn))
+                {
+                    com.Parameters.Clear();
+                    com.Parameters.AddWithValue("@ID", tblCollectionData.ID);
+                    com.Parameters.AddWithValue("@ShippingID", tblCollectionData.ShippingID);
+                    com.Parameters.AddWithValue("@CollectionDate", tblCollectionData.CollectionDate);
+                    com.Parameters.AddWithValue("@Number", tblCollectionData.Number);
+                    com.Parameters.AddWithValue("@CardID", tblCollectionData.CardID);
+                    com.Parameters.AddWithValue("@SCANID", tblCollectionData.ScanID);
+                    com.Parameters.AddWithValue("@UpdateDate", tblCollectionData.Update);
+                    com.ExecuteNonQuery();
+                }
+            }
+        }
 
         /// <summary>
         /// 防犯カードテーブルにデータを挿入する：2026/08/18
@@ -1120,7 +1154,7 @@ namespace SZOK_OCR.Common
         /// </summary>
         /// <param name="id">ID</param>
         /// <returns>出庫データ</returns>
-        public TblShippingout ReadShippingout(int id)
+        public TblShippingout GetShippingout(int id)
         {
             try
             {
@@ -1163,6 +1197,58 @@ namespace SZOK_OCR.Common
                 return null;
             }
         }
+
+        /// <summary>
+        /// 開始登録番号と終了登録番号の範囲内の出庫データテーブルのデータを取得する：2026/09/07
+        /// </summary>
+        /// <param name="number">登録番号</param>
+        /// <returns>出庫データ</returns>
+        public TblShippingout GetShippingoutNumber(int number)
+        {
+            try
+            {
+                TblShippingout shipp = null;
+
+                using (var conn = new SqlConnection(sqlBuilder.ConnectionString))
+                {
+                    conn.Open();
+
+                    string sql = "SELECT ID, 出庫日, 店番, 店名, 部数, 開始登録番号, 終了登録番号, 売上金額 FROM 出庫データ " +
+                        "WHERE 開始登録番号 <= @number AND 終了登録番号 >= @number";
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@number", number);
+
+                        using (SqlDataReader dr = cmd.ExecuteReader())
+                        {
+                            while (dr.Read())
+                            {
+                                shipp = new TblShippingout
+                                {
+                                    ID = Utility.StrtoInt(Utility.NulltoStr(dr["ID"])),
+                                    ShippingDate = System.DateTime.Parse(Utility.NulltoStr(dr["出庫日"])),
+                                    ShopNumber = Utility.StrtoInt(Utility.NulltoStr(dr["店番"])),
+                                    ShopName = Utility.NulltoStr(dr["店名"]),
+                                    Copies = Utility.StrtoInt(Utility.NulltoStr(dr["部数"])),
+                                    StartNumber = Utility.StrtoInt(Utility.NulltoStr(dr["開始登録番号"])),
+                                    FinishNumber = Utility.StrtoInt(Utility.NulltoStr(dr["終了登録番号"])),
+                                    Sales = Utility.StrtoInt(Utility.NulltoStr(dr["売上金額"]))
+                                };
+                                break; // Assuming ID is unique, we can break after the first match
+                            }
+                        }
+                    }
+                }
+                return shipp;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return null;
+            }
+        }
+
+
 
         /// <summary>
         /// SCAN_DATAテーブルのラベル毎のリストを取得する：2026/09/03
@@ -1611,6 +1697,75 @@ namespace SZOK_OCR.Common
                     {
                         cmd.CommandTimeout = 120; // 秒。デフォルト30から一時的に伸ばして様子を見る                                               
                         cmd.Parameters.Add("@Label", SqlDbType.NVarChar, 255).Value = label;
+
+                        using (SqlDataReader dr = cmd.ExecuteReader())
+                        {
+                            while (dr.Read())
+                            {
+                                TblScandata scandata = new TblScandata
+                                {
+                                    ID = Utility.StrtoInt(dr["ID"].ToString()),
+                                    DataCategory = Utility.StrtoInt(Utility.NulltoStr(dr["データ区分"])),
+                                    ImageFileName = Utility.NulltoStr(dr["画像名"]),
+                                    AddYear = Utility.NulltoStr(dr["登録年"]),
+                                    AddMonth = Utility.NulltoStr(dr["登録月"]),
+                                    AddDay = Utility.NulltoStr(dr["登録日"]),
+                                    Number = Utility.NulltoStr(dr["登録番号"]),
+                                    VehicleIdentificationNumber = Utility.NulltoStr(dr["車体番号"]),
+                                    Maker = Utility.NulltoStr(dr["メーカー"]),
+                                    Color = Utility.NulltoStr(dr["塗色"]),
+                                    CarModel = Utility.StrtoInt(Utility.NulltoStr(dr["車種"])),
+                                    ZipCode1 = Utility.NulltoStr(dr["郵便番号1"]),
+                                    ZipCode2 = Utility.NulltoStr(dr["郵便番号2"]),
+                                    VehicleNumber1 = string.Empty,
+                                    VehicleNumber2 = string.Empty,
+                                    CarName = string.Empty,
+                                    Address1 = Utility.NulltoStr(dr["住所1"]),
+                                    Address2 = string.Empty,
+                                    Name = Utility.NulltoStr(dr["氏名"]),
+                                    Mobile1 = Utility.NulltoStr(dr["TEL携帯"]),
+                                    Mobile2 = Utility.NulltoStr(dr["TEL携帯2"]),
+                                    Mobile3 = Utility.NulltoStr(dr["TEL携帯3"]),
+                                    PC = Utility.NulltoStr(dr["PC名"]),
+                                    CsvCreationDate = Utility.NulltoStr(dr["CSV作成日"]),
+                                    Memo = Utility.NulltoStr(dr["備考"]),
+                                    UpDate = System.DateTime.Parse(Utility.NulltoStr(dr["更新年月日"])),
+                                    Label = Utility.NulltoStr(dr["ラベル"]),
+                                    Person = Utility.NulltoStr(dr["処理担当者"])
+                                };
+
+                                lines.Add(scandata);
+                            }
+                        }
+                    }
+                }
+                return lines;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return lines;
+            }
+        }
+
+
+        public List<TblScandata> ReadScanNonKaishu202007()
+        {
+            var lines = new List<TblScandata>();
+
+            try
+            {
+                using (var conn = new SqlConnection(sqlBuilder.ConnectionString))
+                {
+                    conn.Open();
+
+                    string sql = "SELECT SCAN_DATA.* FROM SCAN_DATA " +
+                        "left JOIN 回収データ ON SCAN_DATA.登録番号 = 'CPA' + 回収データ.登録番号 " +
+                        "where 回収データ.登録番号 is null";
+
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
+                    {
+                        cmd.CommandTimeout = 120; // 秒。デフォルト30から一時的に伸ばして様子を見る     
 
                         using (SqlDataReader dr = cmd.ExecuteReader())
                         {

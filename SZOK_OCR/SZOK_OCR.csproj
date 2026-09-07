@@ -113,6 +113,7 @@
     <Compile Include="Common\global.cs" />
     <Compile Include="Common\Interface1.cs" />
     <Compile Include="Common\OCRData.cs" />
+    <Compile Include="Common\TblCollectionData.cs" />
     <Compile Include="Common\TblConfig.cs" />
     <Compile Include="Common\TblCSVCreationHistory.cs" />
     <Compile Include="Common\TblRegistrationCard.cs" />
