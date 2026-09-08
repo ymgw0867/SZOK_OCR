@@ -16,35 +16,21 @@ namespace SZOK_OCR.ZAIKO
         public frmZaikoSum()
         {
             InitializeComponent();
-
-            // コメント化：2021/10/26
-            // データ読み込み
-            //sAdp.Fill(dts.出庫データ);
-            //kAdp.Fill(dts.回収データ);
         }
 
-        cardDataSet dts = new cardDataSet();
-        cardDataSetTableAdapters.出庫データTableAdapter sAdp = new cardDataSetTableAdapters.出庫データTableAdapter();
-
-        // コメント化：2021/10/26
-        //cardDataSetTableAdapters.回収データTableAdapter kAdp = new cardDataSetTableAdapters.回収データTableAdapter();
-
+        // コメント化：2026/09/08
+        //cardDataSet dts = new cardDataSet();
+        //cardDataSetTableAdapters.出庫データTableAdapter sAdp = new cardDataSetTableAdapters.出庫データTableAdapter();
         // 2020/07/20
-        cardDataSetTableAdapters.回収データTableAdapter k2Adp = new cardDataSetTableAdapters.回収データTableAdapter();
+        //cardDataSetTableAdapters.回収データTableAdapter k2Adp = new cardDataSetTableAdapters.回収データTableAdapter();
 
         private void frmZaikoSum_Load(object sender, EventArgs e)
         {
-            //dateTimePicker1.Checked = false;  // 2010/09/10 コメント化
-            //dateTimePicker2.Checked = false;  // 2020/09/10 コメント化
-
             // 2020/09/10
             dateTimePicker1.Value = DateTime.Today;
             dateTimePicker2.Value = DateTime.Today;
 
             txtUser.Text = string.Empty;
-
-            // データグリッドビュー定義:コメント化：2021/10/28
-            //gridViewSetting(dataGridView1);
 
             comboBox1.SelectedIndex = 0;
             button2.Enabled = false;
@@ -195,10 +181,10 @@ namespace SZOK_OCR.ZAIKO
                 tempDGV.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
                 // 列ヘッダーフォント指定
-                tempDGV.ColumnHeadersDefaultCellStyle.Font = new Font("ＭＳ ゴシック", 10, FontStyle.Regular);
+                tempDGV.ColumnHeadersDefaultCellStyle.Font = new Font("Yu Gothic UI", 10, FontStyle.Regular);
 
                 // データフォント指定
-                tempDGV.DefaultCellStyle.Font = new Font("ＭＳ ゴシック", 10, FontStyle.Regular);
+                tempDGV.DefaultCellStyle.Font = new Font("Yu Gothic UI", 10, FontStyle.Regular);
 
                 // 行の高さ
                 tempDGV.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
@@ -211,17 +197,7 @@ namespace SZOK_OCR.ZAIKO
                 // 奇数行の色
                 tempDGV.AlternatingRowsDefaultCellStyle.BackColor = SystemColors.ControlLight;
 
-                //各列幅指定
-                //tempDGV.Columns.Add(colUCode, "コード");
-                //tempDGV.Columns.Add(colUName, "得意先名");
-                //tempDGV.Columns.Add(colDate, "出庫日");
-                //tempDGV.Columns.Add(colSNum, "開始番号");
-                //tempDGV.Columns.Add(colENum, "終了番号");
-                //tempDGV.Columns.Add(colShukko, "出庫部数");
-                //tempDGV.Columns.Add(colKaishu, "回収");
-                //tempDGV.Columns.Add(colZansu, "残数");
-                //tempDGV.Columns.Add(colID, ""); // 2021/10/22
-
+                //各列設定
                 tempDGV.Columns[0].HeaderText = "コード";
                 tempDGV.Columns[1].HeaderText = "得意先名";
                 tempDGV.Columns[2].HeaderText = "出庫日";
@@ -309,7 +285,7 @@ namespace SZOK_OCR.ZAIKO
             // 回収日期限：2021/10/26
             DateTime dt_e = new DateTime(dateTimePicker2.Value.Year, dateTimePicker2.Value.Month, dateTimePicker2.Value.Day, 23, 59, 59);
 
-            sAdp.FillByShukkoDayRange(dts.出庫データ, dt_s, dt_e);
+            //sAdp.FillByShukkoDayRange(dts.出庫データ, dt_s, dt_e);
 
             if (label3.Text != string.Empty)
             {
@@ -319,21 +295,19 @@ namespace SZOK_OCR.ZAIKO
 
             if (comboBox1.SelectedIndex == 0)
             {
-                ZaikoSummary(dataGridView1);
+                ZaikoSummary(dataGridView1, dt_s, dt_e);    // 2026/09/08
             }
             else
             {
-                ZaikoSummaryTotal(dataGridView1);
+                ZaikoSummaryTotal(dataGridView1, dt_s, dt_e);   // 2026/09/08
             }
         }
 
-        ///------------------------------------------------------------
         /// <summary>
-        ///     在庫集計表作成：得意先出庫別 </summary>
+        ///     在庫集計表作成：得意先出庫別 2026/09/08 </summary>
         /// <param name="g">
         ///     DataGridViewオブジェクト</param>
-        ///------------------------------------------------------------
-        private void ZaikoSummary(DataGridView g)
+        private void ZaikoSummary(DataGridView g, DateTime dt_s, DateTime dt_e)
         {
             Cursor = Cursors.WaitCursor;
 
@@ -349,43 +323,18 @@ namespace SZOK_OCR.ZAIKO
                 KaishuTl[i] = 0;
             }
 
-            // コメント化 2021/10/26
-            //// 2020/09/10
-            //DateTime dt2 = new DateTime( 2999, 12, 31, 23, 59, 59 );
-
             try
             {
                 int iX = 0;
 
-                var s = dts.出庫データ.OrderBy(a => a.店番).ThenBy(a => a.出庫日);
+                // コメント化：2026/09/08
+                //var s = dts.出庫データ.OrderBy(a => a.店番).ThenBy(a => a.出庫日);
 
-                // コメント化：2021/10/26
-                //// 出庫基準年月日：2020/09/10
-                //DateTime dt = DateTime.Parse(dateTimePicker1.Value.ToShortDateString());
-                //s = s.Where(a => a.出庫日 >= dt).OrderBy(a => a.店番).ThenBy(a => a.出庫日);
-
-                //if (dateTimePicker1.Checked)
-                //{
-                //    DateTime dt = DateTime.Parse(dateTimePicker1.Value.ToShortDateString());
-                //    s = s.Where(a => a.出庫日 >= dt).OrderBy(a => a.店番).ThenBy(a => a.出庫日);
-                //}
-
-                // コメント化：2021/10/26
-                //// 回収日期限：2020/09/10
-                //dt2 = DateTime.Parse(dateTimePicker2.Value.ToShortDateString());
-                //s = s.Where(a => a.出庫日 <= dt2).OrderBy(a => a.店番).ThenBy(a => a.出庫日);
-
-                //if (dateTimePicker2.Checked)
-                //{
-                //    dt2 = DateTime.Parse(dateTimePicker2.Value.ToShortDateString());
-                //    s = s.Where(a => a.出庫日 <= dt2).OrderBy(a => a.店番).ThenBy(a => a.出庫日);
-                //}
-
-                // 指定得意先名
-                if (txtUser.Text.Trim() != string.Empty)
-                {
-                    s = s.Where(a => a.店名.Contains(txtUser.Text)).OrderBy(a => a.店番).ThenBy(a => a.出庫日);
-                }
+                // SQLServer接続クラス：2026/09/08
+                var master = new ClsMaster(Properties.Settings.Default.sServerName, Properties.Settings.Default.sLogin, Properties.Settings.Default.sPass, Properties.Settings.Default.sDatabase);
+                
+                // 出庫日範囲指定で出庫データを取得：2026/09/08
+                var s = master.ReadShippingDaysRange(dt_s, dt_e, txtUser.Text.Trim());
 
                 dataGridView1.Rows.Clear();
 
@@ -396,20 +345,8 @@ namespace SZOK_OCR.ZAIKO
                 {
                     if (Tenban != 0)
                     {
-                        if (Tenban != t.店番)
+                        if (Tenban != t.ShopNumber)
                         {
-                            // コメント化：2021/10/28
-                            //dataGridView1.Rows.Add();
-                            //g[colUCode, iX].Value = "";
-                            //g[colUName, iX].Value = tenName + "　合計";
-                            //g[colDate, iX].Value = "";
-                            //g[colSNum, iX].Value = "";
-                            //g[colENum, iX].Value = "";
-                            //g[colShukko, iX].Value = ShukkoTl[0].ToString("#,##0");
-                            //g[colKaishu, iX].Value = KaishuTl[0].ToString("#,##0");
-                            //g[colZansu, iX].Value = (ShukkoTl[0] - KaishuTl[0]).ToString("#,##0");
-                            //g[colID, iX].Value = "";  // 2021/10/22
-
                             // 2021/10/28
                             ClsShukkoList shukkoTotal = new ClsShukkoList
                             {
@@ -432,92 +369,52 @@ namespace SZOK_OCR.ZAIKO
                         }
                     }
 
-                    // コメント化：2021/10/28
-                    //dataGridView1.Rows.Add();
-                    //g[colUCode, iX].Value = t.店番;
-                    //g[colUName, iX].Value = t.店名;
-                    //g[colDate, iX].Value = t.出庫日.ToShortDateString();
-                    //g[colSNum, iX].Value = t.開始登録番号;
-                    //g[colENum, iX].Value = t.終了登録番号;
-                    //g[colShukko, iX].Value = t.部数.ToString("#,##0");
-                    //g[colID, iX].Value = t.ID;  // 2021/10/22
-
                     // 2021/10/28
                     ClsShukkoList shukkoList = new ClsShukkoList
                     {
-                        UCode   = t.店番.ToString(),
-                        UName   = t.店名,
-                        ShDate  = t.出庫日.ToShortDateString(),
-                        SNumber = t.開始登録番号.ToString(),
-                        ENumber = t.終了登録番号.ToString(),
-                        Busu    = t.部数.ToString("#,##0"),
+                        UCode   = t.ShopNumber.ToString(),
+                        UName   = t.ShopName,
+                        ShDate  = t.ShippingDate.ToShortDateString(),
+                        SNumber = t.StartNumber.ToString(),
+                        ENumber = t.FinishNumber.ToString(),
+                        Busu    = t.Copies.ToString("#,##0"),
                         Id      = t.ID
                     };
 
-
-                    //int kaishu = t.Get回収データRows().Count();
-
-                    // 2020/10/06 コメント化
-                    //int kaishu = (int)k2Adp.IDCount(t.ID, dt2);  // 重複を除いた件数を取得 2020/07/20, 回収日期限を設定  
-
-                    // 2020/10/06 コメント化
-                    //DateTime dt3 = new DateTime(dt2.Year, dt2.Month, dt2.Day, 23, 59, 59); // 2020/10/05
-
                     DateTime dt3 = new DateTime(dateTimePicker2.Value.Year, dateTimePicker2.Value.Month, dateTimePicker2.Value.Day, 23, 59, 59); // 2021/10/26
-                    int kaishu = (int)k2Adp.IDCount(t.ID, dt3);  // 重複を除いた件数を取得：回収期限日を更新年月日で判断 2020/10/05                   
+
+                    // コメント化：2026/09/08
+                    //int kaishu = (int)k2Adp.IDCount(t.ID, dt3);  // 重複を除いた件数を取得：回収期限日を更新年月日で判断 2020/10/05
+
+                    // 重複を除いた件数を取得：回収期限日を更新年月日で判断 SQLServer接続クラス：2026/09/08
+                    int kaishu = master.CountCollectionNumber<TblCollectionData>(t.ID, dt3);
 
                     if (label3.Text != string.Empty)
                     {
                         // 無効PCA登録番号を回収数に加算：2020/01/08
-                        kaishu += GetDisabledCount(t.開始登録番号, t.終了登録番号, HenpinNum);
+                        kaishu += GetDisabledCount(t.StartNumber, t.FinishNumber, HenpinNum);
                     }
-
-                    // コメント化：2021/10/28
-                    //g[colKaishu, iX].Value = kaishu.ToString("#,##0");
-                    //g[colZansu, iX].Value = (t.部数 - kaishu).ToString("#,##0");
 
                     // 2021/10/28
                     shukkoList.Kaishu = kaishu.ToString("#,##0");
-                    shukkoList.Zansu = (t.部数 - kaishu).ToString("#,##0");
+                    shukkoList.Zansu = (t.Copies - kaishu).ToString("#,##0");
                     shukkoBind.Add(shukkoList);
 
 
                     for (int i = 0; i < ShukkoTl.Length; i++)
                     {
-                        ShukkoTl[i] += t.部数;
+                        ShukkoTl[i] += t.Copies;
                         KaishuTl[i] += kaishu;
                     }
 
-                    Tenban  = t.店番;
-                    tenName = t.店名;
+                    Tenban  = t.ShopNumber;
+                    tenName = t.ShopName;
 
                     iX++;
                 }
 
                 for (int i = 0; i < ShukkoTl.Length; i++)
                 {
-                    // コメント化：2021/10/28
-                    //dataGridView1.Rows.Add();
-
-                    //g[colUCode, iX].Value = "";
-
-                    //if (i == 0)
-                    //{
-                    //    g[colUName, iX].Value = tenName + "　合計";
-                    //}
-                    //else
-                    //{
-                    //    g[colUName, iX].Value = "総計";
-                    //}
-
-                    //g[colDate, iX].Value = "";
-                    //g[colSNum, iX].Value = "";
-                    //g[colENum, iX].Value = "";
-                    //g[colShukko, iX].Value = ShukkoTl[i].ToString("#,##0");
-                    //g[colKaishu, iX].Value = KaishuTl[i].ToString("#,##0");
-                    //g[colZansu, iX].Value = (ShukkoTl[i] - KaishuTl[i]).ToString("#,##0");
-
-
                     // 2021/10/28
                     ClsShukkoList shukkoList = new ClsShukkoList
                     {
@@ -603,13 +500,13 @@ namespace SZOK_OCR.ZAIKO
         }
 
 
-        ///------------------------------------------------------------
         /// <summary>
         ///     在庫集計表作成：得意先合計 </summary>
         /// <param name="g">
         ///     DataGridViewオブジェクト</param>
-        ///------------------------------------------------------------
-        private void ZaikoSummaryTotal(DataGridView g)
+        /// <param name="dt_s">開始日付</param>
+        /// <param name="dt_e">終了日付</param>
+        private void ZaikoSummaryTotal(DataGridView g, DateTime dt_s, DateTime dt_e)
         {
             Cursor = Cursors.WaitCursor;
 
@@ -625,44 +522,18 @@ namespace SZOK_OCR.ZAIKO
                 KaishuTl[i] = 0;
             }
 
-            // コメント化 2021/10/26
-            //// 2020/09/10
-            //DateTime dt2 = new DateTime(2999, 12, 31, 23, 59, 59);
-
             try
             {
                 int iX = 0;
 
-                var s = dts.出庫データ.OrderBy(a => a.店番).ThenBy(a => a.出庫日);
+                // コメント化：2026/09/08
+                //var s = dts.出庫データ.OrderBy(a => a.店番).ThenBy(a => a.出庫日);
 
-                // コメント化 2021/10/26
-                //// 出庫基準年月日：2020/09/10
-                //DateTime dt = DateTime.Parse(dateTimePicker1.Value.ToShortDateString());
-                //s = s.Where(a => a.出庫日 >= dt).OrderBy(a => a.店番).ThenBy(a => a.出庫日);
+                // SQLServer接続クラス：2026/09/08
+                var master = new ClsMaster(Properties.Settings.Default.sServerName, Properties.Settings.Default.sLogin, Properties.Settings.Default.sPass, Properties.Settings.Default.sDatabase);
 
-                //if (dateTimePicker1.Checked)
-                //{
-                //    DateTime dt = DateTime.Parse(dateTimePicker1.Value.ToShortDateString());
-                //    s = s.Where(a => a.出庫日 >= dt).OrderBy(a => a.店番).ThenBy(a => a.出庫日);
-                //}
-
-
-                // コメント化 2021/10/26
-                //// 回収日期限：2020/09/10
-                //dt2 = DateTime.Parse(dateTimePicker2.Value.ToShortDateString());
-                //s = s.Where(a => a.出庫日 <= dt2).OrderBy(a => a.店番).ThenBy(a => a.出庫日);
-
-                //if (dateTimePicker2.Checked)
-                //{
-                //    dt2 = DateTime.Parse(dateTimePicker2.Value.ToShortDateString());
-                //    s = s.Where(a => a.出庫日 <= dt2).OrderBy(a => a.店番).ThenBy(a => a.出庫日);
-                //}
-
-                // 指定得意先名
-                if (txtUser.Text.Trim() != string.Empty)
-                {
-                    s = s.Where(a => a.店名.Contains(txtUser.Text)).OrderBy(a => a.店番).ThenBy(a => a.出庫日);
-                }
+                // 出庫日範囲指定で出庫データを取得：2026/09/08
+                var s = master.ReadShippingDaysRange(dt_s, dt_e, txtUser.Text.Trim());
 
                 dataGridView1.Rows.Clear();
 
@@ -673,19 +544,8 @@ namespace SZOK_OCR.ZAIKO
                 {
                     if (Tenban != 0)
                     {
-                        if (Tenban != t.店番)
+                        if (Tenban != t.ShopNumber)
                         {
-                            // コメント化：2021/10/28
-                            //dataGridView1.Rows.Add();
-                            //g[colUCode, iX].Value = Tenban;
-                            //g[colUName, iX].Value = tenName;
-                            //g[colDate, iX].Value = "";
-                            //g[colSNum, iX].Value = "";
-                            //g[colENum, iX].Value = "";
-                            //g[colShukko, iX].Value = ShukkoTl[0].ToString("#,##0");
-                            //g[colKaishu, iX].Value = KaishuTl[0].ToString("#,##0");
-                            //g[colZansu, iX].Value = (ShukkoTl[0] - KaishuTl[0]).ToString("#,##0");
-
                             // 2021/10/28
                             ClsShukkoList shukkoTotal = new ClsShukkoList
                             {
@@ -709,59 +569,32 @@ namespace SZOK_OCR.ZAIKO
 
                     for (int i = 0; i < 2; i++)
                     {
-                        ShukkoTl[i] += t.部数;
-
-                        // 2020/08/04 コメント化
-                        //KaishuTl[i] += t.Get回収データRows().Count();
-
-                        // 2020/10/06
-                        //DateTime dt3 = new DateTime(dt2.Year, dt2.Month, dt2.Day, 23, 59, 59); 
+                        ShukkoTl[i] += t.Copies;
 
                         // 2021/10/26
                         DateTime dt3 = new DateTime(dateTimePicker2.Value.Year, dateTimePicker2.Value.Month, dateTimePicker2.Value.Day, 23, 59, 59);
 
-                        // 2020/10/06 コメント化
-                        //int kaishu = (int)k2Adp.IDCount(t.ID, dt2);  // 重複を除いた件数を取得 2020/07/20
+                        // コメント化：2026/09/08
+                        //int kaishu = (int)k2Adp.IDCount(t.ID, dt3);  // 重複を除いた件数を取得：回収期限日を更新年月日で判断 2020/10/06
 
-                        int kaishu = (int)k2Adp.IDCount(t.ID, dt3);  // 重複を除いた件数を取得：回収期限日を更新年月日で判断 2020/10/06
+                        // // 重複を除いた件数を取得：回収期限日を更新年月日で判断 SQLServer接続クラス：2026/09/08
+                        int kaishu = master.CountCollectionNumber<TblCollectionData>(t.ID, dt3);  
 
                         if (label3.Text != string.Empty)
                         {
                             // 無効PCA登録番号を回収数に加算：2020/10/06
-                            kaishu += GetDisabledCount(t.開始登録番号, t.終了登録番号, HenpinNum);
+                            kaishu += GetDisabledCount(t.StartNumber, t.FinishNumber, HenpinNum);
                         }
 
                         KaishuTl[i] += kaishu;  // 2020/08/04
                     }
 
-                    Tenban = t.店番;
-                    tenName = t.店名;
+                    Tenban = t.ShopNumber;
+                    tenName = t.ShopName;
                 }
 
                 for (int i = 0; i < 2; i++)
                 {
-                    // 2021/10/28
-                    //dataGridView1.Rows.Add();
-
-                    //if (i == 0)
-                    //{
-                    //    g[colUCode, iX].Value = Tenban;
-                    //    g[colUName, iX].Value = tenName;
-                    //}
-                    //else
-                    //{
-                    //    g[colUCode, iX].Value = "";
-                    //    g[colUName, iX].Value = "総計";
-                    //}
-
-                    //g[colDate, iX].Value = "";
-                    //g[colSNum, iX].Value = "";
-                    //g[colENum, iX].Value = "";
-                    //g[colShukko, iX].Value = ShukkoTl[i].ToString("#,##0");
-                    //g[colKaishu, iX].Value = KaishuTl[i].ToString("#,##0");
-                    //g[colZansu, iX].Value = (ShukkoTl[i] - KaishuTl[i]).ToString("#,##0");
-
-
                     // 2021/10/28 : クラスにセット
                     ClsShukkoList shukkoTotal = new ClsShukkoList
                     {

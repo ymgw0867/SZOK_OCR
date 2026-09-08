@@ -227,6 +227,19 @@ namespace SZOK_OCR.Common
             return 0;
         }
 
+        public int CountCollectionNumber<T>(int id, System.DateTime date)
+        {
+            // 回収データのとき
+            if (typeof(T) == typeof(TblCollectionData))
+            {
+                string sql = "select count(*) from (select DISTINCT 登録番号 from 回収データ where 出庫ID = @id and 更新年月日 <= @date) as d";
+                return GetCount(sql, id, date);
+            }
+
+            MessageBox.Show("Invalid Data Class");
+            return 0;
+        }
+
         /// <summary>
         /// 環境設定テーブルのデータを取得する：2026/08/18
         /// </summary>
@@ -2017,6 +2030,76 @@ namespace SZOK_OCR.Common
         }
 
         /// <summary>
+        /// 指定された日付範囲の出庫データを取得する
+        /// </summary>
+        /// <param name="dt_s">開始日付</param>
+        /// <param name="dt_e">終了日付</param>
+        /// <param name="customer">得意先名</param>
+        /// <returns>出庫データのリスト</returns>
+        public List<TblShippingout> ReadShippingDaysRange(System.DateTime dt_s, System.DateTime dt_e, string customer)
+        {
+            var lines = new List<TblShippingout>();
+
+            try
+            {
+                using (var conn = new SqlConnection(sqlBuilder.ConnectionString))
+                {
+                    conn.Open();
+
+                    var sql = "SELECT ID, 出庫日, 店番, 店名, 部数, 開始登録番号, 終了登録番号, 売上金額 FROM 出庫データ " +
+                        "WHERE 出庫日 >= @sdate and 出庫日 <= @edate ";
+
+                    // 得意先名が指定されている場合は、店名に対してLIKE検索を行う
+                    if (!string.IsNullOrEmpty(customer))
+                    {
+                        sql += "AND 店名 LIKE '%'+ @customer +'%' ";
+                    }
+
+                    // 出庫日と店番でソートする
+                    sql += "ORDER BY 店番, 出庫日;";
+
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
+                    {
+                        cmd.CommandTimeout = 120; // 秒。デフォルト30から一時的に伸ばして様子を見る     
+                        cmd.Parameters.AddWithValue("@sdate", dt_s);
+                        cmd.Parameters.AddWithValue("@edate", dt_e);
+
+                        if (!string.IsNullOrEmpty(customer))
+                        {
+                            cmd.Parameters.AddWithValue("@customer", customer);
+                        }
+
+                        using (SqlDataReader dr = cmd.ExecuteReader())
+                        {
+                            while (dr.Read())
+                            {
+                                TblShippingout shippingout = new TblShippingout
+                                {
+                                    ID = Utility.StrtoInt(dr["ID"].ToString()),
+                                    ShippingDate = System.DateTime.Parse(Utility.NulltoStr(dr["出庫日"])),
+                                    ShopNumber = Utility.StrtoInt(Utility.NulltoStr(dr["店番"])),
+                                    ShopName = Utility.NulltoStr(dr["店名"]),
+                                    Copies = Utility.StrtoInt(Utility.NulltoStr(dr["部数"])),
+                                    StartNumber = Utility.StrtoInt(Utility.NulltoStr(dr["開始登録番号"])),
+                                    FinishNumber = Utility.StrtoInt(Utility.NulltoStr(dr["終了登録番号"])),
+                                    Sales = Utility.StrtoInt(Utility.NulltoStr(dr["売上金額"]))
+                                };
+
+                                lines.Add(shippingout);
+                            }
+                        }
+                    }
+                }
+                return lines;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return lines;
+            }
+        }
+
+        /// <summary>
         /// 指定された文字列をSQLパラメータに変換する。空文字列の場合はDBNull.Valueを返す。
         /// </summary>
         /// <param name="value">変換する文字列</param>
@@ -2041,6 +2124,31 @@ namespace SZOK_OCR.Common
 
                     using (SqlCommand cmd = new SqlCommand(sql, conn))
                     {
+                        var rtn = cmd.ExecuteScalar();
+                        return Convert.ToInt32(rtn);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return 0;
+            }
+        }
+
+
+        private int GetCount(string sql, int id, System.DateTime date)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(sqlBuilder.ConnectionString))
+                {
+                    conn.Open();
+
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@id", id);
+                        cmd.Parameters.AddWithValue("@date", date);
                         var rtn = cmd.ExecuteScalar();
                         return Convert.ToInt32(rtn);
                     }
