@@ -96,8 +96,8 @@ namespace SZOK_OCR.ZAIKO
 
                     int Num = Utility.StrtoInt(t.Number.Replace("CPA", "").Trim());
 
-                    // 2026/09/07 SQLSERVERから出庫データを取得するように変更
-                    var shippingOutData = master.GetShippingoutNumber(Num); // 出庫データを取得するメソッドを追加する必要があります
+                    // 2026/09/07 SQLSERVERから出庫データを取得する
+                    var shippingOutData = master.GetShippingoutNumber(Num);
                     if (shippingOutData != null)
                     {
                         if (DateTime.TryParse(ocrdt, out DateTime dt))
@@ -117,7 +117,6 @@ namespace SZOK_OCR.ZAIKO
 
                             rCnt++;
 
-                            toolStripProgressBar1.Value = cnt;
                             listBox1.Items.Add(ocrdt + " " + t.Number + " " + shippingOutData.ShopName + ".....  " + cnt + "/" + n);
                             listBox1.TopIndex = listBox1.Items.Count - 1;
 
@@ -125,6 +124,8 @@ namespace SZOK_OCR.ZAIKO
                             Application.DoEvents();
                         }
                     }
+
+                    toolStripProgressBar1.Value = cnt;
                 }
 
                 dtn = DateTime.Now;
@@ -132,7 +133,7 @@ namespace SZOK_OCR.ZAIKO
                     dtn.ToShortDateString() + " " + dtn.ToShortTimeString() + ":" + dtn.Second);
                 listBox1.TopIndex = listBox1.Items.Count - 1;
 
-                System.Threading.Thread.Sleep(1000);
+                System.Threading.Thread.Sleep(100);
                 Application.DoEvents();
 
                 MessageBox.Show("終了しました", "確認", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -147,10 +148,9 @@ namespace SZOK_OCR.ZAIKO
             }
         }
 
-        ///-----------------------------------------------------------------
         /// <summary>
-        ///     SCAN_DATA方から回収データを登録する </summary>
-        ///-----------------------------------------------------------------
+        ///   ///  防犯登録データから回収データを作成（過去データ）：2026/09/08  SQLSERVERから取得するように変更
+        /// </summary>
         private void BDataToKaishu()
         {
             DateTime dtn = DateTime.Now;
@@ -159,10 +159,14 @@ namespace SZOK_OCR.ZAIKO
             int cnt = 0;
             int rCnt = 0;
 
-            //int n = dAdp.FillByNonKaishu(dts.防犯登録データ);        // 2020/07/20 コメント化
-            int n = dAdp.FillByNonkaishu202007(dts.防犯登録データ);    // 登録番号重複を防ぐために登録番号で照合 2020/07/20
+            // コメント化：2026/09/08
+            //int n = dAdp.FillByNonkaishu202007(dts.防犯登録データ);    // 登録番号重複を防ぐために登録番号で照合 2020/07/20
+            //shuAdp.Fill(dts.出庫データ);
 
-            shuAdp.Fill(dts.出庫データ);
+            // SQLSERVERから防犯登録データを取得するように変更：2026/09/08
+            var master = new ClsMaster(Properties.Settings.Default.sServerName, Properties.Settings.Default.sLogin, Properties.Settings.Default.sPass, Properties.Settings.Default.sDatabase);
+            var cards = master.ReadRegisNonKaishu202007();    // 登録番号重複を防ぐため登録番号で照合：2026/09/08
+            int n = cards.Count;
 
             toolStripProgressBar1.Minimum = 1;
             toolStripProgressBar1.Maximum = n;
@@ -171,33 +175,43 @@ namespace SZOK_OCR.ZAIKO
 
             try
             {
-                foreach (var t in dts.防犯登録データ.OrderBy(a => a.ID))
+                foreach (var t in cards.OrderBy(a => a.ID))
                 {
                     cnt++;
 
-                    string ocrdt = t.画像名.Substring(0, 4) + "/" + t.画像名.Substring(4, 2) + "/" + t.画像名.Substring(6, 2);
+                    string ocrdt = t.ImageFileName.Substring(0, 4) + "/" + t.ImageFileName.Substring(4, 2) + "/" + t.ImageFileName.Substring(6, 2);
 
-                    int Num = Utility.StrtoInt(t.登録番号.Replace("CPA", "").Trim());
+                    int Num = Utility.StrtoInt(t.Number.Replace("CPA", "").Trim());
 
-                    foreach (var s in dts.出庫データ.Where(a => a.開始登録番号 <= Num && a.終了登録番号 >= Num))
+                    // 2026/09/07 SQLSERVERから出庫データを取得する
+                    var shippingOutData = master.GetShippingoutNumber(Num);
+                    if (shippingOutData != null)
                     {
-                        DateTime dt;
-
-                        if (DateTime.TryParse(ocrdt, out dt))
+                        if (DateTime.TryParse(ocrdt, out DateTime dt))
                         {
                             // 回収データ登録
-                            kaiAdp.InsertQuery(s.ID, dt, Num, t.ID, global.flgOff, DateTime.Now);
+                            TblCollectionData collectionData = new TblCollectionData
+                            {
+                                ShippingID = shippingOutData.ID,
+                                CollectionDate = dt,
+                                Number = Num,
+                                CardID = t.ID,
+                                ScanID = global.flgOff,
+                                Update = DateTime.Now
+                            };
+                            master.Insert(collectionData);
 
                             rCnt++;
 
-                            toolStripProgressBar1.Value = cnt;
-                            listBox1.Items.Add(ocrdt + " " + t.登録番号 + " " + s.店名 + ".....  " + cnt + "/" + n);
+                            listBox1.Items.Add(ocrdt + " " + t.Number + " " + shippingOutData.ShopName + ".....  " + cnt + "/" + n);
                             listBox1.TopIndex = listBox1.Items.Count - 1;
 
                             System.Threading.Thread.Sleep(100);
                             Application.DoEvents();
                         }
                     }
+
+                    toolStripProgressBar1.Value = cnt;
                 }
 
                 dtn = DateTime.Now;
@@ -205,7 +219,7 @@ namespace SZOK_OCR.ZAIKO
                     dtn.ToShortDateString() + " " + dtn.ToShortTimeString() + ":" + dtn.Second);
                 listBox1.TopIndex = listBox1.Items.Count - 1;
 
-                System.Threading.Thread.Sleep(1000);
+                System.Threading.Thread.Sleep(100);
                 Application.DoEvents();
 
                 MessageBox.Show("終了しました", "確認", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -218,6 +232,79 @@ namespace SZOK_OCR.ZAIKO
             {
                 Cursor = Cursors.Default;
             }
+        }
+
+
+        /// <summary>
+        ///  防犯登録データから回収データを作成（過去データ）
+        /// </summary>
+        private void BDataToKaishu_old()
+        {
+            //DateTime dtn = DateTime.Now;
+            //listBox1.Items.Add("処理を開始しました..... " + dtn.ToShortDateString() + "   " + dtn.ToShortTimeString() + ":" + dtn.Second);
+
+            //int cnt = 0;
+            //int rCnt = 0;
+
+            ////int n = dAdp.FillByNonKaishu(dts.防犯登録データ);        // 2020/07/20 コメント化
+            //int n = dAdp.FillByNonkaishu202007(dts.防犯登録データ);    // 登録番号重複を防ぐために登録番号で照合 2020/07/20
+
+            //shuAdp.Fill(dts.出庫データ);
+
+            //toolStripProgressBar1.Minimum = 1;
+            //toolStripProgressBar1.Maximum = n;
+
+            //Cursor = Cursors.WaitCursor;
+
+            //try
+            //{
+            //    foreach (var t in dts.防犯登録データ.OrderBy(a => a.ID))
+            //    {
+            //        cnt++;
+
+            //        string ocrdt = t.画像名.Substring(0, 4) + "/" + t.画像名.Substring(4, 2) + "/" + t.画像名.Substring(6, 2);
+
+            //        int Num = Utility.StrtoInt(t.登録番号.Replace("CPA", "").Trim());
+
+            //        foreach (var s in dts.出庫データ.Where(a => a.開始登録番号 <= Num && a.終了登録番号 >= Num))
+            //        {
+            //            DateTime dt;
+
+            //            if (DateTime.TryParse(ocrdt, out dt))
+            //            {
+            //                // 回収データ登録
+            //                kaiAdp.InsertQuery(s.ID, dt, Num, t.ID, global.flgOff, DateTime.Now);
+
+            //                rCnt++;
+
+            //                toolStripProgressBar1.Value = cnt;
+            //                listBox1.Items.Add(ocrdt + " " + t.登録番号 + " " + s.店名 + ".....  " + cnt + "/" + n);
+            //                listBox1.TopIndex = listBox1.Items.Count - 1;
+
+            //                System.Threading.Thread.Sleep(100);
+            //                Application.DoEvents();
+            //            }
+            //        }
+            //    }
+
+            //    dtn = DateTime.Now;
+            //    listBox1.Items.Add("終了しました.....  登録：" + rCnt.ToString("#,##0") + "件    " +
+            //        dtn.ToShortDateString() + " " + dtn.ToShortTimeString() + ":" + dtn.Second);
+            //    listBox1.TopIndex = listBox1.Items.Count - 1;
+
+            //    System.Threading.Thread.Sleep(1000);
+            //    Application.DoEvents();
+
+            //    MessageBox.Show("終了しました", "確認", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show(ex.Message);
+            //}
+            //finally
+            //{
+            //    Cursor = Cursors.Default;
+            //}
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -234,7 +321,7 @@ namespace SZOK_OCR.ZAIKO
             }
             else if (comboBox1.SelectedIndex == 1)
             {
-                // 防犯登録データから回収データを作成（過去データ）
+                // 防犯登録データから回収データを作成（過去データ）：2026/09/08  SQLSERVERから取得するように変更
                 BDataToKaishu();
             }
         }

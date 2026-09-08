@@ -878,13 +878,12 @@ namespace SZOK_OCR.Common
             {
                 conn.Open();
 
-                string sql = "INSERT INTO 回収データ (ID, 出庫ID, 回収年月日, 登録番号, 防犯登録ID, SCANID, 更新年月日) " +
-                    "values (@ID, @ShippingID, @CollectionDate, @Number, @CardID, @SCANID, @UpdateDate)";
+                string sql = "INSERT INTO 回収データ (出庫ID, 回収年月日, 登録番号, 防犯登録ID, SCANID, 更新年月日) " +
+                    "values (@ShippingID, @CollectionDate, @Number, @CardID, @SCANID, @UpdateDate)";
 
                 using (SqlCommand com = new SqlCommand(sql, conn))
                 {
                     com.Parameters.Clear();
-                    com.Parameters.AddWithValue("@ID", tblCollectionData.ID);
                     com.Parameters.AddWithValue("@ShippingID", tblCollectionData.ShippingID);
                     com.Parameters.AddWithValue("@CollectionDate", tblCollectionData.CollectionDate);
                     com.Parameters.AddWithValue("@Number", tblCollectionData.Number);
@@ -1642,12 +1641,12 @@ namespace SZOK_OCR.Common
                                     CarModel = Utility.StrtoInt(Utility.NulltoStr(dr["車種"])),
                                     ZipCode1 = Utility.NulltoStr(dr["郵便番号1"]),
                                     ZipCode2 = Utility.NulltoStr(dr["郵便番号2"]),
-                                    VehicleNumber1 = string.Empty,
-                                    VehicleNumber2 = string.Empty,
-                                    CarName = string.Empty,
+                                    VehicleNumber1 = Utility.NulltoStr(dr["車両番号1"]),
+                                    VehicleNumber2 = Utility.NulltoStr(dr["車両番号2"]),
+                                    CarName = Utility.NulltoStr(dr["車名"]),
                                     AddressKanji = Utility.NulltoStr(dr["住所漢字"]),
                                     Address1 = Utility.NulltoStr(dr["住所1"]),
-                                    Address2 = string.Empty,
+                                    Address2 = Utility.NulltoStr(dr["住所2"]),
                                     Name = Utility.NulltoStr(dr["氏名"]),
                                     Mobile1 = Utility.NulltoStr(dr["TEL携帯"]),
                                     Mobile2 = Utility.NulltoStr(dr["TEL携帯2"]),
@@ -1717,11 +1716,11 @@ namespace SZOK_OCR.Common
                                     CarModel = Utility.StrtoInt(Utility.NulltoStr(dr["車種"])),
                                     ZipCode1 = Utility.NulltoStr(dr["郵便番号1"]),
                                     ZipCode2 = Utility.NulltoStr(dr["郵便番号2"]),
-                                    VehicleNumber1 = string.Empty,
-                                    VehicleNumber2 = string.Empty,
-                                    CarName = string.Empty,
+                                    VehicleNumber1 = Utility.NulltoStr(dr["車両番号1"]),
+                                    VehicleNumber2 = Utility.NulltoStr(dr["車両番号2"]),
+                                    CarName = Utility.NulltoStr(dr["車名"]),
                                     Address1 = Utility.NulltoStr(dr["住所1"]),
-                                    Address2 = string.Empty,
+                                    Address2 = Utility.NulltoStr(dr["住所2"]),
                                     Name = Utility.NulltoStr(dr["氏名"]),
                                     Mobile1 = Utility.NulltoStr(dr["TEL携帯"]),
                                     Mobile2 = Utility.NulltoStr(dr["TEL携帯2"]),
@@ -1748,7 +1747,10 @@ namespace SZOK_OCR.Common
             }
         }
 
-
+        /// <summary>
+        /// SCAN_DATAテーブルのデータを取得する（回収データに存在しない登録番号のみ）：2026/09/07
+        /// </summary>
+        /// <returns>回収データに存在しない登録番号のSCAN_DATAテーブルのデータのリスト</returns>
         public List<TblScandata> ReadScanNonKaishu202007()
         {
             var lines = new List<TblScandata>();
@@ -1760,7 +1762,7 @@ namespace SZOK_OCR.Common
                     conn.Open();
 
                     string sql = "SELECT SCAN_DATA.* FROM SCAN_DATA " +
-                        "left JOIN 回収データ ON SCAN_DATA.登録番号 = 'CPA' + 回収データ.登録番号 " +
+                        "left JOIN 回収データ ON SCAN_DATA.登録番号 = 'CPA' + CAST(回収データ.登録番号 as varchar) " +
                         "where 回収データ.登録番号 is null";
 
                     using (SqlCommand cmd = new SqlCommand(sql, conn))
@@ -1786,11 +1788,11 @@ namespace SZOK_OCR.Common
                                     CarModel = Utility.StrtoInt(Utility.NulltoStr(dr["車種"])),
                                     ZipCode1 = Utility.NulltoStr(dr["郵便番号1"]),
                                     ZipCode2 = Utility.NulltoStr(dr["郵便番号2"]),
-                                    VehicleNumber1 = string.Empty,
-                                    VehicleNumber2 = string.Empty,
-                                    CarName = string.Empty,
+                                    VehicleNumber1 = Utility.NulltoStr(dr["車両番号1"]),
+                                    VehicleNumber2 = Utility.NulltoStr(dr["車両番号2"]),
+                                    CarName = Utility.NulltoStr(dr["車名"]),
                                     Address1 = Utility.NulltoStr(dr["住所1"]),
-                                    Address2 = string.Empty,
+                                    Address2 = Utility.NulltoStr(dr["住所2"]),
                                     Name = Utility.NulltoStr(dr["氏名"]),
                                     Mobile1 = Utility.NulltoStr(dr["TEL携帯"]),
                                     Mobile2 = Utility.NulltoStr(dr["TEL携帯2"]),
@@ -1816,6 +1818,81 @@ namespace SZOK_OCR.Common
                 return lines;
             }
         }
+
+        /// <summary>
+        /// 防犯登録データテーブルのデータを取得する（回収データに存在しない登録番号のみ）：2026/09/08
+        /// </summary>
+        /// <returns>回収データに存在しない登録番号の防犯登録データテーブルのリスト</returns>
+        public List<TblRegistrationCard> ReadRegisNonKaishu202007()
+        {
+            var lines = new List<TblRegistrationCard>();
+
+            try
+            {
+                using (var conn = new SqlConnection(sqlBuilder.ConnectionString))
+                {
+                    conn.Open();
+
+                    string sql = "SELECT 防犯登録データ.* FROM 防犯登録データ " +
+                        "left JOIN 回収データ ON 防犯登録データ.登録番号 = 'CPA' + CAST(回収データ.登録番号 as varchar) " +
+                        "WHERE 回収データ.登録番号 is null ";
+
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
+                    {
+                        cmd.CommandTimeout = 120; // 秒。デフォルト30から一時的に伸ばして様子を見る
+
+                        using (SqlDataReader dr = cmd.ExecuteReader())
+                        {
+                            while (dr.Read())
+                            {
+                                var registrationCard = new TblRegistrationCard
+                                {
+                                    ID = Utility.StrtoInt(dr["ID"].ToString()),
+                                    DataCategory = Utility.StrtoInt(Utility.NulltoStr(dr["データ区分"])),
+                                    ImageFileName = Utility.NulltoStr(dr["画像名"]),
+                                    AddYear = Utility.NulltoStr(dr["登録年"]),
+                                    AddMonth = Utility.NulltoStr(dr["登録月"]),
+                                    AddDay = Utility.NulltoStr(dr["登録日"]),
+                                    Number = Utility.NulltoStr(dr["登録番号"]),
+                                    VehicleIdentificationNumber = Utility.NulltoStr(dr["車体番号"]),
+                                    Maker = Utility.NulltoStr(dr["メーカー"]),
+                                    Color = Utility.NulltoStr(dr["塗色"]),
+                                    CarModel = Utility.StrtoInt(Utility.NulltoStr(dr["車種"])),
+                                    ZipCode1 = Utility.NulltoStr(dr["郵便番号1"]),
+                                    ZipCode2 = Utility.NulltoStr(dr["郵便番号2"]),
+                                    VehicleNumber1 = Utility.NulltoStr(dr["車両番号1"]),
+                                    VehicleNumber2 = Utility.NulltoStr(dr["車両番号2"]),
+                                    CarName = Utility.NulltoStr(dr["車名"]),
+                                    AddressKanji = Utility.NulltoStr(dr["住所漢字"]),
+                                    Address1 = Utility.NulltoStr(dr["住所1"]),
+                                    Address2 = string.Empty,
+                                    Name = Utility.NulltoStr(dr["氏名"]),
+                                    Mobile1 = Utility.NulltoStr(dr["TEL携帯"]),
+                                    Mobile2 = Utility.NulltoStr(dr["TEL携帯2"]),
+                                    Mobile3 = Utility.NulltoStr(dr["TEL携帯3"]),
+                                    PC = Utility.NulltoStr(dr["PC名"]),
+                                    CsvCreationDate = Utility.NulltoStr(dr["CSV作成日"]),
+                                    Memo = Utility.NulltoStr(dr["備考"]),
+                                    UpDate = System.DateTime.Parse(Utility.NulltoStr(dr["更新年月日"])),
+                                    Exception = Utility.StrtoInt(Utility.NulltoStr(dr["除外"]))
+                                };
+
+                                lines.Add(registrationCard);
+                            }
+                        }
+                    }
+                }
+                return lines;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return lines;
+            }
+        }
+
+
+
 
         /// <summary>
         /// 指定されたPC名に一致する防犯登録カードテーブルのデータを取得する
