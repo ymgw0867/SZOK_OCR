@@ -194,6 +194,7 @@
             this.Text = "防犯登録カードデータベース";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmMainMenu_FormClosing);
             this.Load += new System.EventHandler(this.frmMainMenu_Load);
+            this.Shown += new System.EventHandler(this.frmMainMenu_Shown);
             this.ResumeLayout(false);
 
         }

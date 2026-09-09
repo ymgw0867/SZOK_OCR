@@ -2324,5 +2324,55 @@ namespace SZOK_OCR.Common
             }
         }
 
+        /// <summary>
+        /// 指定された日付以前の防犯登録データを防犯登録10年超テーブルに挿入し、元の防犯登録データから削除する
+        /// </summary>
+        /// <param name="date">基準日付</param>
+        public void Insert10YearsOver(int date)
+        {
+            using (var conn = new SqlConnection(sqlBuilder.ConnectionString))
+            {
+                conn.Open();
+
+                using (var transaction = conn.BeginTransaction())
+                {
+                    try
+                    {
+                        string sql = "INSERT INTO 防犯登録10年超 (データ区分,画像名,登録年,登録月,登録日,登録番号,車体番号,メーカー,塗色,車種,郵便番号1,郵便番号2," +
+                            "車両番号1,車両番号2,車名,住所漢字, 住所1,住所2,氏名,TEL携帯,TEL携帯2,TEL携帯3,PC名,CSV作成日,備考,更新年月日,除外) " +
+                            "SELECT データ区分, 画像名, 登録年, 登録月, 登録日, 登録番号, 車体番号, メーカー, 塗色, 車種, 郵便番号1, 郵便番号2," +
+                            "車両番号1, 車両番号2, 車名, 住所漢字, 住所1, 住所2, 氏名, TEL携帯, TEL携帯2, TEL携帯3, PC名, CSV作成日, 備考, " +
+                            "更新年月日, 除外 FROM 防犯登録データ " +
+                            "WHERE (CAST(登録年 AS int) * 10000 + 20000000 + CAST(登録月 as int) * 100 + CAST(登録日 AS int)) < @date";
+
+                        using (SqlCommand com = new SqlCommand(sql, conn, transaction))
+                        {
+                            // パラメータをクリアしてから追加する
+                            com.Parameters.Clear();
+                            com.Parameters.AddWithValue("@date", date);
+
+                            // 防犯登録10年超テーブルにデータを挿入する
+                            com.ExecuteNonQuery();
+
+                            // 防犯登録データの該当データを削除する
+                            string deleteSql = "DELETE FROM 防犯登録データ WHERE (CAST(登録年 AS int) * 10000 + 20000000 + CAST(登録月 as int) * 100 + CAST(登録日 AS int)) < @date";
+                            using (SqlCommand deleteCom = new SqlCommand(deleteSql, conn, transaction))
+                            {
+                                deleteCom.Parameters.AddWithValue("@date", date);
+                                deleteCom.ExecuteNonQuery();
+                            }
+                        }
+
+                        transaction.Commit();
+                    }
+                    catch
+                    {
+                        transaction.Rollback();
+                        throw;
+                    }
+                }
+            }
+        }
+
     }
 }
