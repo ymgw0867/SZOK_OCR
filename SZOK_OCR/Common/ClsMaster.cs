@@ -2100,6 +2100,63 @@ namespace SZOK_OCR.Common
         }
 
         /// <summary>
+        /// 指定された出庫IDと更新日以前の回収データ（出庫に対応する回収データを抽出）を取得する
+        /// </summary>
+        /// <param name="shippingID">出庫ID</param>
+        /// <param name="dt_e">更新日</param>
+        /// <returns>回収データのリスト</returns>
+        public List<TblCollectionData> ReadCollectionByShipp(int shippingID, System.DateTime dt_e)
+        {
+            var lines = new List<TblCollectionData>();
+
+            try
+            {
+                using (var conn = new SqlConnection(sqlBuilder.ConnectionString))
+                {
+                    conn.Open();
+
+                    //var sql = "SELECT ID, 出庫日, 店番, 店名, 部数, 開始登録番号, 終了登録番号, 売上金額 FROM 出庫データ " +
+                    //    "WHERE 出庫日 >= @sdate and 出庫日 <= @edate ";
+
+                    var sql = "SELECT ID, SCANID, 出庫ID, 回収年月日, 更新年月日, 登録番号, 防犯登録ID " +
+                        "FROM 回収データ WHERE(出庫ID = @shippingID and 更新年月日 <= @updateDate)";
+
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
+                    {
+                        cmd.CommandTimeout = 120; // 秒。デフォルト30から一時的に伸ばして様子を見る     
+                        cmd.Parameters.AddWithValue("@shippingID", shippingID);
+                        cmd.Parameters.AddWithValue("@updateDate", dt_e);
+
+                        using (SqlDataReader dr = cmd.ExecuteReader())
+                        {
+                            while (dr.Read())
+                            {
+                                TblCollectionData collectionData = new TblCollectionData
+                                {
+                                    ID = Utility.StrtoInt(dr["ID"].ToString()),
+                                    ShippingID = Utility.StrtoInt(Utility.NulltoStr(dr["出庫ID"])),
+                                    CollectionDate = System.DateTime.Parse(Utility.NulltoStr(dr["回収年月日"])),
+                                    Number = Utility.StrtoInt(Utility.NulltoStr(dr["登録番号"])),
+                                    CardID = Utility.StrtoInt(Utility.NulltoStr(dr["防犯登録ID"])),
+                                    ScanID = Utility.StrtoInt(Utility.NulltoStr(dr["SCANID"])),
+                                    Update = System.DateTime.Parse(Utility.NulltoStr(dr["更新年月日"]))
+                                };
+
+                                lines.Add(collectionData);
+                            }
+                        }
+                    }
+                }
+                return lines;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return lines;
+            }
+        }
+
+        /// <summary>
         /// 指定された文字列をSQLパラメータに変換する。空文字列の場合はDBNull.Valueを返す。
         /// </summary>
         /// <param name="value">変換する文字列</param>

@@ -18,14 +18,13 @@ namespace SZOK_OCR.ZAIKO
             InitializeComponent();
         }
 
-        cardDataSet dts = new cardDataSet();
-        cardDataSetTableAdapters.回収データTableAdapter kAdp = new cardDataSetTableAdapters.回収データTableAdapter();
-        cardDataSetTableAdapters.出庫データTableAdapter sAdp = new cardDataSetTableAdapters.出庫データTableAdapter();
+        // コメント化：2026/09/09
+        //cardDataSet dts = new cardDataSet();
+        //cardDataSetTableAdapters.回収データTableAdapter kAdp = new cardDataSetTableAdapters.回収データTableAdapter();
+        //cardDataSetTableAdapters.出庫データTableAdapter sAdp = new cardDataSetTableAdapters.出庫データTableAdapter();
 
         private void frmKaishuList_Load(object sender, EventArgs e)
         {
-            //GridViewSetting(dg1);
-
             btnExcel.Enabled = false;
         }
 
@@ -37,10 +36,9 @@ namespace SZOK_OCR.ZAIKO
         string colSNum     = "col5";
         string colENum     = "col6";
 
-        ///----------------------------------------------------------
         /// <summary>
-        ///     未回収防犯登録カードリスト表示 </summary>
-        ///----------------------------------------------------------
+        ///    未回収防犯登録カードリスト表示
+        /// </summary>
         private void DataShow()
         {
             try
@@ -50,30 +48,38 @@ namespace SZOK_OCR.ZAIKO
                 DateTime dt_s = new DateTime(dateTimePicker1.Value.Year, dateTimePicker1.Value.Month, dateTimePicker1.Value.Day, 0, 0, 0);
                 DateTime dt_e = new DateTime(dateTimePicker2.Value.Year, dateTimePicker2.Value.Month, dateTimePicker2.Value.Day, 23, 59, 59);
 
-                sAdp.FillByShukkoDayRange(dts.出庫データ, dt_s, dt_e);
+                // コメント化：2026/09/09
+                //sAdp.FillByShukkoDayRange(dts.出庫データ, dt_s, dt_e);
+                //IEnumerable<cardDataSet.出庫データRow> shukko = null;
+                //if (txtUser.Text.Trim() != string.Empty)
+                //{
+                //    // 指定得意先名
+                //    shukko = dts.出庫データ.Where(a => a.店名.Contains(txtUser.Text.Trim())).OrderBy(a => a.出庫日).ThenBy(a => a.店番);
+                //}
+                //else
+                //{
+                //    shukko = dts.出庫データ.OrderBy(a => a.出庫日).ThenBy(a => a.店番);
+                //}
 
-                IEnumerable<cardDataSet.出庫データRow> shukko = null;
+                // マスタクラスを生成（SQLServer接続）：2026/09/09
+                var master = new ClsMaster(Properties.Settings.Default.sServerName, Properties.Settings.Default.sLogin, Properties.Settings.Default.sPass, Properties.Settings.Default.sDatabase);
 
-                if (txtUser.Text.Trim() != string.Empty)
-                {
-                    // 指定得意先名
-                    shukko = dts.出庫データ.Where(a => a.店名.Contains(txtUser.Text.Trim())).OrderBy(a => a.出庫日).ThenBy(a => a.店番);
-                }
-                else
-                {
-                    shukko = dts.出庫データ.OrderBy(a => a.出庫日).ThenBy(a => a.店番);
-                }
+                // 出庫データを取得（指定期間・得意先名）：2026/09/09
+                var shukko = master.ReadShippingDaysRange(dt_s, dt_e, txtUser.Text.Trim());
 
                 BindingList<ClsGridSource> gridSources = new BindingList<ClsGridSource>();
 
                 foreach (var t in shukko)
                 {
                     // 出庫に対応する回収データを抽出
-                    kAdp.FillByKaishu(dts.回収データ, t.ID, dt_e);
+                    //kAdp.FillByKaishu(dts.回収データ, t.ID, dt_e);
 
-                    for (int i = t.開始登録番号; i <= t.終了登録番号; i++)
+                    var collectionData = master.ReadCollectionByShipp(t.ID, dt_e);
+
+                    for (int i = t.StartNumber; i <= t.FinishNumber; i++)
                     {
-                        if (dts.回収データ.Any(a => a.登録番号 == i))
+                        //if (dts.回収データ.Any(a => a.登録番号 == i))
+                        if (collectionData.Any(a => a.Number == i))
                         {
                             // 回収済みはネグる
                             continue;
@@ -82,45 +88,18 @@ namespace SZOK_OCR.ZAIKO
                         // DataGridViewバインド用のクラスを作成
                         ClsGridSource sources = new ClsGridSource
                         {
-                            ShDate = t.出庫日.ToShortDateString(),
-                            UCode = t.店番,
-                            UName = t.店名,
-                            SNumber = t.開始登録番号,
-                            ENumber = t.終了登録番号,
+                            ShDate = t.ShippingDate.ToShortDateString(),
+                            UCode = t.ShopNumber,
+                            UName = t.ShopName,
+                            SNumber = t.StartNumber,
+                            ENumber = t.FinishNumber,
                             Mikaishu = i
                         };
 
                         // クラスをバインディングリストに追加
                         gridSources.Add(sources);
                     }
-
-                    //// グリッドビュー初期化
-                    //dg1.Rows.Clear();
-
-                    //foreach (var t in shukko)
-                    //{
-                    //    kAdp.FillByKaishu(dts.回収データ, t.ID, dt_e);
-
-                    //    for (int i = t.開始登録番号; i <= t.終了登録番号; i++)
-                    //    {
-                    //        if (dts.回収データ.Any(a => a.登録番号 == i))
-                    //        {
-                    //            // 回収済みはネグる
-                    //            continue;
-                    //        }
-
-                    //        dg1.Rows.Add();
-                    //        dg1[colDate, dg1.RowCount - 1].Value = t.出庫日.ToShortDateString();
-                    //        dg1[colUCode, dg1.RowCount - 1].Value = t.店番;
-                    //        dg1[colUName, dg1.RowCount - 1].Value = t.店名;
-                    //        dg1[colSNum, dg1.RowCount - 1].Value = t.開始登録番号;
-                    //        dg1[colENum, dg1.RowCount - 1].Value = t.終了登録番号;
-                    //        dg1[colMikaishu, dg1.RowCount - 1].Value = i;
-                    //    }
-                    //}
                 }
-
-                //MessageBox.Show("!!!");
 
                 // グリッドビュー初期化
                 dg1.Rows.Clear();
@@ -131,14 +110,6 @@ namespace SZOK_OCR.ZAIKO
                 // データグリッドビュー書式設定
                 GridViewSetting2(dg1);
 
-                //// 以下、表示高速化のため表示後に設定：2021/10/28
-                //// 行の高さ
-                //dg1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-                //dg1.ColumnHeadersHeight = 20;
-                //dg1.RowTemplate.Height = 20;
-
-                //// 得意先名列幅
-                //dg1.Columns[colUName].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             }
             catch (Exception e)
             {
@@ -151,13 +122,102 @@ namespace SZOK_OCR.ZAIKO
                 if (dg1.RowCount > 0)
                 {
                     btnExcel.Enabled = true;
-                    dg1.CurrentCell  = null;
+                    dg1.CurrentCell = null;
                 }
                 else
                 {
                     btnExcel.Enabled = false;
                 }
             }
+        }
+
+
+        ///----------------------------------------------------------
+        /// <summary>
+        ///     未回収防犯登録カードリスト表示 </summary>
+        ///----------------------------------------------------------
+        private void DataShow_old()
+        {
+            //try
+            //{
+            //    Cursor = Cursors.WaitCursor;
+
+            //    DateTime dt_s = new DateTime(dateTimePicker1.Value.Year, dateTimePicker1.Value.Month, dateTimePicker1.Value.Day, 0, 0, 0);
+            //    DateTime dt_e = new DateTime(dateTimePicker2.Value.Year, dateTimePicker2.Value.Month, dateTimePicker2.Value.Day, 23, 59, 59);
+
+            //    sAdp.FillByShukkoDayRange(dts.出庫データ, dt_s, dt_e);
+
+            //    IEnumerable<cardDataSet.出庫データRow> shukko = null;
+
+            //    if (txtUser.Text.Trim() != string.Empty)
+            //    {
+            //        // 指定得意先名
+            //        shukko = dts.出庫データ.Where(a => a.店名.Contains(txtUser.Text.Trim())).OrderBy(a => a.出庫日).ThenBy(a => a.店番);
+            //    }
+            //    else
+            //    {
+            //        shukko = dts.出庫データ.OrderBy(a => a.出庫日).ThenBy(a => a.店番);
+            //    }
+
+            //    BindingList<ClsGridSource> gridSources = new BindingList<ClsGridSource>();
+
+            //    foreach (var t in shukko)
+            //    {
+            //        // 出庫に対応する回収データを抽出
+            //        kAdp.FillByKaishu(dts.回収データ, t.ID, dt_e);
+
+            //        for (int i = t.開始登録番号; i <= t.終了登録番号; i++)
+            //        {
+            //            if (dts.回収データ.Any(a => a.登録番号 == i))
+            //            {
+            //                // 回収済みはネグる
+            //                continue;
+            //            }
+
+            //            // DataGridViewバインド用のクラスを作成
+            //            ClsGridSource sources = new ClsGridSource
+            //            {
+            //                ShDate = t.出庫日.ToShortDateString(),
+            //                UCode = t.店番,
+            //                UName = t.店名,
+            //                SNumber = t.開始登録番号,
+            //                ENumber = t.終了登録番号,
+            //                Mikaishu = i
+            //            };
+
+            //            // クラスをバインディングリストに追加
+            //            gridSources.Add(sources);
+            //        }
+            //    }
+
+            //    // グリッドビュー初期化
+            //    dg1.Rows.Clear();
+
+            //    // データグリッドビューソースバインド
+            //    dg1.DataSource = gridSources;
+
+            //    // データグリッドビュー書式設定
+            //    GridViewSetting2(dg1);
+
+            //}
+            //catch (Exception e)
+            //{
+            //    MessageBox.Show(e.Message);
+            //}
+            //finally
+            //{
+            //    Cursor = Cursors.Default;
+
+            //    if (dg1.RowCount > 0)
+            //    {
+            //        btnExcel.Enabled = true;
+            //        dg1.CurrentCell  = null;
+            //    }
+            //    else
+            //    {
+            //        btnExcel.Enabled = false;
+            //    }
+            //}
         }
 
         ///--------------------------------------------------------------------
@@ -182,10 +242,10 @@ namespace SZOK_OCR.ZAIKO
                 tempDGV.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
                 // 列ヘッダーフォント指定
-                tempDGV.ColumnHeadersDefaultCellStyle.Font = new Font("ＭＳ ゴシック", 10, FontStyle.Regular);
+                tempDGV.ColumnHeadersDefaultCellStyle.Font = new Font("Yu Gothic UI", 10, FontStyle.Regular);
 
                 // データフォント指定
-                tempDGV.DefaultCellStyle.Font = new Font("ＭＳ ゴシック", 10, FontStyle.Regular);
+                tempDGV.DefaultCellStyle.Font = new Font("Yu Gothic UI", 10, FontStyle.Regular);
 
                 // 表示高速化のためコメント化：2021/10/28
                 // 行の高さ
@@ -199,14 +259,7 @@ namespace SZOK_OCR.ZAIKO
                 // 奇数行の色
                 tempDGV.AlternatingRowsDefaultCellStyle.BackColor = SystemColors.ControlLight;
 
-                //各列幅指定
-                //tempDGV.Columns.Add(colDate, "出庫日");
-                //tempDGV.Columns.Add(colUCode, "コード");
-                //tempDGV.Columns.Add(colUName, "得意先名");
-                //tempDGV.Columns.Add(colSNum, "開始番号");
-                //tempDGV.Columns.Add(colENum, "終了番号");
-                //tempDGV.Columns.Add(colMikaishu, "未回収番号");
-
+                //各列設定
                 tempDGV.Columns[0].HeaderText = "出庫日";
                 tempDGV.Columns[1].HeaderText = "コード";
                 tempDGV.Columns[2].HeaderText = "得意先名";
@@ -278,109 +331,6 @@ namespace SZOK_OCR.ZAIKO
             }
         }
 
-        ///--------------------------------------------------------------------
-        /// <summary>
-        ///     データグリッドビューの定義を行います </summary>
-        /// <param name="tempDGV">
-        ///     データグリッドビューオブジェクト</param>
-        ///--------------------------------------------------------------------
-        private void GridViewSetting(DataGridView tempDGV)
-        {
-            try
-            {
-                //フォームサイズ定義
-
-                // 列スタイルを変更する
-
-                tempDGV.EnableHeadersVisualStyles = false;
-                tempDGV.ColumnHeadersDefaultCellStyle.BackColor = Color.SteelBlue;
-                tempDGV.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
-
-                // 列ヘッダー表示位置指定
-                tempDGV.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
-                // 列ヘッダーフォント指定
-                tempDGV.ColumnHeadersDefaultCellStyle.Font = new Font("ＭＳ ゴシック", 10, FontStyle.Regular);
-
-                // データフォント指定
-                tempDGV.DefaultCellStyle.Font = new Font("ＭＳ ゴシック", 10, FontStyle.Regular);
-
-                // 表示高速化のためコメント化：2021/10/28
-                // 行の高さ
-                //tempDGV.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-                //tempDGV.ColumnHeadersHeight = 20;
-                //tempDGV.RowTemplate.Height = 20;
-
-                // 全体の高さ
-                tempDGV.Height = 482;
-
-                // 奇数行の色
-                tempDGV.AlternatingRowsDefaultCellStyle.BackColor = SystemColors.ControlLight;
-
-                //各列幅指定
-                tempDGV.Columns.Add(colDate,     "出庫日");
-                tempDGV.Columns.Add(colUCode,    "コード");
-                tempDGV.Columns.Add(colUName,    "得意先名");
-                tempDGV.Columns.Add(colSNum,     "開始番号");
-                tempDGV.Columns.Add(colENum,     "終了番号");
-                tempDGV.Columns.Add(colMikaishu, "未回収番号");
-
-                tempDGV.Columns[colDate].Width     = 110;
-                tempDGV.Columns[colUCode].Width    = 90;
-                tempDGV.Columns[colSNum].Width     = 110;
-                tempDGV.Columns[colENum].Width     = 110;
-                tempDGV.Columns[colMikaishu].Width = 110;
-
-                // 表示高速化のためコメント化：2021/10/28
-                //tempDGV.Columns[colUName].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-
-                tempDGV.Columns[colDate].DefaultCellStyle.Alignment     = DataGridViewContentAlignment.MiddleCenter;
-                tempDGV.Columns[colUCode].DefaultCellStyle.Alignment    = DataGridViewContentAlignment.MiddleCenter;
-                tempDGV.Columns[colMikaishu].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-                tempDGV.Columns[colSNum].DefaultCellStyle.Alignment     = DataGridViewContentAlignment.MiddleCenter;
-                tempDGV.Columns[colENum].DefaultCellStyle.Alignment     = DataGridViewContentAlignment.MiddleCenter;
-                tempDGV.Columns[colMikaishu].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
-                // 行ヘッダを表示しない
-                tempDGV.RowHeadersVisible = false;
-
-                // 選択モード
-                tempDGV.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-                tempDGV.MultiSelect = true;
-
-                // 編集不可とする
-                tempDGV.ReadOnly = true;
-
-                // 追加行表示しない
-                tempDGV.AllowUserToAddRows = false;
-
-                // データグリッドビューから行削除を禁止する
-                tempDGV.AllowUserToDeleteRows = false;
-
-                // 手動による列移動の禁止
-                tempDGV.AllowUserToOrderColumns = false;
-
-                // 列サイズ変更可
-                tempDGV.AllowUserToResizeColumns = true;
-
-                // 行サイズ変更禁止
-                tempDGV.AllowUserToResizeRows = false;
-
-                // 行ヘッダーの自動調節
-                tempDGV.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
-
-                //TAB動作
-                tempDGV.StandardTab = true;
-
-                // 罫線
-                tempDGV.AdvancedColumnHeadersBorderStyle.All = DataGridViewAdvancedCellBorderStyle.None;
-                tempDGV.CellBorderStyle = DataGridViewCellBorderStyle.None;
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message, "エラーメッセージ", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -408,6 +358,10 @@ namespace SZOK_OCR.ZAIKO
             Grid2Excel(Properties.Settings.Default.xlsMikaishuList);
         }
 
+        /// <summary>
+        ///   データグリッドビューの内容をExcelに出力する
+        /// </summary>
+        /// <param name="sPath">出力先のExcelファイルパス</param>
         private void Grid2Excel(string sPath)
         {
             Cursor = Cursors.WaitCursor;
@@ -500,6 +454,9 @@ namespace SZOK_OCR.ZAIKO
             }
         }
 
+        /// <summary>
+        ///   データグリッドビューにバインドするクラス
+        /// </summary>
         public class ClsGridSource
         {
             public string ShDate   { get; set; }

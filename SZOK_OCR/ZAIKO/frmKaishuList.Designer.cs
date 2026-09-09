@@ -48,10 +48,10 @@ namespace SZOK_OCR.ZAIKO
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("ＭＳ ゴシック", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label7.Location = new System.Drawing.Point(407, 19);
+            this.label7.Font = new System.Drawing.Font("Yu Gothic UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label7.Location = new System.Drawing.Point(407, 17);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(315, 13);
+            this.label7.Size = new System.Drawing.Size(276, 17);
             this.label7.TabIndex = 20;
             this.label7.Text = "※集計期間中の出庫処理、回収処理を集計します";
             // 
@@ -67,10 +67,11 @@ namespace SZOK_OCR.ZAIKO
             // 
             // dateTimePicker2
             // 
+            this.dateTimePicker2.Font = new System.Drawing.Font("Yu Gothic UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.dateTimePicker2.Location = new System.Drawing.Point(259, 15);
             this.dateTimePicker2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dateTimePicker2.Name = "dateTimePicker2";
-            this.dateTimePicker2.Size = new System.Drawing.Size(142, 20);
+            this.dateTimePicker2.Size = new System.Drawing.Size(142, 25);
             this.dateTimePicker2.TabIndex = 1;
             // 
             // label5
@@ -83,27 +84,31 @@ namespace SZOK_OCR.ZAIKO
             // 
             // dateTimePicker1
             // 
+            this.dateTimePicker1.Font = new System.Drawing.Font("Yu Gothic UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.dateTimePicker1.Location = new System.Drawing.Point(88, 15);
             this.dateTimePicker1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(142, 20);
+            this.dateTimePicker1.Size = new System.Drawing.Size(142, 25);
             this.dateTimePicker1.TabIndex = 0;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(11, 19);
+            this.label1.Font = new System.Drawing.Font("Yu Gothic UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label1.Location = new System.Drawing.Point(11, 17);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(77, 13);
+            this.label1.Size = new System.Drawing.Size(73, 17);
             this.label1.TabIndex = 17;
             this.label1.Text = "集計期間：";
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(835, 14);
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.Font = new System.Drawing.Font("Yu Gothic UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.button1.Location = new System.Drawing.Point(846, 11);
             this.button1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(86, 49);
+            this.button1.Size = new System.Drawing.Size(75, 57);
             this.button1.TabIndex = 3;
             this.button1.Text = "集計(&D)";
             this.button1.UseVisualStyleBackColor = true;
@@ -114,7 +119,7 @@ namespace SZOK_OCR.ZAIKO
             this.dg1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.dg1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dg1.Location = new System.Drawing.Point(12, 70);
+            this.dg1.Location = new System.Drawing.Point(12, 74);
             this.dg1.Name = "dg1";
             this.dg1.RowTemplate.Height = 21;
             this.dg1.Size = new System.Drawing.Size(909, 482);
@@ -123,10 +128,12 @@ namespace SZOK_OCR.ZAIKO
             // button2
             // 
             this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button2.Location = new System.Drawing.Point(793, 568);
+            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button2.Font = new System.Drawing.Font("Yu Gothic UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.button2.Location = new System.Drawing.Point(805, 568);
             this.button2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(128, 31);
+            this.button2.Size = new System.Drawing.Size(116, 36);
             this.button2.TabIndex = 5;
             this.button2.Text = "終了(&E)";
             this.button2.UseVisualStyleBackColor = true;
@@ -135,10 +142,12 @@ namespace SZOK_OCR.ZAIKO
             // btnExcel
             // 
             this.btnExcel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnExcel.Location = new System.Drawing.Point(659, 568);
+            this.btnExcel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnExcel.Font = new System.Drawing.Font("Yu Gothic UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.btnExcel.Location = new System.Drawing.Point(683, 568);
             this.btnExcel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnExcel.Name = "btnExcel";
-            this.btnExcel.Size = new System.Drawing.Size(128, 31);
+            this.btnExcel.Size = new System.Drawing.Size(116, 36);
             this.btnExcel.TabIndex = 4;
             this.btnExcel.Text = "Excel出力(&X)";
             this.btnExcel.UseVisualStyleBackColor = true;
@@ -146,19 +155,22 @@ namespace SZOK_OCR.ZAIKO
             // 
             // txtUser
             // 
+            this.txtUser.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtUser.Font = new System.Drawing.Font("Yu Gothic UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.txtUser.ImeMode = System.Windows.Forms.ImeMode.Hiragana;
-            this.txtUser.Location = new System.Drawing.Point(88, 39);
+            this.txtUser.Location = new System.Drawing.Point(88, 43);
             this.txtUser.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtUser.Name = "txtUser";
-            this.txtUser.Size = new System.Drawing.Size(625, 20);
+            this.txtUser.Size = new System.Drawing.Size(625, 25);
             this.txtUser.TabIndex = 2;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(11, 42);
+            this.label2.Font = new System.Drawing.Font("Yu Gothic UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label2.Location = new System.Drawing.Point(11, 46);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(77, 13);
+            this.label2.Size = new System.Drawing.Size(73, 17);
             this.label2.TabIndex = 26;
             this.label2.Text = "得意先名：";
             // 
