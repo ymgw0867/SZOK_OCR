@@ -2374,5 +2374,57 @@ namespace SZOK_OCR.Common
             }
         }
 
+        /// <summary>
+        /// 指定されたIDの防犯登録データを抹消テーブルに挿入し、元の防犯登録データから削除する
+        /// </summary>
+        /// <param name="id">抹消する防犯登録データのID</param>
+        /// <param name="date">抹消日</param>
+        public void ErasureData(int id, System.DateTime date)
+        {
+            using (var conn = new SqlConnection(sqlBuilder.ConnectionString))
+            {
+                conn.Open();
+
+                using (var transaction = conn.BeginTransaction())
+                {
+                    try
+                    {
+                        string sql = "INSERT INTO 抹消 (データ区分,画像名,登録年,登録月,登録日,登録番号,車体番号,メーカー,塗色,車種,郵便番号1,郵便番号2," +
+                            "車両番号1,車両番号2,車名,住所漢字, 住所1,住所2,氏名,TEL携帯,TEL携帯2,TEL携帯3,PC名,CSV作成日,備考,更新年月日,除外) " +
+                            "SELECT データ区分, 画像名, 登録年, 登録月, 登録日, 登録番号, 車体番号, メーカー, 塗色, 車種, 郵便番号1, 郵便番号2," +
+                            "車両番号1, 車両番号2, 車名, 住所漢字, 住所1, 住所2, 氏名, TEL携帯, TEL携帯2, TEL携帯3, PC名, CSV作成日, 備考, " +
+                            "@date, 除外 FROM 防犯登録データ " +
+                            "WHERE ID = @id";
+
+                        using (SqlCommand com = new SqlCommand(sql, conn, transaction))
+                        {
+                            // パラメータをクリアしてから追加する
+                            com.Parameters.Clear();
+                            com.Parameters.AddWithValue("@id", id);
+                            com.Parameters.AddWithValue("@date", date);
+
+                            // 抹消テーブルにデータを挿入する
+                            com.ExecuteNonQuery();
+
+                            // 防犯登録データの該当データを削除する
+                            string deleteSql = "DELETE FROM 防犯登録データ WHERE ID = @id";
+                            using (SqlCommand deleteCom = new SqlCommand(deleteSql, conn, transaction))
+                            {
+                                deleteCom.Parameters.AddWithValue("@id", id);
+                                deleteCom.ExecuteNonQuery();
+                            }
+                        }
+
+                        transaction.Commit();
+                    }
+                    catch
+                    {
+                        transaction.Rollback();
+                        throw;
+                    }
+                }
+            }
+        }
+
     }
 }

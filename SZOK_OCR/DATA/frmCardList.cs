@@ -763,5 +763,44 @@ namespace SZOK_OCR.DATA
                 txt.BackColor = Color.White;
             }
         }
+
+        private void dg_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button != MouseButtons.Right)
+            {
+                return;
+            }
+
+            DataGridView.HitTestInfo hitTest = dg.HitTest(e.X, e.Y);
+            if (hitTest.RowIndex < 0)
+            {
+                return;
+            }
+
+            dg.ClearSelection();
+            dg.Rows[hitTest.RowIndex].Selected = true;
+            dg.CurrentCell = dg.Rows[hitTest.RowIndex].Cells[coldKbn];
+
+            // 確認メッセージを表示して、抹消するかどうかを確認する：2026/09/10
+            var msg = $"このデータを抹消しますか？\n{dg.Rows[hitTest.RowIndex].Cells[colCPA].Value.ToString()}：{dg.Rows[hitTest.RowIndex].Cells[colFuri].Value.ToString()}";
+            if (MessageBox.Show(msg, "抹消確認", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
+            {
+                return;
+            }
+
+            int iX = Utility.StrtoInt(dg.Rows[hitTest.RowIndex].Cells[colID].Value.ToString());
+
+            // 抹消画面を表示して、抹消処理を行う：2026/09/10
+            using (frmErasure form = new frmErasure(iX))
+            {
+                form.ShowDialog(this);
+
+                // 抹消処理が完了した場合は、再検索してデータを再表示する：2026/09/10
+                if (form.status)
+                {
+                    DataFind();
+                }
+            }
+        }
     }
 }

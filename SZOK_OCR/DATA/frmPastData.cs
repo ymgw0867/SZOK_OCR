@@ -396,5 +396,9 @@ namespace SZOK_OCR.DATA
                 txtCarName.Enabled = true;
             }
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+        }
     }
 }

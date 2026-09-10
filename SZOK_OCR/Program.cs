@@ -22,15 +22,6 @@ namespace SZOK_OCR
             {
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
-
-                // 登録日から10年経過した防犯登録データを10年超テーブルに移動する：2026/09/09
-                var master = new ClsMaster(Properties.Settings.Default.sServerName,
-                                           Properties.Settings.Default.sLogin,
-                                           Properties.Settings.Default.sPass,
-                                           Properties.Settings.Default.sDatabase);
-                DateTime date = DateTime.Today.AddYears(-25);
-                master.Insert10YearsOver(date.Year * 10000 + date.Month * 100 + date.Day);
-
                 // メインメニューを表示する
                 Application.Run(new frmMainMenu());
             }
