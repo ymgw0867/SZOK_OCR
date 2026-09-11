@@ -78,6 +78,9 @@
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.linkLabel2 = new System.Windows.Forms.LinkLabel();
             this.label22 = new System.Windows.Forms.Label();
+            this.btnErasure = new System.Windows.Forms.Button();
+            this.btnUpdate = new System.Windows.Forms.Button();
+            this.btnCard = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dg)).BeginInit();
             this.SuspendLayout();
@@ -660,6 +663,7 @@
             this.dg.RowTemplate.Height = 21;
             this.dg.Size = new System.Drawing.Size(1522, 722);
             this.dg.TabIndex = 125;
+            this.dg.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dg_CellClick);
             this.dg.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dg_CellDoubleClick);
             this.dg.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dg_MouseDown);
             // 
@@ -696,10 +700,42 @@
             // label22
             // 
             this.label22.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label22.Location = new System.Drawing.Point(13, 873);
+            this.label22.Location = new System.Drawing.Point(12, 888);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(168, 30);
             this.label22.TabIndex = 126;
+            // 
+            // btnErasure
+            // 
+            this.btnErasure.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnErasure.Location = new System.Drawing.Point(413, 889);
+            this.btnErasure.Name = "btnErasure";
+            this.btnErasure.Size = new System.Drawing.Size(109, 28);
+            this.btnErasure.TabIndex = 129;
+            this.btnErasure.Text = "抹消処理";
+            this.btnErasure.UseVisualStyleBackColor = true;
+            this.btnErasure.Click += new System.EventHandler(this.btnErasure_Click);
+            // 
+            // btnUpdate
+            // 
+            this.btnUpdate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnUpdate.Location = new System.Drawing.Point(298, 889);
+            this.btnUpdate.Name = "btnUpdate";
+            this.btnUpdate.Size = new System.Drawing.Size(109, 28);
+            this.btnUpdate.TabIndex = 128;
+            this.btnUpdate.Text = "変更届";
+            this.btnUpdate.UseVisualStyleBackColor = true;
+            // 
+            // btnCard
+            // 
+            this.btnCard.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCard.Location = new System.Drawing.Point(184, 889);
+            this.btnCard.Name = "btnCard";
+            this.btnCard.Size = new System.Drawing.Size(109, 28);
+            this.btnCard.TabIndex = 127;
+            this.btnCard.Text = "カード閲覧";
+            this.btnCard.UseVisualStyleBackColor = true;
+            this.btnCard.Click += new System.EventHandler(this.btnCard_Click);
             // 
             // frmCardList
             // 
@@ -707,6 +743,9 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1544, 929);
+            this.Controls.Add(this.btnErasure);
+            this.Controls.Add(this.btnUpdate);
+            this.Controls.Add(this.btnCard);
             this.Controls.Add(this.label22);
             this.Controls.Add(this.linkLabel2);
             this.Controls.Add(this.linkLabel1);
@@ -779,6 +818,9 @@
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.TextBox txtsSharyoNum;
+        private System.Windows.Forms.Button btnErasure;
+        private System.Windows.Forms.Button btnUpdate;
+        private System.Windows.Forms.Button btnCard;
     }
 }
 

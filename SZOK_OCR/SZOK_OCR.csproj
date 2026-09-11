@@ -128,6 +128,12 @@
       <DependentUpon>frmConfig.cs</DependentUpon>
     </Compile>
     <Compile Include="DATA\clsOutput.cs" />
+    <Compile Include="DATA\frmDataMenu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DATA\frmDataMenu.Designer.cs">
+      <DependentUpon>frmDataMenu.cs</DependentUpon>
+    </Compile>
     <Compile Include="DATA\frmErasure.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -272,6 +278,9 @@
     <EmbeddedResource Include="config\frmConfig.resx">
       <DependentUpon>frmConfig.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DATA\frmDataMenu.resx">
+      <DependentUpon>frmDataMenu.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DATA\frmErasure.resx">
       <DependentUpon>frmErasure.cs</DependentUpon>

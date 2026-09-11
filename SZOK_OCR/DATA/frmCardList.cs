@@ -75,6 +75,10 @@ namespace SZOK_OCR.DATA
 
             //// 2019/06/25
             //adp.Fill(dts.防犯登録データ);
+
+            btnCard.Enabled = false;
+            btnUpdate.Enabled = false;
+            btnErasure.Enabled = false;
         }
 
         ///-----------------------------------------------------------------
@@ -644,6 +648,11 @@ namespace SZOK_OCR.DATA
                 MessageBox.Show("条件に該当するデータはありませんでした", "検索結果", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 linkLabel2.Enabled = false;
 
+                // 2026/09/11
+                btnCard.Enabled = false;
+                btnUpdate.Enabled = false;
+                btnErasure.Enabled = false;
+                
                 // 2019/11/15
                 label22.Text = "該当件数： 0件";
             }
@@ -700,27 +709,26 @@ namespace SZOK_OCR.DATA
         {
             if (e.RowIndex >= 0)
             {
-                // 指定データとカード画像を表示
-                int iX = Utility.StrtoInt(dg[colID, e.RowIndex].Value.ToString());
-                showPastData(iX);
+                this.Hide();
+                var frm = new frmDataMenu(dg.Rows[e.RowIndex]);
+                frm.ShowDialog();
+                this.Show();
 
-                // 編集モードでカードデータを表示した場合は、再検索してデータを再表示する：2026/09/07
-                if (EditStatus)
-                {
-                    DataFind();     // 2026/08/28
-                }
+
+
+
+                //// 指定データとカード画像を表示
+                //int iX = Utility.StrtoInt(dg[colID, e.RowIndex].Value.ToString());
+                //ShowPastData(iX);
+
+                //// 編集モードでカードデータを表示した場合は、再検索してデータを再表示する：2026/09/07
+                //if (EditStatus)
+                //{
+                //    DataFind();     // 2026/08/28
+                //}
             }
         }
 
-        private void showPastData(int iX)
-        {
-            this.Hide();
-            frmPastData frm = new frmPastData(iX);
-            frm.ShowDialog();
-            this.Show();
-            EditStatus = frm.EditMode;
-            frm.Dispose();
-        }
 
         private void txtsZip1_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -789,6 +797,79 @@ namespace SZOK_OCR.DATA
             }
 
             int iX = Utility.StrtoInt(dg.Rows[hitTest.RowIndex].Cells[colID].Value.ToString());
+
+            // 抹消画面を表示して、抹消処理を行う：2026/09/10
+            using (frmErasure form = new frmErasure(iX))
+            {
+                form.ShowDialog(this);
+
+                // 抹消処理が完了した場合は、再検索してデータを再表示する：2026/09/10
+                if (form.status)
+                {
+                    DataFind();
+                }
+            }
+        }
+
+        private void dg_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                btnCard.Enabled = true;
+                btnUpdate.Enabled = true;
+                btnErasure.Enabled = true;
+            }
+        }
+
+        private void btnCard_Click(object sender, EventArgs e)
+        {
+            // 指定データとカード画像を表示
+            int iX = Utility.StrtoInt(dg[colID, dg.CurrentRow.Index].Value.ToString());
+
+            this.Hide();
+            using (frmPastData frm = new frmPastData(iX))
+            {
+                frm.ShowDialog();
+                this.Show();
+
+                // 編集モードでカードデータを表示した場合は、再検索してデータを再表示する：2026/09/07
+                if (frm.EditMode)
+                {
+                    DataFind();     // 2026/08/28
+                }
+            }
+        }
+
+        private void ShowPastData(int iX)
+        {
+            this.Hide();
+            using (frmPastData frm = new frmPastData(iX))
+            {
+                frm.ShowDialog();
+                this.Show();
+
+                // 編集モードでカードデータを表示した場合は、再検索してデータを再表示する：2026/09/07
+                if (frm.EditMode)
+                {
+                    DataFind();     // 2026/08/28
+                }
+            }
+        }
+
+        private void btnErasure_Click(object sender, EventArgs e)
+        {
+            dg.ClearSelection();
+            dg.Rows[dg.CurrentRow.Index].Selected = true;
+            //dg.CurrentCell = dg.Rows[dg.CurrentRow.Index].Cells[coldKbn];
+
+            // 確認メッセージを表示して、抹消するかどうかを確認する：2026/09/10
+            var msg = $"このデータを抹消しますか？\n{dg.Rows[dg.CurrentRow.Index].Cells[colCPA].Value.ToString()}：{dg.Rows[dg.CurrentRow.Index].Cells[colFuri].Value.ToString()}";
+            if (MessageBox.Show(msg, "抹消確認", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
+            {
+                return;
+            }
+
+            int iX = Utility.StrtoInt(dg.Rows[dg.CurrentRow.Index].Cells[colID].Value.ToString());
 
             // 抹消画面を表示して、抹消処理を行う：2026/09/10
             using (frmErasure form = new frmErasure(iX))
