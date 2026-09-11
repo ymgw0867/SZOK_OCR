@@ -725,6 +725,7 @@
             this.btnUpdate.TabIndex = 128;
             this.btnUpdate.Text = "変更届";
             this.btnUpdate.UseVisualStyleBackColor = true;
+            this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
             // 
             // btnCard
             // 

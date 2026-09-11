@@ -68,12 +68,16 @@ namespace SZOK_OCR.DATA
         
         private void button1_Click(object sender, EventArgs e)
         {
-            SZOK_OCR.OCR.frmZipCode frm = new SZOK_OCR.OCR.frmZipCode(txtZip1.Text + txtZip2.Text);
-            frm.ShowDialog();
-            string fZipCode = frm.rZipCode;
-            string fZipAdd = frm.rAdd;
-            string fZipAddFuri = frm.rAddFuri;
-            frm.Dispose();
+            // コメント化：2026/09/11
+            //SZOK_OCR.OCR.frmZipCode frm = new SZOK_OCR.OCR.frmZipCode(txtZip1.Text + txtZip2.Text);
+            //frm.ShowDialog();
+            //string fZipCode = frm.rZipCode;
+            //string fZipAdd = frm.rAdd;
+            //string fZipAddFuri = frm.rAddFuri;
+            //frm.Dispose();
+
+            // 共通ルーチン：郵便番号から住所を取得する 2026/09/11
+            var (fZipCode, fZipAdd, fZipAddFuri) = Utility.GetAddressFromZipcode(txtZip1.Text, txtZip2.Text);
 
             if (fZipCode != string.Empty)
             {

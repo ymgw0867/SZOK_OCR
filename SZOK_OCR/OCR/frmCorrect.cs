@@ -614,12 +614,16 @@ namespace SZOK_OCR.OCR
 
         private void button1_Click(object sender, EventArgs e)
         {
-            frmZipCode frm = new frmZipCode(txtZip1.Text + txtZip2.Text);
-            frm.ShowDialog();
-            string fZipCode = frm.rZipCode;     // 郵便番号
-            string fZipAdd = frm.rAdd;          // 住所漢字
-            string fZipAddFuri = frm.rAddFuri;  // 住所フリガナ
-            frm.Dispose();
+            // コメント化：2026/09/11
+            //frmZipCode frm = new frmZipCode(txtZip1.Text + txtZip2.Text);
+            //frm.ShowDialog();
+            //string fZipCode = frm.rZipCode;     // 郵便番号
+            //string fZipAdd = frm.rAdd;          // 住所漢字
+            //string fZipAddFuri = frm.rAddFuri;  // 住所フリガナ
+            //frm.Dispose();
+
+            // 共通ルーチン：郵便番号から住所を取得する 2026/09/11
+            var (fZipCode, fZipAdd, fZipAddFuri) = Utility.GetAddressFromZipcode(txtZip1.Text, txtZip2.Text);
 
             if (fZipCode != string.Empty)
             {
@@ -846,52 +850,55 @@ namespace SZOK_OCR.OCR
 
         private void linkLabel5_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            string zp = txtZip1.Text.Trim() + txtZip2.Text.Trim();
+            // 郵便番号から住所変換：2026/09/11
+            var (zipAdd, zipAddKN, iZ) = Utility.GetAddressFromZipCode(txtZip1.Text, txtZip2.Text, zipArray);
 
-            // 郵便番号から住所を取得
-            string zipAdd = string.Empty;
-            string zipAddKN = string.Empty;
-            int iZ = 0;
+            //string zp = txtZip1.Text.Trim() + txtZip2.Text.Trim();
 
-            foreach (var t in zipArray)
-            {
-                string[] zip = t.Split(',');
+            //// 郵便番号から住所を取得
+            //string zipAdd = string.Empty;
+            //string zipAddKN = string.Empty;
+            //int iZ = 0;
 
-                if ((txtZip1.Text + txtZip2.Text) == zip[2].Replace("\"", ""))
-                {
-                    iZ++;
+            //foreach (var t in zipArray)
+            //{
+            //    string[] zip = t.Split(',');
 
-                    if (iZ == 1)
-                    {
-                        // カナ
-                        zipAdd = (zip[4] + " " + zip[5]).Replace("\"", "").Replace(global.IKAKEISAI_ADD, "");
+            //    if ((txtZip1.Text + txtZip2.Text) == zip[2].Replace("\"", ""))
+            //    {
+            //        iZ++;
 
-                        //  ()表記は除去する 2016/06/07
-                        int zC = zipAdd.IndexOf("(");
+            //        if (iZ == 1)
+            //        {
+            //            // カナ
+            //            zipAdd = (zip[4] + " " + zip[5]).Replace("\"", "").Replace(global.IKAKEISAI_ADD, "");
 
-                        if (zC != -1)
-                        {
-                            zipAdd = zipAdd.Replace(zipAdd.Substring(zC, zipAdd.Length - zC), "");
-                        }
+            //            //  ()表記は除去する 2016/06/07
+            //            int zC = zipAdd.IndexOf("(");
 
-                        // 漢字
-                        zipAddKN = (zip[7] + zip[8]).Replace("\"", "").Replace(global.IKAKEISAIKN_ADD, "");
+            //            if (zC != -1)
+            //            {
+            //                zipAdd = zipAdd.Replace(zipAdd.Substring(zC, zipAdd.Length - zC), "");
+            //            }
 
-                        //  ()表記は除去する 2016/06/07
-                        zC = zipAddKN.IndexOf("（");
+            //            // 漢字
+            //            zipAddKN = (zip[7] + zip[8]).Replace("\"", "").Replace(global.IKAKEISAIKN_ADD, "");
 
-                        if (zC != -1)
-                        {
-                            zipAddKN = zipAddKN.Replace(zipAddKN.Substring(zC, zipAddKN.Length - zC), "");
-                        }
-                    }
-                    else
-                    {
-                        // 複数該当した場合
-                        break;
-                    }
-                }
-            }
+            //            //  ()表記は除去する 2016/06/07
+            //            zC = zipAddKN.IndexOf("（");
+
+            //            if (zC != -1)
+            //            {
+            //                zipAddKN = zipAddKN.Replace(zipAddKN.Substring(zC, zipAddKN.Length - zC), "");
+            //            }
+            //        }
+            //        else
+            //        {
+            //            // 複数該当した場合
+            //            break;
+            //        }
+            //    }
+            //}
 
             if (iZ == 1)
             {
@@ -909,7 +916,7 @@ namespace SZOK_OCR.OCR
             else if (iZ > 1)
             {
                 // 複数の該当郵便番号あり
-                string msg = "郵便番号 " + zp + " は複数の地名が存在します。" + Environment.NewLine;
+                string msg = "郵便番号 " + txtZip1.Text.Trim() + txtZip2.Text.Trim() + " は複数の地名が存在します。" + Environment.NewLine;
                 msg += "「〒⇔住所」ボタンから該当する地名を選択してください";
                 MessageBox.Show(msg, "複数地名あり", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }

@@ -860,7 +860,6 @@ namespace SZOK_OCR.DATA
         {
             dg.ClearSelection();
             dg.Rows[dg.CurrentRow.Index].Selected = true;
-            //dg.CurrentCell = dg.Rows[dg.CurrentRow.Index].Cells[coldKbn];
 
             // 確認メッセージを表示して、抹消するかどうかを確認する：2026/09/10
             var msg = $"このデータを抹消しますか？\n{dg.Rows[dg.CurrentRow.Index].Cells[colCPA].Value.ToString()}：{dg.Rows[dg.CurrentRow.Index].Cells[colFuri].Value.ToString()}";
@@ -883,5 +882,24 @@ namespace SZOK_OCR.DATA
                 }
             }
         }
+
+        private void btnUpdate_Click(object sender, EventArgs e)
+        {
+            int iX = Utility.StrtoInt(dg.Rows[dg.CurrentRow.Index].Cells[colID].Value.ToString());
+
+            this.Hide();
+            using (frmChange frm = new frmChange(iX))
+            {
+                frm.ShowDialog();
+                this.Show();
+
+                // 編集モードでカードデータを表示した場合は、再検索してデータを再表示する：2026/09/11
+                if (frm.EditMode)
+                {
+                    DataFind();
+                }
+            }
+        }
+                
     }
 }

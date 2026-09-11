@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections;
+using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Drawing;
-using System.Windows.Forms;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
+using SZOK_OCR.OCR;
 
 
 namespace SZOK_OCR.Common
@@ -73,7 +75,7 @@ namespace SZOK_OCR.Common
                 string[] sDay = {"01/01元旦", "     成人の日", "02/11建国記念の日", "     春分の日", "04/29昭和の日",
                             "05/03憲法記念日","05/04みどりの日","05/05こどもの日","     海の日","     敬老の日",
                             "     秋分の日","     体育の日","11/03文化の日","11/23勤労感謝の日","12/23天皇誕生日",
-                            "     振替休日","     国民の休日","     土曜日","     年末年始休暇","     夏季休暇"}; 
+                            "     振替休日","     国民の休日","     土曜日","     年末年始休暇","     夏季休暇"};
 
                 try
                 {
@@ -150,7 +152,7 @@ namespace SZOK_OCR.Common
 
             return true;
         }
-        
+
         /// ------------------------------------------------------------------------------
         /// <summary>
         ///     emptyを"0"に置き換える </summary>
@@ -326,7 +328,7 @@ namespace SZOK_OCR.Common
             public string Name { get; set; }
             public string NameShow { get; set; }
             public string code { get; set; }
-            
+
             ////部門マスターロード
             //public static void load(ComboBox tempObj, int tempLen, string dbName)
             //{
@@ -471,7 +473,7 @@ namespace SZOK_OCR.Common
             //        sqlSTRING += "on Shain.BumonId = Bumon.Id ";
             //        sqlSTRING += "where Shurojokyo = 1 and YakushokuType = 1 ";
             //        sqlSTRING += "order by Shain.Code";
-                    
+
             //        //sqlSTRING += "select Id,Code, Sei, Mei, YakushokuType from Shain ";
             //        //sqlSTRING += "where Shurojokyo = 1 and YakushokuType = 1 ";
             //        //sqlSTRING += "order by Code";
@@ -937,5 +939,101 @@ namespace SZOK_OCR.Common
             return img;
         }
 
+        /// <summary>
+        ///    郵便番号から住所を取得する
+        /// </summary>
+        /// <param name="zipCode1">郵便番号の上3桁</param>
+        /// <param name="zipCode2">郵便番号の下4桁</param>
+        /// <param name="zipArray">郵便番号データの配列</param>
+        /// <returns>住所（カナ）、住所（漢字）、該当件数</returns>
+        public static (string, string, int) GetAddressFromZipCode(string zipCode1, string zipCode2, string[] zipArray)
+        {
+            string zp = zipCode1.Trim() + zipCode2.Trim();
+
+            // 郵便番号から住所を取得
+            string zipAdd = string.Empty;
+            string zipAddKN = string.Empty;
+            int iZ = 0;
+
+            foreach (var t in zipArray)
+            {
+                string[] zip = t.Split(',');
+
+                if ((zipCode1 + zipCode2) == zip[2].Replace("\"", ""))
+                {
+                    iZ++;
+
+                    if (iZ == 1)
+                    {
+                        // カナ
+                        zipAdd = (zip[4] + " " + zip[5]).Replace("\"", "").Replace(global.IKAKEISAI_ADD, "");
+
+                        //  ()表記は除去する 2016/06/07
+                        int zC = zipAdd.IndexOf("(");
+
+                        if (zC != -1)
+                        {
+                            zipAdd = zipAdd.Replace(zipAdd.Substring(zC, zipAdd.Length - zC), "");
+                        }
+
+                        // 漢字
+                        zipAddKN = (zip[7] + zip[8]).Replace("\"", "").Replace(global.IKAKEISAIKN_ADD, "");
+
+                        //  ()表記は除去する 2016/06/07
+                        zC = zipAddKN.IndexOf("（");
+
+                        if (zC != -1)
+                        {
+                            zipAddKN = zipAddKN.Replace(zipAddKN.Substring(zC, zipAddKN.Length - zC), "");
+                        }
+                    }
+                    else
+                    {
+                        // 複数該当した場合
+                        break;
+                    }
+                }
+            }
+
+            return (zipAdd, zipAddKN, iZ);
+
+            //if (iZ == 1)
+            //{
+                //// 単独で該当郵便番号あり
+                //if (zipAdd != string.Empty)
+                //{
+                //    // 住所フリガナ
+                //    txtAddFuri.Text = Utility.addressUpdate(txtAddFuri.Text, zipAdd);
+
+                //    // 住所漢字
+                //    string knAdd = (txtAdd.Text.Replace(" ", "").Replace(zipAddKN.Replace(" ", ""), "")).Trim();
+                //    txtAdd.Text = zipAddKN + " " + knAdd;
+                //}
+            //}
+            //else if (iZ > 1)
+            //{
+                //// 複数の該当郵便番号あり
+                //string msg = "郵便番号 " + zp + " は複数の地名が存在します。" + Environment.NewLine;
+                //msg += "「〒⇔住所」ボタンから該当する地名を選択してください";
+                //MessageBox.Show(msg, "複数地名あり", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //}
+        }
+
+        /// <summary>
+        ///   郵便番号から住所を取得する（郵便番号検索フォームを表示する）
+        /// </summary>
+        /// <param name="zipCode1">郵便番号の上3桁</param>
+        /// <param name="zipCode2">郵便番号の下4桁</param>
+        /// <returns>郵便番号、住所漢字、住所フリガナのタプル</returns>
+        public static (string, string, string) GetAddressFromZipcode(string zipCode1, string zipCode2)
+        {
+            frmZipCode frm = new frmZipCode(zipCode1 + zipCode2);
+            frm.ShowDialog();
+            string fZipCode = frm.rZipCode;     // 郵便番号
+            string fZipAdd = frm.rAdd;          // 住所漢字
+            string fZipAddFuri = frm.rAddFuri;  // 住所フリガナ
+            frm.Dispose();
+            return (fZipCode, fZipAdd, fZipAddFuri);
+        }
     }
 }
