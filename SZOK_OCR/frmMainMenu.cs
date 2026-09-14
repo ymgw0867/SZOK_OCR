@@ -291,5 +291,13 @@ namespace SZOK_OCR
             //master.Insert10YearsOver(date.Year * 10000 + date.Month * 100 + date.Day);
 
         }
+
+        private void linkLabel9_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            this.Hide();
+            DATA.frmEraChangeList frm = new DATA.frmEraChangeList();
+            frm.ShowDialog();
+            this.Show();
+        }
     }
 }

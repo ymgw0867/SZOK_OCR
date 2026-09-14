@@ -247,7 +247,7 @@ namespace SZOK_OCR.DATA
 
             var changeData = new TblChangeNotification()
             {
-                UpdateDay = dateTimePicker1.Value,
+                UpdateDay = DateTime.Parse(dateTimePicker1.Value.ToShortDateString()),
                 Number = lblNumber.Text,
 
                 OldName = changeFlags[0] ? lblName.Text : "",
@@ -388,6 +388,12 @@ namespace SZOK_OCR.DATA
                 e.Handled = true;
                 return;
             }
+        }
+
+        private void txtName_Leave(object sender, EventArgs e)
+        {
+            TextBox txtbox = (TextBox)sender;
+            txtbox.Text = Utility.getStrConv(txtbox.Text);
         }
     }
 }

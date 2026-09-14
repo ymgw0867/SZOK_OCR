@@ -69,7 +69,7 @@ namespace SZOK_OCR.DATA
             // 抹消処理
             var master = new ClsMaster(Properties.Settings.Default.sServerName, Properties.Settings.Default.sLogin,
                                    Properties.Settings.Default.sPass, Properties.Settings.Default.sDatabase);
-            master.ErasureData(_id, dateTimePicker1.Value);
+            master.ErasureData(_id, DateTime.Parse(dateTimePicker1.Value.ToShortDateString()));
 
             MessageBox.Show("抹消が完了しました。", "情報", MessageBoxButtons.OK, MessageBoxIcon.Information);
 

@@ -53,6 +53,8 @@
             this.ChkName = new System.Windows.Forms.CheckBox();
             this.panel3 = new System.Windows.Forms.Panel();
             this.panel4 = new System.Windows.Forms.Panel();
+            this.lblZipCode2 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
             this.ChkTel = new System.Windows.Forms.CheckBox();
             this.panel5 = new System.Windows.Forms.Panel();
             this.panel6 = new System.Windows.Forms.Panel();
@@ -70,8 +72,6 @@
             this.button3 = new System.Windows.Forms.Button();
             this.label10 = new System.Windows.Forms.Label();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
-            this.label11 = new System.Windows.Forms.Label();
-            this.lblZipCode2 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -149,6 +149,7 @@
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(434, 29);
             this.txtName.TabIndex = 0;
+            this.txtName.Leave += new System.EventHandler(this.txtName_Leave);
             // 
             // ChkAddress
             // 
@@ -214,6 +215,7 @@
             // 
             this.txtZipCode1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtZipCode1.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.txtZipCode1.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.txtZipCode1.Location = new System.Drawing.Point(194, 315);
             this.txtZipCode1.MaxLength = 3;
             this.txtZipCode1.Name = "txtZipCode1";
@@ -251,6 +253,7 @@
             // 
             this.txtZipCode2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtZipCode2.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.txtZipCode2.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.txtZipCode2.Location = new System.Drawing.Point(255, 315);
             this.txtZipCode2.MaxLength = 4;
             this.txtZipCode2.Name = "txtZipCode2";
@@ -269,6 +272,7 @@
             this.txtAdd.Name = "txtAdd";
             this.txtAdd.Size = new System.Drawing.Size(434, 29);
             this.txtAdd.TabIndex = 3;
+            this.txtAdd.Leave += new System.EventHandler(this.txtName_Leave);
             // 
             // txtAddKanji
             // 
@@ -361,6 +365,31 @@
             this.panel4.Size = new System.Drawing.Size(490, 254);
             this.panel4.TabIndex = 37;
             // 
+            // lblZipCode2
+            // 
+            this.lblZipCode2.BackColor = System.Drawing.SystemColors.Control;
+            this.lblZipCode2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblZipCode2.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.lblZipCode2.Location = new System.Drawing.Point(109, 19);
+            this.lblZipCode2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblZipCode2.Name = "lblZipCode2";
+            this.lblZipCode2.Size = new System.Drawing.Size(48, 29);
+            this.lblZipCode2.TabIndex = 40;
+            this.lblZipCode2.Text = "0811";
+            this.lblZipCode2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label11
+            // 
+            this.label11.BackColor = System.Drawing.Color.White;
+            this.label11.Font = new System.Drawing.Font("Yu Gothic UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label11.Location = new System.Drawing.Point(89, 21);
+            this.label11.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(25, 24);
+            this.label11.TabIndex = 40;
+            this.label11.Text = "－";
+            this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // ChkTel
             // 
             this.ChkTel.AutoSize = true;
@@ -406,6 +435,7 @@
             // 
             this.txtTel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtTel3.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.txtTel3.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.txtTel3.Location = new System.Drawing.Point(174, 52);
             this.txtTel3.MaxLength = 4;
             this.txtTel3.Name = "txtTel3";
@@ -418,6 +448,7 @@
             // 
             this.txtTel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtTel2.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.txtTel2.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.txtTel2.Location = new System.Drawing.Point(101, 52);
             this.txtTel2.MaxLength = 4;
             this.txtTel2.Name = "txtTel2";
@@ -441,6 +472,7 @@
             // 
             this.txtTel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtTel1.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.txtTel1.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.txtTel1.Location = new System.Drawing.Point(27, 52);
             this.txtTel1.MaxLength = 4;
             this.txtTel1.Name = "txtTel1";
@@ -563,30 +595,6 @@
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.Size = new System.Drawing.Size(166, 29);
             this.dateTimePicker1.TabIndex = 0;
-            // 
-            // label11
-            // 
-            this.label11.BackColor = System.Drawing.Color.White;
-            this.label11.Font = new System.Drawing.Font("Yu Gothic UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label11.Location = new System.Drawing.Point(89, 21);
-            this.label11.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(25, 24);
-            this.label11.TabIndex = 40;
-            this.label11.Text = "－";
-            this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // lblZipCode2
-            // 
-            this.lblZipCode2.BackColor = System.Drawing.SystemColors.Control;
-            this.lblZipCode2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblZipCode2.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.lblZipCode2.Location = new System.Drawing.Point(109, 19);
-            this.lblZipCode2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblZipCode2.Name = "lblZipCode2";
-            this.lblZipCode2.Size = new System.Drawing.Size(46, 29);
-            this.lblZipCode2.TabIndex = 40;
-            this.lblZipCode2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // frmChange
             // 

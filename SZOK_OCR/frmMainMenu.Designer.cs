@@ -37,6 +37,7 @@
             this.linkLabel6 = new System.Windows.Forms.LinkLabel();
             this.linkLabel7 = new System.Windows.Forms.LinkLabel();
             this.linkLabel8 = new System.Windows.Forms.LinkLabel();
+            this.linkLabel9 = new System.Windows.Forms.LinkLabel();
             this.SuspendLayout();
             // 
             // linkLabel1
@@ -62,7 +63,7 @@
             this.linkLabel2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.linkLabel2.LinkArea = new System.Windows.Forms.LinkArea(0, 12);
             this.linkLabel2.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-            this.linkLabel2.Location = new System.Drawing.Point(29, 171);
+            this.linkLabel2.Location = new System.Drawing.Point(29, 163);
             this.linkLabel2.Name = "linkLabel2";
             this.linkLabel2.Size = new System.Drawing.Size(226, 49);
             this.linkLabel2.TabIndex = 2;
@@ -79,7 +80,7 @@
             this.linkLabel3.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.linkLabel3.LinkArea = new System.Windows.Forms.LinkArea(0, 16);
             this.linkLabel3.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-            this.linkLabel3.Location = new System.Drawing.Point(29, 236);
+            this.linkLabel3.Location = new System.Drawing.Point(29, 228);
             this.linkLabel3.Name = "linkLabel3";
             this.linkLabel3.Size = new System.Drawing.Size(266, 58);
             this.linkLabel3.TabIndex = 3;
@@ -112,7 +113,7 @@
             this.linkLabel5.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.linkLabel5.LinkArea = new System.Windows.Forms.LinkArea(0, 8);
             this.linkLabel5.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-            this.linkLabel5.Location = new System.Drawing.Point(383, 88);
+            this.linkLabel5.Location = new System.Drawing.Point(383, 85);
             this.linkLabel5.Name = "linkLabel5";
             this.linkLabel5.Size = new System.Drawing.Size(203, 62);
             this.linkLabel5.TabIndex = 5;
@@ -128,7 +129,7 @@
             this.linkLabel6.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.linkLabel6.LinkArea = new System.Windows.Forms.LinkArea(0, 7);
             this.linkLabel6.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-            this.linkLabel6.Location = new System.Drawing.Point(383, 234);
+            this.linkLabel6.Location = new System.Drawing.Point(385, 297);
             this.linkLabel6.Name = "linkLabel6";
             this.linkLabel6.Size = new System.Drawing.Size(182, 62);
             this.linkLabel6.TabIndex = 0;
@@ -144,7 +145,7 @@
             this.linkLabel7.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.linkLabel7.LinkArea = new System.Windows.Forms.LinkArea(0, 16);
             this.linkLabel7.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-            this.linkLabel7.Location = new System.Drawing.Point(29, 94);
+            this.linkLabel7.Location = new System.Drawing.Point(29, 87);
             this.linkLabel7.Name = "linkLabel7";
             this.linkLabel7.Size = new System.Drawing.Size(249, 58);
             this.linkLabel7.TabIndex = 6;
@@ -161,7 +162,7 @@
             this.linkLabel8.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.linkLabel8.LinkArea = new System.Windows.Forms.LinkArea(0, 8);
             this.linkLabel8.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-            this.linkLabel8.Location = new System.Drawing.Point(383, 164);
+            this.linkLabel8.Location = new System.Drawing.Point(383, 156);
             this.linkLabel8.Name = "linkLabel8";
             this.linkLabel8.Size = new System.Drawing.Size(179, 62);
             this.linkLabel8.TabIndex = 8;
@@ -171,11 +172,29 @@
             this.linkLabel8.UseCompatibleTextRendering = true;
             this.linkLabel8.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel8_LinkClicked);
             // 
+            // linkLabel9
+            // 
+            this.linkLabel9.Font = new System.Drawing.Font("Yu Gothic UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.linkLabel9.Image = ((System.Drawing.Image)(resources.GetObject("linkLabel9.Image")));
+            this.linkLabel9.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.linkLabel9.LinkArea = new System.Windows.Forms.LinkArea(0, 16);
+            this.linkLabel9.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
+            this.linkLabel9.Location = new System.Drawing.Point(29, 299);
+            this.linkLabel9.Name = "linkLabel9";
+            this.linkLabel9.Size = new System.Drawing.Size(252, 58);
+            this.linkLabel9.TabIndex = 9;
+            this.linkLabel9.TabStop = true;
+            this.linkLabel9.Text = "変更届・抹消情報一覧";
+            this.linkLabel9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.linkLabel9.UseCompatibleTextRendering = true;
+            this.linkLabel9.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel9_LinkClicked);
+            // 
             // frmMainMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(747, 313);
+            this.ClientSize = new System.Drawing.Size(747, 375);
+            this.Controls.Add(this.linkLabel9);
             this.Controls.Add(this.linkLabel8);
             this.Controls.Add(this.linkLabel7);
             this.Controls.Add(this.linkLabel6);
@@ -208,5 +227,6 @@
         private System.Windows.Forms.LinkLabel linkLabel6;
         private System.Windows.Forms.LinkLabel linkLabel7;
         private System.Windows.Forms.LinkLabel linkLabel8;
+        private System.Windows.Forms.LinkLabel linkLabel9;
     }
 }
