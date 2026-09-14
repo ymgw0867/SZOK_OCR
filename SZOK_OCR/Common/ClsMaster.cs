@@ -1714,7 +1714,7 @@ namespace SZOK_OCR.Common
                         cmd.CommandTimeout = 120; // 秒。デフォルト30から一時的に伸ばして様子を見る
 
                         cmd.Parameters.AddWithValue("@StartDate", new System.DateTime(2000 + yy, mm, 1));
-                        cmd.Parameters.AddWithValue("@EndDate", new System.DateTime(2000 + yy, mm, 1).AddMonths(1).AddDays(-1));
+                        cmd.Parameters.AddWithValue("@EndDate", new System.DateTime(2000 + yy, mm, 1).AddMonths(1));
 
                         using (SqlDataReader dr = cmd.ExecuteReader())
                         {

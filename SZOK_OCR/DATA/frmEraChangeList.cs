@@ -17,8 +17,6 @@ namespace SZOK_OCR.DATA
         public frmEraChangeList()
         {
             InitializeComponent();
-
-            txtsMM.Leave += new EventHandler(txtsCpa_Leave);
         }
 
         global g = new global();
@@ -68,6 +66,7 @@ namespace SZOK_OCR.DATA
         {
             txtsYY.Text = string.Empty;
             txtsMM.Text = string.Empty;
+            txtsMM.Focus();
 
             linkLabel2.Enabled = false;
         }
