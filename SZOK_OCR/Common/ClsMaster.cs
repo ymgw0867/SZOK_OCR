@@ -2374,6 +2374,138 @@ namespace SZOK_OCR.Common
             }
         }
 
+
+        /// <summary>
+        /// 指定されたチェックボックスの状態に応じて、防犯登録データテーブルのデータを更新し、変更届テーブルにデータを挿入する
+        /// </summary>
+        /// <param name="chk">チェックボックスの状態を示す配列</param>
+        /// <param name="changeNotification">変更届のデータを含むオブジェクト</param>
+        public void ChangeNotification(bool[] chk, TblChangeNotification changeNotification)
+        {
+            using (var conn = new SqlConnection(sqlBuilder.ConnectionString))
+            {
+                conn.Open();
+
+                using (var transaction = conn.BeginTransaction())
+                {
+                    try
+                    {
+                        string sql = "UPDATE 防犯登録データ SET ";
+
+                        // 条件に応じてSQL文を変更する
+                        // chk[0]がtrueの場合、氏名を更新する
+                        if (chk[0])
+                        {
+                            sql += "氏名 = @Name";
+                        }
+
+                        // chk[1]がtrueの場合、郵便番号1、郵便番号2、住所漢字、住所1を更新する
+                        if (chk[1])
+                        {
+                            if (chk[0])
+                            {
+                                sql += ", ";
+                            }
+                            sql += "郵便番号1 = @ZipCode1, 郵便番号2 = @ZipCode2, 住所漢字 = @AddressKanji, 住所1 = @Address1";
+                        }
+
+                        // chk[2]がtrueの場合、TEL携帯、TEL携帯2、TEL携帯3を更新する
+                        if (chk[2])
+                        {
+                            if (chk[0] || chk[1])
+                            {
+                                sql += ", ";
+                            }
+                            sql += "TEL携帯 = @Mobile1, TEL携帯2 = @Mobile2, TEL携帯3 = @Mobile3";
+                        }
+
+                        if (chk[0] || chk[1] || chk[2])
+                        {
+                            sql += ", ";
+                        }
+                        sql += "更新年月日 = @UpDate WHERE ID = @ID";
+
+                        using (SqlCommand com = new SqlCommand(sql, conn, transaction))
+                        {
+                            // パラメータをクリアしてから追加する
+                            com.Parameters.Clear();
+
+                            // 共通のパラメータを追加する
+                            com.Parameters.AddWithValue("@UpDate", changeNotification.UpDate);
+                            com.Parameters.AddWithValue("@ID",     changeNotification.ID);
+
+                            if (chk[0])
+                            {
+                                com.Parameters.AddWithValue("@Name", changeNotification.NewName);
+                            }
+
+                            if (chk[1])
+                            {
+                                com.Parameters.AddWithValue("@ZipCode1",     changeNotification.NewZipCode1);
+                                com.Parameters.AddWithValue("@ZipCode2",     changeNotification.NewZipCode2);
+                                com.Parameters.AddWithValue("@AddressKanji", changeNotification.NewAddressKanji);
+                                com.Parameters.AddWithValue("@Address1",     changeNotification.NewAddress1);
+                            }
+
+                            if (chk[2])
+                            {
+                                com.Parameters.AddWithValue("@Mobile1", changeNotification.NewMobile1);
+                                com.Parameters.AddWithValue("@Mobile2", changeNotification.NewMobile2);
+                                com.Parameters.AddWithValue("@Mobile3", changeNotification.NewMobile3);
+                            }
+
+                            // 防犯登録データテーブルを更新する
+                            com.ExecuteNonQuery();
+
+                            // 変更届データにデータを挿入する
+                            string deleteSql = "INSERT INTO 変更届 (変更日,登録番号,旧郵便番号1,旧郵便番号2,新郵便番号1,新郵便番号2," +
+                            "旧住所漢字, 旧住所1,旧住所2,新住所漢字, 新住所1, 新住所2, 旧氏名, 新氏名, 旧TEL携帯, 旧TEL携帯2, 旧TEL携帯3," +
+                            "新TEL携帯, 新TEL携帯2, 新TEL携帯3,備考,更新年月日) " +
+                            "VALUES (@updateday, @Number, @OldZipCode1, @OldZipCode2, @NewZipCode1, @NewZipCode2, " +
+                            "@OldAddressKanji, @OldAddress1, @OldAddress2, @NewAddressKanji, @NewAddress1, @NewAddress2, " +
+                            "@OldName, @NewName, @OldMobile1, @OldMobile2, @OldMobile3, @NewMobile1, @NewMobile2, @NewMobile3, " +
+                            "@Memo, @UpDate)";
+                            
+                            using (SqlCommand deleteCom = new SqlCommand(deleteSql, conn, transaction))
+                            {
+                                deleteCom.Parameters.AddWithValue("@updateday",       changeNotification.UpdateDay);
+                                deleteCom.Parameters.AddWithValue("@Number",          changeNotification.Number);
+                                deleteCom.Parameters.AddWithValue("@OldZipCode1",     changeNotification.OldZipCode1);
+                                deleteCom.Parameters.AddWithValue("@OldZipCode2",     changeNotification.OldZipCode2);
+                                deleteCom.Parameters.AddWithValue("@NewZipCode1",     changeNotification.NewZipCode1);
+                                deleteCom.Parameters.AddWithValue("@NewZipCode2",     changeNotification.NewZipCode2);
+                                deleteCom.Parameters.AddWithValue("@OldAddressKanji", changeNotification.OldAddressKanji);
+                                deleteCom.Parameters.AddWithValue("@OldAddress1",     changeNotification.OldAddress1);
+                                deleteCom.Parameters.AddWithValue("@OldAddress2",     changeNotification.OldAddress2);
+                                deleteCom.Parameters.AddWithValue("@NewAddressKanji", changeNotification.NewAddressKanji);
+                                deleteCom.Parameters.AddWithValue("@NewAddress1",     changeNotification.NewAddress1);
+                                deleteCom.Parameters.AddWithValue("@NewAddress2",     changeNotification.NewAddress2);
+                                deleteCom.Parameters.AddWithValue("@OldName",         changeNotification.OldName);
+                                deleteCom.Parameters.AddWithValue("@NewName",         changeNotification.NewName);
+                                deleteCom.Parameters.AddWithValue("@OldMobile1",      changeNotification.OldMobile1);
+                                deleteCom.Parameters.AddWithValue("@OldMobile2",      changeNotification.OldMobile2);
+                                deleteCom.Parameters.AddWithValue("@OldMobile3",      changeNotification.OldMobile3);
+                                deleteCom.Parameters.AddWithValue("@NewMobile1",      changeNotification.NewMobile1);
+                                deleteCom.Parameters.AddWithValue("@NewMobile2",      changeNotification.NewMobile2);
+                                deleteCom.Parameters.AddWithValue("@NewMobile3",      changeNotification.NewMobile3);
+                                deleteCom.Parameters.AddWithValue("@Memo",            changeNotification.Memo);
+                                deleteCom.Parameters.AddWithValue("@UpDate",          changeNotification.UpDate);
+                                deleteCom.ExecuteNonQuery();
+                            }
+                        }
+
+                        transaction.Commit();
+                    }
+                    catch
+                    {
+                        transaction.Rollback();
+                        throw;
+                    }
+                }
+            }
+        }
+
+
         /// <summary>
         /// 指定されたIDの防犯登録データを抹消テーブルに挿入し、元の防犯登録データから削除する
         /// </summary>
