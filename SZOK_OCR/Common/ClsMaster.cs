@@ -2379,8 +2379,9 @@ namespace SZOK_OCR.Common
         /// 指定されたチェックボックスの状態に応じて、防犯登録データテーブルのデータを更新し、変更届テーブルにデータを挿入する
         /// </summary>
         /// <param name="chk">チェックボックスの状態を示す配列</param>
+        /// <param name="ix">更新対象防犯登録データのID</param>
         /// <param name="changeNotification">変更届のデータを含むオブジェクト</param>
-        public void ChangeNotification(bool[] chk, TblChangeNotification changeNotification)
+        public void ChangeNotification(bool[] chk, int ix, TblChangeNotification changeNotification)
         {
             using (var conn = new SqlConnection(sqlBuilder.ConnectionString))
             {
@@ -2432,7 +2433,7 @@ namespace SZOK_OCR.Common
 
                             // 共通のパラメータを追加する
                             com.Parameters.AddWithValue("@UpDate", changeNotification.UpDate);
-                            com.Parameters.AddWithValue("@ID",     changeNotification.ID);
+                            com.Parameters.AddWithValue("@ID",     ix);
 
                             if (chk[0])
                             {

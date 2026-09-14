@@ -225,10 +225,14 @@ namespace SZOK_OCR.DATA
                                    Properties.Settings.Default.sPass, Properties.Settings.Default.sDatabase);
 
             // 変更届登録・防犯登録データ更新
-            master.ChangeNotification(new bool[] { ChkName.Checked, ChkAddress.Checked, ChkTel.Checked }, ChangeNotification());
+            master.ChangeNotification(new bool[] { ChkName.Checked, ChkAddress.Checked, ChkTel.Checked }, _ix, ChangeNotification());
 
             // 変更届登録完了ステータス
             EditMode = true;
+
+            // 変更届登録完了メッセージを表示してフォームを閉じる
+            MessageBox.Show("変更届を登録しました", "変更届登録完了", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            Close();
         }
 
         /// <summary>
