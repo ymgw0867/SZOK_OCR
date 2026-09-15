@@ -75,12 +75,12 @@
             this.cmbShubetsu = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
             this.dg = new System.Windows.Forms.DataGridView();
-            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
-            this.linkLabel2 = new System.Windows.Forms.LinkLabel();
             this.label22 = new System.Windows.Forms.Label();
             this.btnErasure = new System.Windows.Forms.Button();
             this.btnUpdate = new System.Windows.Forms.Button();
             this.btnCard = new System.Windows.Forms.Button();
+            this.btnCsv = new System.Windows.Forms.Button();
+            this.btnClose = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dg)).BeginInit();
             this.SuspendLayout();
@@ -667,36 +667,6 @@
             this.dg.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dg_CellDoubleClick);
             this.dg.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dg_MouseDown);
             // 
-            // linkLabel1
-            // 
-            this.linkLabel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.linkLabel1.Image = ((System.Drawing.Image)(resources.GetObject("linkLabel1.Image")));
-            this.linkLabel1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.linkLabel1.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-            this.linkLabel1.Location = new System.Drawing.Point(1476, 895);
-            this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(56, 25);
-            this.linkLabel1.TabIndex = 2;
-            this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "終了";
-            this.linkLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
-            // 
-            // linkLabel2
-            // 
-            this.linkLabel2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.linkLabel2.Image = ((System.Drawing.Image)(resources.GetObject("linkLabel2.Image")));
-            this.linkLabel2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.linkLabel2.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-            this.linkLabel2.Location = new System.Drawing.Point(1374, 895);
-            this.linkLabel2.Name = "linkLabel2";
-            this.linkLabel2.Size = new System.Drawing.Size(90, 25);
-            this.linkLabel2.TabIndex = 1;
-            this.linkLabel2.TabStop = true;
-            this.linkLabel2.Text = "ＣＳＶ出力";
-            this.linkLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.linkLabel2.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel2_LinkClicked);
-            // 
             // label22
             // 
             this.label22.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -708,9 +678,9 @@
             // btnErasure
             // 
             this.btnErasure.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnErasure.Location = new System.Drawing.Point(413, 889);
+            this.btnErasure.Location = new System.Drawing.Point(1187, 888);
             this.btnErasure.Name = "btnErasure";
-            this.btnErasure.Size = new System.Drawing.Size(109, 28);
+            this.btnErasure.Size = new System.Drawing.Size(109, 33);
             this.btnErasure.TabIndex = 129;
             this.btnErasure.Text = "抹消処理";
             this.btnErasure.UseVisualStyleBackColor = true;
@@ -719,9 +689,9 @@
             // btnUpdate
             // 
             this.btnUpdate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnUpdate.Location = new System.Drawing.Point(298, 889);
+            this.btnUpdate.Location = new System.Drawing.Point(1070, 888);
             this.btnUpdate.Name = "btnUpdate";
-            this.btnUpdate.Size = new System.Drawing.Size(109, 28);
+            this.btnUpdate.Size = new System.Drawing.Size(109, 33);
             this.btnUpdate.TabIndex = 128;
             this.btnUpdate.Text = "変更届";
             this.btnUpdate.UseVisualStyleBackColor = true;
@@ -730,13 +700,35 @@
             // btnCard
             // 
             this.btnCard.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnCard.Location = new System.Drawing.Point(184, 889);
+            this.btnCard.Location = new System.Drawing.Point(953, 888);
             this.btnCard.Name = "btnCard";
-            this.btnCard.Size = new System.Drawing.Size(109, 28);
+            this.btnCard.Size = new System.Drawing.Size(109, 33);
             this.btnCard.TabIndex = 127;
             this.btnCard.Text = "カード閲覧";
             this.btnCard.UseVisualStyleBackColor = true;
             this.btnCard.Click += new System.EventHandler(this.btnCard_Click);
+            // 
+            // btnCsv
+            // 
+            this.btnCsv.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCsv.Location = new System.Drawing.Point(1304, 888);
+            this.btnCsv.Name = "btnCsv";
+            this.btnCsv.Size = new System.Drawing.Size(109, 33);
+            this.btnCsv.TabIndex = 130;
+            this.btnCsv.Text = "CSV出力";
+            this.btnCsv.UseVisualStyleBackColor = true;
+            this.btnCsv.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // btnClose
+            // 
+            this.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnClose.Location = new System.Drawing.Point(1421, 888);
+            this.btnClose.Name = "btnClose";
+            this.btnClose.Size = new System.Drawing.Size(109, 33);
+            this.btnClose.TabIndex = 131;
+            this.btnClose.Text = "終了";
+            this.btnClose.UseVisualStyleBackColor = true;
+            this.btnClose.Click += new System.EventHandler(this.button3_Click);
             // 
             // frmCardList
             // 
@@ -744,12 +736,12 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1544, 929);
+            this.Controls.Add(this.btnClose);
+            this.Controls.Add(this.btnCsv);
             this.Controls.Add(this.btnErasure);
             this.Controls.Add(this.btnUpdate);
             this.Controls.Add(this.btnCard);
             this.Controls.Add(this.label22);
-            this.Controls.Add(this.linkLabel2);
-            this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.dg);
             this.Controls.Add(this.panel1);
             this.Font = new System.Drawing.Font("Meiryo UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
@@ -805,8 +797,6 @@
         private System.Windows.Forms.ComboBox cmbShubetsu;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.DataGridView dg;
-        private System.Windows.Forms.LinkLabel linkLabel1;
-        private System.Windows.Forms.LinkLabel linkLabel2;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.DateTimePicker dateTimePicker1;
@@ -822,6 +812,8 @@
         private System.Windows.Forms.Button btnErasure;
         private System.Windows.Forms.Button btnUpdate;
         private System.Windows.Forms.Button btnCard;
+        private System.Windows.Forms.Button btnCsv;
+        private System.Windows.Forms.Button btnClose;
     }
 }
 

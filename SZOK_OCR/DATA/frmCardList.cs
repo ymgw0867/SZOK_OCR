@@ -126,7 +126,7 @@ namespace SZOK_OCR.DATA
             dateTimePicker1.Enabled = false;
             dateTimePicker1.Checked = false;
 
-            linkLabel2.Enabled = false;
+            btnCsv.Enabled = false;
             chkJyogai.Checked = false;      // 2016/05/30
         }
 
@@ -636,7 +636,7 @@ namespace SZOK_OCR.DATA
             if (result.Count() > 0)
             {
                 dg.CurrentCell = null;
-                linkLabel2.Enabled = true;
+                btnCsv.Enabled = true;
 
                 // 2019/11/15
                 label22.Text = "該当件数：" + result.Count().ToString("#,##0") + "件";
@@ -646,7 +646,7 @@ namespace SZOK_OCR.DATA
                 // 2019/06/25
                 this.Cursor = Cursors.Default;
                 MessageBox.Show("条件に該当するデータはありませんでした", "検索結果", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                linkLabel2.Enabled = false;
+                btnCsv.Enabled = false;
 
                 // 2026/09/11
                 btnCard.Enabled = false;
@@ -667,7 +667,6 @@ namespace SZOK_OCR.DATA
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            this.Close();
         }
 
         private void frmCardList_FormClosing(object sender, FormClosingEventArgs e)
@@ -702,31 +701,30 @@ namespace SZOK_OCR.DATA
 
         private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            MyLibrary.CsvOut.GridView(dg, "防犯登録カードデータ");
         }
 
         private void dg_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex >= 0)
-            {
-                this.Hide();
-                var frm = new frmDataMenu(dg.Rows[e.RowIndex]);
-                frm.ShowDialog();
-                this.Show();
+            //if (e.RowIndex >= 0)
+            //{
+            //    this.Hide();
+            //    var frm = new frmDataMenu(dg.Rows[e.RowIndex]);
+            //    frm.ShowDialog();
+            //    this.Show();
 
 
 
 
-                //// 指定データとカード画像を表示
-                //int iX = Utility.StrtoInt(dg[colID, e.RowIndex].Value.ToString());
-                //ShowPastData(iX);
+            //    //// 指定データとカード画像を表示
+            //    //int iX = Utility.StrtoInt(dg[colID, e.RowIndex].Value.ToString());
+            //    //ShowPastData(iX);
 
-                //// 編集モードでカードデータを表示した場合は、再検索してデータを再表示する：2026/09/07
-                //if (EditStatus)
-                //{
-                //    DataFind();     // 2026/08/28
-                //}
-            }
+            //    //// 編集モードでカードデータを表示した場合は、再検索してデータを再表示する：2026/09/07
+            //    //if (EditStatus)
+            //    //{
+            //    //    DataFind();     // 2026/08/28
+            //    //}
+            //}
         }
 
 
@@ -774,41 +772,41 @@ namespace SZOK_OCR.DATA
 
         private void dg_MouseDown(object sender, MouseEventArgs e)
         {
-            if (e.Button != MouseButtons.Right)
-            {
-                return;
-            }
+            //if (e.Button != MouseButtons.Right)
+            //{
+            //    return;
+            //}
 
-            DataGridView.HitTestInfo hitTest = dg.HitTest(e.X, e.Y);
-            if (hitTest.RowIndex < 0)
-            {
-                return;
-            }
+            //DataGridView.HitTestInfo hitTest = dg.HitTest(e.X, e.Y);
+            //if (hitTest.RowIndex < 0)
+            //{
+            //    return;
+            //}
 
-            dg.ClearSelection();
-            dg.Rows[hitTest.RowIndex].Selected = true;
-            dg.CurrentCell = dg.Rows[hitTest.RowIndex].Cells[coldKbn];
+            //dg.ClearSelection();
+            //dg.Rows[hitTest.RowIndex].Selected = true;
+            //dg.CurrentCell = dg.Rows[hitTest.RowIndex].Cells[coldKbn];
 
-            // 確認メッセージを表示して、抹消するかどうかを確認する：2026/09/10
-            var msg = $"このデータを抹消しますか？\n{dg.Rows[hitTest.RowIndex].Cells[colCPA].Value.ToString()}：{dg.Rows[hitTest.RowIndex].Cells[colFuri].Value.ToString()}";
-            if (MessageBox.Show(msg, "抹消確認", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
-            {
-                return;
-            }
+            //// 確認メッセージを表示して、抹消するかどうかを確認する：2026/09/10
+            //var msg = $"このデータを抹消しますか？\n{dg.Rows[hitTest.RowIndex].Cells[colCPA].Value.ToString()}：{dg.Rows[hitTest.RowIndex].Cells[colFuri].Value.ToString()}";
+            //if (MessageBox.Show(msg, "抹消確認", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
+            //{
+            //    return;
+            //}
 
-            int iX = Utility.StrtoInt(dg.Rows[hitTest.RowIndex].Cells[colID].Value.ToString());
+            //int iX = Utility.StrtoInt(dg.Rows[hitTest.RowIndex].Cells[colID].Value.ToString());
 
-            // 抹消画面を表示して、抹消処理を行う：2026/09/10
-            using (frmErasure form = new frmErasure(iX))
-            {
-                form.ShowDialog(this);
+            //// 抹消画面を表示して、抹消処理を行う：2026/09/10
+            //using (frmErasure form = new frmErasure(iX))
+            //{
+            //    form.ShowDialog(this);
 
-                // 抹消処理が完了した場合は、再検索してデータを再表示する：2026/09/10
-                if (form.status)
-                {
-                    DataFind();
-                }
-            }
+            //    // 抹消処理が完了した場合は、再検索してデータを再表示する：2026/09/10
+            //    if (form.status)
+            //    {
+            //        DataFind();
+            //    }
+            //}
         }
 
         private void dg_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -900,6 +898,15 @@ namespace SZOK_OCR.DATA
                 }
             }
         }
-                
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            MyLibrary.CsvOut.GridView(dg, "防犯登録カードデータ");
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }
