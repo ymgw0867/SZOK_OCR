@@ -43,6 +43,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.dg = new System.Windows.Forms.DataGridView();
             this.label3 = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.dgChange)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dg)).BeginInit();
             this.SuspendLayout();
@@ -50,7 +51,7 @@
             // button1
             // 
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Location = new System.Drawing.Point(171, 16);
+            this.button1.Location = new System.Drawing.Point(182, 27);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(77, 36);
             this.button1.TabIndex = 21;
@@ -63,7 +64,7 @@
             this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBox1.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.textBox1.ImeMode = System.Windows.Forms.ImeMode.Off;
-            this.textBox1.Location = new System.Drawing.Point(15, 19);
+            this.textBox1.Location = new System.Drawing.Point(26, 30);
             this.textBox1.MaxLength = 2;
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
@@ -76,7 +77,7 @@
             // 
             this.label16.AutoSize = true;
             this.label16.Font = new System.Drawing.Font("Yu Gothic UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label16.Location = new System.Drawing.Point(72, 26);
+            this.label16.Location = new System.Drawing.Point(83, 37);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(23, 19);
             this.label16.TabIndex = 134;
@@ -87,7 +88,7 @@
             this.txtsMM.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtsMM.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.txtsMM.ImeMode = System.Windows.Forms.ImeMode.Off;
-            this.txtsMM.Location = new System.Drawing.Point(95, 19);
+            this.txtsMM.Location = new System.Drawing.Point(106, 30);
             this.txtsMM.MaxLength = 2;
             this.txtsMM.Name = "txtsMM";
             this.txtsMM.Size = new System.Drawing.Size(29, 29);
@@ -99,7 +100,7 @@
             // 
             this.label15.AutoSize = true;
             this.label15.Font = new System.Drawing.Font("Yu Gothic UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label15.Location = new System.Drawing.Point(126, 26);
+            this.label15.Location = new System.Drawing.Point(137, 37);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(23, 19);
             this.label15.TabIndex = 132;
@@ -111,7 +112,7 @@
             this.txtsYY.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtsYY.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.txtsYY.ImeMode = System.Windows.Forms.ImeMode.Off;
-            this.txtsYY.Location = new System.Drawing.Point(43, 19);
+            this.txtsYY.Location = new System.Drawing.Point(54, 30);
             this.txtsYY.MaxLength = 2;
             this.txtsYY.Name = "txtsYY";
             this.txtsYY.Size = new System.Drawing.Size(29, 29);
@@ -125,7 +126,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgChange.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgChange.Location = new System.Drawing.Point(10, 89);
+            this.dgChange.Location = new System.Drawing.Point(10, 104);
             this.dgChange.Name = "dgChange";
             this.dgChange.RowTemplate.Height = 21;
             this.dgChange.Size = new System.Drawing.Size(1522, 398);
@@ -145,7 +146,7 @@
             // 
             this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnClose.Location = new System.Drawing.Point(1423, 26);
+            this.btnClose.Location = new System.Drawing.Point(1411, 26);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(109, 35);
             this.btnClose.TabIndex = 129;
@@ -157,7 +158,7 @@
             // 
             this.btnExcel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnExcel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnExcel.Location = new System.Drawing.Point(1308, 26);
+            this.btnExcel.Location = new System.Drawing.Point(1296, 26);
             this.btnExcel.Name = "btnExcel";
             this.btnExcel.Size = new System.Drawing.Size(109, 35);
             this.btnExcel.TabIndex = 128;
@@ -169,7 +170,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Yu Gothic UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label1.Location = new System.Drawing.Point(12, 67);
+            this.label1.Location = new System.Drawing.Point(12, 82);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(65, 19);
             this.label1.TabIndex = 152;
@@ -200,11 +201,21 @@
             // label3
             // 
             this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label3.Location = new System.Drawing.Point(83, 60);
+            this.label3.Location = new System.Drawing.Point(83, 75);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(168, 30);
             this.label3.TabIndex = 155;
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // panel1
+            // 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Location = new System.Drawing.Point(10, 15);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(1522, 57);
+            this.panel1.TabIndex = 156;
             // 
             // frmEraChangeList
             // 
@@ -226,6 +237,7 @@
             this.Controls.Add(this.label15);
             this.Controls.Add(this.txtsYY);
             this.Controls.Add(this.label22);
+            this.Controls.Add(this.panel1);
             this.Font = new System.Drawing.Font("Meiryo UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4);
@@ -257,6 +269,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.DataGridView dg;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Panel panel1;
     }
 }
 
