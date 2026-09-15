@@ -163,6 +163,7 @@
             this.btnExcel.TabIndex = 128;
             this.btnExcel.Text = "Excel出力";
             this.btnExcel.UseVisualStyleBackColor = true;
+            this.btnExcel.Click += new System.EventHandler(this.btnExcel_Click);
             // 
             // label1
             // 

@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using SZOK_OCR.Common;
+using ClosedXML.Excel;
 
 namespace SZOK_OCR.DATA
 {
@@ -109,7 +110,7 @@ namespace SZOK_OCR.DATA
                 tempDGV.Height = 362;
 
                 // 奇数行の色
-                tempDGV.AlternatingRowsDefaultCellStyle.BackColor = System.Drawing.Color.FromArgb(216, 232, 254); 
+                tempDGV.AlternatingRowsDefaultCellStyle.BackColor = System.Drawing.Color.FromArgb(216, 232, 254);
                 //tempDGV.AlternatingRowsDefaultCellStyle.BackColor = SystemColors.ControlLight;                
 
                 //各列幅指定
@@ -385,7 +386,7 @@ namespace SZOK_OCR.DATA
                 dgChange[colAdd, iX].Value = t.NewAddress1.Trim();
                 dgChange[colFuri, iX].Value = t.NewName;
                 dgChange[colTel, iX].Value = t.NewMobile1 != string.Empty ? t.NewMobile1.Trim() + "-" + t.NewMobile2.Trim() + "-" + t.NewMobile3.Trim() : string.Empty;
-             
+
 
                 if ((iX + 1) % 4 == 0)
                 {
@@ -516,7 +517,7 @@ namespace SZOK_OCR.DATA
                 this.Cursor = Cursors.Default;
                 MessageBox.Show("条件に該当するデータはありませんでした", "検索結果", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 btnExcel.Enabled = false;
-                
+
                 // 2019/11/15
                 label22.Text = "該当件数： 0件";
             }
@@ -593,6 +594,63 @@ namespace SZOK_OCR.DATA
         private void dg_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
 
+        }
+
+        private void btnExcel_Click(object sender, EventArgs e)
+        {
+            // 実行確認メッセージ
+            DialogResult result = MessageBox.Show("Excel出力を実行します。よろしいですか？", "Excel出力確認", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (result == DialogResult.Yes)
+            {
+                // Excel出力
+                PrintExcel();
+            }
+        }
+
+        private void PrintExcel()
+        {
+            string [] sheetName = { "変更届", "抹消" };
+            using (XLWorkbook wb = new XLWorkbook())
+            {
+                for (int ix = 0; ix < sheetName.Length; ix++)
+                {
+                    // 新しいワークシートを追加・変更届
+                    var ws = wb.Worksheets.Add(sheetName[ix]);
+
+                    DataGridView d = (ix == 0) ? dgChange : dg;
+
+                    // ヘッダー行の書き込み
+                    for (int i = 0; i < d.Columns.Count; i++)
+                    {
+                        ws.Cell(1, i + 1).Value = d.Columns[i].HeaderText;
+                    }
+
+                    // データ行の書き込み
+                    for (int i = 0; i < d.Rows.Count; i++)
+                    {
+                        for (int j = 0; j < d.Columns.Count; j++)
+                        {
+                            ws.Cell(i + 2, j + 1).Value = d.Rows[i].Cells[j].Value;
+                        }
+                    }
+
+                    // 列幅を自動調整
+                    ws.Columns().AdjustToContents();
+                }
+
+
+                // ファイル保存ダイアログ
+                using (SaveFileDialog sfd = new SaveFileDialog())
+                {
+                    sfd.Filter = "Excelファイル|*.xlsx";
+                    sfd.Title = "Excelファイルの保存";
+                    if (sfd.ShowDialog() == DialogResult.OK)
+                    {
+                        wb.SaveAs(sfd.FileName);
+                        MessageBox.Show("Excelファイルを保存しました。", "保存完了", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+            }
         }
     }
 }
