@@ -131,9 +131,9 @@ namespace SZOK_OCR.DATA
                 tempDGV.Columns.Add(colCarName, "車名");
                 tempDGV.Columns.Add(colCsv, "静岡県警用CSV作成");
                 tempDGV.Columns.Add(colJyogai, "除外");
-                tempDGV.Columns.Add(colID, "");
+                //tempDGV.Columns.Add(colID, "");
 
-                tempDGV.Columns[colID].Visible = false;
+                //tempDGV.Columns[colID].Visible = false;
 
                 tempDGV.Columns[colEraDate].Width = 110;
                 tempDGV.Columns[coldKbn].Width = 90;
@@ -485,7 +485,7 @@ namespace SZOK_OCR.DATA
                 dg[colAdd, iX].Value = t.Address1.Trim();
                 dg[colFuri, iX].Value = t.Name;
                 dg[colTel, iX].Value = t.Mobile1.Trim() + "-" + t.Mobile2.Trim() + "-" + t.Mobile3.Trim();
-                dg[colID, iX].Value = t.ID;
+                //dg[colID, iX].Value = t.ID;
                 dg[colCsv, iX].Value = t.CsvCreationDate;
 
                 if (t.Exception == global.flgOn)
@@ -607,6 +607,9 @@ namespace SZOK_OCR.DATA
             }
         }
 
+        /// <summary>
+        ///   データグリッドビューの内容をExcelに出力します
+        /// </summary>
         private void PrintExcel()
         {
             string [] sheetName = { "変更届", "抹消" };
@@ -636,8 +639,18 @@ namespace SZOK_OCR.DATA
 
                     // 列幅を自動調整
                     ws.Columns().AdjustToContents();
-                }
 
+                    if (ix == 0)
+                    {
+                        // 変更届シートの書式設定
+                        SheetFormat_Up(ws);
+                    }
+                    else
+                    {
+                        // 抹消シートの書式設定
+                        SheetFormat_Er(ws);
+                    }
+                }
 
                 // ファイル保存ダイアログ
                 using (SaveFileDialog sfd = new SaveFileDialog())
@@ -651,6 +664,100 @@ namespace SZOK_OCR.DATA
                     }
                 }
             }
+        }
+
+        /// <summary>
+        ///   変更届シートの書式設定を行います
+        /// </summary>
+        /// <param name="ts">シートオブジェクト</param>
+        private void SheetFormat_Up(IXLWorksheet ts)
+        {
+            ts.Style.Font.SetFontName("游ゴシック");
+
+            // ヘッダ書式設定（縦横位置）
+            ts.Row(1).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center)
+                                 .Alignment.SetVertical(XLAlignmentVerticalValues.Center);
+
+            // 1列目の書式設定（横位置）
+            ts.Column(1).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
+
+            // 列の幅を設定
+            ts.Column(1).Width = 14;
+            ts.Column(2).Width = 16;
+            ts.Column(3).Width = 8;
+            ts.Column(4).Width = 12;
+            ts.Column(5).Width = 26;
+            ts.Column(6).Width = 50;
+            ts.Column(7).Width = 28;
+            ts.Column(8).Width = 18;
+
+            var range = ts.Range(ts.Cell(1, 1).Address, ts.LastCellUsed().Address);
+
+            // 外形の罫線
+            range.Style.Border.SetOutsideBorder(XLBorderStyleValues.Thin);
+
+            // すべての縦罫線を引く
+            range.Style.Border.LeftBorder = XLBorderStyleValues.Thin;
+            range.Style.Border.RightBorder = XLBorderStyleValues.Thin;
+
+            var maxRow = ts.LastCellUsed().Address.RowNumber;
+
+            for (int i = 2; i < maxRow; i+=2)
+            {
+                // 上罫線を引く
+                range = ts.Range(ts.Cell(i, 1).Address, ts.Cell(i, ts.LastCellUsed().Address.ColumnNumber).Address);
+                range.Style.Border.SetTopBorder(XLBorderStyleValues.Thin);
+            }
+        }
+
+        /// <summary>
+        ///   抹消シートの書式設定を行います
+        /// </summary>
+        /// <param name="ts">シートオブジェクト</param>
+        private void SheetFormat_Er(IXLWorksheet ts)
+        {
+            ts.Style.Font.SetFontName("游ゴシック");
+
+            // ヘッダ書式設定（縦横位置）
+            ts.Row(1).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center)
+                                 .Alignment.SetVertical(XLAlignmentVerticalValues.Center);
+
+            // 1列目の書式設定（横位置）
+            ts.Column(1).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
+            ts.Column(3).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
+            ts.Column(5).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
+            ts.Column(9).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
+            ts.Column(16).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
+
+            // 列の幅を設定
+            ts.Column(1).Width = 14;    // 抹消日
+            ts.Column(2).Width = 10;
+            ts.Column(3).Width = 16;
+            ts.Column(4).Width = 22;
+            ts.Column(5).Width = 14;
+            ts.Column(6).Width = 14;
+            ts.Column(7).Width = 14;
+            ts.Column(8).Width = 14;
+            ts.Column(9).Width = 12;
+            ts.Column(10).Width = 26;
+            ts.Column(11).Width = 50;
+            ts.Column(12).Width = 28;
+            ts.Column(13).Width = 18;
+            ts.Column(14).Width = 10;
+            ts.Column(15).Width = 8;
+            ts.Column(16).Width = 22;
+
+            var range = ts.Range(ts.Cell(1, 1).Address, ts.LastCellUsed().Address);
+
+            // 外形の罫線
+            range.Style.Border.SetOutsideBorder(XLBorderStyleValues.Thin);
+
+            // すべての縦罫線を引く
+            range.Style.Border.BottomBorder = XLBorderStyleValues.Thin;
+            range.Style.Border.LeftBorder = XLBorderStyleValues.Thin;
+            range.Style.Border.RightBorder = XLBorderStyleValues.Thin;
+            range.Style.Border.TopBorder = XLBorderStyleValues.Thin;
+
         }
     }
 }
