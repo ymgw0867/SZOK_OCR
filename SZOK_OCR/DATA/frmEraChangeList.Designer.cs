@@ -36,12 +36,9 @@
             this.label15 = new System.Windows.Forms.Label();
             this.txtsYY = new System.Windows.Forms.TextBox();
             this.dgChange = new System.Windows.Forms.DataGridView();
-            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
-            this.linkLabel2 = new System.Windows.Forms.LinkLabel();
             this.label22 = new System.Windows.Forms.Label();
-            this.btnErasure = new System.Windows.Forms.Button();
-            this.btnUpdate = new System.Windows.Forms.Button();
-            this.btnCard = new System.Windows.Forms.Button();
+            this.btnClose = new System.Windows.Forms.Button();
+            this.btnExcel = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.dg = new System.Windows.Forms.DataGridView();
@@ -52,7 +49,6 @@
             // 
             // button1
             // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button1.Location = new System.Drawing.Point(171, 16);
             this.button1.Name = "button1";
@@ -132,82 +128,41 @@
             this.dgChange.Location = new System.Drawing.Point(10, 89);
             this.dgChange.Name = "dgChange";
             this.dgChange.RowTemplate.Height = 21;
-            this.dgChange.Size = new System.Drawing.Size(1522, 362);
+            this.dgChange.Size = new System.Drawing.Size(1522, 398);
             this.dgChange.TabIndex = 125;
-            this.dgChange.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dg_CellClick);
             this.dgChange.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dg_CellDoubleClick);
-            // 
-            // linkLabel1
-            // 
-            this.linkLabel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.linkLabel1.Image = ((System.Drawing.Image)(resources.GetObject("linkLabel1.Image")));
-            this.linkLabel1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.linkLabel1.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-            this.linkLabel1.Location = new System.Drawing.Point(1476, 895);
-            this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(56, 25);
-            this.linkLabel1.TabIndex = 2;
-            this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "終了";
-            this.linkLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
-            // 
-            // linkLabel2
-            // 
-            this.linkLabel2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.linkLabel2.Image = ((System.Drawing.Image)(resources.GetObject("linkLabel2.Image")));
-            this.linkLabel2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.linkLabel2.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-            this.linkLabel2.Location = new System.Drawing.Point(1374, 895);
-            this.linkLabel2.Name = "linkLabel2";
-            this.linkLabel2.Size = new System.Drawing.Size(90, 25);
-            this.linkLabel2.TabIndex = 1;
-            this.linkLabel2.TabStop = true;
-            this.linkLabel2.Text = "ＣＳＶ出力";
-            this.linkLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.linkLabel2.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel2_LinkClicked);
             // 
             // label22
             // 
             this.label22.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label22.Location = new System.Drawing.Point(69, 469);
+            this.label22.Location = new System.Drawing.Point(69, 513);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(168, 30);
             this.label22.TabIndex = 126;
             this.label22.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // btnErasure
+            // btnClose
             // 
-            this.btnErasure.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnErasure.Location = new System.Drawing.Point(413, 889);
-            this.btnErasure.Name = "btnErasure";
-            this.btnErasure.Size = new System.Drawing.Size(109, 28);
-            this.btnErasure.TabIndex = 129;
-            this.btnErasure.Text = "抹消処理";
-            this.btnErasure.UseVisualStyleBackColor = true;
-            this.btnErasure.Click += new System.EventHandler(this.btnErasure_Click);
+            this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnClose.Location = new System.Drawing.Point(1423, 26);
+            this.btnClose.Name = "btnClose";
+            this.btnClose.Size = new System.Drawing.Size(109, 35);
+            this.btnClose.TabIndex = 129;
+            this.btnClose.Text = "閉じる";
+            this.btnClose.UseVisualStyleBackColor = true;
+            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
-            // btnUpdate
+            // btnExcel
             // 
-            this.btnUpdate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnUpdate.Location = new System.Drawing.Point(298, 889);
-            this.btnUpdate.Name = "btnUpdate";
-            this.btnUpdate.Size = new System.Drawing.Size(109, 28);
-            this.btnUpdate.TabIndex = 128;
-            this.btnUpdate.Text = "変更届";
-            this.btnUpdate.UseVisualStyleBackColor = true;
-            this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
-            // 
-            // btnCard
-            // 
-            this.btnCard.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnCard.Location = new System.Drawing.Point(184, 889);
-            this.btnCard.Name = "btnCard";
-            this.btnCard.Size = new System.Drawing.Size(109, 28);
-            this.btnCard.TabIndex = 127;
-            this.btnCard.Text = "カード閲覧";
-            this.btnCard.UseVisualStyleBackColor = true;
-            this.btnCard.Click += new System.EventHandler(this.btnCard_Click);
+            this.btnExcel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnExcel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnExcel.Location = new System.Drawing.Point(1308, 26);
+            this.btnExcel.Name = "btnExcel";
+            this.btnExcel.Size = new System.Drawing.Size(109, 35);
+            this.btnExcel.TabIndex = 128;
+            this.btnExcel.Text = "Excel出力";
+            this.btnExcel.UseVisualStyleBackColor = true;
             // 
             // label1
             // 
@@ -221,9 +176,10 @@
             // 
             // label2
             // 
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Yu Gothic UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label2.Location = new System.Drawing.Point(12, 476);
+            this.label2.Location = new System.Drawing.Point(12, 520);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(51, 19);
             this.label2.TabIndex = 153;
@@ -231,11 +187,10 @@
             // 
             // dg
             // 
-            this.dg.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.dg.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dg.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dg.Location = new System.Drawing.Point(10, 501);
+            this.dg.Location = new System.Drawing.Point(10, 545);
             this.dg.Name = "dg";
             this.dg.RowTemplate.Height = 21;
             this.dg.Size = new System.Drawing.Size(1522, 362);
@@ -263,22 +218,19 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.btnErasure);
+            this.Controls.Add(this.btnClose);
             this.Controls.Add(this.label16);
-            this.Controls.Add(this.btnUpdate);
+            this.Controls.Add(this.btnExcel);
             this.Controls.Add(this.txtsMM);
             this.Controls.Add(this.label15);
-            this.Controls.Add(this.btnCard);
             this.Controls.Add(this.txtsYY);
             this.Controls.Add(this.label22);
-            this.Controls.Add(this.linkLabel2);
-            this.Controls.Add(this.linkLabel1);
             this.Font = new System.Drawing.Font("Meiryo UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "frmEraChangeList";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "防犯登録カード検索";
+            this.Text = "変更届・抹消一覧";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmEraChangeList_FormClosing);
             this.Load += new System.EventHandler(this.frmEraChangeList_Load);
             this.Shown += new System.EventHandler(this.FrmEraChangeList_Shown);
@@ -296,13 +248,10 @@
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.TextBox txtsYY;
         private System.Windows.Forms.DataGridView dgChange;
-        private System.Windows.Forms.LinkLabel linkLabel1;
-        private System.Windows.Forms.LinkLabel linkLabel2;
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Button btnErasure;
-        private System.Windows.Forms.Button btnUpdate;
-        private System.Windows.Forms.Button btnCard;
+        private System.Windows.Forms.Button btnClose;
+        private System.Windows.Forms.Button btnExcel;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.DataGridView dg;

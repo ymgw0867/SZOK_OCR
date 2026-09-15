@@ -1686,6 +1686,80 @@ namespace SZOK_OCR.Common
             }
         }
 
+        /// <summary>
+        /// 指定年月の変更届データを取得する：2026/09/15
+        /// </summary>
+        /// <param name="yy">年</param>
+        /// <param name="mm">月</param>
+        /// <returns>指定年月の変更届データのリスト</returns>
+        public List<TblChangeNotification> ReadUpdateData(int yy, int mm)
+        {
+            var lines = new List<TblChangeNotification>();
+
+            try
+            {
+                using (var conn = new SqlConnection(sqlBuilder.ConnectionString))
+                {
+                    conn.Open();
+
+                    string sql = "SELECT ID,変更日, 登録番号, 旧郵便番号1, 旧郵便番号2, 新郵便番号1, 新郵便番号2, " +
+                        "旧住所漢字, 旧住所1, 旧住所2, 新住所漢字, 新住所1, 新住所2, 旧氏名, 新氏名, " +
+                        "旧TEL携帯, 旧TEL携帯2, 旧TEL携帯3, 新TEL携帯, 新TEL携帯2, 新TEL携帯3, " +
+                        "備考, 更新年月日 FROM 変更届 " +
+                        "WHERE (更新年月日 >= @StartDate AND 更新年月日 < @EndDate) " +
+                        "ORDER BY 変更日, 登録番号";
+
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
+                    {
+                        cmd.CommandTimeout = 120; // 秒。デフォルト30から一時的に伸ばして様子を見る
+
+                        cmd.Parameters.AddWithValue("@StartDate", new System.DateTime(2000 + yy, mm, 1));
+                        cmd.Parameters.AddWithValue("@EndDate", new System.DateTime(2000 + yy, mm, 1).AddMonths(1));
+
+                        using (SqlDataReader dr = cmd.ExecuteReader())
+                        {
+                            while (dr.Read())
+                            {
+                                var tblChange = new TblChangeNotification
+                                {
+                                    ID = Utility.StrtoInt(dr["ID"].ToString()),
+                                    UpdateDay = System.DateTime.Parse(Utility.NulltoStr(dr["変更日"])),
+                                    Number = Utility.NulltoStr(dr["登録番号"]),
+                                    OldZipCode1 = Utility.NulltoStr(dr["旧郵便番号1"]),
+                                    OldZipCode2 = Utility.NulltoStr(dr["旧郵便番号2"]),
+                                    NewZipCode1 = Utility.NulltoStr(dr["新郵便番号1"]),
+                                    NewZipCode2 = Utility.NulltoStr(dr["新郵便番号2"]),
+                                    OldAddressKanji = Utility.NulltoStr(dr["旧住所漢字"]),
+                                    OldAddress1 = Utility.NulltoStr(dr["旧住所1"]),
+                                    OldAddress2 = Utility.NulltoStr(dr["旧住所2"]),
+                                    NewAddressKanji = Utility.NulltoStr(dr["新住所漢字"]),
+                                    NewAddress1 = Utility.NulltoStr(dr["新住所1"]),
+                                    NewAddress2 = Utility.NulltoStr(dr["新住所2"]),
+                                    OldName = Utility.NulltoStr(dr["旧氏名"]),
+                                    NewName = Utility.NulltoStr(dr["新氏名"]),
+                                    OldMobile1 = Utility.NulltoStr(dr["旧TEL携帯"]),
+                                    OldMobile2 = Utility.NulltoStr(dr["旧TEL携帯2"]),
+                                    OldMobile3 = Utility.NulltoStr(dr["旧TEL携帯3"]),
+                                    NewMobile1 = Utility.NulltoStr(dr["新TEL携帯"]),
+                                    NewMobile2 = Utility.NulltoStr(dr["新TEL携帯2"]),
+                                    NewMobile3 = Utility.NulltoStr(dr["新TEL携帯3"]),
+                                    Memo = Utility.NulltoStr(dr["備考"]),
+                                    UpDate = System.DateTime.Parse(Utility.NulltoStr(dr["更新年月日"]))
+                                };
+
+                                lines.Add(tblChange);
+                            }
+                        }
+                    }
+                }
+                return lines;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return lines;
+            }
+        }
 
         /// <summary>
         /// 指定年月の抹消データを取得する：2026/09/14
