@@ -74,12 +74,11 @@ namespace SZOK_OCR.DATA
             getCarStyleArray();
 
             // 検索欄初期化
+            rbSelect01.Checked = true;    // デフォルトは防犯登録データ 2026/09/16
             dispInitial();
 
             //// 2019/06/25
             //adp.Fill(dts.防犯登録データ);
-
-            rbSelect01.Checked = true;    // デフォルトは防犯登録データ 2026/09/16
         }
 
         ///-----------------------------------------------------------------
@@ -134,6 +133,9 @@ namespace SZOK_OCR.DATA
             btnCard.Enabled = false;
             btnUpdate.Enabled = false;
             btnErasure.Enabled = false;
+
+            // 2026/09/16
+            label3.Text = rbSelect01.Checked ? "登録：" : rbSelect02.Checked ? "登録：" : "抹消：";
         }
 
         ///--------------------------------------------------------------------
@@ -169,7 +171,7 @@ namespace SZOK_OCR.DATA
                 tempDGV.RowTemplate.Height = 20;
 
                 // 全体の高さ
-                tempDGV.Height = 682;
+                tempDGV.Height = 722;
 
                 // 奇数行の色
                 tempDGV.AlternatingRowsDefaultCellStyle.BackColor = SystemColors.ControlLight;
@@ -551,9 +553,9 @@ namespace SZOK_OCR.DATA
             DataParameter param = new DataParameter();
 
             param.DataCategory = cmbShubetsu.SelectedIndex > 0 ? (int?)(cmbShubetsu.SelectedIndex - 1) : null;
-            param.AddYear = txtsYY.Text;
-            param.AddMonth = txtsMM.Text;
-            param.AddDay = txtsDD.Text;
+            param.AddYear  = d < 2 ? txtsYY.Text : string.Empty;    // 防犯登録データか、10年保存データの場合のみ、登録年を検索条件にする：2026/09/16
+            param.AddMonth = d < 2 ? txtsMM.Text : string.Empty;    // 防犯登録データか、10年保存データの場合のみ、登録月を検索条件にする：2026/09/16
+            param.AddDay   = d < 2 ? txtsDD.Text : string.Empty;    // 防犯登録データか、10年保存データの場合のみ、登録日を検索条件にする：2026/09/16
             param.Number = txtsCpa.Text;
             param.VehicleIdentificationNumber = txtsCarbodyNum.Text;
             param.Maker = txtsMaker.Text;
@@ -572,6 +574,9 @@ namespace SZOK_OCR.DATA
             param.CsvCreationDate = dateTimePicker1.Checked ? DateTime.Parse(dateTimePicker1.Text).ToString("yyyyMMdd") : string.Empty;
             param.Exception = chkJyogai.Checked ? (int?)1 : (int?)0;
             param.DataTable = d;    // 対象データテーブル　0:防犯登録データ、1:10年保存データ、2:抹消データ
+            param.UpdateYear = d == 2 ? (txtsYY.Text != "" ? (int?)Utility.StrtoInt(txtsYY.Text) + 2000 : (int?)null) : (int?)null;     // 抹消の場合のみ、更新年を検索条件にする：2026/09/16
+            param.UpdateMonth = d == 2 ? (txtsMM.Text != "" ? (int?)Utility.StrtoInt(txtsMM.Text) : (int?)null) : (int?)null;    // 抹消の場合のみ、更新月を検索条件にする：2026/09/16
+            param.UpdateDay = d == 2 ? (txtsDD.Text != "" ? (int?)Utility.StrtoInt(txtsDD.Text) : (int?)null) : (int?)null;      // 抹消の場合のみ、更新日を検索条件にする：2026/09/16
             return param;
         }
 

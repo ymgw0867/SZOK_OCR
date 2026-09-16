@@ -100,7 +100,7 @@
             this.dg.Location = new System.Drawing.Point(10, 184);
             this.dg.Name = "dg";
             this.dg.RowTemplate.Height = 21;
-            this.dg.Size = new System.Drawing.Size(1522, 682);
+            this.dg.Size = new System.Drawing.Size(1522, 722);
             this.dg.TabIndex = 125;
             this.dg.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dg_CellClick);
             this.dg.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dg_CellDoubleClick);
@@ -109,18 +109,19 @@
             // label22
             // 
             this.label22.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label22.Location = new System.Drawing.Point(12, 888);
+            this.label22.Font = new System.Drawing.Font("Yu Gothic UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label22.Location = new System.Drawing.Point(12, 908);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(168, 30);
             this.label22.TabIndex = 126;
             // 
             // btnErasure
             // 
-            this.btnErasure.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnErasure.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnErasure.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnErasure.Location = new System.Drawing.Point(1187, 886);
+            this.btnErasure.Location = new System.Drawing.Point(1256, 15);
             this.btnErasure.Name = "btnErasure";
-            this.btnErasure.Size = new System.Drawing.Size(109, 33);
+            this.btnErasure.Size = new System.Drawing.Size(90, 33);
             this.btnErasure.TabIndex = 129;
             this.btnErasure.Text = "抹消処理";
             this.btnErasure.UseVisualStyleBackColor = true;
@@ -128,11 +129,11 @@
             // 
             // btnUpdate
             // 
-            this.btnUpdate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnUpdate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnUpdate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnUpdate.Location = new System.Drawing.Point(1070, 886);
+            this.btnUpdate.Location = new System.Drawing.Point(1163, 15);
             this.btnUpdate.Name = "btnUpdate";
-            this.btnUpdate.Size = new System.Drawing.Size(109, 33);
+            this.btnUpdate.Size = new System.Drawing.Size(90, 33);
             this.btnUpdate.TabIndex = 128;
             this.btnUpdate.Text = "変更届";
             this.btnUpdate.UseVisualStyleBackColor = true;
@@ -140,11 +141,11 @@
             // 
             // btnCard
             // 
-            this.btnCard.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCard.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCard.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnCard.Location = new System.Drawing.Point(953, 886);
+            this.btnCard.Location = new System.Drawing.Point(1070, 15);
             this.btnCard.Name = "btnCard";
-            this.btnCard.Size = new System.Drawing.Size(109, 33);
+            this.btnCard.Size = new System.Drawing.Size(90, 33);
             this.btnCard.TabIndex = 127;
             this.btnCard.Text = "カード閲覧";
             this.btnCard.UseVisualStyleBackColor = true;
@@ -152,11 +153,11 @@
             // 
             // btnCsv
             // 
-            this.btnCsv.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCsv.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCsv.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnCsv.Location = new System.Drawing.Point(1304, 886);
+            this.btnCsv.Location = new System.Drawing.Point(1349, 15);
             this.btnCsv.Name = "btnCsv";
-            this.btnCsv.Size = new System.Drawing.Size(109, 33);
+            this.btnCsv.Size = new System.Drawing.Size(90, 33);
             this.btnCsv.TabIndex = 130;
             this.btnCsv.Text = "CSV出力";
             this.btnCsv.UseVisualStyleBackColor = true;
@@ -164,11 +165,11 @@
             // 
             // btnClose
             // 
-            this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnClose.Location = new System.Drawing.Point(1421, 886);
+            this.btnClose.Location = new System.Drawing.Point(1442, 15);
             this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(109, 33);
+            this.btnClose.Size = new System.Drawing.Size(90, 33);
             this.btnClose.TabIndex = 131;
             this.btnClose.Text = "終了";
             this.btnClose.UseVisualStyleBackColor = true;
@@ -806,7 +807,7 @@
             this.AcceptButton = this.button1;
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1544, 929);
+            this.ClientSize = new System.Drawing.Size(1544, 940);
             this.Controls.Add(this.btnClose);
             this.Controls.Add(this.btnCsv);
             this.Controls.Add(this.btnErasure);

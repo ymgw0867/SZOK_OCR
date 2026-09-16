@@ -71,5 +71,8 @@ namespace SZOK_OCR.Common
         public string CsvCreationDate { get; set; }  // CSV作成日
         public int? Exception { get; set; } = 0; // 除外フラグ
         public int? DataTable { get; set; } // 対象データテーブル　2026/09/16追加
+        public int? UpdateYear { get; set; } // 更新年（抹消年）2026/09/16追加
+        public int? UpdateMonth { get; set; } // 更新月（抹消月）2026/09/16追加
+        public int? UpdateDay { get; set; } // 更新日（抹消日）2026/09/16追加
     }
 }

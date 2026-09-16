@@ -1648,7 +1648,7 @@ namespace SZOK_OCR.Common
 
                     sql += "WHERE (" +
                         "(@DataCategory IS NULL OR データ区分 = @DataCategory) AND " +
-                        "(@AddYear IS NULL OR 登録年 = @AddYear) AND " +
+                        "(@AddYear IS NULL OR 登録年 = @AddYear OR 登録年 = @AddYear2) AND " +
                         "(@AddMonth IS NULL OR 登録月 = @AddMonth OR 登録月 = @AddMonth2) AND " +
                         "(@AddDay IS NULL OR 登録日 = @AddDay OR 登録日 = @AddDay2) AND " +
                         "(@Number IS NULL OR 登録番号 LIKE '%' + @Number + '%') AND " +
@@ -1665,7 +1665,10 @@ namespace SZOK_OCR.Common
                         "(@Mobile1 IS NULL OR TEL携帯 LIKE '%' + @Mobile1 + '%') AND " +
                         "(@Mobile2 IS NULL OR TEL携帯2 LIKE '%' + @Mobile2 + '%') AND " +
                         "(@Mobile3 IS NULL OR TEL携帯3 LIKE '%' + @Mobile3 + '%') AND " +
-                        "(@Exception IS NULL OR 除外 = @Exception)) ";
+                        "(@Exception IS NULL OR 除外 = @Exception)) AND " +
+                        "(@UpdateYear IS NULL OR YEAR(更新年月日) = @UpdateYear) AND " +
+                        "(@UpdateMonth IS NULL OR MONTH(更新年月日) = @UpdateMonth) AND " +
+                        "(@UpdateDay IS NULL OR DAY(更新年月日) = @UpdateDay) ";
 
                     // 県警用CSV作成済み条件を追加
                     if (param.CsvCreation != null)
@@ -1700,26 +1703,51 @@ namespace SZOK_OCR.Common
                         var dataCategoryParameter = cmd.Parameters.Add("@DataCategory", System.Data.SqlDbType.Int);
                         dataCategoryParameter.Value = param.DataCategory.HasValue ? (object)param.DataCategory.Value : DBNull.Value;
 
-                        cmd.Parameters.Add("@AddYear", SqlDbType.NVarChar, 2).Value = ToParam(param.AddYear);
-
-                        cmd.Parameters.Add("@AddMonth", SqlDbType.NVarChar, 2).Value = ToParam(param.AddMonth);
-                        if (!string.IsNullOrEmpty(param.AddMonth))
+                        // 2026/09/16 防犯登録データ、10年保存データの場合のみ、登録年、月、日を検索条件にする
+                        if (param.DataTable < 2)
                         {
-                            cmd.Parameters.Add("@AddMonth2", SqlDbType.NVarChar, 2).Value = param.AddMonth.PadLeft(2, '0');
+                            // 登録年
+                            cmd.Parameters.Add("@AddYear", SqlDbType.NVarChar, 2).Value = Utility.StrtoInt(param.AddYear).ToString();
+                            if (!string.IsNullOrEmpty(param.AddYear))
+                            {
+                                cmd.Parameters.Add("@AddYear2", SqlDbType.NVarChar, 2).Value = param.AddYear.PadLeft(2, '0');
+                            }
+                            else
+                            {
+                                cmd.Parameters.Add("@AddYear2", SqlDbType.NVarChar, 2).Value = DBNull.Value;
+                            }
+
+                            // 登録月
+                            cmd.Parameters.Add("@AddMonth", SqlDbType.NVarChar, 2).Value = ToParam(param.AddMonth);
+                            if (!string.IsNullOrEmpty(param.AddMonth))
+                            {
+                                cmd.Parameters.Add("@AddMonth2", SqlDbType.NVarChar, 2).Value = param.AddMonth.PadLeft(2, '0');
+                            }
+                            else
+                            {
+                                cmd.Parameters.Add("@AddMonth2", SqlDbType.NVarChar, 2).Value = DBNull.Value;
+                            }
+
+                            // 登録日
+                            cmd.Parameters.Add("@AddDay", SqlDbType.NVarChar, 2).Value = ToParam(param.AddDay);
+                            if (!string.IsNullOrEmpty(param.AddDay))
+                            {
+                                cmd.Parameters.Add("@AddDay2", SqlDbType.NVarChar, 2).Value = param.AddDay.PadLeft(2, '0');
+                            }
+                            else
+                            {
+                                cmd.Parameters.Add("@AddDay2", SqlDbType.NVarChar, 2).Value = DBNull.Value;
+                            }
                         }
                         else
                         {
+                            // 2026/09/16 抹消データの場合は、登録年、月、日を検索条件にしない
+                            cmd.Parameters.Add("@AddYear",   SqlDbType.NVarChar, 2).Value = DBNull.Value;
+                            cmd.Parameters.Add("@AddYear2",  SqlDbType.NVarChar, 2).Value = DBNull.Value;
+                            cmd.Parameters.Add("@AddMonth",  SqlDbType.NVarChar, 2).Value = DBNull.Value;
                             cmd.Parameters.Add("@AddMonth2", SqlDbType.NVarChar, 2).Value = DBNull.Value;
-                        }
-
-                        cmd.Parameters.Add("@AddDay", SqlDbType.NVarChar, 2).Value = ToParam(param.AddDay);
-                        if (!string.IsNullOrEmpty(param.AddDay))
-                        {
-                            cmd.Parameters.Add("@AddDay2", SqlDbType.NVarChar, 2).Value = param.AddDay.PadLeft(2, '0');
-                        }
-                        else
-                        {
-                            cmd.Parameters.Add("@AddDay2", SqlDbType.NVarChar, 2).Value = DBNull.Value;
+                            cmd.Parameters.Add("@AddDay",    SqlDbType.NVarChar, 2).Value = DBNull.Value;
+                            cmd.Parameters.Add("@AddDay2",   SqlDbType.NVarChar, 2).Value = DBNull.Value;
                         }
 
                         cmd.Parameters.Add("@Number", SqlDbType.NVarChar, 20).Value = ToParam(param.Number);
@@ -1743,6 +1771,17 @@ namespace SZOK_OCR.Common
 
                         var ExceptionParameter = cmd.Parameters.Add("@Exception", System.Data.SqlDbType.Int);
                         ExceptionParameter.Value = param.Exception.HasValue ? (object)param.Exception.Value : DBNull.Value;
+
+                        // 2026/09/16 抹消データの場合は、更新年、月、日を検索条件にする
+                        // 更新年
+                        var updateYearParameter = cmd.Parameters.Add("@UpdateYear", System.Data.SqlDbType.Int);
+                        updateYearParameter.Value = param.UpdateYear.HasValue ? (object)param.UpdateYear.Value : DBNull.Value;
+                        // 更新月
+                        var updateMonthParameter = cmd.Parameters.Add("@UpdateMonth", System.Data.SqlDbType.Int);
+                        updateMonthParameter.Value = param.UpdateMonth.HasValue ? (object)param.UpdateMonth.Value : DBNull.Value;
+                        // 更新日
+                        var updateDayParameter = cmd.Parameters.Add("@UpdateDay", System.Data.SqlDbType.Int);
+                        updateDayParameter.Value = param.UpdateDay.HasValue ? (object)param.UpdateDay.Value : DBNull.Value;
 
                         using (SqlDataReader dr = cmd.ExecuteReader())
                         {
