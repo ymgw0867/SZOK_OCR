@@ -39,7 +39,7 @@ namespace SZOK_OCR.DATA
         private void ShowPastData(int iX)
         {
             this.Hide();
-            using (frmPastData frm = new frmPastData(iX))
+            using (frmPastData frm = new frmPastData(iX, 0))
             {
                 frm.ShowDialog();
                 this.Show();

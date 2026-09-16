@@ -24,14 +24,18 @@ namespace SZOK_OCR.DATA
 
         string[] zipArray = null;   // 郵便番号配列
 
-        public frmPastData(int sID)
+        public frmPastData(int sID, int d)
         {
             InitializeComponent();
             
             // 登録済みデータの検索及び編集
             dID = sID;
+            _d = d;     // 対象データテーブル：0：防犯登録データ、1:10年超えデータ、2:抹消データ 2026/09/16
             EditMode = false;   // 編集モードフラグ：2026/09/07
         }
+
+        // 対象データテーブル（0：防犯登録データ、1:10年超えデータ、2:抹消データ）
+        int _d;
 
         TblRegistrationCard r = null;
 
@@ -403,6 +407,11 @@ namespace SZOK_OCR.DATA
 
         private void button2_Click(object sender, EventArgs e)
         {
+        }
+
+        private void button2_Click_1(object sender, EventArgs e)
+        {
+            Close();
         }
     }
 }

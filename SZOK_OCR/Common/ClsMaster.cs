@@ -104,6 +104,32 @@ namespace SZOK_OCR.Common
         }
 
 
+        public T GetData<T>(string sCode, int d)
+        {
+            // 防犯登録データのとき
+            if (d == 0)
+            {
+                return (T)(Object)GetClsRegistrationCard(Utility.StrtoInt(sCode));
+            }
+
+            // 10年超防犯登録データのとき
+            if (d == 1)
+            {
+                return (T)(Object)GetCls10YearsOver(Utility.StrtoInt(sCode));
+            }
+
+            // 抹消データのとき
+            if (d == 2)
+            {
+                return (T)(Object)GetClsErasure(Utility.StrtoInt(sCode));
+            }
+
+            MessageBox.Show("Invalid Data Class");
+            return default(T);
+        }
+
+
+
         public T GetData<T>(int id)
         {
             // 出庫データのとき
@@ -545,6 +571,147 @@ namespace SZOK_OCR.Common
                 return registrationCard;
             }
         }
+
+        /// <summary>
+        /// 防犯登録10年超テーブルのデータを取得する：2026/09/16
+        /// </summary>
+        /// <param name="id">防犯登録10年超データのID</param>
+        /// <returns>TblRegistrationCardオブジェクト</returns>
+        private TblRegistrationCard GetCls10YearsOver(int id)
+        {
+            TblRegistrationCard registrationCard = null;
+
+            try
+            {
+                using (var conn = new SqlConnection(sqlBuilder.ConnectionString))
+                {
+                    conn.Open();
+
+                    string sql = "SELECT * FROM 防犯登録10年超 WHERE ID = @ID";
+
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@ID", id);
+
+                        using (var dr = cmd.ExecuteReader())
+                        {
+                            while (dr.Read())
+                            {
+                                registrationCard = new TblRegistrationCard
+                                {
+                                    ID = Utility.StrtoInt(dr["ID"].ToString()),
+                                    DataCategory = Utility.StrtoInt(Utility.NulltoStr(dr["データ区分"])),
+                                    ImageFileName = Utility.NulltoStr(dr["画像名"]),
+                                    AddYear = Utility.NulltoStr(dr["登録年"]),
+                                    AddMonth = Utility.NulltoStr(dr["登録月"]),
+                                    AddDay = Utility.NulltoStr(dr["登録日"]),
+                                    Number = Utility.NulltoStr(dr["登録番号"]),
+                                    VehicleIdentificationNumber = Utility.NulltoStr(dr["車体番号"]),
+                                    Maker = Utility.NulltoStr(dr["メーカー"]),
+                                    Color = Utility.NulltoStr(dr["塗色"]),
+                                    CarModel = Utility.StrtoInt(Utility.NulltoStr(dr["車種"])),
+                                    ZipCode1 = Utility.NulltoStr(dr["郵便番号1"]),
+                                    ZipCode2 = Utility.NulltoStr(dr["郵便番号2"]),
+                                    VehicleNumber1 = Utility.NulltoStr(dr["車両番号1"]),
+                                    VehicleNumber2 = Utility.NulltoStr(dr["車両番号2"]),
+                                    CarName = Utility.NulltoStr(dr["車名"]),
+                                    AddressKanji = Utility.NulltoStr(dr["住所漢字"]),
+                                    Address1 = Utility.NulltoStr(dr["住所1"]),
+                                    Address2 = Utility.NulltoStr(dr["住所2"]),
+                                    Name = Utility.NulltoStr(dr["氏名"]),
+                                    Mobile1 = Utility.NulltoStr(dr["TEL携帯"]),
+                                    Mobile2 = Utility.NulltoStr(dr["TEL携帯2"]),
+                                    Mobile3 = Utility.NulltoStr(dr["TEL携帯3"]),
+                                    PC = Utility.NulltoStr(dr["PC名"]),
+                                    CsvCreationDate = Utility.NulltoStr(dr["CSV作成日"]),
+                                    Memo = Utility.NulltoStr(dr["備考"]),
+                                    UpDate = System.DateTime.Parse(Utility.NulltoStr(dr["更新年月日"])),
+                                    Exception = Utility.StrtoInt(Utility.NulltoStr(dr["除外"]))
+                                };
+                            }
+                        }
+                    }
+                }
+
+                return registrationCard;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return registrationCard;
+            }
+        }
+
+        /// <summary>
+        /// 抹消テーブルのデータを取得する：2026/09/16
+        /// </summary>
+        /// <param name="id">抹消テーブルのID</param>
+        /// <returns>TblRegistrationCardオブジェクト</returns>
+        private TblRegistrationCard GetClsErasure(int id)
+        {
+            TblRegistrationCard registrationCard = null;
+
+            try
+            {
+                using (var conn = new SqlConnection(sqlBuilder.ConnectionString))
+                {
+                    conn.Open();
+
+                    string sql = "SELECT * FROM 抹消 WHERE ID = @ID";
+
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@ID", id);
+
+                        using (var dr = cmd.ExecuteReader())
+                        {
+                            while (dr.Read())
+                            {
+                                registrationCard = new TblRegistrationCard
+                                {
+                                    ID = Utility.StrtoInt(dr["ID"].ToString()),
+                                    DataCategory = Utility.StrtoInt(Utility.NulltoStr(dr["データ区分"])),
+                                    ImageFileName = Utility.NulltoStr(dr["画像名"]),
+                                    AddYear = Utility.NulltoStr(dr["登録年"]),
+                                    AddMonth = Utility.NulltoStr(dr["登録月"]),
+                                    AddDay = Utility.NulltoStr(dr["登録日"]),
+                                    Number = Utility.NulltoStr(dr["登録番号"]),
+                                    VehicleIdentificationNumber = Utility.NulltoStr(dr["車体番号"]),
+                                    Maker = Utility.NulltoStr(dr["メーカー"]),
+                                    Color = Utility.NulltoStr(dr["塗色"]),
+                                    CarModel = Utility.StrtoInt(Utility.NulltoStr(dr["車種"])),
+                                    ZipCode1 = Utility.NulltoStr(dr["郵便番号1"]),
+                                    ZipCode2 = Utility.NulltoStr(dr["郵便番号2"]),
+                                    VehicleNumber1 = Utility.NulltoStr(dr["車両番号1"]),
+                                    VehicleNumber2 = Utility.NulltoStr(dr["車両番号2"]),
+                                    CarName = Utility.NulltoStr(dr["車名"]),
+                                    AddressKanji = Utility.NulltoStr(dr["住所漢字"]),
+                                    Address1 = Utility.NulltoStr(dr["住所1"]),
+                                    Address2 = Utility.NulltoStr(dr["住所2"]),
+                                    Name = Utility.NulltoStr(dr["氏名"]),
+                                    Mobile1 = Utility.NulltoStr(dr["TEL携帯"]),
+                                    Mobile2 = Utility.NulltoStr(dr["TEL携帯2"]),
+                                    Mobile3 = Utility.NulltoStr(dr["TEL携帯3"]),
+                                    PC = Utility.NulltoStr(dr["PC名"]),
+                                    CsvCreationDate = Utility.NulltoStr(dr["CSV作成日"]),
+                                    Memo = Utility.NulltoStr(dr["備考"]),
+                                    UpDate = System.DateTime.Parse(Utility.NulltoStr(dr["更新年月日"])),
+                                    Exception = Utility.StrtoInt(Utility.NulltoStr(dr["除外"]))
+                                };
+                            }
+                        }
+                    }
+                }
+
+                return registrationCard;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return registrationCard;
+            }
+        }
+
 
         /// <summary>
         /// 環境設定テーブルのデータを更新する：2026/08/18
@@ -1444,6 +1611,7 @@ namespace SZOK_OCR.Common
         /// 防犯登録カードテーブルのデータを取得する：2026/08/28
         /// </summary>
         /// <param name="param">検索パラメータ</param>
+        /// <param name="str">追加の文字列パラメータ</param>
         /// <returns>防犯登録カードのリスト</returns>
         public List<TblRegistrationCard> ReadRegistrationCard(DataParameter param)
         {
@@ -1456,8 +1624,29 @@ namespace SZOK_OCR.Common
                     conn.Open();
 
                     string sql = "SELECT ID,データ区分,画像名,登録年,登録月,登録日,登録番号,車体番号,メーカー,塗色,車種,郵便番号1,郵便番号2," +
-                        "車両番号1,車両番号2,車名,住所漢字, 住所1,氏名,TEL携帯,TEL携帯2,TEL携帯3,PC名,CSV作成日,備考,更新年月日,除外 FROM 防犯登録データ " +
-                        "WHERE (" +
+                        "車両番号1,車両番号2,車名,住所漢字, 住所1,氏名,TEL携帯,TEL携帯2,TEL携帯3,PC名,CSV作成日,備考,更新年月日,除外";
+
+                    // データテーブルの選択：2026/09/16
+                    switch (param.DataTable)
+                    {
+                        case 0:
+                            sql += " FROM 防犯登録データ ";
+                            break;
+
+                        case 1:
+                            sql += " FROM 防犯登録10年超 ";
+                            break;
+
+                        case 2:
+                            sql += " FROM 抹消 ";
+                            break;
+
+                        default:
+                            sql += " FROM 防犯登録データ ";
+                            break;
+                    }
+
+                    sql += "WHERE (" +
                         "(@DataCategory IS NULL OR データ区分 = @DataCategory) AND " +
                         "(@AddYear IS NULL OR 登録年 = @AddYear) AND " +
                         "(@AddMonth IS NULL OR 登録月 = @AddMonth OR 登録月 = @AddMonth2) AND " +

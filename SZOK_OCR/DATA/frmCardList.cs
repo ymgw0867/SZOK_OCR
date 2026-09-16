@@ -57,8 +57,11 @@ namespace SZOK_OCR.DATA
         string colID = "colID";
         string colCsv = "col15";
         string colJyogai = "col16";
+        string colEraDate = "col17";
 
         bool EditStatus = false;      // 2026/09/07
+
+        int selectTable;    // 対象データテーブル（0：防犯登録データ、1:10年超えデータ、2:抹消データ）
 
         private void frmCardList_Load(object sender, EventArgs e)
         {
@@ -76,9 +79,7 @@ namespace SZOK_OCR.DATA
             //// 2019/06/25
             //adp.Fill(dts.防犯登録データ);
 
-            btnCard.Enabled = false;
-            btnUpdate.Enabled = false;
-            btnErasure.Enabled = false;
+            rbSelect01.Checked = true;    // デフォルトは防犯登録データ 2026/09/16
         }
 
         ///-----------------------------------------------------------------
@@ -105,7 +106,7 @@ namespace SZOK_OCR.DATA
             cmbShubetsu.SelectedIndex = 0;
             txtsCpa.Text = string.Empty;
             txtsCarbodyNum.Text = string.Empty;
-            txtsYY.Text = string.Empty;
+            txtsYY.Text = (DateTime.Now.Year - 2000).ToString();
             txtsMM.Text = string.Empty;
             txtsDD.Text = string.Empty;
             txtsMaker.Text = string.Empty;
@@ -128,6 +129,11 @@ namespace SZOK_OCR.DATA
 
             btnCsv.Enabled = false;
             chkJyogai.Checked = false;      // 2016/05/30
+
+            // 2026/09/16
+            btnCard.Enabled = false;
+            btnUpdate.Enabled = false;
+            btnErasure.Enabled = false;
         }
 
         ///--------------------------------------------------------------------
@@ -163,7 +169,7 @@ namespace SZOK_OCR.DATA
                 tempDGV.RowTemplate.Height = 20;
 
                 // 全体の高さ
-                tempDGV.Height = 722;
+                tempDGV.Height = 682;
 
                 // 奇数行の色
                 tempDGV.AlternatingRowsDefaultCellStyle.BackColor = SystemColors.ControlLight;
@@ -185,6 +191,7 @@ namespace SZOK_OCR.DATA
                 tempDGV.Columns.Add(colCarName, "車名");
                 tempDGV.Columns.Add(colCsv, "静岡県警用CSV作成");
                 tempDGV.Columns.Add(colJyogai, "除外");
+                tempDGV.Columns.Add(colEraDate, "抹消日");
                 tempDGV.Columns.Add(colID, "");
 
                 tempDGV.Columns[colID].Visible = false;
@@ -205,11 +212,13 @@ namespace SZOK_OCR.DATA
                 tempDGV.Columns[colTel].Width = 140;
                 tempDGV.Columns[colCsv].Width = 170;
                 tempDGV.Columns[colJyogai].Width = 60;
+                tempDGV.Columns[colEraDate].Width = 110;
 
                 tempDGV.Columns[colyymmdd].DefaultCellStyle.Alignment = DataGridViewContentAlignment.BottomCenter;
                 tempDGV.Columns[colZip].DefaultCellStyle.Alignment = DataGridViewContentAlignment.BottomCenter;
                 tempDGV.Columns[colCsv].DefaultCellStyle.Alignment = DataGridViewContentAlignment.BottomCenter;
                 tempDGV.Columns[colJyogai].DefaultCellStyle.Alignment = DataGridViewContentAlignment.BottomCenter;
+                tempDGV.Columns[colEraDate].DefaultCellStyle.Alignment = DataGridViewContentAlignment.BottomCenter;
 
                 // 行ヘッダを表示しない
                 tempDGV.RowHeadersVisible = false;
@@ -254,13 +263,22 @@ namespace SZOK_OCR.DATA
 
         private void button1_Click(object sender, EventArgs e)
         {
+            if (!rbSelect01.Checked && !rbSelect02.Checked && !rbSelect03.Checked)
+            {
+                MessageBox.Show("検索対象を指定してください", "検索項目指定", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             if (Utility.StrtoInt(txtsYY.Text) == global.flgOff)
             {
                 MessageBox.Show("登録年を必ず指定してください", "検索項目指定", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            //dataShow();
+            // 対象データテーブル（0：防犯登録データ、1:10年超えデータ、2:抹消データ）2026/09/16
+            selectTable = rbSelect01.Checked ? 0 : rbSelect02.Checked ? 1 : 2;
+
+            // データ検索
             DataFind();     // 2026/08/28
         }
 
@@ -272,255 +290,255 @@ namespace SZOK_OCR.DATA
         ///-------------------------------------------------------------------------
         //private int dataShow()
         //{
-            //label22.Text = string.Empty;    // 2019/11/15
+        //label22.Text = string.Empty;    // 2019/11/15
 
-            //// 2019/06/25
-            //dg.Rows.Clear();
+        //// 2019/06/25
+        //dg.Rows.Clear();
 
-            //// 2019/06/25
-            //System.Threading.Thread.Sleep(100);
-            //Application.DoEvents();
+        //// 2019/06/25
+        //System.Threading.Thread.Sleep(100);
+        //Application.DoEvents();
 
-            //// 2019/06/25
-            //this.Cursor = Cursors.WaitCursor;
+        //// 2019/06/25
+        //this.Cursor = Cursors.WaitCursor;
 
-            //// 2019/11/15
-            //adp.FillByYear(dts.防犯登録データ, Utility.StrtoInt(txtsYY.Text).ToString());
+        //// 2019/11/15
+        //adp.FillByYear(dts.防犯登録データ, Utility.StrtoInt(txtsYY.Text).ToString());
 
-            //var s = dts.防犯登録データ.OrderBy(q => q.登録番号);
+        //var s = dts.防犯登録データ.OrderBy(q => q.登録番号);
 
-            //// データ種別
-            //if (cmbShubetsu.SelectedIndex > 0)
-            //{
-            //    s = s.Where(q => q.データ区分 == cmbShubetsu.SelectedIndex - 1).OrderBy(q => q.登録番号);
-            //}
+        //// データ種別
+        //if (cmbShubetsu.SelectedIndex > 0)
+        //{
+        //    s = s.Where(q => q.データ区分 == cmbShubetsu.SelectedIndex - 1).OrderBy(q => q.登録番号);
+        //}
 
-            //// 登録番号
-            //if (txtsCpa.Text != string.Empty)
-            //{
-            //    s = s.Where(q => q.登録番号.Contains(txtsCpa.Text)).OrderBy(q => q.登録番号);
-            //}
+        //// 登録番号
+        //if (txtsCpa.Text != string.Empty)
+        //{
+        //    s = s.Where(q => q.登録番号.Contains(txtsCpa.Text)).OrderBy(q => q.登録番号);
+        //}
 
-            //// 車体番号
-            //if (txtsCarbodyNum.Text != string.Empty)
-            //{
-            //    s = s.Where(q => q.車体番号.Contains(txtsCarbodyNum.Text)).OrderBy(q => q.登録番号);
-            //}
+        //// 車体番号
+        //if (txtsCarbodyNum.Text != string.Empty)
+        //{
+        //    s = s.Where(q => q.車体番号.Contains(txtsCarbodyNum.Text)).OrderBy(q => q.登録番号);
+        //}
 
-            //// 登録年
-            //if (txtsYY.Text != string.Empty)
-            //{
-            //    s = s.Where(q => q.登録年.ToString() == txtsYY.Text).OrderBy(q => q.登録番号);
-            //}
+        //// 登録年
+        //if (txtsYY.Text != string.Empty)
+        //{
+        //    s = s.Where(q => q.登録年.ToString() == txtsYY.Text).OrderBy(q => q.登録番号);
+        //}
 
-            //// 登録月
-            //if (txtsMM.Text != string.Empty)
-            //{
-            //    s = s.Where(q => q.登録月.ToString() == txtsMM.Text).OrderBy(q => q.登録番号);
-            //}
+        //// 登録月
+        //if (txtsMM.Text != string.Empty)
+        //{
+        //    s = s.Where(q => q.登録月.ToString() == txtsMM.Text).OrderBy(q => q.登録番号);
+        //}
 
-            //// 登録日
-            //if (txtsDD.Text != string.Empty)
-            //{
-            //    s = s.Where(q => q.登録日.ToString() == txtsDD.Text).OrderBy(q => q.登録番号);
-            //}
+        //// 登録日
+        //if (txtsDD.Text != string.Empty)
+        //{
+        //    s = s.Where(q => q.登録日.ToString() == txtsDD.Text).OrderBy(q => q.登録番号);
+        //}
 
-            //// メーカー
-            //if (txtsMaker.Text != string.Empty)
-            //{
-            //    s = s.Where(q => q.メーカー.Contains(Utility.getStrConv(txtsMaker.Text))).OrderBy(q => q.登録番号);
-            //}
+        //// メーカー
+        //if (txtsMaker.Text != string.Empty)
+        //{
+        //    s = s.Where(q => q.メーカー.Contains(Utility.getStrConv(txtsMaker.Text))).OrderBy(q => q.登録番号);
+        //}
 
-            //// カラー
-            //if (txtsColor.Text != string.Empty)
-            //{
-            //    s = s.Where(q => q.塗色.Contains(Utility.getStrConv(txtsColor.Text))).OrderBy(q => q.登録番号);
-            //}
+        //// カラー
+        //if (txtsColor.Text != string.Empty)
+        //{
+        //    s = s.Where(q => q.塗色.Contains(Utility.getStrConv(txtsColor.Text))).OrderBy(q => q.登録番号);
+        //}
 
-            //// 車種
-            //if (cmbCarStyle.SelectedIndex > 0)
-            //{
-            //    string cs = cmbCarStyle.Text.Substring(0, 2);
+        //// 車種
+        //if (cmbCarStyle.SelectedIndex > 0)
+        //{
+        //    string cs = cmbCarStyle.Text.Substring(0, 2);
 
-            //    s = s.Where(q => q.車種.ToString().PadLeft(2, '0') == cs).OrderBy(q => q.登録番号);
-            //}
+        //    s = s.Where(q => q.車種.ToString().PadLeft(2, '0') == cs).OrderBy(q => q.登録番号);
+        //}
 
-            ////// 車両番号
-            ////if (txtsSharyoNum.Text != string.Empty)
-            ////{
-            ////    s = s.Where(q => !q.Is車両番号1Null() && (q.車両番号1 + q.車両番号2).Contains(txtsSharyoNum.Text)).OrderBy(q => q.登録番号);
-            ////}
+        ////// 車両番号
+        ////if (txtsSharyoNum.Text != string.Empty)
+        ////{
+        ////    s = s.Where(q => !q.Is車両番号1Null() && (q.車両番号1 + q.車両番号2).Contains(txtsSharyoNum.Text)).OrderBy(q => q.登録番号);
+        ////}
 
-            ////// 車名
-            ////if (txtsCarName.Text != string.Empty)
-            ////{
-            ////    s = s.Where(q => q.車名.Contains(Utility.getStrConv(txtsCarName.Text))).OrderBy(q => q.登録番号);
-            ////}
+        ////// 車名
+        ////if (txtsCarName.Text != string.Empty)
+        ////{
+        ////    s = s.Where(q => q.車名.Contains(Utility.getStrConv(txtsCarName.Text))).OrderBy(q => q.登録番号);
+        ////}
 
-            //// 郵便番号
-            //if (txtsZip1.Text != string.Empty)
-            //{
-            //    s = s.Where(q => q.郵便番号1.Contains(txtsZip1.Text)).OrderBy(q => q.登録番号);
-            //}
+        //// 郵便番号
+        //if (txtsZip1.Text != string.Empty)
+        //{
+        //    s = s.Where(q => q.郵便番号1.Contains(txtsZip1.Text)).OrderBy(q => q.登録番号);
+        //}
 
-            //if (txtsZip2.Text != string.Empty)
-            //{
-            //    s = s.Where(q => q.郵便番号2.Contains(txtsZip2.Text)).OrderBy(q => q.登録番号);
-            //}
+        //if (txtsZip2.Text != string.Empty)
+        //{
+        //    s = s.Where(q => q.郵便番号2.Contains(txtsZip2.Text)).OrderBy(q => q.登録番号);
+        //}
 
-            //// 住所
-            //if (txtsAdd.Text != string.Empty)
-            //{
-            //    s = s.Where(q => (q.住所1).Contains(Utility.getStrConv(txtsAdd.Text))).OrderBy(q => q.登録番号);
-            //}
+        //// 住所
+        //if (txtsAdd.Text != string.Empty)
+        //{
+        //    s = s.Where(q => (q.住所1).Contains(Utility.getStrConv(txtsAdd.Text))).OrderBy(q => q.登録番号);
+        //}
 
-            //// フリガナ氏名
-            //if (txtsFuri.Text != string.Empty)
-            //{
-            //    s = s.Where(q => q.氏名.Contains(Utility.getStrConv(txtsFuri.Text))).OrderBy(q => q.登録番号);
-            //}
+        //// フリガナ氏名
+        //if (txtsFuri.Text != string.Empty)
+        //{
+        //    s = s.Where(q => q.氏名.Contains(Utility.getStrConv(txtsFuri.Text))).OrderBy(q => q.登録番号);
+        //}
 
-            //// TEL/携帯
-            //if (txtsTel1.Text != string.Empty)
-            //{
-            //    s = s.Where(q => q.TEL携帯.Contains(txtsTel1.Text)).OrderBy(q => q.登録番号);
-            //}
+        //// TEL/携帯
+        //if (txtsTel1.Text != string.Empty)
+        //{
+        //    s = s.Where(q => q.TEL携帯.Contains(txtsTel1.Text)).OrderBy(q => q.登録番号);
+        //}
 
-            //if (txtsTel2.Text != string.Empty)
-            //{
-            //    s = s.Where(q => q.TEL携帯2.Contains(txtsTel2.Text)).OrderBy(q => q.登録番号);
-            //}
+        //if (txtsTel2.Text != string.Empty)
+        //{
+        //    s = s.Where(q => q.TEL携帯2.Contains(txtsTel2.Text)).OrderBy(q => q.登録番号);
+        //}
 
-            //if (txtsTel3.Text != string.Empty)
-            //{
-            //    s = s.Where(q => q.TEL携帯3.Contains(txtsTel3.Text)).OrderBy(q => q.登録番号);
-            //}
+        //if (txtsTel3.Text != string.Empty)
+        //{
+        //    s = s.Where(q => q.TEL携帯3.Contains(txtsTel3.Text)).OrderBy(q => q.登録番号);
+        //}
 
-            //// 県警用CSV作成：作成済み
-            //if (comboBox1.SelectedIndex == 1 && !dateTimePicker1.Checked)
-            //{
-            //    s = s.Where(q => !q.IsCSV作成日Null() && q.CSV作成日 != string.Empty).OrderBy(q => q.登録番号);
-            //}
+        //// 県警用CSV作成：作成済み
+        //if (comboBox1.SelectedIndex == 1 && !dateTimePicker1.Checked)
+        //{
+        //    s = s.Where(q => !q.IsCSV作成日Null() && q.CSV作成日 != string.Empty).OrderBy(q => q.登録番号);
+        //}
 
-            //// 県警用CSV作成：作成日付指定
-            //if (comboBox1.SelectedIndex == 1 && dateTimePicker1.Checked)
-            //{
-            //    string dt = dateTimePicker1.Value.ToShortDateString().Replace("/", "");
-            //    s = s.Where(q => !q.IsCSV作成日Null() && q.CSV作成日.Contains(dt)).OrderBy(q => q.登録番号);
-            //}
+        //// 県警用CSV作成：作成日付指定
+        //if (comboBox1.SelectedIndex == 1 && dateTimePicker1.Checked)
+        //{
+        //    string dt = dateTimePicker1.Value.ToShortDateString().Replace("/", "");
+        //    s = s.Where(q => !q.IsCSV作成日Null() && q.CSV作成日.Contains(dt)).OrderBy(q => q.登録番号);
+        //}
 
-            //// 県警用CSV作成：未作成
-            //if (comboBox1.SelectedIndex == 2)
-            //{
-            //    s = s.Where(q => q.IsCSV作成日Null() || q.CSV作成日 == string.Empty).OrderBy(q => q.登録番号);
-            //}
+        //// 県警用CSV作成：未作成
+        //if (comboBox1.SelectedIndex == 2)
+        //{
+        //    s = s.Where(q => q.IsCSV作成日Null() || q.CSV作成日 == string.Empty).OrderBy(q => q.登録番号);
+        //}
 
-            //// 除外データ
-            //if (chkJyogai.Checked)
-            //{
-            //    s = s.Where(q => !q.Is除外Null() && q.除外 == global.flgOn).OrderBy(q => q.登録番号);
-            //}
-            //else
-            //{
-            //    s = s.Where(q => q.Is除外Null() || q.除外 == global.flgOff).OrderBy(q => q.登録番号);
-            //}
+        //// 除外データ
+        //if (chkJyogai.Checked)
+        //{
+        //    s = s.Where(q => !q.Is除外Null() && q.除外 == global.flgOn).OrderBy(q => q.登録番号);
+        //}
+        //else
+        //{
+        //    s = s.Where(q => q.Is除外Null() || q.除外 == global.flgOff).OrderBy(q => q.登録番号);
+        //}
 
-            //int iX = 0;
-            
-            //// dg.Rows.Clear(); // 2019/06/25 コメント化
+        //int iX = 0;
 
-            //// 2019/06/25
-            //System.Threading.Thread.Sleep(100);
-            //Application.DoEvents();
+        //// dg.Rows.Clear(); // 2019/06/25 コメント化
 
-            //if (s.Count() > 0)
-            //{
-            //    dg.Rows.Add(s.Count());     // 2019/11/15
-            //}
+        //// 2019/06/25
+        //System.Threading.Thread.Sleep(100);
+        //Application.DoEvents();
 
-            //foreach (var t in s)
-            //{
-            //    //dg.Rows.Add();
+        //if (s.Count() > 0)
+        //{
+        //    dg.Rows.Add(s.Count());     // 2019/11/15
+        //}
 
-            //    if (t.データ区分 == global.flgOff)
-            //    {
-            //        dg[coldKbn, iX].Value = "自転車";
-            //    }
-            //    else
-            //    {
-            //        dg[coldKbn, iX].Value = "原付";
-            //    }
+        //foreach (var t in s)
+        //{
+        //    //dg.Rows.Add();
 
-            //    dg[colCPA, iX].Value = t.登録番号;
-            //    dg[colCarbodyNum, iX].Value = t.車体番号;
-            //    dg[colyymmdd, iX].Value = "20" + t.登録年 + "/" + t.登録月.PadLeft(2, '0') + "/" + t.登録日.PadLeft(2, '0');
-            //    dg[colMaker, iX].Value = t.メーカー;
-            //    dg[colColor, iX].Value = t.塗色;
-            //    dg[colCarStyle, iX].Value = getCarStyleName(t.車種.ToString().PadLeft(2, '0'));
+        //    if (t.データ区分 == global.flgOff)
+        //    {
+        //        dg[coldKbn, iX].Value = "自転車";
+        //    }
+        //    else
+        //    {
+        //        dg[coldKbn, iX].Value = "原付";
+        //    }
 
-            //    if (t.Is車両番号1Null())
-            //    {
-            //        dg[colSharyoNum, iX].Value = t.車両番号2;
-            //    }
-            //    else
-            //    {
-            //        dg[colSharyoNum, iX].Value = t.車両番号1 + t.車両番号2;
-            //    }
+        //    dg[colCPA, iX].Value = t.登録番号;
+        //    dg[colCarbodyNum, iX].Value = t.車体番号;
+        //    dg[colyymmdd, iX].Value = "20" + t.登録年 + "/" + t.登録月.PadLeft(2, '0') + "/" + t.登録日.PadLeft(2, '0');
+        //    dg[colMaker, iX].Value = t.メーカー;
+        //    dg[colColor, iX].Value = t.塗色;
+        //    dg[colCarStyle, iX].Value = getCarStyleName(t.車種.ToString().PadLeft(2, '0'));
 
-            //    dg[colCarName, iX].Value = t.車名;
-            //    dg[colZip, iX].Value = t.郵便番号1 + "-" + t.郵便番号2;
-            //    dg[colAdd, iX].Value = t.住所1.Trim();
-            //    dg[colFuri, iX].Value = t.氏名;
-            //    dg[colTel, iX].Value = t.TEL携帯.Trim() + "-" + t.TEL携帯2.Trim() + "-" + t.TEL携帯3.Trim();
+        //    if (t.Is車両番号1Null())
+        //    {
+        //        dg[colSharyoNum, iX].Value = t.車両番号2;
+        //    }
+        //    else
+        //    {
+        //        dg[colSharyoNum, iX].Value = t.車両番号1 + t.車両番号2;
+        //    }
 
-            //    if (t.IsCSV作成日Null())
-            //    {
-            //        dg[colCsv, iX].Value = string.Empty;
-            //    }
-            //    else
-            //    {
-            //        dg[colCsv, iX].Value = t.CSV作成日;
-            //    }
+        //    dg[colCarName, iX].Value = t.車名;
+        //    dg[colZip, iX].Value = t.郵便番号1 + "-" + t.郵便番号2;
+        //    dg[colAdd, iX].Value = t.住所1.Trim();
+        //    dg[colFuri, iX].Value = t.氏名;
+        //    dg[colTel, iX].Value = t.TEL携帯.Trim() + "-" + t.TEL携帯2.Trim() + "-" + t.TEL携帯3.Trim();
 
-            //    dg[colID, iX].Value = t.ID;
+        //    if (t.IsCSV作成日Null())
+        //    {
+        //        dg[colCsv, iX].Value = string.Empty;
+        //    }
+        //    else
+        //    {
+        //        dg[colCsv, iX].Value = t.CSV作成日;
+        //    }
 
-            //    if (!t.Is除外Null() && t.除外 == global.flgOn)
-            //    {
-            //        dg[colJyogai, iX].Value = "◯";
-            //    }
-            //    else
-            //    {
-            //        dg[colJyogai, iX].Value = "";
-            //    }
+        //    dg[colID, iX].Value = t.ID;
+
+        //    if (!t.Is除外Null() && t.除外 == global.flgOn)
+        //    {
+        //        dg[colJyogai, iX].Value = "◯";
+        //    }
+        //    else
+        //    {
+        //        dg[colJyogai, iX].Value = "";
+        //    }
 
 
-            //    iX++;
-            //}
+        //    iX++;
+        //}
 
-            //if (s.Count() > 0)
-            //{
-            //    dg.CurrentCell = null;
-            //    linkLabel2.Enabled = true;
+        //if (s.Count() > 0)
+        //{
+        //    dg.CurrentCell = null;
+        //    linkLabel2.Enabled = true;
 
-            //    // 2019/11/15
-            //    label22.Text = "該当件数：" + s.Count().ToString("#,##0") + "件";
-            //}
-            //else
-            //{
-            //    // 2019/06/25
-            //    this.Cursor = Cursors.Default; 
-            //    MessageBox.Show("条件に該当するデータはありませんでした", "検索結果", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            //    linkLabel2.Enabled = false;
+        //    // 2019/11/15
+        //    label22.Text = "該当件数：" + s.Count().ToString("#,##0") + "件";
+        //}
+        //else
+        //{
+        //    // 2019/06/25
+        //    this.Cursor = Cursors.Default; 
+        //    MessageBox.Show("条件に該当するデータはありませんでした", "検索結果", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        //    linkLabel2.Enabled = false;
 
-            //    // 2019/11/15
-            //    label22.Text = "該当件数： 0件";
-            //}
+        //    // 2019/11/15
+        //    label22.Text = "該当件数： 0件";
+        //}
 
-            //System.Threading.Thread.Sleep(500);
-            //Application.DoEvents();
+        //System.Threading.Thread.Sleep(500);
+        //Application.DoEvents();
 
-            //// 2019/06/25
-            //this.Cursor = Cursors.Default; 
+        //// 2019/06/25
+        //this.Cursor = Cursors.Default; 
         //    return s.Count();
         //}
 
@@ -528,7 +546,7 @@ namespace SZOK_OCR.DATA
         ///   検索条件を取得する
         /// </summary>
         /// <returns>検索条件のパラメータ</returns>
-        private DataParameter GetSearchParameter()
+        private DataParameter GetSearchParameter(int d)
         {
             DataParameter param = new DataParameter();
 
@@ -553,6 +571,7 @@ namespace SZOK_OCR.DATA
             param.CsvCreation = comboBox1.SelectedIndex > 0 ? (int?)(comboBox1.SelectedIndex - 1) : null;
             param.CsvCreationDate = dateTimePicker1.Checked ? DateTime.Parse(dateTimePicker1.Text).ToString("yyyyMMdd") : string.Empty;
             param.Exception = chkJyogai.Checked ? (int?)1 : (int?)0;
+            param.DataTable = d;    // 対象データテーブル　0:防犯登録データ、1:10年保存データ、2:抹消データ
             return param;
         }
 
@@ -562,7 +581,18 @@ namespace SZOK_OCR.DATA
         /// <returns>表示したデータの件数</returns>
         private int DataFind()
         {
-            var param = GetSearchParameter();
+            // 対象データテーブル区分を付加する：2026/09/16
+            var param = GetSearchParameter(selectTable);
+
+            // 抹消日列の表示制御：2026/09/16
+            if (rbSelect03.Checked)
+            {
+                dg.Columns[colEraDate].Visible = true;
+            }
+            else
+            {
+                dg.Columns[colEraDate].Visible = false;
+            }
 
             label22.Text = string.Empty;    // 2019/11/15
 
@@ -629,6 +659,7 @@ namespace SZOK_OCR.DATA
 
                 dg[colSharyoNum, iX].Value = t.VehicleNumber1 + t.VehicleNumber2;
                 dg[colCarName, iX].Value = t.CarName;
+                dg[colEraDate, iX].Value = t.UpDate.ToString("yyyy/MM/dd");
 
                 iX++;
             }
@@ -652,7 +683,7 @@ namespace SZOK_OCR.DATA
                 btnCard.Enabled = false;
                 btnUpdate.Enabled = false;
                 btnErasure.Enabled = false;
-                
+
                 // 2019/11/15
                 label22.Text = "該当件数： 0件";
             }
@@ -754,7 +785,6 @@ namespace SZOK_OCR.DATA
 
         private void FrmCardList_Shown(object sender, EventArgs e)
         {
-            txtsYY.Text = (DateTime.Now.Year - 2000).ToString();
         }
 
         private void txtsCpa_Leave(object sender, EventArgs e)
@@ -814,8 +844,18 @@ namespace SZOK_OCR.DATA
             if (e.RowIndex >= 0)
             {
                 btnCard.Enabled = true;
-                btnUpdate.Enabled = true;
-                btnErasure.Enabled = true;
+
+                // 防犯登録データのときのみ、更新・抹消ボタンを有効にする：2026/09/1
+                if (rbSelect01.Checked)
+                {
+                    btnUpdate.Enabled = true;
+                    btnErasure.Enabled = true;
+                }
+                else
+                {
+                    btnUpdate.Enabled = false;
+                    btnErasure.Enabled = false;
+                }
             }
         }
 
@@ -825,7 +865,7 @@ namespace SZOK_OCR.DATA
             int iX = Utility.StrtoInt(dg[colID, dg.CurrentRow.Index].Value.ToString());
 
             this.Hide();
-            using (frmPastData frm = new frmPastData(iX))
+            using (frmPastData frm = new frmPastData(iX, selectTable))
             {
                 frm.ShowDialog();
                 this.Show();
@@ -841,7 +881,7 @@ namespace SZOK_OCR.DATA
         private void ShowPastData(int iX)
         {
             this.Hide();
-            using (frmPastData frm = new frmPastData(iX))
+            using (frmPastData frm = new frmPastData(iX, selectTable))
             {
                 frm.ShowDialog();
                 this.Show();
@@ -907,6 +947,38 @@ namespace SZOK_OCR.DATA
         private void button3_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void rbSelect01_Click(object sender, EventArgs e)
+        {
+            // 検索欄初期化
+            dispInitial();
+
+            // データグリッドビュー初期化
+            dg.Rows.Clear();
+        }
+
+        private void rbSelect02_Click(object sender, EventArgs e)
+        {
+            // 検索欄初期化
+            dispInitial();
+
+            // データグリッドビュー初期化
+            dg.Rows.Clear();
+        }
+
+        private void rbSelect03_Click(object sender, EventArgs e)
+        {
+            // 検索欄初期化
+            dispInitial();
+
+            // データグリッドビュー初期化
+            dg.Rows.Clear();
+        }
+
+        private void txtsYY_Leave(object sender, EventArgs e)
+        {
+            txtsYY.Text = txtsYY.Text.PadLeft(2, '0');
         }
     }
 }

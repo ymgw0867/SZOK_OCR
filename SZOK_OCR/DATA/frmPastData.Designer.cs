@@ -90,7 +90,8 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel5 = new System.Windows.Forms.Panel();
             this.trackBar1 = new System.Windows.Forms.TrackBar();
-            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this.lblErasureDate = new System.Windows.Forms.Label();
+            this.button2 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -557,6 +558,7 @@
             // panel1
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.lblErasureDate);
             this.panel1.Controls.Add(this.txtCarName);
             this.panel1.Controls.Add(this.label20);
             this.panel1.Controls.Add(this.label19);
@@ -730,7 +732,7 @@
             // 
             this.label22.AutoSize = true;
             this.label22.Font = new System.Drawing.Font("Yu Gothic UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label22.Location = new System.Drawing.Point(112, 621);
+            this.label22.Location = new System.Drawing.Point(129, 618);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(141, 19);
             this.label22.TabIndex = 157;
@@ -837,31 +839,38 @@
             this.trackBar1.TabStop = false;
             this.trackBar1.ValueChanged += new System.EventHandler(this.trackBar1_ValueChanged);
             // 
-            // linkLabel1
+            // lblErasureDate
             // 
-            this.linkLabel1.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.linkLabel1.Image = ((System.Drawing.Image)(resources.GetObject("linkLabel1.Image")));
-            this.linkLabel1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.linkLabel1.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-            this.linkLabel1.Location = new System.Drawing.Point(952, 710);
-            this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(58, 21);
-            this.linkLabel1.TabIndex = 127;
-            this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "終了";
-            this.linkLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
+            this.lblErasureDate.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.lblErasureDate.ForeColor = System.Drawing.Color.Red;
+            this.lblErasureDate.Location = new System.Drawing.Point(250, 639);
+            this.lblErasureDate.Name = "lblErasureDate";
+            this.lblErasureDate.Size = new System.Drawing.Size(198, 19);
+            this.lblErasureDate.TabIndex = 165;
+            this.lblErasureDate.Text = "2026/09/10 抹消済みです";
+            this.lblErasureDate.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // button2
+            // 
+            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button2.Location = new System.Drawing.Point(942, 691);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(68, 47);
+            this.button2.TabIndex = 640;
+            this.button2.Text = "終了";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click_1);
             // 
             // frmPastData
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1028, 754);
+            this.Controls.Add(this.button2);
             this.Controls.Add(this.panel5);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.lblNoImage);
             this.Controls.Add(this.panel2);
-            this.Controls.Add(this.linkLabel1);
             this.Font = new System.Drawing.Font("Meiryo UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4);
@@ -922,7 +931,6 @@
         private System.Windows.Forms.Label label55;
         private System.Windows.Forms.TextBox txtColor;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.LinkLabel linkLabel1;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.LinkLabel linkLabel4;
         private System.Windows.Forms.RadioButton radioButton2;
@@ -943,6 +951,8 @@
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.TextBox txtSharyoNum2;
+        private System.Windows.Forms.Label lblErasureDate;
+        private System.Windows.Forms.Button button2;
     }
 }
 

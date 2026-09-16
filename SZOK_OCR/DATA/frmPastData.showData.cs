@@ -23,7 +23,7 @@ namespace SZOK_OCR.DATA
             var master = new ClsMaster(Properties.Settings.Default.sServerName, Properties.Settings.Default.sLogin,
                                    Properties.Settings.Default.sPass, Properties.Settings.Default.sDatabase);
 
-            r = master.GetData<TblRegistrationCard>(iX.ToString());
+            r = master.GetData<TblRegistrationCard>(iX.ToString(), _d);
 
             // フォーム初期化
             formInitialize();
@@ -109,7 +109,19 @@ namespace SZOK_OCR.DATA
                 chkJyogai.Checked = false;
             }
 
-            linkLabel1.Focus();
+            // 抹消日表示制御：2026/09/16
+            if (_d == 2)
+            {
+                // 抹消データのとき
+                lblErasureDate.Visible = true;
+                lblErasureDate.Text = $"{r.UpDate.ToString("yyyy/MM/dd")} 抹消済みです";
+            }
+            else
+            {
+                lblErasureDate.Visible = false;
+            }
+
+            button2.Focus();
         }
 
 
