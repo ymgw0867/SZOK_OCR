@@ -553,9 +553,9 @@ namespace SZOK_OCR.DATA
             DataParameter param = new DataParameter();
 
             param.DataCategory = cmbShubetsu.SelectedIndex > 0 ? (int?)(cmbShubetsu.SelectedIndex - 1) : null;
-            param.AddYear  = d < 2 ? txtsYY.Text : string.Empty;    // 防犯登録データか、10年保存データの場合のみ、登録年を検索条件にする：2026/09/16
-            param.AddMonth = d < 2 ? txtsMM.Text : string.Empty;    // 防犯登録データか、10年保存データの場合のみ、登録月を検索条件にする：2026/09/16
-            param.AddDay   = d < 2 ? txtsDD.Text : string.Empty;    // 防犯登録データか、10年保存データの場合のみ、登録日を検索条件にする：2026/09/16
+            param.AddYear  = d < 2 ? (txtsYY.Text != "" ? Utility.StrtoInt(txtsYY.Text).ToString() : string.Empty) : string.Empty;    // 防犯登録データか、10年保存データの場合のみ、登録年を検索条件にする：2026/09/16
+            param.AddMonth = d < 2 ? (txtsMM.Text != "" ? Utility.StrtoInt(txtsMM.Text).ToString() : string.Empty) : string.Empty;    // 防犯登録データか、10年保存データの場合のみ、登録月を検索条件にする：2026/09/16
+            param.AddDay   = d < 2 ? (txtsDD.Text != "" ? Utility.StrtoInt(txtsDD.Text).ToString() : string.Empty) : string.Empty;    // 防犯登録データか、10年保存データの場合のみ、登録日を検索条件にする：2026/09/16
             param.Number = txtsCpa.Text;
             param.VehicleIdentificationNumber = txtsCarbodyNum.Text;
             param.Maker = txtsMaker.Text;
@@ -984,6 +984,22 @@ namespace SZOK_OCR.DATA
         private void txtsYY_Leave(object sender, EventArgs e)
         {
             txtsYY.Text = txtsYY.Text.PadLeft(2, '0');
+        }
+
+        private void txtsMM_Leave(object sender, EventArgs e)
+        {
+            if (txtsMM.Text != string.Empty)
+            {
+                txtsMM.Text = Utility.StrtoInt(txtsMM.Text).ToString();
+            }
+        }
+
+        private void txtsDD_Leave(object sender, EventArgs e)
+        {
+            if (txtsDD.Text != string.Empty)
+            {
+                txtsDD.Text = Utility.StrtoInt(txtsDD.Text).ToString();
+            }
         }
     }
 }
