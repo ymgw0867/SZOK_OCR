@@ -227,17 +227,66 @@ namespace SZOK_OCR.Common
             return 0;
         }
 
-        public int CountNumber<T>(string number)
+        /// <summary>
+        /// 指定された登録番号が過去の防犯登録データ、10年超の防犯登録データ、または抹消データに存在するかを確認する
+        /// </summary>
+        /// <param name="number">登録番号</param>
+        /// <returns>過去データの種類</returns>
+        public string CountPastNumber(string number)
         {
-            // 防犯登録カードのとき
-            if (typeof(T) == typeof(TblRegistrationCard))
+            try
             {
-                string sql = "SELECT COUNT(*) FROM 防犯登録データ WHERE 登録番号 = @val";
-                return GetCount(sql, number);
+                using (SqlConnection conn = new SqlConnection(sqlBuilder.ConnectionString))
+                {
+                    conn.Open();
+
+                    // 防犯登録データ
+                    var sql = "SELECT COUNT(*) FROM 防犯登録データ WHERE 登録番号 = @val";
+
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@val", number);
+                        var rtn = cmd.ExecuteScalar();
+                        if (Convert.ToInt32(rtn) > 0)
+                        {
+                            return "過去の防犯登録データ";
+                        }
+                    }
+
+                    // 防犯登録10年超
+                    sql = "SELECT COUNT(*) FROM 防犯登録10年超 WHERE 登録番号 = @val";
+
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@val", number);
+                        var rtn = cmd.ExecuteScalar();
+                        if (Convert.ToInt32(rtn) > 0)
+                        {
+                            return "10年超の防犯登録データ";
+                        }
+                    }
+
+                    // 抹消データ
+                    sql = "SELECT COUNT(*) FROM 抹消 WHERE 登録番号 = @val";
+
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@val", number);
+                        var rtn = cmd.ExecuteScalar();
+                        if (Convert.ToInt32(rtn) > 0)
+                        {
+                            return "抹消データ";
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return "";
             }
 
-            MessageBox.Show("Invalid Data Class");
-            return 0;
+            return "";
         }
 
         public int CountNumber<T>(string number, string pcName)
@@ -2605,6 +2654,30 @@ namespace SZOK_OCR.Common
         /// <param name="pc">PC名</param>
         /// <returns>結果の件数</returns>
         private int GetCount(string sql, string pc)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(sqlBuilder.ConnectionString))
+                {
+                    conn.Open();
+
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@val", pc);
+                        var rtn = cmd.ExecuteScalar();
+                        return Convert.ToInt32(rtn);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return 0;
+            }
+        }
+
+
+        private int GetPastCount(string sql, string pc)
         {
             try
             {

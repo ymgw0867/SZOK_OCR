@@ -965,16 +965,18 @@ namespace SZOK_OCR.Common
 
             // SQL Server接続：2026/08/27
             var master = new ClsMaster(Properties.Settings.Default.sServerName, Properties.Settings.Default.sLogin, Properties.Settings.Default.sPass, Properties.Settings.Default.sDatabase);
-            var cnt = master.CountNumber<TblRegistrationCard>(r.Number);
+            
+            // 登録番号登録済みチェック：2026/09/17
+            var result = master.CountPastNumber(r.Number);
 
-            if (cnt > 0)
+            if (result != "")
             {
-                setErrStatus(eTourokuNum, 0, "過去に登録されている登録番号です");
+                setErrStatus(eTourokuNum, 0, $"{result}に登録されている登録番号です");
                 return false;
             }
 
             // 登録番号重複チェック：2026/08/27
-            cnt = master.CountNumber<TblWorkcard>($"{global.DATA_CPA}{r.Number}", System.Net.Dns.GetHostName());
+            var cnt = master.CountNumber<TblWorkcard>($"{global.DATA_CPA}{r.Number}", System.Net.Dns.GetHostName());
             if (cnt > 1)
             {
                 setErrStatus(eTourokuNum, 0, "現在、読み込み中データに同じ登録番号が複数あります");
