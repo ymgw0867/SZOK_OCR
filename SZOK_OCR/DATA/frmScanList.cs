@@ -255,7 +255,6 @@ namespace SZOK_OCR.DATA
             }
 
             // リスト表示
-            //dataShow();
             DataFind();
         }
 
@@ -269,8 +268,8 @@ namespace SZOK_OCR.DATA
 
             param.DataCategory = cmbShubetsu.SelectedIndex > 0 ? (int?)(cmbShubetsu.SelectedIndex - 1) : null;
             param.AddYear = txtsYY.Text;
-            param.AddMonth = txtsMM.Text;
-            param.AddDay = txtsDD.Text;
+            param.AddMonth = txtsMM.Text != "" ? Utility.StrtoInt(txtsMM.Text).ToString() : null;
+            param.AddDay = txtsDD.Text != "" ? Utility.StrtoInt(txtsDD.Text).ToString() : null;
             param.Number = txtsCpa.Text;
             param.VehicleIdentificationNumber = txtsCarbodyNum.Text;
             param.Maker = txtsMaker.Text;
@@ -303,7 +302,7 @@ namespace SZOK_OCR.DATA
 
             dg.Rows.Clear();
 
-            System.Threading.Thread.Sleep(1000);
+            System.Threading.Thread.Sleep(10);
             Application.DoEvents();
 
             this.Cursor = Cursors.WaitCursor;

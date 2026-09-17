@@ -42,6 +42,8 @@ namespace SZOK_OCR.ZAIKO
             this.btnExcel = new System.Windows.Forms.Button();
             this.txtUser = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.txtUserCode = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dg1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -49,7 +51,7 @@ namespace SZOK_OCR.ZAIKO
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Yu Gothic UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label7.Location = new System.Drawing.Point(407, 17);
+            this.label7.Location = new System.Drawing.Point(420, 17);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(276, 17);
             this.label7.TabIndex = 20;
@@ -58,7 +60,7 @@ namespace SZOK_OCR.ZAIKO
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(234, 18);
+            this.label6.Location = new System.Drawing.Point(247, 18);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(21, 13);
             this.label6.TabIndex = 19;
@@ -68,7 +70,7 @@ namespace SZOK_OCR.ZAIKO
             // dateTimePicker2
             // 
             this.dateTimePicker2.Font = new System.Drawing.Font("Yu Gothic UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.dateTimePicker2.Location = new System.Drawing.Point(259, 15);
+            this.dateTimePicker2.Location = new System.Drawing.Point(272, 15);
             this.dateTimePicker2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dateTimePicker2.Name = "dateTimePicker2";
             this.dateTimePicker2.Size = new System.Drawing.Size(142, 25);
@@ -77,7 +79,7 @@ namespace SZOK_OCR.ZAIKO
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(271, 19);
+            this.label5.Location = new System.Drawing.Point(284, 19);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(0, 13);
             this.label5.TabIndex = 18;
@@ -85,7 +87,7 @@ namespace SZOK_OCR.ZAIKO
             // dateTimePicker1
             // 
             this.dateTimePicker1.Font = new System.Drawing.Font("Yu Gothic UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.dateTimePicker1.Location = new System.Drawing.Point(88, 15);
+            this.dateTimePicker1.Location = new System.Drawing.Point(101, 15);
             this.dateTimePicker1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.Size = new System.Drawing.Size(142, 25);
@@ -95,7 +97,7 @@ namespace SZOK_OCR.ZAIKO
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Yu Gothic UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label1.Location = new System.Drawing.Point(11, 17);
+            this.label1.Location = new System.Drawing.Point(12, 17);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(73, 17);
             this.label1.TabIndex = 17;
@@ -158,27 +160,53 @@ namespace SZOK_OCR.ZAIKO
             this.txtUser.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtUser.Font = new System.Drawing.Font("Yu Gothic UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.txtUser.ImeMode = System.Windows.Forms.ImeMode.Hiragana;
-            this.txtUser.Location = new System.Drawing.Point(88, 43);
+            this.txtUser.Location = new System.Drawing.Point(259, 43);
             this.txtUser.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtUser.Name = "txtUser";
-            this.txtUser.Size = new System.Drawing.Size(625, 25);
+            this.txtUser.Size = new System.Drawing.Size(454, 25);
             this.txtUser.TabIndex = 2;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Yu Gothic UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label2.Location = new System.Drawing.Point(11, 46);
+            this.label2.Location = new System.Drawing.Point(190, 45);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(73, 17);
             this.label2.TabIndex = 26;
             this.label2.Text = "得意先名：";
+            // 
+            // txtUserCode
+            // 
+            this.txtUserCode.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtUserCode.Font = new System.Drawing.Font("Yu Gothic UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.txtUserCode.ImeMode = System.Windows.Forms.ImeMode.Off;
+            this.txtUserCode.Location = new System.Drawing.Point(100, 43);
+            this.txtUserCode.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.txtUserCode.MaxLength = 4;
+            this.txtUserCode.Name = "txtUserCode";
+            this.txtUserCode.Size = new System.Drawing.Size(73, 25);
+            this.txtUserCode.TabIndex = 28;
+            this.txtUserCode.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtUserCode.TextChanged += new System.EventHandler(this.txtUserCode_TextChanged);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Yu Gothic UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label3.Location = new System.Drawing.Point(12, 46);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(94, 19);
+            this.label3.TabIndex = 27;
+            this.label3.Text = "得意先コード：";
             // 
             // frmKaishuList
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(933, 610);
+            this.Controls.Add(this.txtUserCode);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.txtUser);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.btnExcel);
@@ -218,5 +246,7 @@ namespace SZOK_OCR.ZAIKO
         private System.Windows.Forms.Button btnExcel;
         private System.Windows.Forms.TextBox txtUser;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox txtUserCode;
+        private System.Windows.Forms.Label label3;
     }
 }

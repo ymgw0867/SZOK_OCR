@@ -2467,8 +2467,9 @@ namespace SZOK_OCR.Common
         /// <param name="dt_s">開始日付</param>
         /// <param name="dt_e">終了日付</param>
         /// <param name="customer">得意先名</param>
+        /// <param name="IsCustomerCode">得意先コードかどうか</param>
         /// <returns>出庫データのリスト</returns>
-        public List<TblShippingout> ReadShippingDaysRange(System.DateTime dt_s, System.DateTime dt_e, string customer)
+        public List<TblShippingout> ReadShippingDaysRange(System.DateTime dt_s, System.DateTime dt_e, string customer, bool IsCustomerCode)
         {
             var lines = new List<TblShippingout>();
 
@@ -2481,10 +2482,20 @@ namespace SZOK_OCR.Common
                     var sql = "SELECT ID, 出庫日, 店番, 店名, 部数, 開始登録番号, 終了登録番号, 売上金額 FROM 出庫データ " +
                         "WHERE 出庫日 >= @sdate and 出庫日 <= @edate ";
 
-                    // 得意先名が指定されている場合は、店名に対してLIKE検索を行う
+                    // 得意先名が指定されている場合は、店番または店名で検索する
                     if (!string.IsNullOrEmpty(customer))
                     {
-                        sql += "AND 店名 LIKE '%'+ @customer +'%' ";
+                        // 得意先コードかどうかで条件を変更する
+                        if (IsCustomerCode)
+                        {
+                            // 店番で完全一致検索する
+                            sql += "AND 店番 = @customer ";
+                        }
+                        else
+                        {
+                            // 店名で部分一致検索する
+                            sql += "AND 店名 LIKE '%'+ @customer +'%' ";
+                        }
                     }
 
                     // 出庫日と店番でソートする
@@ -2530,6 +2541,50 @@ namespace SZOK_OCR.Common
                 return lines;
             }
         }
+
+        /// <summary>
+        /// 指定された得意先コードに一致する出庫データの店名を取得する
+        /// </summary>
+        /// <param name="customerCode">得意先コード</param>
+        /// <returns>店名のリスト</returns>
+        public List<string> ReadShippingShopName(string customerCode)
+        {
+            var lines = new List<string>();
+
+            try
+            {
+                using (var conn = new SqlConnection(sqlBuilder.ConnectionString))
+                {
+                    conn.Open();
+
+                    var sql = "select distinct(店名) as 店名 from 出庫データ " +
+                        "where 店番 = @code ";
+
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
+                    {
+                        cmd.CommandTimeout = 120; // 秒。デフォルト30から一時的に伸ばして様子を見る     
+                        cmd.Parameters.AddWithValue("@code", customerCode);
+
+                        using (SqlDataReader dr = cmd.ExecuteReader())
+                        {
+                            while (dr.Read())
+                            {
+                                lines.Add(Utility.NulltoStr(dr["店名"]));
+                            }
+                        }
+                    }
+                }
+                return lines;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return lines;
+            }
+        }
+
+
+
 
         /// <summary>
         /// 指定された出庫IDと更新日以前の回収データ（出庫に対応する回収データを抽出）を取得する

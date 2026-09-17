@@ -293,13 +293,17 @@ namespace SZOK_OCR.ZAIKO
                 GetExcelData(label3.Text);
             }
 
+            // 得意先指定はコードか名称か 2026/09/17
+            var IsCode = txtUserCode.Text.Trim() != string.Empty ? true : false;
+            var User = IsCode ? txtUserCode.Text.Trim() : txtUser.Text.Trim();
+
             if (comboBox1.SelectedIndex == 0)
             {
-                ZaikoSummary(dataGridView1, dt_s, dt_e);    // 2026/09/08
+                ZaikoSummary(dataGridView1, dt_s, dt_e, IsCode, User);    // 2026/09/08
             }
             else
             {
-                ZaikoSummaryTotal(dataGridView1, dt_s, dt_e);   // 2026/09/08
+                ZaikoSummaryTotal(dataGridView1, dt_s, dt_e, IsCode, User);   // 2026/09/08
             }
         }
 
@@ -307,7 +311,11 @@ namespace SZOK_OCR.ZAIKO
         ///     在庫集計表作成：得意先出庫別 2026/09/08 </summary>
         /// <param name="g">
         ///     DataGridViewオブジェクト</param>
-        private void ZaikoSummary(DataGridView g, DateTime dt_s, DateTime dt_e)
+        /// <param name="dt_s">開始日付</param>
+        /// <param name="dt_e">終了日付</param>
+        /// <param name="IsCustomerCode">
+        ///     得意先コードかどうか</param>
+        private void ZaikoSummary(DataGridView g, DateTime dt_s, DateTime dt_e, bool IsCustomerCode, string User)
         {
             Cursor = Cursors.WaitCursor;
 
@@ -334,7 +342,7 @@ namespace SZOK_OCR.ZAIKO
                 var master = new ClsMaster(Properties.Settings.Default.sServerName, Properties.Settings.Default.sLogin, Properties.Settings.Default.sPass, Properties.Settings.Default.sDatabase);
                 
                 // 出庫日範囲指定で出庫データを取得：2026/09/08
-                var s = master.ReadShippingDaysRange(dt_s, dt_e, txtUser.Text.Trim());
+                var s = master.ReadShippingDaysRange(dt_s, dt_e, User, IsCustomerCode);
 
                 dataGridView1.Rows.Clear();
 
@@ -506,7 +514,9 @@ namespace SZOK_OCR.ZAIKO
         ///     DataGridViewオブジェクト</param>
         /// <param name="dt_s">開始日付</param>
         /// <param name="dt_e">終了日付</param>
-        private void ZaikoSummaryTotal(DataGridView g, DateTime dt_s, DateTime dt_e)
+        /// <param name="IsCustomerCode">得意先コードかどうか</param>
+        /// <param name="User">得意先コードまたは名称</param>
+        private void ZaikoSummaryTotal(DataGridView g, DateTime dt_s, DateTime dt_e, bool IsCustomerCode, string User)
         {
             Cursor = Cursors.WaitCursor;
 
@@ -533,7 +543,7 @@ namespace SZOK_OCR.ZAIKO
                 var master = new ClsMaster(Properties.Settings.Default.sServerName, Properties.Settings.Default.sLogin, Properties.Settings.Default.sPass, Properties.Settings.Default.sDatabase);
 
                 // 出庫日範囲指定で出庫データを取得：2026/09/08
-                var s = master.ReadShippingDaysRange(dt_s, dt_e, txtUser.Text.Trim());
+                var s = master.ReadShippingDaysRange(dt_s, dt_e, User, IsCustomerCode);
 
                 dataGridView1.Rows.Clear();
 
@@ -949,6 +959,33 @@ namespace SZOK_OCR.ZAIKO
             public string Kaishu { get; set; }
             public string Zansu { get; set; }
             public int Id { get; set; }
+        }
+
+        private void txtUserCode_TextChanged(object sender, EventArgs e)
+        {
+            if (txtUserCode.Text.Trim() == string.Empty)
+            {
+                txtUser.ReadOnly = false;
+            }
+            else
+            {
+                txtUser.Text = string.Empty;
+                txtUser.ReadOnly = true;
+
+                // SQLServer接続クラス：2026/09/17
+                var master = new ClsMaster(Properties.Settings.Default.sServerName, Properties.Settings.Default.sLogin, Properties.Settings.Default.sPass, Properties.Settings.Default.sDatabase);
+
+                // 得意先コードに紐づく得意先名称を取得
+                var user = master.ReadShippingShopName(txtUserCode.Text.Trim());
+                var username = "";
+                foreach (var item in user)
+                {
+                    // 複数の得意先名称をカンマ区切りで連結
+                    username += username != "" ? "、" + item : item;
+                }
+
+                txtUser.Text = username;
+            }
         }
     }
 }

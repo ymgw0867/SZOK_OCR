@@ -64,8 +64,12 @@ namespace SZOK_OCR.ZAIKO
                 // マスタクラスを生成（SQLServer接続）：2026/09/09
                 var master = new ClsMaster(Properties.Settings.Default.sServerName, Properties.Settings.Default.sLogin, Properties.Settings.Default.sPass, Properties.Settings.Default.sDatabase);
 
+                // 得意先指定はコードか名称か 2026/09/17
+                var IsCode = txtUserCode.Text.Trim() != string.Empty ? true : false;
+
                 // 出庫データを取得（指定期間・得意先名）：2026/09/09
-                var shukko = master.ReadShippingDaysRange(dt_s, dt_e, txtUser.Text.Trim());
+                var User = IsCode ? txtUserCode.Text.Trim() : txtUser.Text.Trim();
+                var shukko = master.ReadShippingDaysRange(dt_s, dt_e, User, IsCode);
 
                 BindingList<ClsGridSource> gridSources = new BindingList<ClsGridSource>();
 
@@ -465,6 +469,33 @@ namespace SZOK_OCR.ZAIKO
             public int    SNumber  { get; set; }
             public int    ENumber  { get; set; }
             public int    Mikaishu { get; set; }
+        }
+
+        private void txtUserCode_TextChanged(object sender, EventArgs e)
+        {
+            if (txtUserCode.Text.Trim() == string.Empty)
+            {
+                txtUser.ReadOnly = false;
+            }
+            else
+            {
+                txtUser.Text = string.Empty;
+                txtUser.ReadOnly = true;
+
+                // SQLServer接続クラス：2026/09/17
+                var master = new ClsMaster(Properties.Settings.Default.sServerName, Properties.Settings.Default.sLogin, Properties.Settings.Default.sPass, Properties.Settings.Default.sDatabase);
+
+                // 得意先コードに紐づく得意先名称を取得
+                var user = master.ReadShippingShopName(txtUserCode.Text.Trim());
+                var username = "";
+                foreach (var item in user)
+                {
+                    // 複数の得意先名称をカンマ区切りで連結
+                    username += username != "" ? "、" + item : item;
+                }
+
+                txtUser.Text = username;
+            }
         }
     }
 }
