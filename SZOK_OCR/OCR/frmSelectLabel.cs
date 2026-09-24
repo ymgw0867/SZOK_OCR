@@ -340,8 +340,6 @@ namespace SZOK_OCR.OCR
 
                     //adp.FillByLabel(dtsC.SCAN_DATA, lbl);
 
-                    ////foreach (var t in dtsC.SCAN_DATA) // 2020/01/06 コメント化
-
                     //// 2020/01/06 ID順に読み込み
                     //foreach (var t in dtsC.SCAN_DATA.OrderBy(a => a.ID))
                     //{

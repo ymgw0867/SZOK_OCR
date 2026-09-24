@@ -42,13 +42,13 @@
       <Value Profile="(Default)">txtout.csv</Value>
     </Setting>
     <Setting Name="imgPath" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">c:\SZOK_DATA\IMAGE\</Value>
+      <Value Profile="(Default)">\\192.168.1.51\SZOK_DATA\IMAGE\</Value>
     </Setting>
     <Setting Name="xlsLabelPath" Type="System.String" Scope="Application">
       <Value Profile="(Default)">C:\SZOK_OCR\XLS\cardlabel.xlsx</Value>
     </Setting>
     <Setting Name="scanDataPath" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">C:\SZOK_DATA\SCANDATA\</Value>
+      <Value Profile="(Default)">\\192.168.1.51\SZOK_DATA\SCANDATA\</Value>
     </Setting>
     <Setting Name="xlsNouhinRep" Type="System.String" Scope="Application">
       <Value Profile="(Default)">C:\SZOK_OCR\XLS\納品書請求書.xlsx</Value>
@@ -95,7 +95,7 @@
       <Value Profile="(Default)">C:\SZOK_OCR\CSVOUT\</Value>
     </Setting>
     <Setting Name="sServerName" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">192.168.1.51\SQLEXPRESS,1433</Value>
+      <Value Profile="(Default)">192.168.1.51\MSSQLSERVER,1433</Value>
     </Setting>
     <Setting Name="sLogin" Type="System.String" Scope="Application">
       <Value Profile="(Default)">fkdl</Value>

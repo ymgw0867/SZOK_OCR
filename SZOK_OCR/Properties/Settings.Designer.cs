@@ -12,7 +12,7 @@ namespace SZOK_OCR.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "18.9.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "18.10.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -142,7 +142,7 @@ namespace SZOK_OCR.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("c:\\SZOK_DATA\\IMAGE\\")]
+        [global::System.Configuration.DefaultSettingValueAttribute("\\\\192.168.1.51\\SZOK_DATA\\IMAGE\\")]
         public string imgPath {
             get {
                 return ((string)(this["imgPath"]));
@@ -160,7 +160,7 @@ namespace SZOK_OCR.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("C:\\SZOK_DATA\\SCANDATA\\")]
+        [global::System.Configuration.DefaultSettingValueAttribute("\\\\192.168.1.51\\SZOK_DATA\\SCANDATA\\")]
         public string scanDataPath {
             get {
                 return ((string)(this["scanDataPath"]));
@@ -249,7 +249,7 @@ namespace SZOK_OCR.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("192.168.1.51\\SQLEXPRESS,1433")]
+        [global::System.Configuration.DefaultSettingValueAttribute("192.168.1.51\\MSSQLSERVER,1433")]
         public string sServerName {
             get {
                 return ((string)(this["sServerName"]));
