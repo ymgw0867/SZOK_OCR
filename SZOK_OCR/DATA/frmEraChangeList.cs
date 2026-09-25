@@ -400,20 +400,18 @@ namespace SZOK_OCR.DATA
             if (result.Count() > 0)
             {
                 dgChange.CurrentCell = null;
-                btnExcel.Enabled = true;
 
                 // 2019/11/15
                 label3.Text = "該当件数：" + result.Count().ToString("#,##0") + "件";
+                btnExcel.Enabled = true;
             }
             else
             {
                 // 2019/06/25
                 this.Cursor = Cursors.Default;
                 MessageBox.Show("条件に該当するデータはありませんでした", "検索結果", MessageBoxButtons.OK, MessageBoxIcon.Information);
+             
                 btnExcel.Enabled = false;
-
-                btnExcel.Enabled = false;
-                btnClose.Enabled = false;
 
                 // 2019/11/15
                 label3.Text = "該当件数： 0件";

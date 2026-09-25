@@ -688,6 +688,7 @@
             // 
             // label22
             // 
+            this.label22.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label22.Location = new System.Drawing.Point(12, 881);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(149, 25);
