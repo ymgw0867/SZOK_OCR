@@ -62,7 +62,7 @@ namespace SZOK_OCR.Config
             {
                 // データが存在しない場合は、テキストボックスを空にする
                 txtPath1.Text = string.Empty;
-                txtDataSpan.Text = string.Empty;
+                txtDataSpan.Text = global.FLGOFF;
 
                 // メッセージ表示
                 MessageBox.Show("環境設定データが存在しません。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -236,7 +236,7 @@ namespace SZOK_OCR.Config
             // データ保存月数パス
             if (txtDataSpan.Text.Trim() == string.Empty)
             {
-                MessageBox.Show("データ保存月数パスを入力してください", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("データ保存月数を入力してください", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 txtDataSpan.Focus();
                 return false;
             }

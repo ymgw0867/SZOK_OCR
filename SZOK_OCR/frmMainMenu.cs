@@ -114,7 +114,9 @@ namespace SZOK_OCR
         private void linkLabel6_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             this.Close();
-            mdbCompact();
+
+            // コメント化：2026/09/25
+            //mdbCompact();
 
         }
 
