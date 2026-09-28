@@ -104,7 +104,7 @@
       <Value Profile="(Default)">fkdlPass</Value>
     </Setting>
     <Setting Name="sDatabase" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">NewSzokDB</Value>
+      <Value Profile="(Default)">NewSzokDB2026</Value>
     </Setting>
   </Settings>
 </SettingsFile>

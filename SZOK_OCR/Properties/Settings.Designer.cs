@@ -276,7 +276,7 @@ namespace SZOK_OCR.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("NewSzokDB")]
+        [global::System.Configuration.DefaultSettingValueAttribute("NewSzokDB2026")]
         public string sDatabase {
             get {
                 return ((string)(this["sDatabase"]));
