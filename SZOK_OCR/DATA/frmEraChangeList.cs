@@ -70,8 +70,9 @@ namespace SZOK_OCR.DATA
         ///-----------------------------------------------------------------
         private void dispInitial()
         {
-            txtsYY.Text = string.Empty;
-            txtsMM.Text = string.Empty;
+            // 検索条件初期化：2026/10/15
+            dateTimePicker1.Value = DateTime.Now.AddDays(-7);
+            dateTimePicker2.Value = DateTime.Now;
         }
 
         ///--------------------------------------------------------------------
@@ -314,33 +315,48 @@ namespace SZOK_OCR.DATA
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (Utility.StrtoInt(txtsYY.Text) == global.flgOff)
+            //if (Utility.StrtoInt(txtsYY.Text) == global.flgOff)
+            //{
+            //    MessageBox.Show("登録年を必ず指定してください", "検索項目指定", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //    return;
+            //}
+
+            //if (Utility.StrtoInt(txtsMM.Text) == global.flgOff)
+            //{
+            //    MessageBox.Show("登録月を必ず指定してください", "検索項目指定", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //    return;
+            //}
+
+            //if (Utility.StrtoInt(txtsMM.Text) < 1 || Utility.StrtoInt(txtsMM.Text) > 12)
+            //{
+            //    MessageBox.Show("登録月は1～12の範囲で指定してください", "検索項目指定", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //    return;
+            //}
+
+            // 開始日が終了日より後の場合はエラー：2026/10/15
+            if (dateTimePicker1.Value > dateTimePicker2.Value)
             {
-                MessageBox.Show("登録年を必ず指定してください", "検索項目指定", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("開始日が終了日より後になっています", "検索項目指定", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            if (Utility.StrtoInt(txtsMM.Text) == global.flgOff)
-            {
-                MessageBox.Show("登録月を必ず指定してください", "検索項目指定", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            if (Utility.StrtoInt(txtsMM.Text) < 1 || Utility.StrtoInt(txtsMM.Text) > 12)
-            {
-                MessageBox.Show("登録月は1～12の範囲で指定してください", "検索項目指定", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
+            DateTime dts = new DateTime(dateTimePicker1.Value.Year, dateTimePicker1.Value.Month, dateTimePicker1.Value.Day, 0, 0, 0);
+            DateTime dte = new DateTime(dateTimePicker2.Value.Year, dateTimePicker2.Value.Month, dateTimePicker2.Value.Day, 23, 59, 59);
 
             // データグリッドに変更届データを表示
-            DataFindUpdate();
+            DataFindUpdate(dts, dte);
 
             // データグリッドに抹消データを表示
-            DataFindErasure();
+            DataFindErasure(dts, dte);
         }
 
-
-        private int DataFindUpdate()
+        /// <summary>
+        /// 日付の範囲の変更届データを表示する
+        /// </summary>
+        /// <param name="dts">開始日付</param>
+        /// <param name="dte">終了日付</param>
+        /// <returns>件数</returns>
+        private int DataFindUpdate(System.DateTime dts, System.DateTime dte)
         {
             label3.Text = string.Empty;
 
@@ -355,7 +371,7 @@ namespace SZOK_OCR.DATA
             var master = new ClsMaster(Properties.Settings.Default.sServerName, Properties.Settings.Default.sLogin,
                                    Properties.Settings.Default.sPass, Properties.Settings.Default.sDatabase);
 
-            var result = master.ReadUpdateData(int.Parse(txtsYY.Text), int.Parse(txtsMM.Text));
+            var result = master.ReadUpdateData(dts, dte);
 
 
             int iX = 0;
@@ -409,7 +425,7 @@ namespace SZOK_OCR.DATA
             {
                 // 2019/06/25
                 this.Cursor = Cursors.Default;
-                MessageBox.Show("条件に該当するデータはありませんでした", "検索結果", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("条件に該当する変更届データはありませんでした", "変更届検索結果", MessageBoxButtons.OK, MessageBoxIcon.Information);
              
                 btnExcel.Enabled = false;
 
@@ -429,8 +445,10 @@ namespace SZOK_OCR.DATA
         /// <summary>
         ///    データグリッドに抹消データを表示する
         /// </summary>
+        /// <param name="dts">開始日付</param>
+        /// <param name="dte">終了日付</param>
         /// <returns>表示したデータの件数</returns>
-        private int DataFindErasure()
+        private int DataFindErasure(System.DateTime dts, System.DateTime dte)
         {
             label22.Text = string.Empty;    // 2019/11/15
 
@@ -445,7 +463,7 @@ namespace SZOK_OCR.DATA
             var master = new ClsMaster(Properties.Settings.Default.sServerName, Properties.Settings.Default.sLogin,
                                    Properties.Settings.Default.sPass, Properties.Settings.Default.sDatabase);
 
-            var result = master.ReadErasureData(int.Parse(txtsYY.Text), int.Parse(txtsMM.Text));
+            var result = master.ReadErasureData(dts, dte);
 
 
             int iX = 0;
@@ -513,7 +531,7 @@ namespace SZOK_OCR.DATA
             {
                 // 2019/06/25
                 this.Cursor = Cursors.Default;
-                MessageBox.Show("条件に該当するデータはありませんでした", "検索結果", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("条件に該当する抹消データはありませんでした", "抹消検索結果", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 btnExcel.Enabled = false;
 
                 // 2019/11/15
@@ -580,8 +598,8 @@ namespace SZOK_OCR.DATA
 
         private void FrmEraChangeList_Shown(object sender, EventArgs e)
         {
-            txtsYY.Text = (DateTime.Now.Year - 2000).ToString();
-            txtsMM.Focus();
+            //txtsYY.Text = (DateTime.Now.Year - 2000).ToString();
+            //txtsMM.Focus();
         }
 
         private void btnClose_Click(object sender, EventArgs e)

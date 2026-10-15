@@ -30,11 +30,6 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmEraChangeList));
             this.button1 = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.label16 = new System.Windows.Forms.Label();
-            this.txtsMM = new System.Windows.Forms.TextBox();
-            this.label15 = new System.Windows.Forms.Label();
-            this.txtsYY = new System.Windows.Forms.TextBox();
             this.dgChange = new System.Windows.Forms.DataGridView();
             this.label22 = new System.Windows.Forms.Label();
             this.btnClose = new System.Windows.Forms.Button();
@@ -44,81 +39,25 @@
             this.dg = new System.Windows.Forms.DataGridView();
             this.label3 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
+            this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
+            this.label4 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgChange)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dg)).BeginInit();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
             // 
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Location = new System.Drawing.Point(182, 27);
+            this.button1.Font = new System.Drawing.Font("Yu Gothic UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.button1.Location = new System.Drawing.Point(314, 9);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(77, 36);
             this.button1.TabIndex = 21;
             this.button1.Text = "検索";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // textBox1
-            // 
-            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox1.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.textBox1.ImeMode = System.Windows.Forms.ImeMode.Off;
-            this.textBox1.Location = new System.Drawing.Point(26, 30);
-            this.textBox1.MaxLength = 2;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(29, 29);
-            this.textBox1.TabIndex = 151;
-            this.textBox1.Text = "20";
-            this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // label16
-            // 
-            this.label16.AutoSize = true;
-            this.label16.Font = new System.Drawing.Font("Yu Gothic UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label16.Location = new System.Drawing.Point(83, 37);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(23, 19);
-            this.label16.TabIndex = 134;
-            this.label16.Text = "年";
-            // 
-            // txtsMM
-            // 
-            this.txtsMM.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtsMM.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.txtsMM.ImeMode = System.Windows.Forms.ImeMode.Off;
-            this.txtsMM.Location = new System.Drawing.Point(106, 30);
-            this.txtsMM.MaxLength = 2;
-            this.txtsMM.Name = "txtsMM";
-            this.txtsMM.Size = new System.Drawing.Size(29, 29);
-            this.txtsMM.TabIndex = 4;
-            this.txtsMM.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.txtsMM.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtsZip1_KeyPress);
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Font = new System.Drawing.Font("Yu Gothic UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label15.Location = new System.Drawing.Point(137, 37);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(23, 19);
-            this.label15.TabIndex = 132;
-            this.label15.Text = "月";
-            // 
-            // txtsYY
-            // 
-            this.txtsYY.BackColor = System.Drawing.Color.White;
-            this.txtsYY.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtsYY.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.txtsYY.ImeMode = System.Windows.Forms.ImeMode.Off;
-            this.txtsYY.Location = new System.Drawing.Point(54, 30);
-            this.txtsYY.MaxLength = 2;
-            this.txtsYY.Name = "txtsYY";
-            this.txtsYY.Size = new System.Drawing.Size(29, 29);
-            this.txtsYY.TabIndex = 3;
-            this.txtsYY.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.txtsYY.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtsZip1_KeyPress);
             // 
             // dgChange
             // 
@@ -146,6 +85,7 @@
             // 
             this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnClose.Font = new System.Drawing.Font("Yu Gothic UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.btnClose.Location = new System.Drawing.Point(1411, 26);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(109, 35);
@@ -158,6 +98,7 @@
             // 
             this.btnExcel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnExcel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnExcel.Font = new System.Drawing.Font("Yu Gothic UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.btnExcel.Location = new System.Drawing.Point(1296, 26);
             this.btnExcel.Name = "btnExcel";
             this.btnExcel.Size = new System.Drawing.Size(109, 35);
@@ -212,10 +153,42 @@
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.label4);
+            this.panel1.Controls.Add(this.dateTimePicker2);
+            this.panel1.Controls.Add(this.dateTimePicker1);
+            this.panel1.Controls.Add(this.button1);
             this.panel1.Location = new System.Drawing.Point(10, 15);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1522, 57);
             this.panel1.TabIndex = 156;
+            // 
+            // dateTimePicker1
+            // 
+            this.dateTimePicker1.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dateTimePicker1.Location = new System.Drawing.Point(12, 13);
+            this.dateTimePicker1.Name = "dateTimePicker1";
+            this.dateTimePicker1.Size = new System.Drawing.Size(128, 29);
+            this.dateTimePicker1.TabIndex = 22;
+            // 
+            // dateTimePicker2
+            // 
+            this.dateTimePicker2.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.dateTimePicker2.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dateTimePicker2.Location = new System.Drawing.Point(161, 13);
+            this.dateTimePicker2.Name = "dateTimePicker2";
+            this.dateTimePicker2.Size = new System.Drawing.Size(128, 29);
+            this.dateTimePicker2.TabIndex = 23;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label4.Location = new System.Drawing.Point(140, 17);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(21, 21);
+            this.label4.TabIndex = 157;
+            this.label4.Text = "~";
             // 
             // frmEraChangeList
             // 
@@ -228,14 +201,8 @@
             this.Controls.Add(this.dg);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.btnClose);
-            this.Controls.Add(this.label16);
             this.Controls.Add(this.btnExcel);
-            this.Controls.Add(this.txtsMM);
-            this.Controls.Add(this.label15);
-            this.Controls.Add(this.txtsYY);
             this.Controls.Add(this.label22);
             this.Controls.Add(this.panel1);
             this.Font = new System.Drawing.Font("Meiryo UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
@@ -249,6 +216,8 @@
             this.Shown += new System.EventHandler(this.FrmEraChangeList_Shown);
             ((System.ComponentModel.ISupportInitialize)(this.dgChange)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dg)).EndInit();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -256,13 +225,8 @@
 
         #endregion
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Label label16;
-        private System.Windows.Forms.TextBox txtsMM;
-        private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.TextBox txtsYY;
         private System.Windows.Forms.DataGridView dgChange;
         private System.Windows.Forms.Label label22;
-        private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button btnClose;
         private System.Windows.Forms.Button btnExcel;
         private System.Windows.Forms.Label label1;
@@ -270,6 +234,9 @@
         private System.Windows.Forms.DataGridView dg;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.DateTimePicker dateTimePicker2;
+        private System.Windows.Forms.DateTimePicker dateTimePicker1;
     }
 }
 

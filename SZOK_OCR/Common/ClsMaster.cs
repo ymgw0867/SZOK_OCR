@@ -1966,10 +1966,10 @@ namespace SZOK_OCR.Common
         /// <summary>
         /// 指定年月の変更届データを取得する：2026/09/15
         /// </summary>
-        /// <param name="yy">年</param>
-        /// <param name="mm">月</param>
+        /// <param name="dts">開始日</param>
+        /// <param name="dte">終了日</param>
         /// <returns>指定年月の変更届データのリスト</returns>
-        public List<TblChangeNotification> ReadUpdateData(int yy, int mm)
+        public List<TblChangeNotification> ReadUpdateData(System.DateTime dts, System.DateTime dte)
         {
             var lines = new List<TblChangeNotification>();
 
@@ -1983,15 +1983,15 @@ namespace SZOK_OCR.Common
                         "旧住所漢字, 旧住所1, 旧住所2, 新住所漢字, 新住所1, 新住所2, 旧氏名, 新氏名, " +
                         "旧TEL携帯, 旧TEL携帯2, 旧TEL携帯3, 新TEL携帯, 新TEL携帯2, 新TEL携帯3, " +
                         "備考, 更新年月日 FROM 変更届 " +
-                        "WHERE (更新年月日 >= @StartDate AND 更新年月日 < @EndDate) " +
+                        "WHERE (変更日 >= @StartDate AND 変更日 <= @EndDate) " +
                         "ORDER BY 変更日, 登録番号";
 
                     using (SqlCommand cmd = new SqlCommand(sql, conn))
                     {
                         cmd.CommandTimeout = 120; // 秒。デフォルト30から一時的に伸ばして様子を見る
 
-                        cmd.Parameters.AddWithValue("@StartDate", new System.DateTime(2000 + yy, mm, 1));
-                        cmd.Parameters.AddWithValue("@EndDate", new System.DateTime(2000 + yy, mm, 1).AddMonths(1));
+                        cmd.Parameters.AddWithValue("@StartDate", dts);
+                        cmd.Parameters.AddWithValue("@EndDate",   dte);
 
                         using (SqlDataReader dr = cmd.ExecuteReader())
                         {
@@ -2041,10 +2041,10 @@ namespace SZOK_OCR.Common
         /// <summary>
         /// 指定年月の抹消データを取得する：2026/09/14
         /// </summary>
-        /// <param name="yy">年</param>
-        /// <param name="mm">月</param>
+        /// <param name="dts">開始日</param>
+        /// <param name="dte">終了日</param>
         /// <returns>抹消データのリスト</returns>
-        public List<TblRegistrationCard> ReadErasureData(int yy, int mm)
+        public List<TblRegistrationCard> ReadErasureData(System.DateTime dts, System.DateTime dte)
         {
             var lines = new List<TblRegistrationCard>();
 
@@ -2057,15 +2057,15 @@ namespace SZOK_OCR.Common
                     string sql = "SELECT ID,データ区分,画像名,登録年,登録月,登録日,登録番号,車体番号,メーカー,塗色,車種,郵便番号1,郵便番号2," +
                         "車両番号1, 車両番号2, 車名, 住所漢字, 住所1, 住所2, 氏名, TEL携帯, TEL携帯2, TEL携帯3, PC名, CSV作成日, 備考, " +
                         "更新年月日, 除外 FROM 抹消 " +
-                        "WHERE (更新年月日 >= @StartDate AND 更新年月日 < @EndDate) " +
+                        "WHERE (更新年月日 >= @StartDate AND 更新年月日 <= @EndDate) " +
                         "ORDER BY 更新年月日, 登録番号";
 
                     using (SqlCommand cmd = new SqlCommand(sql, conn))
                     {
                         cmd.CommandTimeout = 120; // 秒。デフォルト30から一時的に伸ばして様子を見る
 
-                        cmd.Parameters.AddWithValue("@StartDate", new System.DateTime(2000 + yy, mm, 1));
-                        cmd.Parameters.AddWithValue("@EndDate", new System.DateTime(2000 + yy, mm, 1).AddMonths(1));
+                        cmd.Parameters.AddWithValue("@StartDate", dts);
+                        cmd.Parameters.AddWithValue("@EndDate", dte);
 
                         using (SqlDataReader dr = cmd.ExecuteReader())
                         {
