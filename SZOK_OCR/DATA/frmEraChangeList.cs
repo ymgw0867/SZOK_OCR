@@ -73,6 +73,9 @@ namespace SZOK_OCR.DATA
             // 検索条件初期化：2026/10/15
             dateTimePicker1.Value = DateTime.Now.AddDays(-7);
             dateTimePicker2.Value = DateTime.Now;
+
+            // 抹消取消ボタン：2026/10/16
+            btnRecovery.Enabled = false;
         }
 
         ///--------------------------------------------------------------------
@@ -108,7 +111,7 @@ namespace SZOK_OCR.DATA
                 tempDGV.RowTemplate.Height = 20;
 
                 // 全体の高さ
-                tempDGV.Height = 362;
+                tempDGV.Height = 358;
 
                 // 奇数行の色
                 tempDGV.AlternatingRowsDefaultCellStyle.BackColor = System.Drawing.Color.FromArgb(216, 232, 254);
@@ -132,9 +135,9 @@ namespace SZOK_OCR.DATA
                 tempDGV.Columns.Add(colCarName, "車名");
                 tempDGV.Columns.Add(colCsv, "静岡県警用CSV作成");
                 tempDGV.Columns.Add(colJyogai, "除外");
-                //tempDGV.Columns.Add(colID, "");
+                tempDGV.Columns.Add(colID, "");
 
-                //tempDGV.Columns[colID].Visible = false;
+                tempDGV.Columns[colID].Visible = false;
 
                 tempDGV.Columns[colEraDate].Width = 110;
                 tempDGV.Columns[coldKbn].Width = 90;
@@ -201,6 +204,10 @@ namespace SZOK_OCR.DATA
             }
         }
 
+        /// <summary>
+        /// グリッドビュー定義
+        /// </summary>
+        /// <param name="dg">datagridview</param>
         private void gridViewSet(DataGridView dg)
         {
             dg.Columns.Clear();
@@ -490,19 +497,19 @@ namespace SZOK_OCR.DATA
                     dg[coldKbn, iX].Value = "原付";
                 }
 
-                dg[colCPA, iX].Value = t.Number;
+                dg[colCPA,        iX].Value = t.Number;
                 dg[colCarbodyNum, iX].Value = t.VehicleIdentificationNumber;
-                dg[colyymmdd, iX].Value = "20" + t.AddYear + "/" + t.AddMonth.PadLeft(2, '0') + "/" + t.AddDay.PadLeft(2, '0');
-                dg[colMaker, iX].Value = t.Maker;
-                dg[colColor, iX].Value = t.Color;
-                dg[colCarStyle, iX].Value = getCarStyleName(t.CarModel.ToString().PadLeft(2, '0'));
-                dg[colZip, iX].Value = t.ZipCode1 + "-" + t.ZipCode2;
-                dg[colAddKN, iX].Value = t.AddressKanji.Trim();
-                dg[colAdd, iX].Value = t.Address1.Trim();
-                dg[colFuri, iX].Value = t.Name;
-                dg[colTel, iX].Value = t.Mobile1.Trim() + "-" + t.Mobile2.Trim() + "-" + t.Mobile3.Trim();
-                //dg[colID, iX].Value = t.ID;
-                dg[colCsv, iX].Value = t.CsvCreationDate;
+                dg[colyymmdd,     iX].Value = "20" + t.AddYear + "/" + t.AddMonth.PadLeft(2, '0') + "/" + t.AddDay.PadLeft(2, '0');
+                dg[colMaker,      iX].Value = t.Maker;
+                dg[colColor,      iX].Value = t.Color;
+                dg[colCarStyle,   iX].Value = getCarStyleName(t.CarModel.ToString().PadLeft(2, '0'));
+                dg[colZip,        iX].Value = t.ZipCode1 + "-" + t.ZipCode2;
+                dg[colAddKN,      iX].Value = t.AddressKanji.Trim();
+                dg[colAdd,        iX].Value = t.Address1.Trim();
+                dg[colFuri,       iX].Value = t.Name;
+                dg[colTel,        iX].Value = t.Mobile1.Trim() + "-" + t.Mobile2.Trim() + "-" + t.Mobile3.Trim();
+                dg[colID,         iX].Value = t.ID;
+                dg[colCsv,        iX].Value = t.CsvCreationDate;
 
                 if (t.Exception == global.flgOn)
                 {
@@ -540,6 +547,9 @@ namespace SZOK_OCR.DATA
 
             System.Threading.Thread.Sleep(500);
             Application.DoEvents();
+
+            // 抹消取消ボタン：2026/10/16
+            btnRecovery.Enabled = false;
 
             // 2019/06/25
             this.Cursor = Cursors.Default;
@@ -774,6 +784,45 @@ namespace SZOK_OCR.DATA
             range.Style.Border.RightBorder = XLBorderStyleValues.Thin;
             range.Style.Border.TopBorder = XLBorderStyleValues.Thin;
 
+        }
+
+        private void dg_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                // 抹消取消ボタン：2026/10/16
+                btnRecovery.Enabled = true;
+            }
+        }
+
+        private void btnRecovery_Click(object sender, EventArgs e)
+        {
+            // 確認メッセージを表示して、抹消取消するかどうかを確認する
+            var msg = $"このデータの抹消を取り消しますか？\n{dg.Rows[dg.CurrentRow.Index].Cells[colCPA].Value.ToString()}：{dg.Rows[dg.CurrentRow.Index].Cells[colFuri].Value.ToString()}";
+            if (MessageBox.Show(msg, "抹消取消確認", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
+            {
+                return;
+            }
+
+            // 抹消データのID、登録番号、抹消日、氏名、住所を取得する：2026/10/16
+            int iX      = Utility.StrtoInt(dg.Rows[dg.CurrentRow.Index].Cells[colID].Value.ToString());
+            var cpa     = dg.Rows[dg.CurrentRow.Index].Cells[colCPA].Value.ToString();
+            var eraDate = dg.Rows[dg.CurrentRow.Index].Cells[colEraDate].Value.ToString();
+            var name    = dg.Rows[dg.CurrentRow.Index].Cells[colFuri].Value.ToString();
+            var address = dg.Rows[dg.CurrentRow.Index].Cells[colAdd].Value.ToString();
+
+            // 抹消取消画面を表示して、復元処理を行う
+            using (frmErasureRecovery form = new frmErasureRecovery(iX, cpa, eraDate, name, address))
+            {
+                form.ShowDialog(this);
+
+                // 抹消処理が完了した場合は、抹消データを再表示する
+                if (form.status)
+                {
+                    DataFindErasure(new DateTime(dateTimePicker1.Value.Year, dateTimePicker1.Value.Month, dateTimePicker1.Value.Day, 0, 0, 0),
+                                    new DateTime(dateTimePicker2.Value.Year, dateTimePicker2.Value.Month, dateTimePicker2.Value.Day, 23, 59, 59));
+                }
+            }
         }
     }
 }

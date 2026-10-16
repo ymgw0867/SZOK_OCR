@@ -3067,5 +3067,59 @@ namespace SZOK_OCR.Common
             }
         }
 
+        /// <summary>
+        /// 抹消テーブルの指定したIDのレコードを防犯登録データテーブルに復元し、復元後に抹消テーブルから削除する。
+        /// 処理はトランザクション内で実行され、復元時に更新年月日を現在日時に設定する。：2026/10/16
+        /// </summary>
+        /// <remarks>データベースへの挿入および削除を行うため副作用がある。
+        /// 実行中に例外が発生した場合はトランザクションをロールバックして例外を再スローする。</remarks>
+        /// <param name="id">復元対象となる抹消テーブルのレコードID。</param>
+        public void ErasureRecovery(int id)
+        {
+            using (var conn = new SqlConnection(sqlBuilder.ConnectionString))
+            {
+                conn.Open();
+
+                using (var transaction = conn.BeginTransaction())
+                {
+                    try
+                    {
+                        string sql = "INSERT INTO 防犯登録データ (データ区分,画像名,登録年,登録月,登録日,登録番号,車体番号,メーカー,塗色,車種,郵便番号1,郵便番号2," +
+                            "車両番号1,車両番号2,車名,住所漢字, 住所1,住所2,氏名,TEL携帯,TEL携帯2,TEL携帯3,PC名,CSV作成日,備考,更新年月日,除外) " +
+                            "SELECT データ区分, 画像名, 登録年, 登録月, 登録日, 登録番号, 車体番号, メーカー, 塗色, 車種, 郵便番号1, 郵便番号2," +
+                            "車両番号1, 車両番号2, 車名, 住所漢字, 住所1, 住所2, 氏名, TEL携帯, TEL携帯2, TEL携帯3, PC名, CSV作成日, 備考, " +
+                            "@date, 除外 FROM 抹消 " +
+                            "WHERE ID = @id";
+
+                        using (SqlCommand com = new SqlCommand(sql, conn, transaction))
+                        {
+                            // パラメータをクリアしてから追加する
+                            com.Parameters.Clear();
+                            com.Parameters.AddWithValue("@id", id);
+                            com.Parameters.AddWithValue("@date", System.DateTime.Now);
+
+                            // 防犯登録データにデータを挿入する（抹消テーブルから復元する）
+                            com.ExecuteNonQuery();
+
+                            // 抹消の該当データを削除する
+                            string deleteSql = "DELETE FROM 抹消 WHERE ID = @id";
+                            using (SqlCommand deleteCom = new SqlCommand(deleteSql, conn, transaction))
+                            {
+                                deleteCom.Parameters.AddWithValue("@id", id);
+                                deleteCom.ExecuteNonQuery();
+                            }
+                        }
+
+                        transaction.Commit();
+                    }
+                    catch
+                    {
+                        transaction.Rollback();
+                        throw;
+                    }
+                }
+            }
+        }
+
     }
 }

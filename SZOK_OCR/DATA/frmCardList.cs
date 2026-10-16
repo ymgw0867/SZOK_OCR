@@ -76,9 +76,7 @@ namespace SZOK_OCR.DATA
             // 検索欄初期化
             rbSelect01.Checked = true;    // デフォルトは防犯登録データ 2026/09/16
             dispInitial();
-
-            //// 2019/06/25
-            //adp.Fill(dts.防犯登録データ);
+            dispInitial_sub();  // 2026/10/16
         }
 
         ///-----------------------------------------------------------------
@@ -128,7 +126,13 @@ namespace SZOK_OCR.DATA
 
             btnCsv.Enabled = false;
             chkJyogai.Checked = false;      // 2016/05/30
+        }
 
+        /// <summary>
+        /// 画面初期化サブ：2026/10/16
+        /// </summary>
+        private void dispInitial_sub()
+        {
             // 2026/09/16
             btnCard.Enabled = false;
             btnUpdate.Enabled = false;
@@ -137,6 +141,7 @@ namespace SZOK_OCR.DATA
             // 2026/09/16
             label3.Text = rbSelect01.Checked ? "登録：" : rbSelect02.Checked ? "登録：" : "抹消：";
         }
+
 
         ///--------------------------------------------------------------------
         /// <summary>
@@ -957,7 +962,7 @@ namespace SZOK_OCR.DATA
         private void rbSelect01_Click(object sender, EventArgs e)
         {
             // 検索欄初期化
-            dispInitial();
+            dispInitial_sub();
 
             // データグリッドビュー初期化
             dg.Rows.Clear();
@@ -966,7 +971,7 @@ namespace SZOK_OCR.DATA
         private void rbSelect02_Click(object sender, EventArgs e)
         {
             // 検索欄初期化
-            dispInitial();
+            dispInitial_sub();
 
             // データグリッドビュー初期化
             dg.Rows.Clear();
@@ -975,7 +980,7 @@ namespace SZOK_OCR.DATA
         private void rbSelect03_Click(object sender, EventArgs e)
         {
             // 検索欄初期化
-            dispInitial();
+            dispInitial_sub();
 
             // データグリッドビュー初期化
             dg.Rows.Clear();

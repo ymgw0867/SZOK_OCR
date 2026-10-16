@@ -147,6 +147,12 @@
     <Compile Include="DATA\frmDataMenu.Designer.cs">
       <DependentUpon>frmDataMenu.cs</DependentUpon>
     </Compile>
+    <Compile Include="DATA\frmErasureRecovery.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DATA\frmErasureRecovery.Designer.cs">
+      <DependentUpon>frmErasureRecovery.cs</DependentUpon>
+    </Compile>
     <Compile Include="DATA\frmErasure.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -301,6 +307,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DATA\frmDataMenu.resx">
       <DependentUpon>frmDataMenu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DATA\frmErasureRecovery.resx">
+      <DependentUpon>frmErasureRecovery.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DATA\frmErasure.resx">
       <DependentUpon>frmErasure.cs</DependentUpon>
