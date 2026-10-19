@@ -106,5 +106,8 @@
     <Setting Name="sDatabase" Type="System.String" Scope="Application">
       <Value Profile="(Default)">NewSzokDB</Value>
     </Setting>
+    <Setting Name="sLogPath" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">\\192.168.1.51\szok_data\抹消復元ログ.csv</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

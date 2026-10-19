@@ -315,6 +315,7 @@ namespace SZOK_OCR.ZAIKO
         /// <param name="dt_e">終了日付</param>
         /// <param name="IsCustomerCode">
         ///     得意先コードかどうか</param>
+        /// <param name="User">得意先コードまたは名称</param>
         private void ZaikoSummary(DataGridView g, DateTime dt_s, DateTime dt_e, bool IsCustomerCode, string User)
         {
             Cursor = Cursors.WaitCursor;

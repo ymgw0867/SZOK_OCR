@@ -70,6 +70,10 @@ namespace SZOK_OCR.DATA
                                    Properties.Settings.Default.sPass, Properties.Settings.Default.sDatabase);
             master.ErasureRecovery(_id);
 
+            // ログ記録
+            RecoveryLogCreate(_cpa, _name);
+
+            // 終了メッセージ
             MessageBox.Show("抹消取消（復元）処理が完了しました。", "確認", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             status = true;
@@ -79,6 +83,29 @@ namespace SZOK_OCR.DATA
         private void label2_Click(object sender, EventArgs e)
         {
 
+        }
+
+        /// <summary>
+        /// 復元操作の記録を CSV 形式のログファイルに作成および追記する。
+        /// </summary>
+        /// <remarks>ログファイルが存在しない場合は Properties.Settings.Default.sLogPath
+        /// で指定されたファイルを作成し、先頭にヘッダー行（復元日,CPA,氏名）を書き込む。各ログ行は yyyy/MM/dd HH:mm:ss 形式のタイムスタンプ、CPA、氏名をカンマ区切りで追記する。</remarks>
+        /// <param name="cpa">復元対象の CPA を表す文字列。</param>
+        /// <param name="name">復元対象者の氏名。</param>
+        private void RecoveryLogCreate(string cpa, string name)
+        {
+            if (!System.IO.File.Exists(Properties.Settings.Default.sLogPath))
+            {
+                System.IO.File.Create(Properties.Settings.Default.sLogPath);
+
+                // CSVファイルのヘッダー行を作成する
+                var header = "復元日,CPA,氏名";
+                System.IO.File.WriteAllText(Properties.Settings.Default.sLogPath, header + Environment.NewLine);
+            }
+
+            // CSVファイルに復元情報を追記する
+            var logEntry = $"{DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss")},{cpa},{name}";
+            System.IO.File.AppendAllText(Properties.Settings.Default.sLogPath, logEntry + Environment.NewLine);
         }
     }
 }

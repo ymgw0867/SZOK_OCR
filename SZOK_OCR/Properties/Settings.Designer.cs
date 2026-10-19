@@ -282,5 +282,14 @@ namespace SZOK_OCR.Properties {
                 return ((string)(this["sDatabase"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("\\\\192.168.1.51\\szok_data\\抹消復元ログ.csv")]
+        public string sLogPath {
+            get {
+                return ((string)(this["sLogPath"]));
+            }
+        }
     }
 }

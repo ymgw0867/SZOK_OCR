@@ -31,5 +31,6 @@ namespace SZOK_OCR.Common
         public string NewMobile3 { get; set; }
         public string Memo { get; set; }
         public DateTime UpDate { get; set; }
+        public string CsvCreationDate2 { get; set; }
     }
 }

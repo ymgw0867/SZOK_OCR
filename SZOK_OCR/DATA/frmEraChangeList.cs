@@ -41,6 +41,7 @@ namespace SZOK_OCR.DATA
         string colCsv = "col15";
         string colJyogai = "col16";
         string colEraDate = "col17";
+        string colCsv2 = "col22";
 
         // データグリッドビューカラム定義：変更届
         string colUpdateday = "col18";
@@ -119,6 +120,7 @@ namespace SZOK_OCR.DATA
 
                 //各列幅指定
                 tempDGV.Columns.Add(colEraDate, "抹消日");
+                tempDGV.Columns.Add(colCsv2, "CSV作成日");
                 tempDGV.Columns.Add(coldKbn, "種別");
                 tempDGV.Columns.Add(colCPA, "登録番号");
                 tempDGV.Columns.Add(colCarbodyNum, "車体番号");
@@ -156,19 +158,21 @@ namespace SZOK_OCR.DATA
                 tempDGV.Columns[colTel].Width = 140;
                 tempDGV.Columns[colCsv].Width = 170;
                 tempDGV.Columns[colJyogai].Width = 60;
+                tempDGV.Columns[colCsv2].Width = 140;
 
                 tempDGV.Columns[colEraDate].DefaultCellStyle.Alignment = DataGridViewContentAlignment.BottomCenter;
                 tempDGV.Columns[colyymmdd].DefaultCellStyle.Alignment = DataGridViewContentAlignment.BottomCenter;
                 tempDGV.Columns[colZip].DefaultCellStyle.Alignment = DataGridViewContentAlignment.BottomCenter;
                 tempDGV.Columns[colCsv].DefaultCellStyle.Alignment = DataGridViewContentAlignment.BottomCenter;
                 tempDGV.Columns[colJyogai].DefaultCellStyle.Alignment = DataGridViewContentAlignment.BottomCenter;
+                tempDGV.Columns[colCsv2].DefaultCellStyle.Alignment = DataGridViewContentAlignment.BottomCenter;
 
                 // 行ヘッダを表示しない
                 tempDGV.RowHeadersVisible = false;
 
                 // 選択モード
                 tempDGV.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-                tempDGV.MultiSelect = false;
+                tempDGV.MultiSelect   = false;
 
                 // 編集不可とする
                 tempDGV.ReadOnly = true;
@@ -249,6 +253,7 @@ namespace SZOK_OCR.DATA
 
                 dg.Columns.Add(colUpdateday, "変更日");
                 dg.Columns.Add(colCPA, "登録番号");
+                dg.Columns.Add(colCsv2, "CSV作成日");
                 dg.Columns.Add(colHd1, "");
                 dg.Columns.Add(colZip, "〒");
                 dg.Columns.Add(colAddKN, "住所");
@@ -259,6 +264,7 @@ namespace SZOK_OCR.DATA
 
                 dg.Columns[colUpdateday].Width = 110;
                 dg.Columns[colCPA].Width = 140;
+                dg.Columns[colCsv2].Width = 140;
                 dg.Columns[colHd1].Width = 60;
                 dg.Columns[colZip].Width = 100;
                 dg.Columns[colAddKN].Width = 220;
@@ -274,6 +280,7 @@ namespace SZOK_OCR.DATA
                 dg.Columns[colAdd].DefaultCellStyle.Alignment = DataGridViewContentAlignment.BottomLeft;
                 dg.Columns[colFuri].DefaultCellStyle.Alignment = DataGridViewContentAlignment.BottomLeft;
                 dg.Columns[colTel].DefaultCellStyle.Alignment = DataGridViewContentAlignment.BottomLeft;
+                dg.Columns[colCsv2].DefaultCellStyle.Alignment = DataGridViewContentAlignment.BottomCenter;
 
                 // 編集可否
                 dg.ReadOnly = true;
@@ -394,7 +401,8 @@ namespace SZOK_OCR.DATA
             foreach (var t in result)
             {
                 dgChange[colUpdateday, iX].Value = t.UpdateDay.ToString("yyyy/MM/dd");
-                dgChange[colCPA, iX].Value = t.Number;
+                dgChange[colCPA,  iX].Value = t.Number;
+                dgChange[colCsv2, iX].Value = t.CsvCreationDate2;    // 2026/10/19
 
                 dgChange[colHd1, iX].Value = "変更前";
                 dgChange[colZip, iX].Value = t.OldZipCode1 != string.Empty ? t.OldZipCode1 + "-" + t.OldZipCode2 : string.Empty;
@@ -487,6 +495,7 @@ namespace SZOK_OCR.DATA
             foreach (var t in result)
             {
                 dg[colEraDate, iX].Value = t.UpDate.ToString("yyyy/MM/dd");
+                dg[colCsv,     iX].Value = t.CsvCreationDate;
 
                 if (t.DataCategory == global.flgOff)
                 {
@@ -509,7 +518,6 @@ namespace SZOK_OCR.DATA
                 dg[colFuri,       iX].Value = t.Name;
                 dg[colTel,        iX].Value = t.Mobile1.Trim() + "-" + t.Mobile2.Trim() + "-" + t.Mobile3.Trim();
                 dg[colID,         iX].Value = t.ID;
-                dg[colCsv,        iX].Value = t.CsvCreationDate;
 
                 if (t.Exception == global.flgOn)
                 {

@@ -160,7 +160,7 @@ namespace SZOK_OCR.DATA
             foreach (var t in regis)
             {
                 cnt++;
-
+                
                 sb.Clear();
                 sb.Append(global.DATA_CPA).Append(",");
                 sb.Append(t.Number.Replace(global.DATA_CPA, "").Trim()).Append(",");
