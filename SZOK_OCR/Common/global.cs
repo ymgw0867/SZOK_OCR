@@ -167,6 +167,11 @@ namespace SZOK_OCR
         // 年月日未設定値
         public static DateTime NODATE = DateTime.Parse("1900/01/01");
 
+        // CSVカテゴリー：2026/10/20
+        public static string CSV_TblRegistrationCard = "防犯登録";
+        public static string CSV_ChangeData = "変更届";
+        public static string CSV_Erasure = "抹消";
+
         // データ区分
         public static int DATA_CYCLE = 0;
         public static int DATA_AUTO = 1;

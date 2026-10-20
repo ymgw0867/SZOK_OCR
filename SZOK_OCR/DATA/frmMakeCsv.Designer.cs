@@ -32,6 +32,7 @@
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.linkLabel2 = new System.Windows.Forms.LinkLabel();
             this.linkLabel3 = new System.Windows.Forms.LinkLabel();
+            this.linkLabel4 = new System.Windows.Forms.LinkLabel();
             this.SuspendLayout();
             // 
             // linkLabel1
@@ -40,7 +41,7 @@
             this.linkLabel1.Image = ((System.Drawing.Image)(resources.GetObject("linkLabel1.Image")));
             this.linkLabel1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.linkLabel1.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-            this.linkLabel1.Location = new System.Drawing.Point(36, 91);
+            this.linkLabel1.Location = new System.Drawing.Point(36, 143);
             this.linkLabel1.Name = "linkLabel1";
             this.linkLabel1.Size = new System.Drawing.Size(225, 48);
             this.linkLabel1.TabIndex = 0;
@@ -55,7 +56,7 @@
             this.linkLabel2.Image = ((System.Drawing.Image)(resources.GetObject("linkLabel2.Image")));
             this.linkLabel2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.linkLabel2.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-            this.linkLabel2.Location = new System.Drawing.Point(36, 149);
+            this.linkLabel2.Location = new System.Drawing.Point(36, 192);
             this.linkLabel2.Name = "linkLabel2";
             this.linkLabel2.Size = new System.Drawing.Size(199, 63);
             this.linkLabel2.TabIndex = 128;
@@ -79,11 +80,26 @@
             this.linkLabel3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.linkLabel3.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel3_LinkClicked);
             // 
+            // linkLabel4
+            // 
+            this.linkLabel4.Font = new System.Drawing.Font("Yu Gothic UI", 12.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.linkLabel4.Image = ((System.Drawing.Image)(resources.GetObject("linkLabel4.Image")));
+            this.linkLabel4.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.linkLabel4.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
+            this.linkLabel4.Location = new System.Drawing.Point(36, 83);
+            this.linkLabel4.Name = "linkLabel4";
+            this.linkLabel4.Size = new System.Drawing.Size(337, 59);
+            this.linkLabel4.TabIndex = 130;
+            this.linkLabel4.TabStop = true;
+            this.linkLabel4.Text = "変更届・抹消のＣＳＶデータを作成する";
+            this.linkLabel4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // frmMakeCsv
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(432, 234);
+            this.ClientSize = new System.Drawing.Size(432, 279);
+            this.Controls.Add(this.linkLabel4);
             this.Controls.Add(this.linkLabel3);
             this.Controls.Add(this.linkLabel2);
             this.Controls.Add(this.linkLabel1);
@@ -105,5 +121,6 @@
         private System.Windows.Forms.LinkLabel linkLabel1;
         private System.Windows.Forms.LinkLabel linkLabel2;
         private System.Windows.Forms.LinkLabel linkLabel3;
+        private System.Windows.Forms.LinkLabel linkLabel4;
     }
 }

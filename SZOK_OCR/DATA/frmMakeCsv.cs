@@ -25,14 +25,12 @@ namespace SZOK_OCR.DATA
             }
 
             // 静岡県警察本部用CSVファイル作成
-            CsvOutput();
+            CsvOutput(global.CSV_TblRegistrationCard);
         }
 
-        /// --------------------------------------------------------------
-        /// <summary>
-        ///     静岡県警察本部用CSVファイル作成 </summary>
-        /// --------------------------------------------------------------
-        private void CsvOutput()
+        /// <summary>静岡県警察本部用CSVファイル作成 </summary>
+        /// <param name="csv_Category">CSV出力対象テーブル名</param>
+        private void CsvOutput(string csv_Category)
         {
             // 待機カーソル
             this.Cursor = Cursors.WaitCursor;
@@ -41,7 +39,7 @@ namespace SZOK_OCR.DATA
             clsOutput p = new clsOutput();
 
             // 自転車登録.CSVファイル作成：2026/09/03
-            int c = p.SaveCycleCsv();
+            int c = p.SaveCycleCsv(csv_Category);
 
             // 原付登録.CSVファイル作成：2026/09/04
             int a = p.SaveAutoCsv();

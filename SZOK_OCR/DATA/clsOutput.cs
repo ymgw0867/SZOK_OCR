@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -29,12 +30,11 @@ namespace SZOK_OCR.DATA
         string[] zipArray = null;   // 郵便番号配列
 
         /// -------------------------------------------------------------------------
-        /// <summary>
-        ///     自転車防犯登録カードデータ CSVファイル出力：2026/09/03　</summary>
-        /// <returns>
-        ///     出力件数</returns>
+        /// <summary>自転車防犯登録カードデータ CSVファイル出力：2026/09/03　</summary>
+        /// <param name="csv_Category">CSVカテゴリー</param>
+        /// <returns>出力件数</returns>
         /// -------------------------------------------------------------------------
-        public int SaveCycleCsv()
+        public int SaveCycleCsv(string csv_Category)
         {
             // 出力配列
             string[] arrayCsv = null;
@@ -46,7 +46,26 @@ namespace SZOK_OCR.DATA
             string add2 = "";
 
             var master = new ClsMaster(Properties.Settings.Default.sServerName, Properties.Settings.Default.sLogin, Properties.Settings.Default.sPass, Properties.Settings.Default.sDatabase);
-            var regis = master.ReadCsvCreationData(global.DATA_CYCLE);
+            
+            List<TblRegistrationCard> regis = new List<TblRegistrationCard>();
+
+            if (csv_Category == global.CSV_TblRegistrationCard)
+            {
+                // 防犯登録データ
+                regis = master.ReadCsvCreationData(global.DATA_CYCLE);
+            }
+            else if (csv_Category == global.CSV_ChangeData)
+            {
+                // 変更データ
+                //regis = master.aa ReadCsvCreationData(global.DATA_CYCLE);
+            }
+            else if (csv_Category == global.CSV_Erasure)
+            {
+                // 抹消データ
+                //regis = master.re ReadCsvCreationData(global.DATA_CYCLE);
+            }
+
+            //var regis = master.ReadCsvCreationData(global.DATA_CYCLE);
 
             foreach (var t in regis)
             {
@@ -101,8 +120,24 @@ namespace SZOK_OCR.DATA
 
             if (cnt > 0)
             {
+                // CSVファイル名を設定：2026/10/20
+                string csvFileName = "";
+
+                if (csv_Category == global.CSV_TblRegistrationCard)
+                {
+                    csvFileName = global.CSV_CYCLE;
+                }
+                else if (csv_Category == global.CSV_ChangeData || csv_Category == global.CSV_Erasure)
+                {
+                    csvFileName = global.CSV_CYCLE + "_" + csv_Category;
+                }
+                else
+                {
+                    csvFileName = global.CSV_CYCLE;
+                }
+
                 // CSVファイル出力
-                Utility.CsvFileWrite(global.cnfPath, arrayCsv, global.CSV_CYCLE);
+                Utility.CsvFileWrite(global.cnfPath, arrayCsv, csvFileName);
 
                 // コメント化： 2026/09/03
                 // カードデータ更新
@@ -111,10 +146,13 @@ namespace SZOK_OCR.DATA
                 // CSV作成日を登録：2026/09/03
                 //master.UpDateRegisCsvCreation(global.DATA_CYCLE, DateTime.Now.ToString("yyyyMMdd HH:mm:ss"));
 
-                // 防犯登録データにCSV作成日を登録：2026/09/03
-                foreach (var t in regis)
+                if (csv_Category == global.CSV_TblRegistrationCard)
                 {
-                    master.UpDateRegisCsvCreation(t.ID);
+                    // 防犯登録データにCSV作成日を登録：2026/09/03
+                    foreach (var t in regis)
+                    {
+                        master.UpDateRegisCsvCreation(t.ID);
+                    }
                 }
 
                 // コメント化： 2026/09/03
@@ -127,7 +165,8 @@ namespace SZOK_OCR.DATA
                     CreationDate = DateTime.Now,
                     Outputs = cnt,
                     PC = Environment.MachineName,
-                    Memo = global.CSV_CYCLE
+                    //Memo = global.CSV_CYCLE   // 2026/10/20 コメント化
+                    Memo = csvFileName  // 2026/10/20
                 };
 
                 // CSV作成履歴を登録：2026/09/03
