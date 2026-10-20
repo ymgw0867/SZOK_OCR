@@ -988,6 +988,68 @@ namespace SZOK_OCR.Common
         }
 
         /// <summary>
+        /// 抹消データのCSV作成日を更新する（個別）：2026/10/20
+        /// </summary>
+        /// <param name="id">抹消データのID</param>
+        public void UpDateErasureCsvCreation(int id)
+        {
+            try
+            {
+                using (var conn = new SqlConnection(sqlBuilder.ConnectionString))
+                {
+                    conn.Open();
+
+                    string sql = "UPDATE 抹消 SET " +
+                        "抹消CSV作成日 = @CsvCreationDate, 更新年月日 = @UpDate " +
+                        "WHERE ID = @ID";
+
+                    using (SqlCommand com = new SqlCommand(sql, conn))
+                    {
+                        com.Parameters.AddWithValue("@ID", id);
+                        com.Parameters.AddWithValue("@CsvCreationDate", System.DateTime.Now.ToString("yyyyMMdd HH:mm:ss"));
+                        com.Parameters.AddWithValue("@UpDate", System.DateTime.Now.ToString());
+                        com.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// 変更届データのCSV作成日を更新する（個別）：2026/10/20
+        /// </summary>
+        /// <param name="CPA">変更届データのCPA登録番号</param>
+        public void UpDateChangeCsvCreation(string CPA)
+        {
+            try
+            {
+                using (var conn = new SqlConnection(sqlBuilder.ConnectionString))
+                {
+                    conn.Open();
+
+                    string sql = "UPDATE 変更届 SET " +
+                        "変更届CSV作成日 = @CsvCreationDate, 更新年月日 = @UpDate " +
+                        "WHERE 登録番号 = @CPA";
+
+                    using (SqlCommand com = new SqlCommand(sql, conn))
+                    {
+                        com.Parameters.AddWithValue("@CPA", CPA);
+                        com.Parameters.AddWithValue("@CsvCreationDate", System.DateTime.Now.ToString("yyyyMMdd HH:mm:ss"));
+                        com.Parameters.AddWithValue("@UpDate", System.DateTime.Now.ToString());
+                        com.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        /// <summary>
         /// SCANDATAテーブルにデータを挿入する：2026/08/18
         /// </summary>
         /// <param name="scandataList">挿入するTblScandataのリスト</param>
@@ -1963,8 +2025,102 @@ namespace SZOK_OCR.Common
             }
         }
 
+
         /// <summary>
-        /// 抹消データテーブルからCSV作成対象のデータを取得する：2026/09/03
+        /// 変更届テーブルからCSV作成対象のデータを取得する：2026/10/20
+        /// </summary>
+        /// <param name="DataCategory">データ区分</param>
+        /// <returns>変更届データのリスト</returns>
+        public List<TblRegistrationCard> ChangeCsvCreationData(int DataCategory)
+        {
+            var lines = new List<TblRegistrationCard>();
+
+            try
+            {
+                using (var conn = new SqlConnection(sqlBuilder.ConnectionString))
+                {
+                    conn.Open();
+
+                    //string sql = "SELECT ID,データ区分,画像名,登録年,登録月,登録日,登録番号,車体番号,メーカー,塗色,車種,郵便番号1,郵便番号2," +
+                    //    "車両番号1, 車両番号2, 車名, 住所漢字, 住所1, 住所2, 氏名, TEL携帯, TEL携帯2, TEL携帯3, PC名, CSV作成日, 備考, " +
+                    //    "更新年月日, 除外, 抹消CSV作成日 FROM 抹消 " +
+                    //    "WHERE (" +
+                    //    "データ区分 = @DataCategory AND " +
+                    //    "(抹消CSV作成日 IS NULL OR 抹消CSV作成日 = '') AND " +
+                    //    "(除外 IS NULL OR 除外 = @Exception)) " +
+                    //    "ORDER BY 登録番号";
+
+                    string sql = "SELECT a.ID,a.データ区分,a.画像名,a.登録年,a.登録月,a.登録日,a.登録番号,a.車体番号,a.メーカー,a.塗色," +
+                        "a.車種,a.郵便番号1,a.郵便番号2,a.車両番号1, a.車両番号2, a.車名, a.住所漢字, a.住所1, a.住所2, a.氏名, a.TEL携帯, " +
+                        "a.TEL携帯2, a.TEL携帯3, a.PC名, a.CSV作成日, a.備考, a.更新年月日, 除外 " +
+                        "FROM 防犯登録データ AS a INNER JOIN " +
+                        "(SELECT distinct(登録番号) as 登録番号 " +
+                        "FROM 変更届 " +
+                        "WHERE(変更届CSV作成日 IS NULL OR 変更届CSV作成日 = '')) as b " +
+                        "ON a.登録番号 = b.登録番号 " +
+                        "WHERE(a.データ区分 =  @DataCategory AND " +
+                        "(a.除外 IS NULL OR a.除外 = @Exception)) " +
+                        "ORDER BY a.登録番号";
+
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
+                    {
+                        cmd.CommandTimeout = 120; // 秒。デフォルト30から一時的に伸ばして様子を見る
+
+                        cmd.Parameters.AddWithValue("@DataCategory", DataCategory);
+                        cmd.Parameters.AddWithValue("@Exception", global.flgOff);
+
+                        using (SqlDataReader dr = cmd.ExecuteReader())
+                        {
+                            while (dr.Read())
+                            {
+                                var registrationCard = new TblRegistrationCard
+                                {
+                                    ID = Utility.StrtoInt(dr["ID"].ToString()),
+                                    DataCategory = Utility.StrtoInt(Utility.NulltoStr(dr["データ区分"])),
+                                    ImageFileName = Utility.NulltoStr(dr["画像名"]),
+                                    AddYear = Utility.NulltoStr(dr["登録年"]),
+                                    AddMonth = Utility.NulltoStr(dr["登録月"]),
+                                    AddDay = Utility.NulltoStr(dr["登録日"]),
+                                    Number = Utility.NulltoStr(dr["登録番号"]),
+                                    VehicleIdentificationNumber = Utility.NulltoStr(dr["車体番号"]),
+                                    Maker = Utility.NulltoStr(dr["メーカー"]),
+                                    Color = Utility.NulltoStr(dr["塗色"]),
+                                    CarModel = Utility.StrtoInt(Utility.NulltoStr(dr["車種"])),
+                                    ZipCode1 = Utility.NulltoStr(dr["郵便番号1"]),
+                                    ZipCode2 = Utility.NulltoStr(dr["郵便番号2"]),
+                                    VehicleNumber1 = Utility.NulltoStr(dr["車両番号1"]),
+                                    VehicleNumber2 = Utility.NulltoStr(dr["車両番号2"]),
+                                    CarName = Utility.NulltoStr(dr["車名"]),
+                                    AddressKanji = Utility.NulltoStr(dr["住所漢字"]),
+                                    Address1 = Utility.NulltoStr(dr["住所1"]),
+                                    Address2 = Utility.NulltoStr(dr["住所2"]),
+                                    Name = Utility.NulltoStr(dr["氏名"]),
+                                    Mobile1 = Utility.NulltoStr(dr["TEL携帯"]),
+                                    Mobile2 = Utility.NulltoStr(dr["TEL携帯2"]),
+                                    Mobile3 = Utility.NulltoStr(dr["TEL携帯3"]),
+                                    PC = Utility.NulltoStr(dr["PC名"]),
+                                    CsvCreationDate = Utility.NulltoStr(dr["CSV作成日"]),
+                                    Memo = Utility.NulltoStr(dr["備考"]),
+                                    UpDate = System.DateTime.Parse(Utility.NulltoStr(dr["更新年月日"])),
+                                    Exception = Utility.StrtoInt(Utility.NulltoStr(dr["除外"]))
+                                };
+
+                                lines.Add(registrationCard);
+                            }
+                        }
+                    }
+                }
+                return lines;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return lines;
+            }
+        }
+
+        /// <summary>
+        /// 抹消データテーブルからCSV作成対象のデータを取得する：2026/10/20
         /// </summary>
         /// <param name="DataCategory">データ区分</param>
         /// <returns>抹消データのリスト</returns>

@@ -93,6 +93,7 @@
             this.linkLabel4.TabStop = true;
             this.linkLabel4.Text = "変更届・抹消のＣＳＶデータを作成する";
             this.linkLabel4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.linkLabel4.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel4_LinkClicked);
             // 
             // frmMakeCsv
             // 

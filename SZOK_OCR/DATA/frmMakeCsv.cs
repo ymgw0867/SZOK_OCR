@@ -16,10 +16,10 @@ namespace SZOK_OCR.DATA
         {
             InitializeComponent();
         }
-        
+
         private void linkLabel3_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            if (MessageBox.Show("静岡県警察本部用CSVファイルを作成しますか？","確認",MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+            if (MessageBox.Show("静岡県警察本部用CSVファイルを作成しますか？", "確認", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
             {
                 return;
             }
@@ -42,15 +42,19 @@ namespace SZOK_OCR.DATA
             int c = p.SaveCycleCsv(csv_Category);
 
             // 原付登録.CSVファイル作成：2026/09/04
-            int a = p.SaveAutoCsv();
+            int a = p.SaveAutoCsv(csv_Category);
 
             // カーソル戻す
             this.Cursor = Cursors.Default;
 
             // 終了メッセージ表示
+            var msg = (csv_Category == global.CSV_TblRegistrationCard) ? "静岡県警察本部用ＣＳＶファイルの作成が終了しました。" :
+                (csv_Category == global.CSV_Erasure) ? "抹消CSVファイルの作成が終了しました。" :
+                (csv_Category == global.CSV_ChangeData) ? "変更届CSVファイルの作成が終了しました。" : "ＣＳＶデータ出力が終了しました。";
+
             StringBuilder sb = new StringBuilder();
             sb.Clear();
-            sb.Append("静岡県警察本部用ＣＳＶデータの出力が終了しました。").Append(Environment.NewLine + Environment.NewLine);
+            sb.Append(msg).Append(Environment.NewLine + Environment.NewLine);
             sb.Append("自転車登録データ：" + c.ToString("#,##0") + "件").Append(Environment.NewLine);
             sb.Append("原付登録データ：" + a.ToString("#,##0") + "件").Append(Environment.NewLine);
 
@@ -74,6 +78,20 @@ namespace SZOK_OCR.DATA
             frmCsvReki frm = new frmCsvReki();
             frm.ShowDialog();
             this.Show();
+        }
+
+        private void linkLabel4_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            if (MessageBox.Show("変更届・抹消CSVファイルを作成しますか？", "確認", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+            {
+                return;
+            }
+
+            // 変更届CSVファイル作成
+            CsvOutput(global.CSV_ChangeData);
+
+            // 抹消CSVファイル作成
+            CsvOutput(global.CSV_Erasure);
         }
     }
 }

@@ -29,11 +29,9 @@ namespace SZOK_OCR.DATA
 
         string[] zipArray = null;   // 郵便番号配列
 
-        /// -------------------------------------------------------------------------
         /// <summary>自転車防犯登録カードデータ CSVファイル出力：2026/09/03　</summary>
         /// <param name="csv_Category">CSVカテゴリー</param>
         /// <returns>出力件数</returns>
-        /// -------------------------------------------------------------------------
         public int SaveCycleCsv(string csv_Category)
         {
             // 出力配列
@@ -57,12 +55,12 @@ namespace SZOK_OCR.DATA
             else if (csv_Category == global.CSV_ChangeData)
             {
                 // 変更データ
-                //regis = master.aa ReadCsvCreationData(global.DATA_CYCLE);
+                regis = master.ChangeCsvCreationData(global.DATA_CYCLE);
             }
             else if (csv_Category == global.CSV_Erasure)
             {
                 // 抹消データ
-                //regis = master.re ReadCsvCreationData(global.DATA_CYCLE);
+                regis = master.ErasureCsvCreationData(global.DATA_CYCLE);
             }
 
             //var regis = master.ReadCsvCreationData(global.DATA_CYCLE);
@@ -110,12 +108,6 @@ namespace SZOK_OCR.DATA
                 // 配列にセット
                 Array.Resize(ref arrayCsv, cnt);        // 配列のサイズ拡張
                 arrayCsv[cnt - 1] = sb.ToString();      // 文字列のセット
-
-                // コメント化： 2026/09/03
-                //// CSV作成日を登録
-                //t.CsvCreationDate = DateTime.Now.Year.ToString() + DateTime.Now.Month.ToString().PadLeft(2, '0') + DateTime.Now.Day.ToString().PadLeft(2, '0') + 
-                //             " " + DateTime.Now.Hour.ToString().PadLeft(2, '0') + ":" + DateTime.Now.Minute.ToString().PadLeft(2, '0') + ":" + DateTime.Now.Second.ToString().PadLeft(2, '0');
-                //t.UpDate = DateTime.Now;
             }
 
             if (cnt > 0)
@@ -139,25 +131,35 @@ namespace SZOK_OCR.DATA
                 // CSVファイル出力
                 Utility.CsvFileWrite(global.cnfPath, arrayCsv, csvFileName);
 
-                // コメント化： 2026/09/03
-                // カードデータ更新
-                //adp.Update(dts.防犯登録データ);
-
                 // CSV作成日を登録：2026/09/03
-                //master.UpDateRegisCsvCreation(global.DATA_CYCLE, DateTime.Now.ToString("yyyyMMdd HH:mm:ss"));
-
                 if (csv_Category == global.CSV_TblRegistrationCard)
                 {
-                    // 防犯登録データにCSV作成日を登録：2026/09/03
+                    // 防犯登録データにCSV作成日を書き込み：2026/09/03
                     foreach (var t in regis)
                     {
                         master.UpDateRegisCsvCreation(t.ID);
                     }
                 }
 
-                // コメント化： 2026/09/03
-                // 作成履歴
-                //csvRirekiUpdate(cnt, global.CSV_CYCLE);
+                // 変更届データのCSV作成日：2026/10/20
+                if (csv_Category == global.CSV_ChangeData)
+                {
+                    // 変更届データに変更届CSV作成日を書き込み：2026/10/20
+                    foreach (var t in regis)
+                    {
+                        master.UpDateChangeCsvCreation(t.Number);
+                    }
+                }
+
+                // 抹消データのCSV作成日：2026/10/20
+                if (csv_Category == global.CSV_Erasure)
+                {
+                    // 抹消データに抹消CSV作成日を書き込み：2026/10/20
+                    foreach (var t in regis)
+                    {
+                        master.UpDateErasureCsvCreation(t.ID);
+                    }
+                }
 
                 // CSV作成履歴クラス作成：2026/09/03
                 var csvCreationHistory = new TblCSVCreationHistory
@@ -176,13 +178,10 @@ namespace SZOK_OCR.DATA
             return cnt;
         }
 
-        /// -------------------------------------------------------------------------
-        /// <summary>
-        ///     原付防犯登録カードデータ CSVファイル出力： 2026/09/04　</summary>
-        /// <returns>
-        ///     出力件数</returns>
-        /// -------------------------------------------------------------------------
-        public int SaveAutoCsv()
+        /// <summary>原付防犯登録カードデータ CSVファイル出力： 2026/09/04　</summary>
+        /// <param name="csv_Category">CSVカテゴリー</param>
+        /// <returns>出力件数</returns>
+        public int SaveAutoCsv(string csv_Category)
         {
             // 出力配列
             string[] arrayCsv = null;
@@ -194,7 +193,26 @@ namespace SZOK_OCR.DATA
             string add2 = "";
 
             var master = new ClsMaster(Properties.Settings.Default.sServerName, Properties.Settings.Default.sLogin, Properties.Settings.Default.sPass, Properties.Settings.Default.sDatabase);
-            var regis = master.ReadCsvCreationData(global.DATA_AUTO);
+            //var regis = master.ReadCsvCreationData(global.DATA_AUTO);
+
+            List<TblRegistrationCard> regis = new List<TblRegistrationCard>();
+
+            if (csv_Category == global.CSV_TblRegistrationCard)
+            {
+                // 防犯登録データ
+                regis = master.ReadCsvCreationData(global.DATA_AUTO);
+            }
+            else if (csv_Category == global.CSV_ChangeData)
+            {
+                // 変更データ
+                regis = master.ChangeCsvCreationData(global.DATA_AUTO);
+            }
+            else if (csv_Category == global.CSV_Erasure)
+            {
+                // 抹消データ
+                regis = master.ErasureCsvCreationData(global.DATA_AUTO);
+            }
+
 
             foreach (var t in regis)
             {
@@ -242,32 +260,64 @@ namespace SZOK_OCR.DATA
                 // 配列にセット
                 Array.Resize(ref arrayCsv, cnt);        // 配列のサイズ拡張
                 arrayCsv[cnt - 1] = sb.ToString();      // 文字列のセット
-
-                // コメント化： 2026/09/04
-                //// CSV作成日を登録
-                //t.CSV作成日 = DateTime.Now.Year.ToString() + DateTime.Now.Month.ToString().PadLeft(2, '0') + DateTime.Now.Day.ToString().PadLeft(2, '0') +
-                //             " " + DateTime.Now.Hour.ToString().PadLeft(2, '0') + ":" + DateTime.Now.Minute.ToString().PadLeft(2, '0') + ":" + DateTime.Now.Second.ToString().PadLeft(2, '0');
-                //t.更新年月日 = DateTime.Now;
             }
 
             if (cnt > 0)
             {
-                // CSVファイル出力
-                Utility.CsvFileWrite(global.cnfPath, arrayCsv, global.CSV_AUTO);
+                // CSVファイル名を設定：2026/10/20
+                string csvFileName = "";
 
-                // コメント化： 2026/09/04
-                //// カードデータ更新
-                //adp.Update(dts.防犯登録データ);
-
-                // 防犯登録データにCSV作成日を登録：2026/09/03
-                foreach (var t in regis)
+                if (csv_Category == global.CSV_TblRegistrationCard)
                 {
-                    master.UpDateRegisCsvCreation(t.ID);
+                    csvFileName = global.CSV_AUTO;
+                }
+                else if (csv_Category == global.CSV_ChangeData || csv_Category == global.CSV_Erasure)
+                {
+                    csvFileName = global.CSV_AUTO + "_" + csv_Category;
+                }
+                else
+                {
+                    csvFileName = global.CSV_AUTO;
                 }
 
-                // コメント化： 2026/09/04
-                //// 作成履歴
-                //csvRirekiUpdate(cnt, global.CSV_AUTO);
+                // CSVファイル出力
+                Utility.CsvFileWrite(global.cnfPath, arrayCsv, csvFileName);
+
+                // 防犯登録データにCSV作成日を登録：2026/09/03
+                //foreach (var t in regis)
+                //{
+                //    master.UpDateRegisCsvCreation(t.ID);
+                //}
+
+                // CSV作成日を登録：2026/09/03
+                if (csv_Category == global.CSV_TblRegistrationCard)
+                {
+                    // 防犯登録データにCSV作成日を書き込み：2026/09/03
+                    foreach (var t in regis)
+                    {
+                        master.UpDateRegisCsvCreation(t.ID);
+                    }
+                }
+
+                // 変更届データのCSV作成日：2026/10/20
+                if (csv_Category == global.CSV_ChangeData)
+                {
+                    // 変更届データに変更届CSV作成日を書き込み：2026/10/20
+                    foreach (var t in regis)
+                    {
+                        master.UpDateChangeCsvCreation(t.Number);
+                    }
+                }
+
+                // 抹消データのCSV作成日：2026/10/20
+                if (csv_Category == global.CSV_Erasure)
+                {
+                    // 抹消データに抹消CSV作成日を書き込み：2026/10/20
+                    foreach (var t in regis)
+                    {
+                        master.UpDateErasureCsvCreation(t.ID);
+                    }
+                }
 
                 // CSV作成履歴クラス作成：2026/09/04
                 var csvCreationHistory = new TblCSVCreationHistory
@@ -275,7 +325,8 @@ namespace SZOK_OCR.DATA
                     CreationDate = DateTime.Now,
                     Outputs = cnt,
                     PC = Environment.MachineName,
-                    Memo = global.CSV_AUTO
+                    //Memo = global.CSV_AUTO   // 2026/10/20 コメント化
+                    Memo = csvFileName  // 2026/10/20
                 };
 
                 // CSV作成履歴を登録：2026/09/03
@@ -304,10 +355,6 @@ namespace SZOK_OCR.DATA
 
             //// データベース更新
             //cAdp.Update(dts.CSV作成履歴);
-
-
-
-
         }
 
         ///---------------------------------------------------------------------
