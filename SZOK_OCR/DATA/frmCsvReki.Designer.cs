@@ -39,14 +39,14 @@
             this.dg.Location = new System.Drawing.Point(12, 12);
             this.dg.Name = "dg";
             this.dg.RowTemplate.Height = 21;
-            this.dg.Size = new System.Drawing.Size(552, 382);
+            this.dg.Size = new System.Drawing.Size(584, 382);
             this.dg.TabIndex = 0;
             // 
             // frmCsvReki
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 19F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(576, 406);
+            this.ClientSize = new System.Drawing.Size(608, 406);
             this.Controls.Add(this.dg);
             this.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));

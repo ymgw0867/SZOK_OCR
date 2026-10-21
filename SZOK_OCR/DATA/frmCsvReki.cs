@@ -72,7 +72,7 @@ namespace SZOK_OCR.DATA
                 tempDGV.Columns.Add(colPc, "ＰＣ名");
 
                 tempDGV.Columns[colDate].Width = 150;
-                tempDGV.Columns[colTekiyou].Width = 120;
+                tempDGV.Columns[colTekiyou].Width = 140;
                 tempDGV.Columns[colCnt].Width = 110;
                 tempDGV.Columns[colPc].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
 

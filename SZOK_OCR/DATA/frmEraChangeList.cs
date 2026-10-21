@@ -495,7 +495,7 @@ namespace SZOK_OCR.DATA
             foreach (var t in result)
             {
                 dg[colEraDate, iX].Value = t.UpDate.ToString("yyyy/MM/dd");
-                dg[colCsv,     iX].Value = t.CsvCreationDate;
+                dg[colCsv2,    iX].Value = t.CsvCreationDate2;
 
                 if (t.DataCategory == global.flgOff)
                 {
@@ -530,6 +530,7 @@ namespace SZOK_OCR.DATA
 
                 dg[colSharyoNum, iX].Value = t.VehicleNumber1 + t.VehicleNumber2;
                 dg[colCarName, iX].Value = t.CarName;
+                dg[colCsv, iX].Value = t.CsvCreationDate;
 
                 iX++;
             }
