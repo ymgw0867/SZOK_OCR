@@ -30,10 +30,11 @@ namespace SZOK_OCR.ZAIKO
         float n_width = 0f;
         float n_height = 0f;
 
-        cardDataSet dts = new cardDataSet();
-        cardDataSetTableAdapters.回収データTableAdapter kAdp = new cardDataSetTableAdapters.回収データTableAdapter();
-        cardDataSetTableAdapters.防犯登録データTableAdapter tAdp = new cardDataSetTableAdapters.防犯登録データTableAdapter();
-        cardDataSetTableAdapters.SCAN_DATATableAdapter sAdp = new cardDataSetTableAdapters.SCAN_DATATableAdapter();
+        // コメント化：2026/10/21
+        //cardDataSet dts = new cardDataSet();
+        //cardDataSetTableAdapters.回収データTableAdapter kAdp = new cardDataSetTableAdapters.回収データTableAdapter();
+        //cardDataSetTableAdapters.防犯登録データTableAdapter tAdp = new cardDataSetTableAdapters.防犯登録データTableAdapter();
+        //cardDataSetTableAdapters.SCAN_DATATableAdapter sAdp = new cardDataSetTableAdapters.SCAN_DATATableAdapter();
 
         ClsShukko clsShukko = new ClsShukko();
 
@@ -46,6 +47,8 @@ namespace SZOK_OCR.ZAIKO
         private readonly string colTourokuID = "c5";
         private readonly string colScanID    = "c6";
 
+        private bool isLoadingKaishuData;
+
         private void frmKaishuItems_Load(object sender, EventArgs e)
         {
             lblUCode.Text      = clsShukko.UCode.ToString();
@@ -57,59 +60,74 @@ namespace SZOK_OCR.ZAIKO
             lblKaishu.Text     = clsShukko.Kaishu.ToString();
             lblZan.Text        = clsShukko.Zan.ToString();
 
-
             // DataGridView定義
             GridviewSet(dg1);
 
             // 出庫IDをキーとしてで回収データを取得
             DateTime dt3 = new DateTime(clsShukko.kaishuLimitDate.Year, clsShukko.kaishuLimitDate.Month, clsShukko.kaishuLimitDate.Day, 23, 59, 59); // 2021/10/22
-            kAdp.FillByKaishu(dts.回収データ, clsShukko.ID, dt3);
+            //kAdp.FillByKaishu(dts.回収データ, clsShukko.ID, dt3);  // 2026/10/21 コメント化
 
             // 回収データ明細表示
-            KaishuDataShow();
+            KaishuDataShow(clsShukko, dt3);
         }
 
         ///---------------------------------------------------------------
         /// <summary>
         ///     防犯登録カード回収状況表示 </summary>
         ///---------------------------------------------------------------
-        private void KaishuDataShow()
+        private void KaishuDataShow(ClsShukko clsShukko, DateTime dt_e)
         {
-            // 行数を設定して表示色を初期化
-            dg1.Rows.Clear();
-            dg1.Rows.Add(clsShukko.Suu);
-            
-            int seqNum = 1;
-            for (int i = clsShukko.StartNumber; i <= clsShukko.EndNumber; i++)
+            isLoadingKaishuData = true;
+
+            try
             {
-                dg1[colSeq,       seqNum - 1].Value = seqNum;
-                dg1[colNum,       seqNum - 1].Value = i;
+                // マスタクラスを生成（SQLServer接続）：2026/10/21
+                var master = new ClsMaster(Properties.Settings.Default.sServerName, Properties.Settings.Default.sLogin, Properties.Settings.Default.sPass, Properties.Settings.Default.sDatabase);
 
-                dg1[colStatus,    seqNum - 1].Value = "";
-                dg1[colDate,      seqNum - 1].Value = "";
-                dg1[colID,        seqNum - 1].Value = "";
-                dg1[colTourokuID, seqNum - 1].Value = global.FLGOFF;
-                dg1[colScanID,    seqNum - 1].Value = global.FLGOFF;
+                // 出庫に対応する回収データを抽出）：2026/10/21
+                var collectionData = master.ReadCollectionByShipp(clsShukko.ID, dt_e);
 
-                foreach (var t in dts.回収データ.Where(a => a.登録番号 == i))
+                // 行数を設定して表示色を初期化
+                dg1.Rows.Clear();
+                dg1.Rows.Add(clsShukko.Suu);
+
+                int seqNum = 1;
+                for (int i = clsShukko.StartNumber; i <= clsShukko.EndNumber; i++)
                 {
-                    dg1[colStatus, seqNum - 1].Value    = "○";
-                    dg1[colDate,   seqNum - 1].Value    = t.回収年月日.ToShortDateString();
-                    dg1[colID,     seqNum - 1].Value    = t.ID;
-                    dg1[colTourokuID, seqNum - 1].Value = t.防犯登録ID;
-                    dg1[colScanID, seqNum - 1].Value    = t.SCANID;
+                    dg1[colSeq, seqNum - 1].Value = seqNum;
+                    dg1[colNum, seqNum - 1].Value = i;
+
+                    dg1[colStatus, seqNum - 1].Value = "";
+                    dg1[colDate, seqNum - 1].Value = "";
+                    dg1[colID, seqNum - 1].Value = "";
+                    dg1[colTourokuID, seqNum - 1].Value = global.FLGOFF;
+                    dg1[colScanID, seqNum - 1].Value = global.FLGOFF;
+
+                    // SQLServerから取得した回収データを表示：2026/10/21
+                    foreach (var t in collectionData.Where(a => a.Number == i))
+                    {
+                        dg1[colStatus, seqNum - 1].Value = "○";
+                        dg1[colDate, seqNum - 1].Value = t.CollectionDate.ToShortDateString();
+                        dg1[colID, seqNum - 1].Value = t.ID;
+                        dg1[colTourokuID, seqNum - 1].Value = t.CardID;
+                        dg1[colScanID, seqNum - 1].Value = t.ScanID;
+                    }
+
+                    // 未回収行背景色
+                    if (Utility.nulltoStr2(dg1[colID, seqNum - 1].Value) == "")
+                    {
+                        dg1.Rows[seqNum - 1].DefaultCellStyle.BackColor = Color.MistyRose;
+                    }
+
+                    //カレントセル選択状態としない
+                    dg1.CurrentCell = null;
+
+                    seqNum++;
                 }
-
-                // 未回収行背景色
-                if (Utility.nulltoStr2(dg1[colID, seqNum - 1].Value) == "")
-                {
-                    dg1.Rows[seqNum - 1].DefaultCellStyle.BackColor = Color.MistyRose;
-                }
-
-                //カレントセル選択状態としない
-                dg1.CurrentCell = null;
-
-                seqNum++;
+            }
+            finally
+            {
+                isLoadingKaishuData = false;
             }
         }
 
@@ -356,6 +374,11 @@ namespace SZOK_OCR.ZAIKO
 
         private void dg1_CellEnter(object sender, DataGridViewCellEventArgs e)
         {
+            if (isLoadingKaishuData)
+            {
+                return;
+            }
+
             if (e.RowIndex < global.flgOff)
             {
                 return;
@@ -370,33 +393,54 @@ namespace SZOK_OCR.ZAIKO
 
             string img = "";    // 画像ファイル名
 
+            // マスタクラスを生成（SQLServer接続）：2026/10/21
+            var master = new ClsMaster(Properties.Settings.Default.sServerName, Properties.Settings.Default.sLogin, Properties.Settings.Default.sPass, Properties.Settings.Default.sDatabase);
+
             // 防犯登録IDあり
             if (Utility.nulltoStr2(dg1[colTourokuID, e.RowIndex].Value) != global.FLGOFF)
             {
                 // 防犯登録データで検索
                 int sId = Utility.StrtoInt(Utility.nulltoStr2(dg1[colTourokuID, e.RowIndex].Value));
-                tAdp.FillByID(dts.防犯登録データ, sId);
 
-                foreach (var t in dts.防犯登録データ)
+                // 2026/10/21 コメント化
+                //tAdp.FillByID(dts.防犯登録データ, sId);
+                //foreach (var t in dts.防犯登録データ)
+                //{
+                //    img = t.画像名;
+                //}
+
+                // 2026/10/21 SQLServerから防犯登録データを取得
+                var registrationData = master.GetData<TblRegistrationCard>(sId);
+
+                if (registrationData == null)
                 {
-                    img = t.画像名;
+                    // IDでアンマッチのため、登録番号で防犯登録データから再検索（抹消の場合）
+                    string CPA_Number = global.DATA_CPA + Utility.nulltoStr2(dg1[colNum, e.RowIndex].Value).PadLeft(7, '0');
+
+                    // 2026/10/21 SQLServerから防犯登録データを取得
+                    registrationData = master.GetClsRegistrationCardFromNumber(CPA_Number);
                 }
 
-                ShowImage(Properties.Settings.Default.imgPath, img);
+                img = registrationData?.ImageFileName ?? "";
 
+                ShowImage(Properties.Settings.Default.imgPath, img);
             }
             else if (Utility.nulltoStr2(dg1[colScanID, e.RowIndex].Value) != global.FLGOFF)
             {
                 // SCANIDありSCAN_DATAで検索
-                int sId = Utility.StrtoInt(Utility.nulltoStr2(dg1[colScanID, e.RowIndex].Value));
-                sAdp.FillByID(dts.SCAN_DATA, sId);
+                var sId = Utility.nulltoStr2(dg1[colScanID, e.RowIndex].Value);
 
-                img = "";
+                // 2026/10/21 コメント化
+                //sAdp.FillByID(dts.SCAN_DATA, sId);
 
-                foreach (var t in dts.SCAN_DATA)
-                {
-                    img = t.画像名;
-                }
+                //foreach (var t in dts.SCAN_DATA)
+                //{
+                //    img = t.画像名;
+                //}
+
+                // 2026/10/21 SQLServerからSCAN_DATAを取得
+                var scanData = master.GetData<TblScandata>(sId);
+                img = scanData?.ImageFileName ?? "";
 
                 if (img != "")
                 {
@@ -404,16 +448,20 @@ namespace SZOK_OCR.ZAIKO
                 }
                 else
                 {
-                    // SCAN_DATAに存在しないため防犯登録データで再検索
+                    // SCAN_DATAに存在しないため登録番号で防犯登録データから再検索
                     string CPA_Number = global.DATA_CPA + Utility.nulltoStr2(dg1[colNum, e.RowIndex].Value).PadLeft(7, '0');
-                    tAdp.FillByNumber(dts.防犯登録データ, CPA_Number);
 
-                    foreach (var t in dts.防犯登録データ)
-                    {
-                        img = t.画像名;
-                    }
+                    // 2026/10/21 コメント化
+                    //tAdp.FillByNumber(dts.防犯登録データ, CPA_Number);
 
-                    ShowImage(Properties.Settings.Default.imgPath, img);
+                    //foreach (var t in dts.防犯登録データ)
+                    //{
+                    //    img = t.画像名;
+                    //}
+
+                    // 2026/10/21 SQLServerから防犯登録データを取得
+                    var registrationData = master.GetClsRegistrationCardFromNumber(CPA_Number);
+                    ShowImage(Properties.Settings.Default.imgPath, registrationData?.ImageFileName ?? "");
                 }
             }
         }

@@ -622,6 +622,76 @@ namespace SZOK_OCR.Common
         }
 
         /// <summary>
+        /// 防犯登録データテーブルのデータを取得する：2026/10/21
+        /// </summary>
+        /// <param name="num">防犯登録データの登録番号</param>
+        /// <returns>TblRegistrationCardオブジェクト</returns>
+        public TblRegistrationCard GetClsRegistrationCardFromNumber(string num)
+        {
+            TblRegistrationCard registrationCard = null;
+
+            try
+            {
+                using (var conn = new SqlConnection(sqlBuilder.ConnectionString))
+                {
+                    conn.Open();
+
+                    string sql = "SELECT * FROM 防犯登録データ WHERE 登録番号 = @Number";
+
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@Number", num);
+
+                        using (var dr = cmd.ExecuteReader())
+                        {
+                            while (dr.Read())
+                            {
+                                registrationCard = new TblRegistrationCard
+                                {
+                                    ID = Utility.StrtoInt(dr["ID"].ToString()),
+                                    DataCategory = Utility.StrtoInt(Utility.NulltoStr(dr["データ区分"])),
+                                    ImageFileName = Utility.NulltoStr(dr["画像名"]),
+                                    AddYear = Utility.NulltoStr(dr["登録年"]),
+                                    AddMonth = Utility.NulltoStr(dr["登録月"]),
+                                    AddDay = Utility.NulltoStr(dr["登録日"]),
+                                    Number = Utility.NulltoStr(dr["登録番号"]),
+                                    VehicleIdentificationNumber = Utility.NulltoStr(dr["車体番号"]),
+                                    Maker = Utility.NulltoStr(dr["メーカー"]),
+                                    Color = Utility.NulltoStr(dr["塗色"]),
+                                    CarModel = Utility.StrtoInt(Utility.NulltoStr(dr["車種"])),
+                                    ZipCode1 = Utility.NulltoStr(dr["郵便番号1"]),
+                                    ZipCode2 = Utility.NulltoStr(dr["郵便番号2"]),
+                                    VehicleNumber1 = Utility.NulltoStr(dr["車両番号1"]),
+                                    VehicleNumber2 = Utility.NulltoStr(dr["車両番号2"]),
+                                    CarName = Utility.NulltoStr(dr["車名"]),
+                                    AddressKanji = Utility.NulltoStr(dr["住所漢字"]),
+                                    Address1 = Utility.NulltoStr(dr["住所1"]),
+                                    Address2 = Utility.NulltoStr(dr["住所2"]),
+                                    Name = Utility.NulltoStr(dr["氏名"]),
+                                    Mobile1 = Utility.NulltoStr(dr["TEL携帯"]),
+                                    Mobile2 = Utility.NulltoStr(dr["TEL携帯2"]),
+                                    Mobile3 = Utility.NulltoStr(dr["TEL携帯3"]),
+                                    PC = Utility.NulltoStr(dr["PC名"]),
+                                    CsvCreationDate = Utility.NulltoStr(dr["CSV作成日"]),
+                                    Memo = Utility.NulltoStr(dr["備考"]),
+                                    UpDate = System.DateTime.Parse(Utility.NulltoStr(dr["更新年月日"])),
+                                    Exception = Utility.StrtoInt(Utility.NulltoStr(dr["除外"]))
+                                };
+                            }
+                        }
+                    }
+                }
+
+                return registrationCard;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return registrationCard;
+            }
+        }
+
+        /// <summary>
         /// 防犯登録10年超テーブルのデータを取得する：2026/09/16
         /// </summary>
         /// <param name="id">防犯登録10年超データのID</param>
@@ -2875,7 +2945,7 @@ namespace SZOK_OCR.Common
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message,"確認", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return lines;
             }
         }
