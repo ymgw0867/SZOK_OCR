@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -400,69 +401,105 @@ namespace SZOK_OCR.ZAIKO
             if (Utility.nulltoStr2(dg1[colTourokuID, e.RowIndex].Value) != global.FLGOFF)
             {
                 // 防犯登録データで検索
-                int sId = Utility.StrtoInt(Utility.nulltoStr2(dg1[colTourokuID, e.RowIndex].Value));
-
-                // 2026/10/21 コメント化
-                //tAdp.FillByID(dts.防犯登録データ, sId);
-                //foreach (var t in dts.防犯登録データ)
-                //{
-                //    img = t.画像名;
-                //}
+                var sId = Utility.StrtoInt(Utility.nulltoStr2(dg1[colTourokuID, e.RowIndex].Value)).ToString();
 
                 // 2026/10/21 SQLServerから防犯登録データを取得
                 var registrationData = master.GetData<TblRegistrationCard>(sId);
 
                 if (registrationData == null)
                 {
-                    // IDでアンマッチのため、登録番号で防犯登録データから再検索（抹消の場合）
+                    // IDでアンマッチのため、登録番号で防犯登録データから再検索（抹消した場合、このケース）
                     string CPA_Number = global.DATA_CPA + Utility.nulltoStr2(dg1[colNum, e.RowIndex].Value).PadLeft(7, '0');
 
                     // 2026/10/21 SQLServerから防犯登録データを取得
                     registrationData = master.GetClsRegistrationCardFromNumber(CPA_Number);
                 }
 
-                img = registrationData?.ImageFileName ?? "";
+                if (registrationData == null)
+                {
+                    MessageBox.Show("防犯登録データが存在しません。", "確認", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    img = registrationData?.ImageFileName ?? "";
 
-                ShowImage(Properties.Settings.Default.imgPath, img);
+                    if (img == "" || !System.IO.File.Exists(Path.Combine(Properties.Settings.Default.imgPath, img)))
+                    {
+                        MessageBox.Show("防犯登録カード画像が存在しません。[" + sId + " : " + img + "]", "確認", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        // 画像表示
+                        ShowImage(Properties.Settings.Default.imgPath, img);
+                    }
+                }
             }
             else if (Utility.nulltoStr2(dg1[colScanID, e.RowIndex].Value) != global.FLGOFF)
             {
                 // SCANIDありSCAN_DATAで検索
                 var sId = Utility.nulltoStr2(dg1[colScanID, e.RowIndex].Value);
 
-                // 2026/10/21 コメント化
-                //sAdp.FillByID(dts.SCAN_DATA, sId);
-
-                //foreach (var t in dts.SCAN_DATA)
-                //{
-                //    img = t.画像名;
-                //}
-
                 // 2026/10/21 SQLServerからSCAN_DATAを取得
                 var scanData = master.GetData<TblScandata>(sId);
-                img = scanData?.ImageFileName ?? "";
 
-                if (img != "")
-                {
-                    ShowImage(Properties.Settings.Default.scanDataPath, img);
-                }
-                else
+                if (scanData == null)
                 {
                     // SCAN_DATAに存在しないため登録番号で防犯登録データから再検索
                     string CPA_Number = global.DATA_CPA + Utility.nulltoStr2(dg1[colNum, e.RowIndex].Value).PadLeft(7, '0');
 
-                    // 2026/10/21 コメント化
-                    //tAdp.FillByNumber(dts.防犯登録データ, CPA_Number);
-
-                    //foreach (var t in dts.防犯登録データ)
-                    //{
-                    //    img = t.画像名;
-                    //}
-
                     // 2026/10/21 SQLServerから防犯登録データを取得
                     var registrationData = master.GetClsRegistrationCardFromNumber(CPA_Number);
-                    ShowImage(Properties.Settings.Default.imgPath, registrationData?.ImageFileName ?? "");
+
+                    img = registrationData?.ImageFileName ?? "";
+
+                    if (img == "" || !System.IO.File.Exists(Path.Combine(Properties.Settings.Default.imgPath, img)))
+                    {
+                        MessageBox.Show("防犯登録カード画像が存在しません。[" + sId + " : " + img + "]", "確認", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        // 画像表示
+                        ShowImage(Properties.Settings.Default.imgPath, img);
+                    }
                 }
+                else
+                {
+                    img = scanData?.ImageFileName ?? "";
+
+                    if (img == "" || !System.IO.File.Exists(Path.Combine(Properties.Settings.Default.scanDataPath, img)))
+                    {
+                        MessageBox.Show("SCANカード画像が存在しません。[" + sId + " : " + img + "]", "確認", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        // 画像表示
+                        ShowImage(Properties.Settings.Default.scanDataPath, img);
+                    }
+                }
+
+                //img = scanData?.ImageFileName ?? "";
+
+                //if (img != "")
+                //{
+                //    ShowImage(Properties.Settings.Default.scanDataPath, img);
+                //}
+                //else
+                //{
+                //    // SCAN_DATAに存在しないため登録番号で防犯登録データから再検索
+                //    string CPA_Number = global.DATA_CPA + Utility.nulltoStr2(dg1[colNum, e.RowIndex].Value).PadLeft(7, '0');
+
+                //    // 2026/10/21 コメント化
+                //    //tAdp.FillByNumber(dts.防犯登録データ, CPA_Number);
+
+                //    //foreach (var t in dts.防犯登録データ)
+                //    //{
+                //    //    img = t.画像名;
+                //    //}
+
+                //    // 2026/10/21 SQLServerから防犯登録データを取得
+                //    var registrationData = master.GetClsRegistrationCardFromNumber(CPA_Number);
+                //    ShowImage(Properties.Settings.Default.imgPath, registrationData?.ImageFileName ?? "");
+                //}
             }
         }
 
