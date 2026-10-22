@@ -48,7 +48,8 @@ namespace SZOK_OCR.ZAIKO
         private readonly string colTourokuID = "c5";
         private readonly string colScanID    = "c6";
 
-        private bool isLoadingKaishuData;
+        private bool isLoadingKaishuData;       // 2026/10/22
+        private bool isInitialDisplayCompleted; // 2026/10/22
 
         private void frmKaishuItems_Load(object sender, EventArgs e)
         {
@@ -289,9 +290,11 @@ namespace SZOK_OCR.ZAIKO
 
         private void frmKaishuItems_Shown(object sender, EventArgs e)
         {
-            dg1.CurrentCell = null;
-
+            // 初期 CellEnter はまだ抑止したまま、選択を解除する：2026/10/22
+            dg1.CurrentCell   = null;
             pictureBox1.Image = null;
+
+            isInitialDisplayCompleted = true;
         }
 
         private void ShowImage(string imgPath, string img)
@@ -375,7 +378,7 @@ namespace SZOK_OCR.ZAIKO
 
         private void dg1_CellEnter(object sender, DataGridViewCellEventArgs e)
         {
-            if (isLoadingKaishuData)
+            if (isLoadingKaishuData || !isInitialDisplayCompleted)
             {
                 return;
             }
